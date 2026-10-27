@@ -63,7 +63,7 @@ class Save extends Component {
 }
 ```
 
-That service shows toasts in a `ToastNotificationList`, which you render once in the application template.
+That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal.
 
 ## Use with AI agents
 
@@ -71,18 +71,28 @@ The package ships an [agent skill](https://agentskills.io) for coding agents. It
 
 Install it with one of these:
 
-- **pnpm 12.11 or later:** run `pnpm approve carbon-components-ember` once and commit the change it makes to `pnpm-workspace.yaml`. Every install then links the skill into an agent skills folder: one your project has, such as `.claude/skills`, the one of an agent running the install, or one named in `skills.dirs`. See pnpm's [Agent Skills](https://pnpm.io/agent-skills).
+- **pnpm 12.11 or later:** run `pnpm approve carbon-components-ember` once, and name the skills folders of the agents you use in `pnpm-workspace.yaml`:
+
+  ```yaml
+  skills:
+    dirs:
+      - .claude/skills
+  ```
+
+  Commit `pnpm-workspace.yaml` and the `.gitignore` your next install adds to each folder; every install then links the skill there. Without `skills.dirs`, pnpm links only into skills folders that already exist and that of an agent running the install, so an install with neither, as in CI or a Docker build, fails. See pnpm's [Agent Skills](https://pnpm.io/agent-skills).
+
 - **[TanStack Intent](https://tanstack.com/intent/latest/docs/getting-started/quick-start-consumers),** with any package manager: once it's set up, agents load the skill as `carbon-components-ember#carbon-components-ember`.
 - **[skills-npm](https://github.com/antfu/skills-npm),** for npm and Yarn: it links the skill on every install.
 - **No tool:** tell your agent, in your `AGENTS.md`, to read `node_modules/carbon-components-ember/skills/carbon-components-ember/SKILL.md` before working on the UI.
 
-[`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) serves the same docs over MCP, and gives agents the skill's instructions when they connect. Add it from your app's directory, for example in Claude Code:
+[`carbon-components-ember-mcp`](https://github.com/IBM/carbon-components-ember/tree/main/carbon-components-ember-mcp#readme) serves the same docs over MCP, and gives agents the skill's instructions when they connect. Install it in your app, so it only changes when you update it, and add it from your app's directory, for example in Claude Code:
 
 ```sh
-claude mcp add carbon-components-ember -- npx -y carbon-components-ember-mcp
+pnpm add -D carbon-components-ember-mcp
+claude mcp add carbon-components-ember -- npx --no carbon-components-ember-mcp
 ```
 
-Its README covers VS Code and Cursor.
+`--no` makes npx run the installed server and never download one. The server's README covers VS Code and Cursor.
 
 ## Contributing
 

@@ -1,9 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { render, click, find } from '@ember/test-helpers';
 import UIShell from '#src/components/ui-shell.gts';
 import { Notification } from '#src/icons.ts';
 import { tracked } from '@glimmer/tracking';
+import { setupRoutes, visitWith } from '../helpers';
+import chevronRight from '@carbon/icons/es/chevron--right/32';
+import close from '@carbon/icons/es/close/32';
+
+const pathOf = (icon: typeof close) => String(icon.content[0]?.attrs['d']);
 
 module('Integration | Component | UIShell', (hooks) => {
   setupRenderingTest(hooks);
@@ -99,7 +104,6 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            {{! @glint-expect-error: Sidenav's yielded-block mode doesn't need @menuItems/@currentMenu/@transitionTo, but its signature marks them required }}
             <s.Sidenav @open={{true}}>
               <:default as |_Menu Divider|>
                 <Divider />
@@ -123,10 +127,8 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            {{! @glint-expect-error: see the Sidenav note above }}
             <s.Sidenav @open={{true}}>
               <:default as |Menu|>
-                {{! @glint-expect-error: @submenus is only used for its length here, but is typed as the full SubMenu[] }}
                 <Menu @title="Category 1" @submenus={{subLinks}} as |Sub|>
                   {{#each subLinks as |link|}}
                     <Sub
@@ -190,7 +192,8 @@ module('Integration | Component | UIShell', (hooks) => {
       .exists({ count: 2 });
     assert
       .dom('.cds--header__menu .cds--header__menu-item--current')
-      .exists({ count: 1 });
+      .exists({ count: 1 })
+      .hasAria('current', 'true');
 
     await click('.cds--header__menu-title');
     assert.dom('.cds--header__menu-title').hasAria('expanded', 'true');
@@ -259,7 +262,6 @@ module('Integration | Component | UIShell', (hooks) => {
                 </s.Nav>
               </:header>
             </s.Header>
-            {{! @glint-expect-error: Sidenav's yielded-block mode doesn't need @menuItems/@currentMenu/@transitionTo, but its signature marks them required }}
             <s.Sidenav @open={{true}}>
               <:default as |Menu|>
                 <Menu
@@ -270,7 +272,6 @@ module('Integration | Component | UIShell', (hooks) => {
                   href="/home"
                   data-test-side-link
                 />
-                {{! @glint-expect-error: @submenus is only used for its length here, but is typed as the full SubMenu[] }}
                 <Menu
                   @title="Category"
                   @open={{true}}
@@ -314,7 +315,6 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            {{! @glint-expect-error: see the Sidenav note above }}
             <s.Sidenav @open={{true}}>
               <:default
                 as |_Menu _Divider SideNavHeader SideNavDetails _SideNavIcon HeaderSideNavItems|
@@ -379,7 +379,6 @@ module('Integration | Component | UIShell', (hooks) => {
       <template>
         <UIShell>
           <:shell as |s|>
-            {{! @glint-expect-error: Sidenav's yielded-block mode doesn't need @menuItems/@currentMenu/@transitionTo, but its signature marks them required }}
             <s.Sidenav @open={{open.value}}>
               <:footer as |SideNavFooter|>
                 <SideNavFooter @open={{open.value}} @onToggle={{onToggle}} />
@@ -392,7 +391,188 @@ module('Integration | Component | UIShell', (hooks) => {
     );
 
     assert.dom('.cds--side-nav__footer').exists();
+    assert
+      .dom('.cds--side-nav__footer svg path')
+      .hasAttribute('d', pathOf(chevronRight));
     await click('.cds--side-nav__footer');
     assert.true(open.value);
+    // As Carbon React: Close while open.
+    assert
+      .dom('.cds--side-nav__footer svg path')
+      .hasAttribute('d', pathOf(close));
+  });
+});
+
+module('Integration | Component | UIShell > links', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('the header name, nav items and switcher items link to @href or @route', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Header @title="IBM" @subtitle="Platform" @href="/">
+              <:header>
+                <s.Nav as |Item|>
+                  <Item @href="/docs" id="docs">Docs</Item>
+                  <Item @route="settings" id="settings">Settings</Item>
+                </s.Nav>
+              </:header>
+            </s.Header>
+            <s.Switcher @aria-label="App switcher" as |Item|>
+              <Item @route="settings" id="switch">Settings</Item>
+            </s.Switcher>
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+
+    assert.dom('.cds--header__name').hasAttribute('href', '/');
+    assert.dom('#docs').hasAttribute('href', '/docs');
+    assert.dom('#settings').hasAttribute('href', '/settings');
+    assert.dom('#switch').hasAttribute('href', '/settings');
+    assert.dom('#settings').doesNotHaveClass('cds--header__menu-item--current');
+
+    await click('#settings');
+    assert
+      .dom('#settings')
+      .hasClass('cds--header__menu-item--current')
+      .hasAria('current', 'true')
+      .doesNotHaveClass('active');
+    assert.dom('#docs').doesNotHaveAria('current');
+  });
+
+  test('a side nav link to the current route is the current link', async function (assert) {
+    const subLinks = [{ title: 'Settings' }];
+    const none: never[] = [];
+    await visitWith(
+      this,
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Sidenav @open={{true}}>
+              <:default as |Menu|>
+                <Menu
+                  @title="Home"
+                  @href="/home"
+                  id="home"
+                  @submenus={{none}}
+                />
+                <Menu
+                  @title="Settings"
+                  @route="settings"
+                  id="top"
+                  @submenus={{none}}
+                />
+                <Menu
+                  @title="Category"
+                  @open={{true}}
+                  @submenus={{subLinks}}
+                  as |Sub|
+                >
+                  <Sub @title="Settings" @route="settings" id="sub" />
+                </Menu>
+              </:default>
+            </s.Sidenav>
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+
+    assert
+      .dom('#home')
+      .hasAttribute('href', '/home')
+      .doesNotHaveAttribute('role');
+    assert.dom('#top').hasAttribute('href', '/settings');
+
+    await click('#top');
+    for (const link of ['#top', '#sub']) {
+      assert
+        .dom(link)
+        .hasClass('cds--side-nav__link--current')
+        .hasAria('current', 'page');
+    }
+    assert.dom('#home').doesNotHaveClass('cds--side-nav__link--current');
+  });
+
+  test('a link is current only while its route, models included, is current', async function (assert) {
+    const ada = ['ada'];
+    const grace = ['grace'];
+    await visitWith(
+      this,
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Header @title="IBM" @subtitle="Platform" @route="settings">
+              <:header>
+                <s.Nav as |Item|>
+                  <Item @route="user" @models={{ada}} id="ada">Ada</Item>
+                  <Item @route="user" @models={{grace}} id="grace">Grace</Item>
+                </s.Nav>
+              </:header>
+            </s.Header>
+            <s.Switcher @aria-label="Apps" as |Item|>
+              <Item @route="user" @models={{ada}} id="app">Ada's app</Item>
+            </s.Switcher>
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+    assert.dom('.cds--header__name').hasAttribute('href', '/settings');
+
+    await click('#ada');
+    assert.dom('#ada').hasClass('cds--header__menu-item--current');
+    assert.dom('#grace').doesNotHaveClass('cds--header__menu-item--current');
+    assert
+      .dom('#app')
+      .hasClass('cds--switcher__item-link--selected')
+      .doesNotHaveClass('active');
+
+    await click('#grace');
+    assert
+      .dom('#ada')
+      .doesNotHaveClass('cds--header__menu-item--current')
+      .doesNotHaveAria('current');
+    assert.dom('#grace').hasClass('cds--header__menu-item--current');
+    assert.dom('#app').doesNotHaveClass('cds--switcher__item-link--selected');
+    assert.dom('.cds--header__name').doesNotHaveClass('active');
+  });
+
+  test('the data-driven side nav links its items, without @transitionTo', async function (assert) {
+    const menuItems = [
+      { title: 'Home', href: '/home', submenus: [] },
+      {
+        title: 'Account',
+        submenus: [{ title: 'Settings', route: 'settings' }],
+      },
+    ];
+    await visitWith(
+      this,
+      <template>
+        <UIShell>
+          <:shell as |s|>
+            <s.Sidenav @open={{true}} @menuItems={{menuItems}} />
+          </:shell>
+          <:content></:content>
+        </UIShell>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--side-nav__item > a.cds--side-nav__link')
+      .hasAttribute('href', '/home');
+    await click('.cds--side-nav__submenu');
+    await click('.cds--side-nav__menu a');
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentRouteName, 'settings');
+    assert
+      .dom('.cds--side-nav__menu a')
+      .hasAttribute('href', '/settings')
+      .hasClass('cds--side-nav__link--current');
   });
 });

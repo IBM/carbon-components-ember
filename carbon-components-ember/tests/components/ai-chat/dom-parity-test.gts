@@ -1,15 +1,20 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitUntil } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import Processing from '#src/components/ai-chat/processing.gts';
 import ReasoningSteps from '#src/components/ai-chat/reasoning-steps.gts';
+import Markdown from '#src/components/ai-chat/markdown.gts';
+import FileUploads from '#src/components/ai-chat/file-uploads.gts';
+import WorkspaceShellHeader from '#src/components/ai-chat/workspace-shell-header.gts';
+import type { FileUpload } from '#src/components/ai-chat/-file-uploads/types.ts';
 
-// Registers the real custom elements as a side effect - see each import's
-// own package for the tag(s) it defines (`cds-aichat-processing`,
-// `cds-aichat-reasoning-steps` + `cds-aichat-reasoning-step`).
+// Registers the real custom elements as a side effect.
 import '@carbon/ai-chat-components/es/components/processing/index.js';
 import '@carbon/ai-chat-components/es/components/reasoning-steps/index.js';
+import '@carbon/ai-chat-components/es/components/markdown/index.js';
+import '@carbon/ai-chat-components/es/components/file-uploads/index.js';
+import '@carbon/ai-chat-components/es/components/workspace-shell/index.js';
 
 import { normalizeElement } from '../../../../dom-parity/lib/normalize-dom.mjs';
 import {
@@ -22,6 +27,7 @@ import {
   waitForCustomElementsReady,
 } from '../../../../dom-parity/lib/flatten-composed-tree.mjs';
 import knownDifferences from '../../../../dom-parity/known-differences.json';
+import { takeCspViolations } from '../../helpers';
 
 /**
  * DOM parity against `@carbon/ai-chat-components` - the Lit widget library
@@ -107,10 +113,12 @@ function assertAiChatDomParity(
  * shadow DOM/slot assignment is live, and waits for it (and anything it
  * composes) to finish upgrading/rendering. Returns the flattened comparison
  * root - see flatten-composed-tree.mjs - plus a `cleanup` to remove it.
+ * `isReady` waits for content that renders after `updateComplete`.
  */
 async function mountUpstream(
   tagName: string,
   setup: (host: HTMLElement) => void,
+  isReady?: (host: HTMLElement) => boolean,
 ): Promise<{ root: Element | null; cleanup: () => void }> {
   const container = document.createElement('div');
   document.body.appendChild(container);
@@ -118,6 +126,7 @@ async function mountUpstream(
   setup(host);
   container.appendChild(host);
   await waitForCustomElementsReady(host);
+  if (isReady) await waitUntil(() => isReady(host));
 
   const flattened = flattenComposedTree(host);
   return {
@@ -245,6 +254,121 @@ module('DOM parity | Carbon AI Chat', function (hooks) {
         assert,
         'AiChatReasoningSteps',
         'closed-with-steps',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+  });
+
+  module('Markdown', function () {
+    test('heading, emphasis and a paragraph', async function (this: RenderingTestContext, assert) {
+      const markdown = '# Title\n\nSome **bold** and _italic_ text.';
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-markdown',
+        (host) => host.setAttribute('markdown', markdown),
+        // Upstream throttles its first render past `updateComplete`.
+        (host) => Boolean(host.shadowRoot?.textContent?.trim()),
+      );
+      await render(<template><Markdown @markdown={{markdown}} /></template>);
+      assertAiChatDomParity(
+        assert,
+        'AiChatMarkdown',
+        'heading-emphasis-paragraph',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+  });
+
+  module('FileUploads', function () {
+    test('empty', async function (this: RenderingTestContext, assert) {
+      const uploads: FileUpload[] = [];
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-file-uploads',
+        (host) => Object.assign(host, { uploads }),
+      );
+      await render(<template><FileUploads @uploads={{uploads}} /></template>);
+      assertAiChatDomParity(
+        assert,
+        'AiChatFileUploads',
+        'empty',
+        root,
+        this.element.firstElementChild,
+      );
+      cleanup();
+    });
+
+    const file = new File(['a'], 'notes.txt', { type: 'text/plain' });
+    const oneUpload: Array<[string, FileUpload]> = [
+      ['one-upload', { id: '1', file, status: 'edit' }],
+      [
+        'one-upload-error',
+        {
+          id: '1',
+          file,
+          status: 'edit',
+          isError: true,
+          errorMessage: 'Too large',
+        },
+      ],
+    ];
+    for (const [variant, upload] of oneUpload) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const uploads = [upload];
+        const { root, cleanup } = await mountUpstream(
+          'cds-aichat-file-uploads',
+          (host) => Object.assign(host, { uploads }),
+          (host) =>
+            Boolean(
+              host.shadowRoot?.querySelector('cds-aichat-file-upload-item')
+                ?.shadowRoot?.childElementCount,
+            ),
+        );
+        // Upstream's item injects <style> elements, without a nonce, into
+        // cds-file-uploader-item's shadow root.
+        await takeCspViolations();
+        await render(<template><FileUploads @uploads={{uploads}} /></template>);
+        assertAiChatDomParity(
+          assert,
+          'AiChatFileUploads',
+          variant,
+          root,
+          this.element.firstElementChild,
+        );
+        cleanup();
+      });
+    }
+  });
+
+  module('WorkspaceShellHeader', function () {
+    // No title: it renders through `cds-aichat-truncated-text`, which this
+    // path doesn't cover yet. The action is filled so upstream renders both
+    // of its root elements.
+    test('subtitle and action', async function (this: RenderingTestContext, assert) {
+      const { root, cleanup } = await mountUpstream(
+        'cds-aichat-workspace-shell-header',
+        (host) => {
+          host.setAttribute('subtitle-text', 'Subtitle');
+          const action = document.createElement('button');
+          action.type = 'button';
+          action.slot = 'header-action';
+          action.textContent = 'Act';
+          host.appendChild(action);
+        },
+      );
+      await render(
+        <template>
+          <WorkspaceShellHeader @subTitleText="Subtitle">
+            <:headerAction><button type="button">Act</button></:headerAction>
+          </WorkspaceShellHeader>
+        </template>,
+      );
+      assertAiChatDomParity(
+        assert,
+        'AiChatWorkspaceShellHeader',
+        'subtitle-action',
         root,
         this.element.firstElementChild,
       );

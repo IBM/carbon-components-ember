@@ -46,6 +46,11 @@
       "itemToElement": "The default block renders each item."
     }
   },
+  "Copy": {
+    "extra": {
+      "ariaLabel": "Carbon React's Copy reads its aria-label prop as the tooltip's label; a component can't read a caller's aria-label attribute, so it takes @ariaLabel."
+    }
+  },
   "DatePickerInput": {
     "missing": {
       "onClick": "{{on \"click\"}} on the component reaches the <input>, through ...attributes, where Carbon React puts its onClick."
@@ -119,6 +124,25 @@
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
+  "PasswordInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "TextInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "Tile": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React's ClickableTile's href: this Tile also renders the ClickableTile (@clickable).",
+      "disabled": "Carbon React's ClickableTile's disabled: this Tile also renders the ClickableTile (@clickable)."
     }
   },
   "ToastNotification": {

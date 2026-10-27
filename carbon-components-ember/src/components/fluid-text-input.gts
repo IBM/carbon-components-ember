@@ -1,19 +1,21 @@
-import Component from '@glimmer/component';
-import type Owner from '@ember/owner';
-import { tracked } from '@glimmer/tracking';
-import { guidFor } from '@ember/object/internals';
-import WarningFilled from './icons/warning-filled.ts';
-import WarningAltFilled from './icons/warning-alt-filled.ts';
-import View from './icons/view.ts';
-import ViewOff from './icons/view-off.ts';
-import Tooltip from './tooltip.gts';
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import { concat } from '@ember/helper';
+import PasswordInput from './password-input.gts';
+import TextInput from './text-input.gts';
+import type { TextInputSignature } from './text-input.gts';
+import type { TOC } from '@ember/component/template-only';
 
 export interface FluidTextInputSignature {
   Args: {
     /**
-     * Carbon React's `className`: classes for the wrapper, or for the
-     * `<input>` with `@isPassword`, as in React. `class` and the other
-     * attributes go on the `<input>`.
+     * Classes for the wrapper, or for the `<input>` with `@isPassword`, as
+     * Carbon React's `className`.
      */
     className?: string;
     id?: string;
@@ -40,198 +42,84 @@ export interface FluidTextInputSignature {
     onTogglePasswordVisibility?: (event: MouseEvent) => void;
   };
   Blocks: {
+    /**
+     * The label, in place of `@labelText`, when it's more than plain text,
+     * such as formatted text or a required marker.
+     */
     labelText: [];
   };
-  Element: HTMLInputElement;
+  Element: TextInputSignature['Element'];
 }
 
-export default class FluidTextInput extends Component<FluidTextInputSignature> {
-  @tracked internalValue: string;
-  @tracked passwordVisible = false;
+/**
+ * Carbon React's FluidTextInput: a TextInput, or with `@isPassword` a
+ * PasswordInput, in the fluid style.
+ */
+const FluidTextInput: TOC<FluidTextInputSignature> = <template>
+  {{#if @isPassword}}
+    {{#let
+      (component
+        PasswordInput
+        isFluid=true
+        id=@id
+        labelText=@labelText
+        value=@value
+        defaultValue=@defaultValue
+        placeholder=@placeholder
+        disabled=@disabled
+        readOnly=@readOnly
+        invalid=@invalid
+        invalidText=@invalidText
+        warn=@warn
+        warnText=@warnText
+        showPasswordLabel=@showPasswordLabel
+        hidePasswordLabel=@hidePasswordLabel
+        onChange=@onChange
+        onTogglePasswordVisibility=@onTogglePasswordVisibility
+      )
+      as |Input|
+    }}
+      {{! As Carbon React's FluidPasswordInput: the fluid class on the input. }}
+      {{#if (has-block "labelText")}}
+        <Input class="cds--text-input--fluid {{@className}}" ...attributes>
+          <:labelText>{{yield to="labelText"}}</:labelText>
+        </Input>
+      {{else}}
+        <Input class="cds--text-input--fluid {{@className}}" ...attributes />
+      {{/if}}
+    {{/let}}
+  {{else}}
+    {{#let
+      (component
+        TextInput
+        isFluid=true
+        className=(concat "cds--text-input--fluid " @className)
+        id=@id
+        labelText=@labelText
+        value=@value
+        defaultValue=@defaultValue
+        placeholder=@placeholder
+        disabled=@disabled
+        readOnly=@readOnly
+        invalid=@invalid
+        invalidText=@invalidText
+        warn=@warn
+        warnText=@warnText
+        enableCounter=@enableCounter
+        maxCount=@maxCount
+        onChange=@onChange
+      )
+      as |Input|
+    }}
+      {{#if (has-block "labelText")}}
+        <Input ...attributes>
+          <:labelText>{{yield to="labelText"}}</:labelText>
+        </Input>
+      {{else}}
+        <Input ...attributes />
+      {{/if}}
+    {{/let}}
+  {{/if}}
+</template>;
 
-  guid = guidFor(this);
-
-  constructor(owner: Owner, args: FluidTextInputSignature['Args']) {
-    super(owner, args);
-    this.internalValue = args.defaultValue ?? '';
-  }
-
-  get value() {
-    return this.args.value ?? this.internalValue;
-  }
-
-  // Ember 7 writes a `value=""` attribute for an empty initial value; bind
-  // `undefined` instead so the input renders like Carbon React (no attribute).
-  get boundValue() {
-    return this.value === '' ? undefined : this.value;
-  }
-
-  get id() {
-    return this.args.id ?? `fluid-text-input-${this.guid}`;
-  }
-
-  get type() {
-    if (this.args.isPassword) {
-      return this.passwordVisible ? 'text' : 'password';
-    }
-    return 'text';
-  }
-
-  get isInvalid() {
-    return !!this.args.invalid;
-  }
-
-  get isWarn() {
-    return this.isInvalid ? false : !!this.args.warn;
-  }
-
-  get count() {
-    return this.value.length;
-  }
-
-  get showCounter() {
-    return (
-      !this.args.isPassword &&
-      !!this.args.enableCounter &&
-      this.args.maxCount !== undefined
-    );
-  }
-
-  get isOverCountLimit() {
-    return this.showCounter && this.count > (this.args.maxCount as number);
-  }
-
-  get showPasswordLabel() {
-    return this.args.showPasswordLabel ?? 'Show password';
-  }
-
-  get hidePasswordLabel() {
-    return this.args.hidePasswordLabel ?? 'Hide password';
-  }
-
-  updateValue = (event: Event) => {
-    const value = (event.target as HTMLInputElement).value;
-    this.internalValue = value;
-    this.args.onChange?.(event as Event & { target: HTMLInputElement });
-  };
-
-  togglePasswordVisibility = (event: MouseEvent) => {
-    this.passwordVisible = !this.passwordVisible;
-    this.args.onTogglePasswordVisibility?.(event);
-  };
-
-  <template>
-    <div
-      class="cds--form-item cds--text-input-wrapper cds--text-input--fluid
-        {{if @isPassword 'cds--password-input-wrapper'}}
-        {{if @readOnly 'cds--text-input-wrapper--readonly'}}
-        {{unless @isPassword @className}}"
-    >
-      <div class="cds--text-input__label-wrapper">
-        {{#if (has-block "labelText")}}
-          <label
-            for={{this.id}}
-            class="cds--label {{if @disabled 'cds--label--disabled'}}"
-          >
-            {{yield to="labelText"}}
-          </label>
-        {{else if @labelText}}
-          <label
-            for={{this.id}}
-            class="cds--label {{if @disabled 'cds--label--disabled'}}"
-          >
-            {{@labelText}}
-          </label>
-        {{/if}}
-        {{#if this.showCounter}}
-          <label
-            class="cds--label cds--text-input__label-counter"
-            aria-live="polite"
-            aria-atomic="true"
-          >{{this.count}}/{{@maxCount}}</label>
-        {{/if}}
-      </div>
-      <div class="cds--text-input__field-outer-wrapper">
-        <div
-          class="cds--text-input__field-wrapper
-            {{if this.isWarn 'cds--text-input__field-wrapper--warning'}}"
-          data-invalid={{if this.isInvalid "true"}}
-        >
-          {{#if this.isInvalid}}
-            <WarningFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon"
-            />
-          {{else if this.isWarn}}
-            <WarningAltFilled
-              @size="16"
-              @svgClass="cds--text-input__invalid-icon cds--text-input__invalid-icon--warning"
-            />
-          {{/if}}
-          <input
-            ...attributes
-            id={{this.id}}
-            type={{this.type}}
-            class="cds--text-input
-              {{if @isPassword 'cds--password-input'}}
-              {{if this.isInvalid 'cds--text-input--invalid'}}
-              {{if this.isWarn 'cds--text-input--warning'}}
-              {{if @isPassword @className}}"
-            placeholder={{@placeholder}}
-            disabled={{@disabled}}
-            readonly={{@readOnly}}
-            aria-invalid={{if this.isInvalid "true"}}
-            data-invalid={{if this.isInvalid "true"}}
-            value={{this.boundValue}}
-            {{on "input" this.updateValue}}
-          />
-          {{#unless @isPassword}}
-            <span
-              class="cds--text-input__counter-alert"
-              role="alert"
-              aria-live="assertive"
-              aria-atomic="true"
-            >
-              {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
-            </span>
-          {{/unless}}
-          <hr class="cds--text-input__divider" />
-          {{#if @isPassword}}
-            <Tooltip
-              @label={{if
-                this.passwordVisible
-                this.hidePasswordLabel
-                this.showPasswordLabel
-              }}
-              @align="bottom-end"
-              class="cds--toggle-password-tooltip cds--icon-tooltip"
-            >
-              <button
-                type="button"
-                class="cds--text-input--password__visibility__toggle cds--btn cds--btn--icon-only cds--tooltip__trigger cds--tooltip--a11y"
-                disabled={{@disabled}}
-                aria-label={{if
-                  this.passwordVisible
-                  this.hidePasswordLabel
-                  this.showPasswordLabel
-                }}
-                {{on "click" this.togglePasswordVisibility}}
-              >
-                {{#if this.passwordVisible}}
-                  <ViewOff @size="16" @svgClass="cds--icon-visibility-off" />
-                {{else}}
-                  <View @size="16" @svgClass="cds--icon-visibility-on" />
-                {{/if}}
-              </button>
-            </Tooltip>
-          {{/if}}
-          {{#if this.isInvalid}}
-            <div class="cds--form-requirement">{{@invalidText}}</div>
-          {{else if this.isWarn}}
-            <div class="cds--form-requirement">{{@warnText}}</div>
-          {{/if}}
-        </div>
-      </div>
-    </div>
-  </template>
-}
+export default FluidTextInput;

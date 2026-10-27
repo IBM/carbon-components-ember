@@ -755,6 +755,23 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').hasClass('cds--layout--size-sm');
   });
 
+  test("@size takes the list boxes' xs, as Carbon React's does", async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @size="xs"
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--dropdown').hasClass('cds--dropdown--xs');
+    assert.dom('.cds--dropdown').hasClass('cds--list-box--xs');
+    assert.dom('.cds--dropdown').hasClass('cds--layout--size-xs');
+  });
+
   test('without @size, renders no size classes, following an enclosing Layout', async function (assert) {
     await render(
       <template>

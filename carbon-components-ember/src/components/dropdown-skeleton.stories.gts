@@ -3,6 +3,7 @@ import DropdownSkeleton from './dropdown-skeleton.gts';
 
 import type { DropdownSkeletonSignature } from './dropdown-skeleton.gts';
 import '#storybook/styles/dropdown-skeleton.css';
+import { listBoxSizes } from './-private/list-box/list-box.gts';
 
 // Carbon React has no stories of its own for DropdownSkeleton: it's the
 // `Skeleton` story of Components/Dropdown.
@@ -22,7 +23,7 @@ const meta = preview.type<{ args: DropdownSkeletonSignature['Args'] }>().meta({
     size: 'md',
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
+    size: { control: 'inline-radio', options: listBoxSizes },
   },
   render: (args) => <template>
     <div class="dropdown-skeleton-story__container">

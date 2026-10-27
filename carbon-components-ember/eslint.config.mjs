@@ -42,6 +42,13 @@ const renamedTemplateImports = {
   message: 'Use their new names: trustHTML, isTrustedHTML, TrustedHTML.',
 };
 
+// Tests can't wait for a bare timer, and it outlives its component.
+const restrictedTimers = ['setTimeout', 'setInterval'].map((name) => ({
+  name,
+  message:
+    "Await ember-concurrency's timeout() in a task, which tests wait for and teardown cancels.",
+}));
+
 export default defineConfig([
   globalIgnores([
     'dist/',
@@ -147,8 +154,27 @@ export default defineConfig([
         },
         {
           selector:
+            "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Args'] > TSTypeAnnotation > TSIntersectionType:not(:has(> TSTypeLiteral))",
+          message:
+            "Intersect shared args with the component's own inline `{ … }`: `Args: SharedArgs & { … }`.",
+        },
+        {
+          selector:
             "TSInterfaceDeclaration[id.name=/Signature$/] > TSInterfaceBody > TSPropertySignature[key.name='Blocks'] TSTupleType > :not(TSNamedTupleMember, TSTypeLiteral)",
           message: 'Label block params: `default: [item: Item]`.',
+        },
+        // A function modifier re-runs only for the args it reads.
+        {
+          selector:
+            "CallExpression[callee.name='modifier']:has(TSPropertySignature[key.name='Positional']) > ArrowFunctionExpression[params.length<2]",
+          message:
+            'Destructure the positional args, or the modifier never re-runs when they change.',
+        },
+        {
+          selector:
+            "CallExpression[callee.name='modifier']:has(TSPropertySignature[key.name='Named']) > ArrowFunctionExpression[params.length<3]",
+          message:
+            'Destructure the named args, or the modifier never re-runs when they change.',
         },
       ],
     },
@@ -195,6 +221,23 @@ export default defineConfig([
         'error',
         // `**` skips dot directories.
         { allow: ['**/*.{css,scss}', '**/.storybook/**/*.{css,scss}'] },
+      ],
+    },
+  },
+  {
+    files: ['src/**/*'],
+    ignores: ['**/*.stories.{gjs,gts}'],
+    rules: {
+      'no-restricted-globals': ['error', ...restrictedTimers],
+      'no-restricted-properties': [
+        'error',
+        ...['window', 'globalThis', 'self'].flatMap((object) =>
+          restrictedTimers.map((timer) => ({
+            object,
+            property: timer.name,
+            message: timer.message,
+          })),
+        ),
       ],
     },
   },

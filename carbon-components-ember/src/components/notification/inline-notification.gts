@@ -10,52 +10,24 @@ import { tracked } from '@glimmer/tracking';
 import Text from '../text.gts';
 import NotificationButton from './notification-button.gts';
 import NotificationIcon from './-notification-icon.gts';
+import type {
+  NotificationArgs,
+  NotificationCloseHandler,
+} from './-notification-args.ts';
 import type { NotificationKind } from './-notification-icon.gts';
 
 export interface InlineNotificationSignature {
   Element: HTMLDivElement;
-  Args: {
-    /**
-     * Provide a description for the "close" icon button that can be read by
-     * screen readers. Carbon React's `aria-label`; an `aria-label` attribute
-     * would label the notification instead.
-     */
-    ariaLabel?: string;
-    /**
-     * Specify whether the close button should be hidden.
-     */
-    hideCloseButton?: boolean;
-    /**
-     * Specify what state the notification represents. Defaults to `'error'`.
-     */
-    kind?: NotificationKind;
-    /**
-     * Specify whether you are using the low contrast variant of the
-     * InlineNotification.
-     */
-    lowContrast?: boolean;
+  Args: NotificationArgs & {
     /**
      * Provide a function that is called when the close button closes the
      * notification. Return `false` to keep it open.
      */
-    onClose?: (event: MouseEvent) => boolean | void;
+    onClose?: NotificationCloseHandler;
     /**
      * Provide a function that is called when the close button is clicked.
      */
     onCloseButtonClick?: (event: MouseEvent) => void;
-    /**
-     * Provide a description for the "status" icon that can be read by screen
-     * readers. Defaults to `'<kind> icon'`.
-     */
-    statusIconDescription?: string;
-    /**
-     * Specify the subtitle.
-     */
-    subtitle?: string;
-    /**
-     * Specify the title.
-     */
-    title?: string;
   };
   Blocks: {
     /** More content, after the subtitle. Don't put interactive elements here; use an `ActionableNotification` for those. */
@@ -72,10 +44,6 @@ export default class InlineNotification extends Component<InlineNotificationSign
 
   get kind(): NotificationKind {
     return this.args.kind ?? 'error';
-  }
-
-  get statusIconDescription() {
-    return this.args.statusIconDescription || `${this.kind} icon`;
   }
 
   onCloseButtonClick = (event: MouseEvent) => {
@@ -96,7 +64,7 @@ export default class InlineNotification extends Component<InlineNotificationSign
           <NotificationIcon
             @notificationType="inline"
             @kind={{this.kind}}
-            @iconDescription={{this.statusIconDescription}}
+            @iconDescription={{@statusIconDescription}}
           />
           <div class="cds--inline-notification__text-wrapper">
             {{#if @title}}

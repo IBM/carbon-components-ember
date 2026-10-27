@@ -51,11 +51,14 @@ module('Integration | Component | TextInput', (hooks) => {
   });
 
   test('should respect the disabled and readOnly arguments', async function (assert) {
+    await render(<template><TextInput @disabled={{true}} /></template>);
+    assert.dom('input.cds--text-input').isDisabled();
+
+    // Read-only wins, as in Carbon React.
     await render(
       <template><TextInput @disabled={{true}} @readOnly={{true}} /></template>,
     );
-
-    assert.dom('input.cds--text-input').isDisabled();
+    assert.dom('input.cds--text-input').isNotDisabled();
     assert.dom('input.cds--text-input').hasAttribute('readonly');
   });
 
@@ -187,5 +190,67 @@ module('Integration | Component | TextInput', (hooks) => {
       .hasAttribute('name');
     await click('input.cds--text-input');
     assert.strictEqual(clicks, 1);
+  });
+
+  test('links its invalid, warning and helper texts by id', async function (assert) {
+    const input = 'input.cds--text-input';
+    await render(
+      <template>
+        <TextInput
+          @labelText="Name"
+          @invalid={{true}}
+          @invalidText="Required"
+        />
+      </template>,
+    );
+    const error = find('.cds--form-requirement')!;
+    assert.dom(error).hasText('Required').hasAttribute('dir', 'auto');
+    assert.dom(input).hasAttribute('aria-errormessage', error.id);
+    assert.dom(input).hasAttribute('aria-describedby', error.id);
+
+    await render(
+      <template>
+        <TextInput
+          @labelText="Name"
+          @warn={{true}}
+          @warnText="Too short"
+          @helperText="Your name"
+        />
+      </template>,
+    );
+    assert
+      .dom(input)
+      .hasAttribute('aria-describedby', find('.cds--form-requirement')!.id)
+      .doesNotHaveAttribute('aria-errormessage');
+
+    await render(
+      <template>
+        <TextInput @labelText="Name" @helperText="Your name" />
+      </template>,
+    );
+    assert
+      .dom(input)
+      .hasAttribute('aria-describedby', find('.cds--form__helper-text')!.id);
+  });
+
+  test('a disabled or read-only input is neither invalid nor warning', async function (assert) {
+    await render(
+      <template>
+        <TextInput
+          @disabled={{true}}
+          @invalid={{true}}
+          @invalidText="Required"
+        />
+      </template>,
+    );
+    assert.dom('.cds--form-requirement').doesNotExist();
+    assert.dom('input').doesNotHaveAttribute('aria-invalid');
+
+    await render(
+      <template>
+        <TextInput @readOnly={{true}} @warn={{true}} @warnText="Too short" />
+      </template>,
+    );
+    assert.dom('.cds--form-requirement').doesNotExist();
   });
 });

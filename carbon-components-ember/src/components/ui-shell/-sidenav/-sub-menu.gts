@@ -1,16 +1,30 @@
 import type Icon from '../../icon.gts';
+import RouterLink from '../../-private/router-link.gts';
+import type { RouteArgs } from '../../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
+
+const noop = () => {};
 
 export interface UIShellSideNavSubMenuSignature {
   Element: HTMLAnchorElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Classes for the `<li>`, as Carbon React's `className`. `class` and the
      * other attributes go on the link.
      */
     className?: string;
-    isCurrent: boolean;
-    transitionTo: () => void;
+    /** Marks it as the current link, as Carbon React's `isActive`. */
+    isCurrent?: boolean;
+    /**
+     * The URL it links to. `@route` links it to one of the app's routes,
+     * and makes it the current link while that route is current.
+     */
+    href?: string;
+    /**
+     * Called on a click, for an item with neither `@href` nor `@route`.
+     * Prefer `@route`, which also marks the current link.
+     */
+    transitionTo?: () => void;
     icon?: typeof Icon;
     title: string;
   };
@@ -18,11 +32,17 @@ export interface UIShellSideNavSubMenuSignature {
 
 const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
   <li class="cds--side-nav__menu-item {{@className}}">
-    <a
-      href="#"
-      aria-current="{{if @isCurrent 'page'}}"
+    {{! Without a link, "#" keeps it focusable for @transitionTo. }}
+    <RouterLink
+      @href={{if (or @href @route) @href "#"}}
+      @route={{@route}}
+      @models={{@models}}
+      @query={{@query}}
+      @isActive={{@isCurrent}}
+      @activeClass="cds--side-nav__link--current"
+      @ariaCurrent="page"
       class="cds--side-nav__link"
-      {{on "click" @transitionTo}}
+      {{on "click" (if @transitionTo @transitionTo noop)}}
       ...attributes
     >
       {{#if @icon}}
@@ -33,7 +53,7 @@ const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
       <span class="cds--side-nav__link-text">
         {{@title}}
       </span>
-    </a>
+    </RouterLink>
   </li>
 </template>;
 

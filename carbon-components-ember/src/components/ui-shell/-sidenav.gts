@@ -9,20 +9,26 @@ import UIShellSideNavIcon from './-sidenav/-icon.gts';
 import UIShellHeaderSideNavItems from './-header/-side-nav-items.gts';
 import type Icon from '../icon.gts';
 import type { TOC } from '@ember/component/template-only';
+import type { RouteArgs } from '../-private/router-link.gts';
 
-export type MenuItem = {
+export type MenuItem = RouteArgs & {
   submenus: SubMenu[];
   icon?: typeof Icon;
   title: string;
+  /** The URL it links to. `route` links it to one of the app's routes. */
+  href?: string;
 };
 
 export interface UIShellSideNavSignature {
   Element: HTMLElement;
   Args: {
     open: boolean;
-    menuItems: MenuItem[];
-    currentMenu: MenuItem;
-    transitionTo: (menu: MenuItem | SubMenu) => void;
+    /** The menus to render, in place of the block. */
+    menuItems?: MenuItem[];
+    /** The current one of `@menuItems`, for an item without a route. */
+    currentMenu?: MenuItem;
+    /** Called with the clicked one of `@menuItems`. */
+    transitionTo?: (menu: MenuItem | SubMenu) => void;
   };
   Blocks: {
     default: [
@@ -63,13 +69,21 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
           @title={{menu.title}}
           @open={{@open}}
           @isCurrent={{eq menu @currentMenu}}
-          @transitionTo={{fn @transitionTo menu}}
+          @transitionTo={{if @transitionTo (fn @transitionTo menu)}}
+          @href={{menu.href}}
+          @route={{menu.route}}
+          @models={{menu.models}}
+          @query={{menu.query}}
           as |Sub|
         >
           {{#each menu.submenus as |submenu|}}
             <Sub
               @isCurrent={{eq submenu @currentMenu}}
-              @transitionTo={{fn @transitionTo submenu}}
+              @transitionTo={{if @transitionTo (fn @transitionTo submenu)}}
+              @href={{submenu.href}}
+              @route={{submenu.route}}
+              @models={{submenu.models}}
+              @query={{submenu.query}}
               @icon={{submenu.icon}}
               @title={{submenu.title}}
             />
