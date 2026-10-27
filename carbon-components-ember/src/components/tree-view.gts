@@ -57,6 +57,13 @@ export interface TreeNodeSignature {
      */
     hidden?: boolean;
     /**
+     * Whether an ancestor has an icon, and how many of Carbon's 0.5rem
+     * indents that gives this node. Set automatically when nodes are
+     * yielded — do not pass these manually.
+     */
+    underIcon?: boolean;
+    iconIndents?: number;
+    /**
      * Makes the node a link to this URL, as Carbon React's `href`. With
      * `@route` instead, the router, not selection, makes it the active node:
      * while that route itself is current.
@@ -163,16 +170,31 @@ class TreeNode extends Component<TreeNodeSignature> {
     return this.depth + 1;
   }
 
+  get childUnderIcon() {
+    return Boolean(this.args.underIcon || this.args.icon);
+  }
+
+  get childIconIndents() {
+    return (this.args.iconIndents ?? 0) + (this.childUnderIcon ? 1 : 0);
+  }
+
   // Mirrors upstream Carbon's per-node negative margin/padding trick so the
   // row's hover/selected background spans the full row width (flush with
   // the tree's left edge) instead of just starting where the label text
-  // begins.
+  // begins. Each level adds 1rem, and Carbon's CSS 0.5rem more under a node
+  // with an icon; a leaf has 2.5rem of its own, 2rem with an icon. Carbon
+  // React keys the 0.5rem on the node's own icon, which only fits trees
+  // where every node has one or none does.
+  get indent() {
+    return this.depth + (this.args.iconIndents ?? 0) * 0.5;
+  }
+
   get parentLabelStyles() {
-    return labelOffset(this.depth + 1);
+    return labelOffset(this.indent + 1);
   }
 
   get leafLabelStyles() {
-    return labelOffset(this.depth + 2.5);
+    return labelOffset(this.indent + (this.args.icon ? 2 : 2.5));
   }
 
   select = (event: MouseEvent) => {
@@ -279,6 +301,8 @@ class TreeNode extends Component<TreeNodeSignature> {
                 treeView=@treeView
                 depth=this.childDepth
                 hidden=(or @hidden (not this.expanded))
+                underIcon=this.childUnderIcon
+                iconIndents=this.childIconIndents
               )
             }}
           </ul>
@@ -319,6 +343,8 @@ class TreeNode extends Component<TreeNodeSignature> {
                 treeView=@treeView
                 depth=this.childDepth
                 hidden=(or @hidden (not this.expanded))
+                underIcon=this.childUnderIcon
+                iconIndents=this.childIconIndents
               )
             }}
           </ul>
