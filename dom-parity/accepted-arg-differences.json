@@ -121,6 +121,16 @@
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
+  "PasswordInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
+  "TextInput": {
+    "extra": {
+      "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
+    }
+  },
   "ToastNotification": {
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
