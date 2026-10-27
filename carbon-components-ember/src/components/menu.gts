@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
+import { RovingFocus } from '../utils/roving-focus.ts';
 import MenuItem from './menu/menu-item.gts';
 import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
 import MenuItemSelectable from './menu/menu-item-selectable.gts';
@@ -132,6 +133,7 @@ const MenuList: TOC<MenuListSignature> = <template>
     {{on "keydown" @menu.handleKeyDown}}
     {{on "focusout" @menu.handleBlur}}
     {{on "click" @menu.handleClick}}
+    {{@menu.rovingFocus.container}}
     {{@menu.positionMenu}}
     ...attributes
   >
@@ -142,6 +144,10 @@ const MenuList: TOC<MenuListSignature> = <template>
 export default class Menu extends Component<MenuSignature> {
   @tracked items: readonly MenuItemFeatures[] = [];
   @tracked shown = false;
+
+  // The arrow keys, Home and End move between enabled items, wrapping as
+  // Carbon React's do; the items keep their own tabindex.
+  rovingFocus = new RovingFocus({ loop: true, followFocus: false });
 
   // Carbon derives these two modifier classes from a React Context its items
   // push into as they mount. The Ember equivalent is having the items
@@ -212,7 +218,7 @@ export default class Menu extends Component<MenuSignature> {
     const raf = requestAnimationFrame(() => {
       this.applyPosition(element);
       this.shown = true;
-      this.focusItem(element);
+      this.focusFirstItem();
       this.args.onOpen?.();
     });
     return () => cancelAnimationFrame(raf);
@@ -295,32 +301,11 @@ export default class Menu extends Component<MenuSignature> {
     element.style.insetBlockStart = `${top - originTop}px`;
   }
 
-  focusableItemsSelector =
-    ':scope > .cds--menu-item:not(.cds--menu-item--disabled), :scope > .cds--menu-item-group > ul > .cds--menu-item:not(.cds--menu-item--disabled), :scope > .cds--menu-item-radio-group > ul > .cds--menu-item:not(.cds--menu-item--disabled)';
-
-  focusItem(element: HTMLUListElement, direction?: 'up' | 'down') {
-    const items = Array.from(
-      element.querySelectorAll<HTMLElement>(this.focusableItemsSelector),
-    );
-    if (!items.length) return;
-
-    const active = element.ownerDocument.activeElement;
-    let index = items.indexOf(active as HTMLElement);
-
-    if (index === -1) {
-      index = 0;
-    } else if (direction === 'up') {
-      index -= 1;
-    } else if (direction === 'down') {
-      index += 1;
-    } else {
-      return;
-    }
-
-    if (index < 0) index = items.length - 1;
-    if (index >= items.length) index = 0;
-
-    items[index]?.focus();
+  // Unless an item has focus already.
+  focusFirstItem() {
+    const { items } = this.rovingFocus;
+    if (items.some((item) => item === document.activeElement)) return;
+    if (items[0]) this.rovingFocus.focus(items[0]);
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
@@ -333,14 +318,6 @@ export default class Menu extends Component<MenuSignature> {
     if (closesMenu) {
       event.preventDefault();
       this.args.onClose?.();
-      return;
-    }
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.focusItem(
-        event.currentTarget as HTMLUListElement,
-        event.key === 'ArrowUp' ? 'up' : 'down',
-      );
     }
   };
 
