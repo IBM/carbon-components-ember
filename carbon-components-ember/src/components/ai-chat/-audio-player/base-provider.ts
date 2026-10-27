@@ -5,9 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { destroy } from '@ember/destroyable';
+
 /**
  * Ember port of `@carbon/ai-chat-components`' `audio-player/src/providers/
- * base-provider.ts`, ported verbatim - plain TS/DOM code with nothing
+ * base-provider.ts`, ported verbatim but for `teardown()` destroying the
+ * provider, which cancels its tasks - plain TS/DOM code with nothing
  * Lit-specific in it. Deliberately kept as its own copy rather than shared
  * with `-video-player/base-provider.ts`: upstream itself duplicates this
  * class per component (audio's `ProviderConfig` has no `subtitleTracks`,
@@ -86,6 +89,8 @@ export abstract class BaseProvider {
   ): void;
 
   teardown(): void {
+    // Cancels the provider's tasks.
+    destroy(this);
     if (this.container) {
       this.container.innerHTML = '';
       this.container = null;

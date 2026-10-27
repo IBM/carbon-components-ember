@@ -123,12 +123,13 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
 | `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
-| `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component | `components/portal.gts` |
+| `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component, which renders into the topmost open Modal (the `carbon.layers` service), as nothing outside it works. A layer that must keep its state as modals open and close moves its element instead | `components/portal.gts`, `notification/toast-notification-list.gts` |
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
+| `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
@@ -153,6 +154,8 @@ export default class TabPane extends Component<TabPaneSignature> {
 }
 ```
 
+A yielded child that renders its parent again, as a MenuItem renders its submenu, can't import the parent, which imports it (rollup warns on the cycle): the parent hands over its own class (`<@menu.Submenu>`).
+
 For a cleaner registration example, read the charts: every yielded part extends `charts/-components/chart-part.ts`, which registers with the chart this way, and the chart derives its options and data from the registered parts' args with plain getters. Don't write a template helper that exists for its side effect.
 
 ### 2. Accept Components as Args
@@ -175,7 +178,7 @@ A function modifier re-runs only for the arguments it reads, since ember-modifie
 
 ### 5. Timing and Destructors
 
-Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
+Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which auto-cancel on component destruction; lint enforces this outside stories. A plain class can hold tasks too: `destroy(this)` from `@ember/destroyable` cancels them, as the AI Chat media providers' `teardown()` does. `settled()` waits for a timer only once it has started, so wrap native async that leads to one (a dynamic `import()`, a fetch) in `waitForPromise` from `@ember/test-waiters`. To defer work past the current render (writing state the render read), use `afterRender` from `utils/after-render.ts`, not the run loop. Anything else that must be cleaned up belongs in `registerDestructor` or a modifier teardown.
 `settled()` waits for `timeout()`, so a timer tests shouldn't wait out, such as a toast closing itself, uses `rawTimeout()`.
 
 ### 6. Signatures
@@ -183,7 +186,12 @@ Never use bare `setTimeout`. Use `ember-concurrency` restartable tasks which aut
 Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescript/core-concepts/invokables/) and [Glint](https://typed-ember.gitbook.io/glint/environments/ember/component-signatures), and must match what the template does. Lint enforces the mechanical parts.
 
 - **Name:** `export interface <Name>Signature`, where `<Name>` is the component's public export name. The class or `TOC` const is named the same. A signature is never a `type` alias.
-- **`Args`:** written inline in the signature. Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type.
+- **`Args`:** written inline in the signature, after any shared args it intersects (`Args: SharedArgs & { … }`). Code elsewhere refers to them as `<Name>Signature['Args']`; there is no separate `Args` type for one component.
+- **Declare each arg, type and helper once.** Copies drift: one gains a value or a doc the others lack. Before writing one, search `src` for it, and import what exists.
+  - A group of args several components take is an exported interface, which each signature intersects: `Args: SharedArgs & { … }`.
+  - A part, variant or skeleton takes its component's type: `size?: ButtonSignature['Args']['size']`.
+  - A union of values follows Carbon React: one type where React declares one (`ListBoxSize`), separate ones where React's values differ.
+  - A helper or modifier two components need goes in `utils/` or `-private/`, not in each component.
 - **`Element`:** the element `...attributes` is spread on.
   - A DOM element gets its own type, a union when branches differ.
   - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.
@@ -246,6 +254,10 @@ Glimmer sets a `<select>`'s `value` before its options render, so `<select value
 ### ❌ Pitfall 8: Floating Content inside a Modal
 
 A Modal's `<dialog>` is in the top layer, out of everything around it, but Floating UI still counts the trigger's overflow ancestors outside it as clipping the trigger, so `hide()` hides what floats from inside it. With `utils/floating.ts`, give `hide()` `() => ({ boundary: clippingBoundary(reference) })`, derived so a Modal opening in the same render counts. Focus inside floating content with `{ preventScroll: true }`: until Floating UI places it, Carbon's styles can leave it at the top of the page.
+
+### ❌ Pitfall 9: A Modifier That Reads Too Little, or Too Much
+
+A function modifier tracks only what its body reads before returning. An argument it ignores, or reads only after an `await` or in a callback, never re-runs it, so destructure each one (lint flags a signature's arguments the callback doesn't take). Tracked state it reads on the way, even inside a method it calls, re-runs it on every change. Where something else already handles that state, compare the arguments with the last run's and read the state only when they changed, as `PromptLineAutocomplete`'s `watchConfigs` does.
 
 ---
 

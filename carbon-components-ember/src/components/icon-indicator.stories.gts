@@ -132,6 +132,10 @@ Compact.test(
       expect(trigger).toHaveAttribute('aria-expanded', 'true'),
     );
 
+    // A rerender would leave the test holding a stale trigger (#1241).
+    await expect(trigger.isConnected, 'the trigger is still rendered').toBe(
+      true,
+    );
     await userEvent.unhover(trigger);
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false'),

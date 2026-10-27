@@ -31,6 +31,16 @@
       "reason": "Same Tooltip internals as PasswordInput's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
     }
   ],
+  "Copy": [
+    {
+      "path": "span > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "span > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    }
+  ],
   "CodeSnippet": [
     {
       "path": "div > div[1] > span[0] > div[0]",
@@ -94,6 +104,18 @@
       "path": "button.attributes.id",
       "variant": "as-button",
       "reason": "Same auto-generated-id artifact as the `a.attributes.id` entry above, for the as-button variant's <button> root."
+    }
+  ],
+  "AiChatFileUploads": [
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[0].attributes.aria-label",
+      "reason": "Our remove button is the shared FileUploaderStatusIcon, which names it \"<description> - <file name>\" as Carbon React's Filename does, so each chip's button has its own name. Upstream's cds-file-uploader-item uses the bare description.",
+      "variant": "one-upload"
+    },
+    {
+      "path": "div > div[2] > div[0] > div[0] > span[1] > button[1].attributes.aria-label",
+      "reason": "Same remove button name as one-upload's, after the warning icon an invalid item draws.",
+      "variant": "one-upload-error"
     }
   ],
   "AiChatReasoningSteps": [

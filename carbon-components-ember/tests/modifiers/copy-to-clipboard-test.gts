@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
+import Modal from '#src/components/modal.gts';
 import copyToClipboard from '#src/modifiers/copy-to-clipboard.ts';
 import { setupClipboard } from '../helpers';
 
@@ -98,6 +99,37 @@ module('Integration | Modifier | copyToClipboard', (hooks) => {
     assert.deepEqual(copied, ['hello']);
     assert.dom('textarea').doesNotExist('the fallback cleans up');
     assert.dom('button').isFocused('focus goes back to the button');
+  });
+
+  test('the execCommand fallback works in an open Modal', async function (assert) {
+    clipboard.denied = true;
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- restored below
+    const execCommand = document.execCommand;
+    let focused = false;
+    document.execCommand = () => {
+      // Nothing outside an open modal dialog can take focus.
+      focused = document.activeElement instanceof HTMLTextAreaElement;
+      return true;
+    };
+
+    try {
+      await render(
+        <template>
+          <Modal @open={{true}}>
+            <button
+              type="button"
+              id="copy"
+              {{copyToClipboard text="hello"}}
+            >Copy</button>
+          </Modal>
+        </template>,
+      );
+      await click('#copy');
+    } finally {
+      document.execCommand = execCommand;
+    }
+
+    assert.true(focused);
   });
 
   test('reports an error when both ways fail', async function (assert) {

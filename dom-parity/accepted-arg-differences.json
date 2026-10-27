@@ -41,6 +41,11 @@
       "itemToElement": "The default block renders each item."
     }
   },
+  "Copy": {
+    "extra": {
+      "ariaLabel": "Carbon React's Copy reads its aria-label prop as the tooltip's label; a component can't read a caller's aria-label attribute, so it takes @ariaLabel."
+    }
+  },
   "DatePickerInput": {
     "missing": {
       "onClick": "{{on \"click\"}} on the component reaches the <input>, through ...attributes, where Carbon React puts its onClick."

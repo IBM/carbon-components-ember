@@ -619,6 +619,13 @@ const link = (name, props) => ({
     ),
 });
 
+const copy = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Copy, props, 'npm install'),
+});
+
 const codeSnippet = (name, props, code = 'npm install') => ({
   name,
   props,
@@ -1631,6 +1638,14 @@ export const COMPONENTS = [
             description: 'Stopped loading indicator',
           }),
       },
+    ],
+  },
+  {
+    name: 'Copy',
+    variants: [
+      copy('default', { 'aria-label': 'Copy' }),
+      copy('align-top', { 'aria-label': 'Copy', align: 'top' }),
+      copy('disabled', { 'aria-label': 'Copy', disabled: true }),
     ],
   },
   {
