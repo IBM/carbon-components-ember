@@ -27,11 +27,15 @@ const icons = {
 
 const iconFor = (kind: NotificationKind) => icons[kind];
 
+const describe = (kind: NotificationKind, description?: string) =>
+  description || `${kind} icon`;
+
 export interface NotificationIconSignature {
   Args: {
     kind: NotificationKind;
     notificationType: 'inline' | 'toast';
-    iconDescription: string;
+    /** Defaults to `'<kind> icon'`. */
+    iconDescription?: string;
   };
 }
 
@@ -42,8 +46,8 @@ const NotificationIcon: TOC<NotificationIconSignature> = <template>
       <KindIcon
         @size={{20}}
         @svgClass="cds--{{@notificationType}}-notification__icon"
-        @title={{@iconDescription}}
-        @ariaLabel={{@iconDescription}}
+        @title={{describe @kind @iconDescription}}
+        @ariaLabel={{describe @kind @iconDescription}}
       />
     {{/if}}
   {{/let}}
