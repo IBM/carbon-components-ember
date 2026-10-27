@@ -47,19 +47,51 @@ export function fieldState(
   };
 }
 
+/** The args that put a form control in an invalid or warning state. */
+export interface FieldValidationArgs {
+  /** Specify whether the control is currently invalid. */
+  invalid?: boolean;
+  /** Provide the text that is displayed when the control is in an invalid state. */
+  invalidText?: string;
+  /** Specify whether the control is currently in warning state. */
+  warn?: boolean;
+  /** Provide the text that is displayed when the control is in warning state. */
+  warnText?: string;
+}
+
+/** The args for a form control's helper text and read-only state. */
+export interface FieldHelperArgs {
+  /**
+   * Provide text that is used alongside the control label for additional
+   * help.
+   */
+  helperText?: string;
+  /** Whether the control can be read and focused, but not changed. */
+  readOnly?: boolean;
+}
+
+/** The args for a form control's label. */
+export interface FieldLabelArgs {
+  /** The label's text, shown with the control and read by assistive technology. */
+  labelText?: string;
+  /**
+   * Specify whether you want the label (`@labelText`, or a list box's
+   * `@titleText`) to be visually hidden. Assistive technology still reads it.
+   */
+  hideLabel?: boolean;
+}
+
 export interface FieldMessageSignature {
-  Args: {
-    field: FieldState;
-    invalidText?: string;
-    warnText?: string;
-    helperText?: string;
-    /** Greys out the helper text. */
-    disabled?: boolean;
-    /** The invalid or warning text's role, as TextArea's `alert`. */
-    role?: string;
-    /** A plain helper text, without `dir`, as PasswordInput's in React. */
-    plainHelper?: boolean;
-  };
+  Args: Pick<FieldValidationArgs, 'invalidText' | 'warnText'> &
+    Pick<FieldHelperArgs, 'helperText'> & {
+      field: FieldState;
+      /** Greys out the helper text. */
+      disabled?: boolean;
+      /** The invalid or warning text's role, as TextArea's `alert`. */
+      role?: string;
+      /** A plain helper text, without `dir`, as PasswordInput's in React. */
+      plainHelper?: boolean;
+    };
 }
 
 /**

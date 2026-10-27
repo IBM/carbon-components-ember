@@ -16,85 +16,58 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import WarningFilled from './icons/warning-filled.ts';
 import { afterRender } from '../utils/after-render.ts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface SelectSignature {
   Element: HTMLSelectElement;
-  Args: {
-    /**
-     * Specify an optional className to be applied to the node containing the
-     * label and the select box. Attributes go to the `<select>`.
-     */
-    className?: string;
-    /**
-     * Optionally provide the default value of the `<select>`
-     */
-    defaultValue?: string | number;
-    /**
-     * Specify whether the control is disabled
-     */
-    disabled?: boolean;
-    /**
-     * Provide text that is used alongside the control label for additional
-     * help
-     */
-    helperText?: string;
-    /**
-     * Specify whether the label should be hidden, or not
-     */
-    hideLabel?: boolean;
-    /**
-     * Specify a custom `id` for the `<select>`
-     */
-    id?: string;
-    /**
-     * Specify whether you want the inline version of this control
-     */
-    inline?: boolean;
-    /**
-     * Specify if the currently value is invalid.
-     */
-    invalid?: boolean;
-    /**
-     * Message which is displayed if the value is invalid.
-     */
-    invalidText?: string;
-    /**
-     * Provide label text to be read by screen readers when interacting with
-     * the control.
-     */
-    labelText?: string;
-    /**
-     * Reserved for use with Pagination component. Will not render a label for
-     * the select since Pagination renders one for us.
-     */
-    noLabel?: boolean;
-    /**
-     * Called with the `change` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLSelectElement }) => void;
-    /**
-     * Whether the select should be read-only
-     */
-    readOnly?: boolean;
-    /**
-     * Specify the size of the Select Input.
-     */
-    size?: 'xs' | 'sm' | 'md' | 'lg';
-    /**
-     * The value of the `<select>`. While it's set, the select shows it, and
-     * goes back to it after a change `@onChange` doesn't pass back.
-     */
-    value?: string | number;
-    /**
-     * Specify whether the control is currently in warning state
-     */
-    warn?: boolean;
-    /**
-     * Provide the text that is displayed when the control is in warning state
-     */
-    warnText?: string;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    FieldLabelArgs & {
+      /**
+       * Specify an optional className to be applied to the node containing the
+       * label and the select box. Attributes go to the `<select>`.
+       */
+      className?: string;
+      /**
+       * Optionally provide the default value of the `<select>`
+       */
+      defaultValue?: string | number;
+      /**
+       * Specify whether the control is disabled
+       */
+      disabled?: boolean;
+      /**
+       * Specify a custom `id` for the `<select>`
+       */
+      id?: string;
+      /**
+       * Specify whether you want the inline version of this control
+       */
+      inline?: boolean;
+      /**
+       * Reserved for use with Pagination component. Will not render a label for
+       * the select since Pagination renders one for us.
+       */
+      noLabel?: boolean;
+      /**
+       * Called with the `change` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLSelectElement }) => void;
+      /**
+       * Specify the size of the Select Input.
+       */
+      size?: 'xs' | 'sm' | 'md' | 'lg';
+      /**
+       * The value of the `<select>`. While it's set, the select shows it, and
+       * goes back to it after a change `@onChange` doesn't pass back.
+       */
+      value?: string | number;
+    };
   Blocks: {
     /**
      * The options: the yielded `SelectItem`, optionally grouped in

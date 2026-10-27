@@ -3,9 +3,10 @@ import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
+import type { FieldLabelArgs } from './-private/field.gts';
 
 export interface CheckboxSignature {
-  Args: {
+  Args: Pick<FieldLabelArgs, 'hideLabel'> & {
     /**
      * Classes for the wrapper, as Carbon React's `className`. `class` and the
      * other attributes go on the `<input>`.
@@ -25,8 +26,6 @@ export interface CheckboxSignature {
     ) => void;
     state?: object;
     label?: string;
-    /** Visually hide the label, keeping it as the checkbox's accessible name (as Carbon React's `hideLabel`). */
-    hideLabel?: boolean;
   };
   Element: HTMLInputElement;
   Blocks: {

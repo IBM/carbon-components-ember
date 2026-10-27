@@ -15,108 +15,87 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
-import type { ListBoxSize } from './-private/list-box/list-box.gts';
+import type {
+  ListBoxSize,
+  ListBoxType,
+} from './-private/list-box/list-box.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
 import { defaultItemToString } from './-private/list-box/items.ts';
 import { nextIndex, typeaheadIndex } from '../utils/roving-focus.ts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface DropdownSignature<T> {
   Element: HTMLDivElement;
-  Args: {
-    /**
-     * The id of the underlying field button. Also used to derive the ids of
-     * the label and menu, so the ARIA wiring between them stays consistent.
-     * Auto-generated when omitted.
-     */
-    id?: string;
-    /**
-     * The list of items to choose from.
-     */
-    items: T[];
-    /**
-     * The field's label, rendered above the control.
-     */
-    titleText: string;
-    /**
-     * Placeholder text shown in the field when nothing is selected.
-     */
-    label: string;
-    /**
-     * Convert an item to display text. Used for the field button's `title`,
-     * each item's title when its text is cut off and, when no item block is
-     * supplied, as the default rendering of each menu item. Defaults to
-     * reading a `label` property off the item, falling back to an empty
-     * string.
-     */
-    itemToString?: (item: T) => string;
-    /**
-     * The currently selected item (controlled). Wins over internal state
-     * whenever it is defined.
-     */
-    selectedItem?: T | null;
-    /**
-     * Seeds the initially selected item for the uncontrolled case.
-     */
-    initialSelectedItem?: T;
-    /**
-     * Called whenever the selection changes, with the newly selected item.
-     */
-    onChange?: (data: { selectedItem: T | null }) => void;
-    /**
-     * Specify if the control should be disabled, or not.
-     */
-    disabled?: boolean;
-    /**
-     * Specify if the control should be read-only. A read-only field button
-     * remains focusable but cannot be opened or changed.
-     */
-    readOnly?: boolean;
-    /**
-     * Specify if the currently selected value is invalid.
-     */
-    invalid?: boolean;
-    /**
-     * Message which is displayed if the value is invalid.
-     */
-    invalidText?: string;
-    /**
-     * Specify whether the control is currently in warning state.
-     */
-    warn?: boolean;
-    /**
-     * Message which is displayed if the control is in warning state.
-     */
-    warnText?: string;
-    /**
-     * Provide text that is used alongside the control label for additional
-     * help.
-     */
-    helperText?: string;
-    /**
-     * Visually hide the label, while still keeping it available to
-     * assistive technology.
-     */
-    hideLabel?: boolean;
-    /**
-     * The field's height. Without it, the field follows an enclosing
-     * Layout's size.
-     */
-    size?: ListBoxSize;
-    /**
-     * `default` renders the standalone field; `inline` lays the field out
-     * next to its label (via flex layout classes) and suppresses the helper
-     * text row. The label itself is always rendered - use `@hideLabel` to
-     * visually hide it.
-     */
-    type?: 'default' | 'inline';
-    /**
-     * The direction the menu should open in.
-     */
-    direction?: 'top' | 'bottom';
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    Pick<FieldLabelArgs, 'hideLabel'> & {
+      /**
+       * The id of the underlying field button. Also used to derive the ids of
+       * the label and menu, so the ARIA wiring between them stays consistent.
+       * Auto-generated when omitted.
+       */
+      id?: string;
+      /**
+       * The list of items to choose from.
+       */
+      items: T[];
+      /**
+       * The field's label, rendered above the control.
+       */
+      titleText: string;
+      /**
+       * Placeholder text shown in the field when nothing is selected.
+       */
+      label: string;
+      /**
+       * Convert an item to display text. Used for the field button's `title`,
+       * each item's title when its text is cut off and, when no item block is
+       * supplied, as the default rendering of each menu item. Defaults to
+       * reading a `label` property off the item, falling back to an empty
+       * string.
+       */
+      itemToString?: (item: T) => string;
+      /**
+       * The currently selected item (controlled). Wins over internal state
+       * whenever it is defined.
+       */
+      selectedItem?: T | null;
+      /**
+       * Seeds the initially selected item for the uncontrolled case.
+       */
+      initialSelectedItem?: T;
+      /**
+       * Called whenever the selection changes, with the newly selected item.
+       */
+      onChange?: (data: { selectedItem: T | null }) => void;
+      /**
+       * Specify if the control should be disabled, or not.
+       */
+      disabled?: boolean;
+      /**
+       * The field's height. Without it, the field follows an enclosing
+       * Layout's size.
+       */
+      size?: ListBoxSize;
+      /**
+       * The direction the menu should open in.
+       */
+      direction?: 'top' | 'bottom';
+      /**
+       * `default` renders the standalone field; `inline` lays the field out
+       * next to its label (via flex layout classes) and suppresses the helper
+       * text row. The label itself is always rendered - use `@hideLabel` to
+       * visually hide it.
+       */
+      type?: ListBoxType;
+    };
   Blocks: {
     /**
      * Customize how each item renders in the menu. Falls back to
