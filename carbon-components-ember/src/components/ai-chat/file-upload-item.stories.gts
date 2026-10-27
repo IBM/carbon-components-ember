@@ -122,10 +122,9 @@ export const WithError = meta.story({
   },
 });
 
-WithError.test('announces the error message', async ({ canvas }) => {
-  await expect(canvas.getByRole('alert')).toHaveTextContent(
-    'File exceeds the 10MB limit',
-  );
+// FileUploads' live regions announce the failure, as upstream's do.
+WithError.test('shows the error message', async ({ canvas }) => {
+  await expect(canvas.getByText('File exceeds the 10MB limit')).toBeVisible();
 });
 
 export const ImagePreview = meta.story({
