@@ -6,14 +6,16 @@
  */
 
 import Component from '@glimmer/component';
+import RouterLink from './-private/router-link.gts';
+import type { RouteArgs } from './-private/router-link.gts';
 import type { ComponentLike } from '@glint/template';
 
 export interface LinkSignature {
   Element: HTMLElement;
-  Args: {
+  Args: RouteArgs & {
     /**
      * Provide a custom element or component to render the top-level node for
-     * the component. Defaults to `a`.
+     * the component. Defaults to `a`. It overrides `@route`.
      */
     as?: keyof HTMLElementTagNameMap;
     /**
@@ -77,6 +79,10 @@ export default class Link extends Component<LinkSignature> {
     return classes.join(' ');
   }
 
+  get isRouteLink() {
+    return Boolean(this.args.route) && !this.args.disabled && !this.args.as;
+  }
+
   get showIcon() {
     return !this.args.inline && !!this.args.renderIcon;
   }
@@ -91,12 +97,12 @@ export default class Link extends Component<LinkSignature> {
   };
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
-      <Tag
+    {{#if this.isRouteLink}}
+      <RouterLink
+        @route={{@route}}
+        @models={{@models}}
+        @query={{@query}}
         class={{this.classes}}
-        href={{unless @disabled @href}}
-        role={{if @disabled "link"}}
-        aria-disabled={{if @disabled "true"}}
         target={{@target}}
         rel={{this.rel}}
         {{on "click" this.handleClick}}
@@ -108,7 +114,27 @@ export default class Link extends Component<LinkSignature> {
             <@renderIcon @size="16" />
           </span>
         {{/if}}
-      </Tag>
-    {{/let}}
+      </RouterLink>
+    {{else}}
+      {{#let (element this.tag) as |Tag|}}
+        <Tag
+          class={{this.classes}}
+          href={{unless @disabled @href}}
+          role={{if @disabled "link"}}
+          aria-disabled={{if @disabled "true"}}
+          target={{@target}}
+          rel={{this.rel}}
+          {{on "click" this.handleClick}}
+          ...attributes
+        >
+          {{yield}}
+          {{#if this.showIcon}}
+            <span class="cds--link__icon">
+              <@renderIcon @size="16" />
+            </span>
+          {{/if}}
+        </Tag>
+      {{/let}}
+    {{/if}}
   </template>
 }

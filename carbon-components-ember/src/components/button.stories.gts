@@ -25,7 +25,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          'Buttons are used to initialize an action. Pick the emphasis with `@kind` and the size with `@size`. Handle clicks with `{{on "click"}}`, and make a submit button with `type="submit"`, as on a native `<button>`. With `@href` it renders a link styled as a button.\n\nWith `@hasIconOnly`, it shows only its icon, in a tooltip naming it with `@iconDescription`. For a loading state, show an `InlineLoading` in its place while the work runs, as InlineLoading\'s UX example does.',
+          'Buttons are used to initialize an action. Pick the emphasis with `@kind` and the size with `@size`. Handle clicks with `{{on "click"}}`, and make a submit button with `type="submit"`, as on a native `<button>`. With `@href` it renders a link styled as a button, and with `@route` (plus `@models` and `@query`) Ember\'s `LinkTo` to one of the app\'s routes.\n\nWith `@hasIconOnly`, it shows only its icon, in a tooltip naming it with `@iconDescription`. For a loading state, show an `InlineLoading` in its place while the work runs, as InlineLoading\'s UX example does.',
       },
     },
   },
