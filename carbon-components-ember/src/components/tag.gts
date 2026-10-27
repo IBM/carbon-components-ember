@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
-import type Icon from './icon.gts';
+import type { IconComponent } from './icon.gts';
 import AILabel from './ai-label.gts';
 import DefinitionTooltip from './-private/definition-tooltip.gts';
 import RouterLink from './-private/router-link.gts';
@@ -34,7 +34,7 @@ export interface TagSignature {
     /**
      * A component used to render an icon.
      */
-    renderIcon?: typeof Icon;
+    renderIcon?: IconComponent;
     /**
      * Specify the size of the Tag. Currently supports either `sm`, `md`
      * (default) or `lg` sizes.

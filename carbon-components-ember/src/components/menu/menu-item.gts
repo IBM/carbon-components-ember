@@ -12,7 +12,7 @@ import { modifier } from 'ember-modifier';
 import { afterRender } from '../../utils/after-render.ts';
 import Checkmark from '../icons/checkmark.ts';
 import CaretRight from '../icons/caret-right.ts';
-import type Icon from '../icon.gts';
+import type { IconComponent } from '../icon.gts';
 import type Menu from '../menu.gts';
 import type { MenuItemFeatures } from '../menu.gts';
 import type MenuItemRadioGroup from './menu-item-radio-group.gts';
@@ -49,7 +49,7 @@ export interface MenuItemSignature {
     /**
      * A component used to render an icon.
      */
-    renderIcon?: typeof Icon;
+    renderIcon?: IconComponent;
     /**
      * Provide a shortcut for the action of this MenuItem. Only rendered as
      * a hint; the shortcut itself is not registered.

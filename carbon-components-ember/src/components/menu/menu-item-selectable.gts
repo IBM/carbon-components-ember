@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import MenuItem from './menu-item.gts';
-import type Icon from '../icon.gts';
+import type { IconComponent } from '../icon.gts';
 import type Menu from '../menu.gts';
 
 export interface MenuItemSelectableSignature {
@@ -36,7 +36,7 @@ export interface MenuItemSelectableSignature {
     onChange?: (checked: boolean) => void;
     disabled?: boolean;
     shortcut?: string;
-    renderIcon?: typeof Icon;
+    renderIcon?: IconComponent;
   };
 }
 

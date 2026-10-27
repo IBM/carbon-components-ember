@@ -7,13 +7,13 @@ import UIShellSideNavHeader from './-sidenav/-header.gts';
 import UIShellSideNavDetails from './-sidenav/-details.gts';
 import UIShellSideNavIcon from './-sidenav/-icon.gts';
 import UIShellHeaderSideNavItems from './-header/-side-nav-items.gts';
-import type Icon from '../icon.gts';
+import type { IconComponent } from '../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 import type { RouteArgs } from '../-private/router-link.gts';
 
 export type MenuItem = RouteArgs & {
   submenus: SubMenu[];
-  icon?: typeof Icon;
+  icon?: IconComponent;
   title: string;
   /** The URL it links to. `route` links it to one of the app's routes. */
   href?: string;
