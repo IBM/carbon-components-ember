@@ -1,0 +1,46 @@
+.card-story__viewport {
+  padding-block-start: 2rem;
+}
+
+.card-story__disabled-toggle {
+  display: flex;
+  align-items: flex-end;
+  padding-block-end: 1rem;
+}
+
+.card-story__flush-box {
+  padding: 1rem;
+  border: 1px dashed var(--cds-link-primary);
+  background: var(--cds-highlight);
+}
+
+.card-story__fill {
+  width: 100%;
+  height: 100%;
+}
+
+.card-story__header-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+}
+
+.card-story__time {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  gap: 0.5rem;
+}
+
+.card-story__status {
+  padding: 0 1rem;
+}
+
+.card-story__video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}

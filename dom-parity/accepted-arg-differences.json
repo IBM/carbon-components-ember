@@ -4,6 +4,11 @@
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
     }
   },
+  "AspectRatio": {
+    "values": {
+      "as": "React's HTMLElementType includes obsolete elements (big, center, keygen, menuitem, param, webview) that TypeScript's HTMLElementTagNameMap leaves out."
+    }
+  },
   "BreadcrumbItem": {
     "extra": {
       "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>.",
