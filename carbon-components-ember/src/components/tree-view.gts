@@ -159,7 +159,9 @@ class TreeNode extends Component<TreeNodeSignature> {
   }
 
   get isLink() {
-    return Boolean(this.args.href || this.args.route);
+    return Boolean(
+      this.args.href || this.args.route || this.args.externalRoute,
+    );
   }
 
   get depth() {
@@ -264,9 +266,10 @@ class TreeNode extends Component<TreeNodeSignature> {
         <RouterLink
           @href={{unless @disabled @href}}
           @route={{unless @disabled @route}}
+          @externalRoute={{unless @disabled @externalRoute}}
           @models={{@models}}
           @query={{@query}}
-          @isActive={{unless @route this.isActive}}
+          @isActive={{unless (or @route @externalRoute) this.isActive}}
           @exact={{true}}
           @activeClass="cds--tree-node--active"
           @ariaCurrent="page"

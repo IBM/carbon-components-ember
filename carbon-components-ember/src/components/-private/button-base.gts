@@ -28,8 +28,8 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
   }
 
   get isLink() {
-    const { as, href, route, disabled } = this.args;
-    return !as && Boolean(href || route) && !disabled;
+    const { as, href, route, externalRoute, disabled } = this.args;
+    return !as && Boolean(href || route || externalRoute) && !disabled;
   }
 
   // Typed as the button or link `@as` stands in for, so callers can pass
@@ -77,6 +77,7 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
       <RouterLink
         @href={{@href}}
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         class={{this.classes}}

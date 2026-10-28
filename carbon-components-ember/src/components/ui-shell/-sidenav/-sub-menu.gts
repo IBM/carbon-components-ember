@@ -36,6 +36,7 @@ const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
     <RouterLink
       @href={{if (or @href @route) @href "#"}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       @isActive={{@isCurrent}}

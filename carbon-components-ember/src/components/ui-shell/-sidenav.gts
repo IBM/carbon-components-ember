@@ -72,6 +72,7 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
           @transitionTo={{if @transitionTo (fn @transitionTo menu)}}
           @href={{menu.href}}
           @route={{menu.route}}
+          @externalRoute={{menu.externalRoute}}
           @models={{menu.models}}
           @query={{menu.query}}
           as |Sub|
@@ -82,6 +83,7 @@ const UIShellSideNav: TOC<UIShellSideNavSignature> = <template>
               @transitionTo={{if @transitionTo (fn @transitionTo submenu)}}
               @href={{submenu.href}}
               @route={{submenu.route}}
+              @externalRoute={{submenu.externalRoute}}
               @models={{submenu.models}}
               @query={{submenu.query}}
               @icon={{submenu.icon}}

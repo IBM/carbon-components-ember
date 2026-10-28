@@ -44,7 +44,9 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
   @tracked expanded = false;
 
   get isLink() {
-    return Boolean(this.args.href || this.args.route);
+    return Boolean(
+      this.args.href || this.args.route || this.args.externalRoute,
+    );
   }
 
   transition = () => this.args.transitionTo?.();
@@ -93,6 +95,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
           <RouterLink
             @href={{if this.isLink @href "#"}}
             @route={{@route}}
+            @externalRoute={{@externalRoute}}
             @models={{@models}}
             @query={{@query}}
             @isActive={{@isCurrent}}
