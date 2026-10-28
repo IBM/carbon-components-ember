@@ -1,0 +1,428 @@
+{
+  "component": "MenuButton",
+  "generatedAt": "2026-10-28T12:07:18.954Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--lg",
+              "cds--btn--primary",
+              "cds--layout--size-lg",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "kind-tertiary": {
+      "props": {
+        "kind": "tertiary"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--lg",
+              "cds--btn--tertiary",
+              "cds--layout--size-lg",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "kind-ghost": {
+      "props": {
+        "kind": "ghost"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--ghost",
+              "cds--btn--lg",
+              "cds--layout--size-lg",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--primary",
+              "cds--btn--sm",
+              "cds--layout--size-sm",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-md": {
+      "props": {
+        "size": "md"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--md",
+              "cds--btn--primary",
+              "cds--layout--size-md",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--menu-button__container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--disabled",
+              "cds--btn--lg",
+              "cds--btn--primary",
+              "cds--layout--size-lg",
+              "cds--menu-button__trigger"
+            ],
+            "attributes": {
+              "aria-haspopup": "true",
+              "aria-expanded": "false",
+              "tabindex": "0",
+              "disabled": true,
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Actions"
+              },
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--btn__icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-hidden": "true",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
