@@ -105,10 +105,12 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       {{on "mouseleave" this.close}}
       {{on "focusin" this.open}}
       ...attributes
+      as |_PopoverContent trigger|
     >
       <button
         type="button"
         class="cds--definition-term {{@triggerClassName}}"
+        {{trigger}}
         aria-controls={{this.tooltipId}}
         aria-describedby={{this.tooltipId}}
         aria-expanded={{if this.isOpen "true" "false"}}
