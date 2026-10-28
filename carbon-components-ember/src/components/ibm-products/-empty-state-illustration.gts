@@ -1,0 +1,1422 @@
+/**
+ * Copyright IBM Corp. 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import Component from '@glimmer/component';
+import { guidFor } from '@ember/object/internals';
+
+export interface EmptyStateIllustrationSignature {
+  Element: SVGSVGElement;
+  Args: {
+    kind:
+      | 'error'
+      | 'noData'
+      | 'noTags'
+      | 'notFound'
+      | 'notifications'
+      | 'unauthorized';
+    /** Defaults to `light`. */
+    theme?: 'light' | 'dark';
+    size: 'lg' | 'sm';
+    /** Its title. */
+    alt?: string;
+  };
+}
+
+// Carbon for IBM Products' empty state illustrations, from its EmptyStates
+// assets.
+export default class EmptyStateIllustration extends Component<EmptyStateIllustrationSignature> {
+  svgId = guidFor(this);
+
+  get isDark() {
+    return this.args.theme === 'dark';
+  }
+
+  <template>
+    {{#if (eq @kind "error")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-error c4p--empty-state__illustration--{{@size}}"
+        role="img"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="38.9"
+              y1="77.08"
+              x2="38.9"
+              y2="8.15"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="12.43"
+              y1="10.8"
+              x2="76.33"
+              y2="47.7"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="0.52" stop-color="#393939" />
+              <stop offset="0.61" stop-color="#393939" />
+              <stop offset="0.99" stop-color="#161616" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="39.38"
+              y1="31.37"
+              x2="52.04"
+              y2="9.45"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.11" stop-color="#6f6f6f" stop-opacity="0" />
+              <stop offset="0.94" stop-color="#6f6f6f" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            opacity="0.25"
+            d="M59.91 78.34l-43-24.83 4.86-2.81 43 24.83-4.86 2.81z"
+          />
+          <path
+            d="M39 6.92c12.15 7 22 24 21.92 38S51 64.49 38.83 57.48s-22-24-21.92-38S26.83-.09 39 6.92z"
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+          />
+          <path
+            d="M42.85 4.68C36.74 1.15 31.2.82 27.2 3.15l-3.66 2.13C27.52 3.08 33 3.45 39 6.92c12.15 7 22 24 21.92 38 0 6.77-2.35 11.58-6.13 13.94h-.07c-.32.2 3.66-2.1 3.66-2.1 4-2.3 6.39-7.18 6.41-14.12C64.81 28.7 55 11.69 42.85 4.68z"
+            fill="url(#prefix__b_dark_{{this.svgId}})"
+          />
+          <path
+            d="M29.11 3.91v.36a19.59 19.59 0 019.68 3c12 6.94 21.78 23.84 21.74 37.65 0 9.4-4.56 15.23-11.83 15.23a19.54 19.54 0 01-9.68-3C27 50.21 17.24 33.32 17.28 19.5c0-9.39 4.56-15.23 11.83-15.23v-.36m0 0c-7.21 0-12.17 5.71-12.2 15.59 0 14 9.77 31 21.92 38a20.12 20.12 0 009.87 3c7.21 0 12.17-5.71 12.2-15.6 0-13.95-9.77-30.95-21.92-38a20 20 0 00-9.87-3z"
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+          />
+          <path
+            d="M38.93 49.79a6.9 6.9 0 01-2.66-2.51 6.11 6.11 0 01-.81-3v-1a2.26 2.26 0 01.81-2c.54-.35 1.43-.17 2.66.54a6.71 6.71 0 012.61 2.5 6.06 6.06 0 01.81 3v1a2.24 2.24 0 01-.81 2.05c-.54.29-1.41.12-2.61-.58zm-1.16-11.63L36 22.77V13l5.81 3.36v9.73l-1.64 13.46z"
+            fill="#525252"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="29.96"
+              y1="45.68"
+              x2="53.15"
+              y2="85.84"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" stop-opacity="0.05" />
+              <stop offset="1" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_{{this.svgId}}"
+              x1="38.9"
+              y1="52.59"
+              x2="38.9"
+              y2="3.3"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#c6c6c6" />
+              <stop offset="0.78" stop-color="#e0e0e0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="18.07"
+              y1="14.06"
+              x2="71.64"
+              y2="44.99"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#e0e0e0" />
+              <stop offset="0.13" stop-color="#f4f4f4" />
+              <stop offset="0.56" stop-color="#e0e0e0" />
+              <stop offset="0.62" stop-color="#d8d8d8" />
+              <stop offset="0.7" stop-color="#c6c6c6" />
+              <stop offset="0.89" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#8d8d8d" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="27.94"
+              y1="51.19"
+              x2="49.87"
+              y2="13.21"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.54" stop-color="#d0d0d0" stop-opacity="0" />
+              <stop offset="0.82" stop-color="#f1f1f1" stop-opacity="0.7" />
+              <stop offset="0.94" stop-color="#fff" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_{{this.svgId}}"
+              x1="28.66"
+              y1="26.33"
+              x2="47.15"
+              y2="37"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#fff" />
+              <stop offset="0.05" stop-color="#fdfdfd" />
+              <stop offset="0.3" stop-color="#f6f6f6" />
+              <stop offset="1" stop-color="#f4f4f4" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            fill="url(#prefix__a_{{this.svgId}})"
+            d="M59.91 78.34l-43-24.83 4.86-2.81 43 24.83-4.86 2.81z"
+          />
+          <path
+            d="M39 6.92c12.15 7 22 24 21.92 38S51 64.49 38.83 57.48s-22-24-21.92-38S26.83-.09 39 6.92z"
+            fill="url(#prefix__b_{{this.svgId}})"
+          />
+          <path
+            d="M42.85 4.68C36.74 1.15 31.2.82 27.2 3.15l-3.66 2.13C27.52 3.08 33 3.45 39 6.92c12.15 7 22 24 21.92 38 0 6.77-2.35 11.58-6.13 13.94h-.07c-.32.2 3.66-2.1 3.66-2.1 4-2.3 6.39-7.18 6.41-14.12C64.81 28.7 55 11.69 42.85 4.68z"
+            fill="url(#prefix__c_{{this.svgId}})"
+          />
+          <path
+            d="M29.11 3.91v.36a19.59 19.59 0 019.68 3c12 6.94 21.78 23.84 21.74 37.65 0 9.4-4.56 15.23-11.83 15.23a19.54 19.54 0 01-9.68-3C27 50.21 17.24 33.32 17.28 19.5c0-9.39 4.56-15.23 11.83-15.23v-.36m0 0c-7.21 0-12.17 5.71-12.2 15.59 0 14 9.77 31 21.92 38a20.12 20.12 0 009.87 3c7.21 0 12.17-5.71 12.2-15.6 0-13.95-9.77-30.95-21.92-38a20 20 0 00-9.87-3z"
+            fill="url(#prefix__d_{{this.svgId}})"
+          />
+          <path
+            d="M38.93 49.79a6.9 6.9 0 01-2.66-2.51 6.11 6.11 0 01-.81-3v-1a2.26 2.26 0 01.81-2c.54-.35 1.43-.17 2.66.54a6.71 6.71 0 012.61 2.5 6.06 6.06 0 01.81 3v1a2.24 2.24 0 01-.81 2.05c-.54.29-1.41.12-2.61-.58zm-1.16-11.63L36 22.77V13l5.81 3.36v9.73l-1.64 13.46z"
+            fill="url(#prefix__e_{{this.svgId}})"
+          />
+        {{/if}}
+      </svg>
+    {{else if (eq @kind "noData")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-noData c4p--empty-state__illustration--{{@size}}"
+        role="img"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="11.12"
+              y1="43.34"
+              x2="40"
+              y2="43.34"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#393939" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="40"
+              y1="43.34"
+              x2="68.88"
+              y2="43.34"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#161616" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="32.78"
+              y1="30.83"
+              x2="47.22"
+              y2="5.83"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            opacity="0.25"
+            d="M40 78.34L11.13 61.67 40 45.01l28.86 16.66L40 78.34z"
+          />
+          <path
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+            d="M40 68.35L11.12 51.68l.01-33.35L40 34.99v33.36z"
+          />
+          <path
+            fill="url(#prefix__b_dark_{{this.svgId}})"
+            d="M68.88 51.68L40 68.35V34.99l28.87-16.66.01 33.35z"
+          />
+          <path
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+            d="M40 34.99L11.13 18.33 40 1.66l28.87 16.67L40 34.99z"
+          />
+          <path
+            fill="#262626"
+            d="M25.97 26.67l28.67-16.55-.42-.24-28.68 16.56.43.23z"
+          />
+          <path
+            fill="#6f6f6f"
+            d="M40 35.24L11.13 18.57v-.24l.21-.12 28.87 16.67-.21.11v.25z"
+          />
+          <path
+            fill="#525252"
+            d="M21.49 33.33l-8.2-4.73.01-5.69 8.19 4.74v5.68z"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="18.35"
+              y1="74.17"
+              x2="61.65"
+              y2="49.17"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" stop-opacity="0.05" />
+              <stop offset="1" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_{{this.svgId}}"
+              x1="15.16"
+              y1="43.34"
+              x2="40.31"
+              y2="43.34"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#e0e0e0" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="40"
+              y1="43.34"
+              x2="68.88"
+              y2="43.34"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="18.35"
+              y1="30.83"
+              x2="61.65"
+              y2="5.83"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="1" stop-color="#e0e0e0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            fill="url(#prefix__a_{{this.svgId}})"
+            d="M40 78.34L11.13 61.67 40 45.01l28.86 16.66L40 78.34z"
+          />
+          <path
+            fill="url(#prefix__b_{{this.svgId}})"
+            d="M40 68.35L11.12 51.68l.01-33.35L40 34.99v33.36z"
+          />
+          <path
+            fill="url(#prefix__c_{{this.svgId}})"
+            d="M68.88 51.68L40 68.35V34.99l28.87-16.66.01 33.35z"
+          />
+          <path
+            fill="url(#prefix__d_{{this.svgId}})"
+            d="M40 34.99L11.13 18.33 40 1.66l28.87 16.67L40 34.99z"
+          />
+          <path
+            fill="#c6c6c6"
+            d="M25.97 26.67l28.67-16.55-.42-.24-28.68 16.56.43.23z"
+          />
+          <path
+            fill="#fff"
+            d="M40 35.24L11.13 18.57v-.24l.21-.12 28.87 16.67-.21.11v.25zM21.49 33.33l-8.2-4.73.01-5.69 8.19 4.74v5.68z"
+          />
+        {{/if}}
+      </svg>
+    {{else if (eq @kind "noTags")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-noTags c4p--empty-state__illustration--{{@size}}"
+        role="img"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="34.96"
+              y1="5.37"
+              x2="48.48"
+              y2="28.8"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="45.47"
+              y1="46.54"
+              x2="55.21"
+              y2="46.54"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_dark_{{this.svgId}}"
+              x1="38.25"
+              y1="70.94"
+              x2="38.25"
+              y2="-3.31"
+              href="#prefix__a_dark_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__e_dark_{{this.svgId}}"
+              x1="28.77"
+              y1="9.54"
+              x2="48.15"
+              y2="40.79"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.42" stop-color="#6f6f6f" />
+              <stop offset="0.51" stop-color="#6e6e6e" stop-opacity="0.98" />
+              <stop offset="0.56" stop-color="#6c6c6c" stop-opacity="0.9" />
+              <stop offset="0.61" stop-color="#686868" stop-opacity="0.77" />
+              <stop offset="0.65" stop-color="#636363" stop-opacity="0.58" />
+              <stop offset="0.69" stop-color="#5c5c5c" stop-opacity="0.34" />
+              <stop offset="0.72" stop-color="#545454" stop-opacity="0.05" />
+              <stop offset="0.73" stop-color="#525252" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="51.28"
+              y1="68.32"
+              x2="51.34"
+              y2="68.35"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.87" stop-color="#fff" />
+              <stop offset="0.89" stop-color="#fefefe" stop-opacity="0.98" />
+              <stop offset="0.9" stop-color="#fcfcfc" stop-opacity="0.93" />
+              <stop offset="0.92" stop-color="#f8f8f8" stop-opacity="0.84" />
+              <stop offset="0.94" stop-color="#f2f2f2" stop-opacity="0.72" />
+              <stop offset="0.95" stop-color="#eaeaea" stop-opacity="0.56" />
+              <stop offset="0.97" stop-color="#e1e1e1" stop-opacity="0.37" />
+              <stop offset="0.99" stop-color="#d7d7d7" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__f_dark_{{this.svgId}}"
+              x1="51.09"
+              y1="68.25"
+              x2="51.22"
+              y2="68.33"
+              href="#prefix__b_dark_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__g_dark_{{this.svgId}}"
+              x1="51.41"
+              y1="68.32"
+              x2="51.46"
+              y2="68.35"
+              href="#prefix__b_dark_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__h_dark_{{this.svgId}}"
+              x1="33.94"
+              y1="119.46"
+              x2="42.79"
+              y2="119.46"
+              gradientTransform="translate(0 -100)"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#161616" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__i_dark_{{this.svgId}}"
+              x1="35.3"
+              y1="23.46"
+              x2="38.85"
+              y2="17.31"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#6f6f6f" />
+              <stop offset="0.09" stop-color="#6f6f6f" stop-opacity="0.9" />
+              <stop offset="0.24" stop-color="#6f6f6f" stop-opacity="0.63" />
+              <stop offset="0.44" stop-color="#6f6f6f" stop-opacity="0.19" />
+              <stop offset="0.52" stop-color="#6f6f6f" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            opacity="0.25"
+            d="M51.59 78.34l-26.8-15.48 3.62-2.09 26.8 15.48-3.62 2.09z"
+          />
+          <path
+            d="M45.47 30.38l6.58-3.76 3.12-1.85v.15a1.28 1.28 0 00-.17-.47L42.19 2.21c-.24-.42-.63-.65-.88-.51L28.47 9.12a.44.44 0 00-.18.4l13.88 3a1.38 1.38 0 00.62 1.07z"
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+          />
+          <path
+            d="M55 66.29a.46.46 0 00.18-.41V25.06a1 1 0 000-.29l-3.12 1.85-6.58 3.76 6.06 37.92z"
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+          />
+          <path
+            d="M51.53 26.47L38.69 4.23c-.25-.42-.64-.64-.88-.5L25 11.14a.43.43 0 00-.18.4v40.82a1.35 1.35 0 00.62 1.07l25.65 14.83c.34.2.62 0 .62-.36V27.08a1.33 1.33 0 00-.18-.61zM37.08 24a6.93 6.93 0 01-3.14-5.44c0-2 1.4-2.81 3.14-1.81a7 7 0 013.13 5.44c0 2.01-1.4 2.81-3.13 1.81z"
+            fill="url(#prefix__d_dark_{{this.svgId}})"
+          />
+          <path
+            d="M39.05 4a1.71 1.71 0 00-.64-.64l-.6.34a.3.3 0 01.16 0 1 1 0 01.72.55l12.84 22.22a1.33 1.33 0 01.18.61V67.9a.41.41 0 01-.19.4l.58-.34V27.08a1.75 1.75 0 00-.24-.82z"
+            fill="url(#prefix__e_dark_{{this.svgId}})"
+          />
+          <path d="M51.28 68.33z" fill="url(#prefix__b_dark_{{this.svgId}})" />
+          <path
+            d="M51.23 68.32a.42.42 0 01-.14-.06.42.42 0 00.14.06z"
+            fill="url(#prefix__f_dark_{{this.svgId}})"
+          />
+          <path
+            d="M51.48 68.32h-.08z"
+            fill="url(#prefix__g_dark_{{this.svgId}})"
+          />
+          <path
+            d="M39.66 22.17a6.93 6.93 0 01-3.14-5.44 1.36 1.36 0 010-.21c-1.48-.56-2.6.27-2.6 2.05A6.93 6.93 0 0037.08 24c1.66 1 3 .24 3.11-1.6a3.49 3.49 0 01-.53-.23z"
+            fill="url(#prefix__h_dark_{{this.svgId}})"
+          />
+          <path
+            d="M35.67 16.33a2.88 2.88 0 011.41.43 7 7 0 013.13 5.44c0 1.42-.7 2.24-1.73 2.24a2.82 2.82 0 01-1.4-.43 6.93 6.93 0 01-3.14-5.44c0-1.42.7-2.24 1.73-2.24m0-.41c-1.3 0-2.15 1-2.15 2.65a7.3 7.3 0 003.35 5.8 3.23 3.23 0 001.61.48c1.3 0 2.15-1 2.15-2.65a7.29 7.29 0 00-3.35-5.8 3.2 3.2 0 00-1.61-.48z"
+            fill="url(#prefix__i_dark_{{this.svgId}})"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__b_{{this.svgId}}"
+              x1="634.81"
+              y1="667.18"
+              x2="644.85"
+              y2="684.56"
+              gradientTransform="matrix(.87 .5 -1 .58 161.49 -640.11)"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" stop-opacity="0.05" />
+              <stop offset="1" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="29.21"
+              y1="7.75"
+              x2="56.14"
+              y2="23.3"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="0.78" stop-color="#e0e0e0" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="45.47"
+              y1="46.54"
+              x2="55.21"
+              y2="46.54"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_{{this.svgId}}"
+              x1="38.25"
+              y1="59.31"
+              x2="38.25"
+              y2="2.99"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#c6c6c6" />
+              <stop offset="0.78" stop-color="#e0e0e0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__f_{{this.svgId}}"
+              x1="28.77"
+              y1="9.54"
+              x2="48.15"
+              y2="40.79"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.42" stop-color="#fff" />
+              <stop offset="0.49" stop-color="#fff" stop-opacity="0.99" />
+              <stop offset="0.53" stop-color="#fdfdfd" stop-opacity="0.96" />
+              <stop offset="0.56" stop-color="#fafafa" stop-opacity="0.9" />
+              <stop offset="0.59" stop-color="#f6f6f6" stop-opacity="0.82" />
+              <stop offset="0.62" stop-color="#f2f2f2" stop-opacity="0.71" />
+              <stop offset="0.65" stop-color="#ebebeb" stop-opacity="0.59" />
+              <stop offset="0.67" stop-color="#e4e4e4" stop-opacity="0.43" />
+              <stop offset="0.7" stop-color="#dcdcdc" stop-opacity="0.25" />
+              <stop offset="0.72" stop-color="#d3d3d3" stop-opacity="0.06" />
+              <stop offset="0.73" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="51.28"
+              y1="68.32"
+              x2="51.34"
+              y2="68.35"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.87" stop-color="#fff" />
+              <stop offset="0.89" stop-color="#fefefe" stop-opacity="0.98" />
+              <stop offset="0.9" stop-color="#fcfcfc" stop-opacity="0.93" />
+              <stop offset="0.92" stop-color="#f8f8f8" stop-opacity="0.84" />
+              <stop offset="0.94" stop-color="#f2f2f2" stop-opacity="0.72" />
+              <stop offset="0.95" stop-color="#eaeaea" stop-opacity="0.56" />
+              <stop offset="0.97" stop-color="#e1e1e1" stop-opacity="0.37" />
+              <stop offset="0.99" stop-color="#d7d7d7" stop-opacity="0.14" />
+              <stop offset="1" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__g_{{this.svgId}}"
+              x1="51.09"
+              y1="68.25"
+              x2="51.22"
+              y2="68.33"
+              href="#prefix__a_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__h_{{this.svgId}}"
+              x1="51.41"
+              y1="68.32"
+              x2="51.46"
+              y2="68.35"
+              href="#prefix__a_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__i_{{this.svgId}}"
+              x1="33.94"
+              y1="19.46"
+              x2="42.79"
+              y2="19.46"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a4a4a4" />
+              <stop offset="1" stop-color="#8c8c8c" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__j_{{this.svgId}}"
+              x1="35.3"
+              y1="23.46"
+              x2="38.85"
+              y2="17.31"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#fff" />
+              <stop offset="0.04" stop-color="#fdfdfd" stop-opacity="0.96" />
+              <stop offset="0.12" stop-color="#f7f7f7" stop-opacity="0.84" />
+              <stop offset="0.23" stop-color="#eee" stop-opacity="0.64" />
+              <stop offset="0.36" stop-color="#e2e2e2" stop-opacity="0.38" />
+              <stop offset="0.5" stop-color="#d2d2d2" stop-opacity="0.04" />
+              <stop offset="0.52" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            fill="url(#prefix__b_{{this.svgId}})"
+            d="M51.59 78.34l-26.8-15.48 3.62-2.09 26.8 15.48-3.62 2.09z"
+          />
+          <path
+            d="M45.47 30.38l6.58-3.76 3.12-1.85v.15a1.28 1.28 0 00-.17-.47L42.19 2.21c-.24-.42-.63-.65-.88-.51L28.47 9.12a.44.44 0 00-.18.4l13.88 3a1.38 1.38 0 00.62 1.07z"
+            fill="url(#prefix__c_{{this.svgId}})"
+          />
+          <path
+            d="M55 66.29a.46.46 0 00.18-.41V25.06a1 1 0 000-.29l-3.12 1.85-6.58 3.76 6.06 37.92z"
+            fill="url(#prefix__d_{{this.svgId}})"
+          />
+          <path
+            d="M51.53 26.47L38.69 4.23c-.25-.42-.64-.64-.88-.5L25 11.14a.43.43 0 00-.18.4v40.82a1.35 1.35 0 00.62 1.07l25.65 14.83c.34.2.62 0 .62-.36V27.08a1.33 1.33 0 00-.18-.61zM37.08 24a6.93 6.93 0 01-3.14-5.44c0-2 1.4-2.81 3.14-1.81a7 7 0 013.13 5.44c0 2.01-1.4 2.81-3.13 1.81z"
+            fill="url(#prefix__e_{{this.svgId}})"
+          />
+          <path
+            d="M39.05 4a1.71 1.71 0 00-.64-.64l-.6.34a.3.3 0 01.16 0 1 1 0 01.72.55l12.84 22.22a1.33 1.33 0 01.18.61V67.9a.41.41 0 01-.19.4l.58-.34V27.08a1.75 1.75 0 00-.24-.82z"
+            fill="url(#prefix__f_{{this.svgId}})"
+          />
+          <path d="M51.28 68.33z" fill="url(#prefix__a_{{this.svgId}})" />
+          <path
+            d="M51.23 68.32a.42.42 0 01-.14-.06.42.42 0 00.14.06z"
+            fill="url(#prefix__g_{{this.svgId}})"
+          />
+          <path d="M51.48 68.32h-.08z" fill="url(#prefix__h_{{this.svgId}})" />
+          <path
+            d="M39.66 22.17a6.93 6.93 0 01-3.14-5.44 1.36 1.36 0 010-.21c-1.48-.56-2.6.27-2.6 2.05A6.93 6.93 0 0037.08 24c1.66 1 3 .24 3.11-1.6a3.49 3.49 0 01-.53-.23z"
+            fill="url(#prefix__i_{{this.svgId}})"
+          />
+          <path
+            d="M35.67 16.33a2.88 2.88 0 011.41.43 7 7 0 013.13 5.44c0 1.42-.7 2.24-1.73 2.24a2.82 2.82 0 01-1.4-.43 6.93 6.93 0 01-3.14-5.44c0-1.42.7-2.24 1.73-2.24m0-.41c-1.3 0-2.15 1-2.15 2.65a7.3 7.3 0 003.35 5.8 3.23 3.23 0 001.61.48c1.3 0 2.15-1 2.15-2.65a7.29 7.29 0 00-3.35-5.8 3.2 3.2 0 00-1.61-.48z"
+            fill="url(#prefix__j_{{this.svgId}})"
+          />
+        {{/if}}
+      </svg>
+    {{else if (eq @kind "notFound")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-notFound c4p--empty-state__illustration--{{@size}}"
+        role="img"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="2.6"
+              y1="-12.81"
+              x2="43.48"
+              y2="58"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="0.69" stop-color="#393939" />
+              <stop offset="0.94" stop-color="#393939" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="43.74"
+              y1="57.07"
+              x2="69.51"
+              y2="57.07"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="15.1"
+              y1="10.36"
+              x2="41.51"
+              y2="56.09"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_dark_{{this.svgId}}"
+              x1="34.92"
+              y1="-46.56"
+              x2="34.92"
+              y2="97.82"
+              gradientTransform="rotate(30 34.925 27.562)"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#393939" />
+              <stop offset="0.48" stop-color="#393939" stop-opacity="0.69" />
+              <stop offset="1" stop-color="#262626" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_dark_{{this.svgId}}"
+              x1="24.56"
+              y1="9.61"
+              x2="50.36"
+              y2="54.3"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#6f6f6f" stop-opacity="0" />
+              <stop offset="0.17" stop-color="#6f6f6f" stop-opacity="0.03" />
+              <stop offset="0.31" stop-color="#6f6f6f" stop-opacity="0.12" />
+              <stop offset="0.44" stop-color="#6f6f6f" stop-opacity="0.27" />
+              <stop offset="0.56" stop-color="#6f6f6f" stop-opacity="0.49" />
+              <stop offset="0.68" stop-color="#6f6f6f" stop-opacity="0.77" />
+              <stop offset="0.73" stop-color="#6f6f6f" stop-opacity="0.92" />
+              <stop offset="1" stop-color="#6f6f6f" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__f_dark_{{this.svgId}}"
+              x1="15.86"
+              y1="-20.5"
+              x2="56.75"
+              y2="50.32"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="0.69" stop-color="#393939" />
+              <stop offset="0.94" stop-color="#393939" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            d="M12.69 18c0 12 8.75 26.84 19.56 33.08 5.64 3.26 10.73 3.52 14.3 1.32l4.83-2.79-1.19-1.93c-3.25 1.73-7.72 1.38-12.67-1.48-9.9-5.74-17.92-19.32-17.92-30.35 0-5.09 1.71-8.75 4.53-10.65l-1.2-1.95L18.1 6c-3.35 2-5.41 6.12-5.41 12"
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+          />
+          <path
+            d="M67.31 64.92s.11.86-1.89 2.24-2.73 1.18-2.73 1.18L48.57 49.22l4.62-3.42z"
+            fill="url(#prefix__b_dark_{{this.svgId}})"
+          />
+          <path
+            d="M37.68 46.05c-9.9-5.71-17.93-19.29-17.93-30.32 0-3.79.95-6.78 2.6-8.85-4.87.76-8.09 5-8.09 12 0 11 8 24.61 17.93 30.32 6.5 3.75 12.19 3.19 15.33-.76-2.82.44-6.21-.31-9.84-2.41"
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+          />
+          <ellipse
+            cx="34.92"
+            cy="27.57"
+            rx="14.55"
+            ry="25.2"
+            transform="rotate(-30 34.93 27.58)"
+            opacity="0.5"
+            fill="url(#prefix__d_dark_{{this.svgId}})"
+          />
+          <path
+            d="M67.1 75l-12.84-7.41c1.1-1.15 1.1-2.36-.77-3.44h-.05L26.17 48.4l-.09-.06c-2.59-1.49-5.82-1.05-8.42.45s-3.57 3.48-1 5l27.43 15.79a7.2 7.2 0 005.5.53l13 7.51c1.23.72 5.76-1.89 4.51-2.62z"
+            opacity="0.25"
+          />
+          <path
+            d="M42.88 50.79a16.42 16.42 0 01-8.06-2.47c-9.88-5.7-17.92-19.63-17.92-31 0-5.57 1.89-9.73 5.32-11.72S30.2 4 35 6.81c9.91 5.71 18 19.64 18 31.05 0 5.57-1.89 9.73-5.32 11.71a9.31 9.31 0 01-4.8 1.22zM27 4.76a9 9 0 00-4.54 1.17c-3.3 1.9-5.12 5.93-5.12 11.35 0 11.28 8 25 17.72 30.68 4.69 2.71 9.09 3.16 12.39 1.25s5.12-5.94 5.12-11.35c0-11.28-7.95-25-17.72-30.69A16 16 0 0027 4.76z"
+            fill="url(#prefix__e_dark_{{this.svgId}})"
+            opacity="0.6"
+          />
+          <path
+            d="M57 37.5c0-12-8.75-26.85-19.56-33.08C31.82 1.16 26.73.89 23.16 3.09l-4.83 2.78 1.19 1.94c3.25-1.74 7.72-1.38 12.67 1.47C42.09 15 50.11 28.57 50.11 39.6c0 4.86-1.55 8.4-4.11 10.4-.12.1-1.17.73-1.31.82l2.12 1.42 4.83-2.79C55 47.44 57 43.34 57 37.5"
+            fill="url(#prefix__f_dark_{{this.svgId}})"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="2.6"
+              y1="-12.81"
+              x2="43.48"
+              y2="58"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="0.69" stop-color="#e0e0e0" />
+              <stop offset="0.94" stop-color="#c4c4c4" />
+              <stop offset="1" stop-color="#a8a8a8" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_{{this.svgId}}"
+              x1="48.57"
+              y1="57.07"
+              x2="67.31"
+              y2="57.07"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="15.1"
+              y1="10.36"
+              x2="41.51"
+              y2="56.09"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#bdbdbd" />
+              <stop offset="1" stop-color="#a3a3a3" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="34.92"
+              y1="-46.56"
+              x2="34.92"
+              y2="97.82"
+              gradientTransform="rotate(30 34.925 27.562)"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#6e6e6e" />
+              <stop offset="0.48" stop-color="#787878" stop-opacity="0.69" />
+              <stop offset="0.72" stop-color="#818181" stop-opacity="0.41" />
+              <stop offset="1" stop-color="#8c8c8c" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_{{this.svgId}}"
+              x1="26.4"
+              y1="71.67"
+              x2="55.54"
+              y2="54.85"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#565656" stop-opacity="0.05" />
+              <stop offset="1" stop-color="#171717" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__f_{{this.svgId}}"
+              x1="24.56"
+              y1="9.61"
+              x2="50.36"
+              y2="54.3"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#fff" stop-opacity="0" />
+              <stop offset="0.12" stop-color="#fff" stop-opacity="0.01" />
+              <stop offset="0.22" stop-color="#fff" stop-opacity="0.05" />
+              <stop offset="0.31" stop-color="#fff" stop-opacity="0.12" />
+              <stop offset="0.4" stop-color="#fff" stop-opacity="0.21" />
+              <stop offset="0.48" stop-color="#fff" stop-opacity="0.34" />
+              <stop offset="0.56" stop-color="#fff" stop-opacity="0.49" />
+              <stop offset="0.64" stop-color="#fff" stop-opacity="0.66" />
+              <stop offset="0.71" stop-color="#fff" stop-opacity="0.86" />
+              <stop offset="0.73" stop-color="#fff" stop-opacity="0.92" />
+              <stop offset="1" stop-color="#fff" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__g_{{this.svgId}}"
+              x1="15.86"
+              y1="-20.5"
+              x2="56.75"
+              y2="50.32"
+              href="#prefix__a_{{this.svgId}}"
+            />
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            d="M12.69 18c0 12 8.75 26.84 19.56 33.08 5.64 3.26 10.73 3.52 14.3 1.32l4.83-2.79-1.19-1.93c-3.25 1.73-7.72 1.38-12.67-1.48-9.9-5.74-17.92-19.32-17.92-30.35 0-5.09 1.71-8.75 4.53-10.65l-1.2-1.95L18.1 6c-3.35 2-5.41 6.12-5.41 12"
+            fill="url(#prefix__a_{{this.svgId}})"
+          />
+          <path
+            d="M67.31 64.92s.11.86-1.89 2.24-2.73 1.18-2.73 1.18L48.57 49.22l4.62-3.42z"
+            fill="url(#prefix__b_{{this.svgId}})"
+          />
+          <path
+            d="M37.68 46.05c-9.9-5.71-17.93-19.29-17.93-30.32 0-3.79.95-6.78 2.6-8.85-4.87.76-8.09 5-8.09 12 0 11 8 24.61 17.93 30.32 6.5 3.75 12.19 3.19 15.33-.76-2.82.44-6.21-.31-9.84-2.41"
+            fill="url(#prefix__c_{{this.svgId}})"
+          />
+          <ellipse
+            cx="34.92"
+            cy="27.57"
+            rx="14.55"
+            ry="25.2"
+            transform="rotate(-30 34.93 27.58)"
+            opacity="0.5"
+            fill="url(#prefix__d_{{this.svgId}})"
+          />
+          <path
+            d="M67.1 75l-12.84-7.41c1.1-1.15 1.1-2.36-.77-3.44h-.05L26.17 48.4l-.09-.06c-2.59-1.49-5.82-1.05-8.42.45s-3.57 3.48-1 5l27.43 15.79a7.2 7.2 0 005.5.53l13 7.51c1.23.72 5.76-1.89 4.51-2.62z"
+            fill="url(#prefix__e_{{this.svgId}})"
+          />
+          <path
+            d="M42.88 50.79a16.42 16.42 0 01-8.06-2.47c-9.88-5.7-17.92-19.63-17.92-31 0-5.57 1.89-9.73 5.32-11.72S30.2 4 35 6.81c9.91 5.71 18 19.64 18 31.05 0 5.57-1.89 9.73-5.32 11.71a9.31 9.31 0 01-4.8 1.22zM27 4.76a9 9 0 00-4.54 1.17c-3.3 1.9-5.12 5.93-5.12 11.35 0 11.28 8 25 17.72 30.68 4.69 2.71 9.09 3.16 12.39 1.25s5.12-5.94 5.12-11.35c0-11.28-7.95-25-17.72-30.69A16 16 0 0027 4.76z"
+            fill="url(#prefix__f_{{this.svgId}})"
+            opacity="0.6"
+          />
+          <path
+            d="M57 37.5c0-12-8.75-26.85-19.56-33.08C31.82 1.16 26.73.89 23.16 3.09l-4.83 2.78 1.19 1.94c3.25-1.74 7.72-1.38 12.67 1.47C42.09 15 50.11 28.57 50.11 39.6c0 4.86-1.55 8.4-4.11 10.4-.12.1-1.17.73-1.31.82l2.12 1.42 4.83-2.79C55 47.44 57 43.34 57 37.5"
+            fill="url(#prefix__g_{{this.svgId}})"
+          />
+        {{/if}}
+      </svg>
+    {{else if (eq @kind "notifications")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-notification c4p--empty-state__illustration--{{@size}}"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="30.05"
+              y1="54.31"
+              x2="35.5"
+              y2="54.31"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#161616" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="28.61"
+              y1="-3.97"
+              x2="70.69"
+              y2="68.92"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="0.52" stop-color="#393939" />
+              <stop offset="0.61" stop-color="#393939" />
+              <stop offset="1" stop-color="#161616" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="38.01"
+              y1="69.51"
+              x2="38.01"
+              y2="-0.42"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_dark_{{this.svgId}}"
+              x1="15.14"
+              y1="5.72"
+              x2="63.06"
+              y2="33.52"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.78" stop-color="#6f6f6f" />
+              <stop offset="0.81" stop-color="#6c6c6c" stop-opacity="0.96" />
+              <stop offset="0.85" stop-color="#636363" stop-opacity="0.84" />
+              <stop offset="0.89" stop-color="#545454" stop-opacity="0.64" />
+              <stop offset="0.93" stop-color="#404040" stop-opacity="0.35" />
+              <stop offset="0.97" stop-color="#262626" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            opacity="0.25"
+            d="M15.13 52.11l45.5 26.28 4.25-2.51L19.4 49.63l-4.27 2.48z"
+          />
+          <path
+            d="M32.66 52.85l-2.25 4.22a1.08 1.08 0 01-.36.35l2.83-1.65a1.08 1.08 0 00.36-.35l2.26-4.22z"
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+          />
+          <path
+            d="M63.45 26.58L20.63 1.86a1 1 0 00-1-.1l-4 2.3a1 1 0 011 .1l42.85 24.72a3.17 3.17 0 011.42 2.47l-.1 36.08a1 1 0 01-.42.91l4-2.3a1 1 0 00.42-.91L64.88 29a3.14 3.14 0 00-1.43-2.42z"
+            fill="url(#prefix__b_dark_{{this.svgId}})"
+          />
+          <path
+            d="M59.48 28.88a3.17 3.17 0 011.42 2.47l-.1 36.08c0 .9-.65 1.26-1.42.81l-26.7-15.4-2.26 4.22a.9.9 0 01-1.33.28 3.07 3.07 0 01-1.22-1.53l-2.33-7.09-9-5.2a3.15 3.15 0 01-1.43-2.46L15.23 5c0-.9.64-1.27 1.43-.81z"
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+          />
+          <path
+            fill="#525252"
+            d="M57.99 37.07l-.01 3.9L18.03 17.9l.01-3.9 39.95 23.07zM57.99 45.11l-.01 3.91-39.95-23.07.01-3.9 39.95 23.06zM44.62 45.04l-.01 3.9L18.03 33.6l.01-3.9 26.58 15.34z"
+          />
+          <path
+            d="M60.76 30.55a2.54 2.54 0 01.14.8v3.95l.41-.13v-3.82a3.54 3.54 0 00-1.63-2.82L16.86 3.8a2.09 2.09 0 00-.44-.19l-.78.45a1 1 0 01.21-.06h.48l.27.12 21.47 12.4 21.41 12.36a3.19 3.19 0 011.28 1.67z"
+            fill="url(#prefix__d_dark_{{this.svgId}})"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="61.44"
+              y1="66.99"
+              x2="61.44"
+              y2="60.01"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#c6c6c6" />
+              <stop offset="0.78" stop-color="#e0e0e0" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__b_{{this.svgId}}"
+              x1="28.49"
+              y1="44.06"
+              x2="53.04"
+              y2="86.58"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" stop-opacity="0.05" />
+              <stop offset="1" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="30.05"
+              y1="54.31"
+              x2="35.5"
+              y2="54.31"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a4a4a4" />
+              <stop offset="1" stop-color="#bebebe" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="28.61"
+              y1="-3.97"
+              x2="70.69"
+              y2="68.92"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="0.52" stop-color="#e0e0e0" />
+              <stop offset="0.56" stop-color="#d8d8d8" />
+              <stop offset="0.61" stop-color="#c6c6c6" />
+              <stop offset="0.89" stop-color="#a8a8a8" />
+              <stop offset="0.96" stop-color="#8d8d8d" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_{{this.svgId}}"
+              x1="38.01"
+              y1="59.43"
+              x2="38.01"
+              y2="3.27"
+              href="#prefix__a_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__f_{{this.svgId}}"
+              x1="21.52"
+              y1="36.2"
+              x2="61.39"
+              y2="36.2"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#e0e0e0" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__h_{{this.svgId}}"
+              x1="17.68"
+              y1="15.75"
+              x2="55.37"
+              y2="37.5"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#fff" />
+              <stop offset="0.05" stop-color="#fdfdfd" />
+              <stop offset="0.3" stop-color="#f6f6f6" />
+              <stop offset="1" stop-color="#f4f4f4" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__i_{{this.svgId}}"
+              x1="14.24"
+              y1="21.81"
+              x2="51.92"
+              y2="43.56"
+              href="#prefix__h_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__j_{{this.svgId}}"
+              x1="10.96"
+              y1="27.56"
+              x2="48.66"
+              y2="49.33"
+              href="#prefix__h_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__k_{{this.svgId}}"
+              x1="15.14"
+              y1="5.72"
+              x2="63.06"
+              y2="33.52"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.78" stop-color="#fff" />
+              <stop offset="0.8" stop-color="#fefefe" stop-opacity="0.98" />
+              <stop offset="0.82" stop-color="#fcfcfc" stop-opacity="0.93" />
+              <stop offset="0.85" stop-color="#f8f8f8" stop-opacity="0.84" />
+              <stop offset="0.87" stop-color="#f2f2f2" stop-opacity="0.72" />
+              <stop offset="0.9" stop-color="#eaeaea" stop-opacity="0.56" />
+              <stop offset="0.93" stop-color="#e1e1e1" stop-opacity="0.37" />
+              <stop offset="0.95" stop-color="#d7d7d7" stop-opacity="0.14" />
+              <stop offset="0.97" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            d="M61.3 68.11a.67.67 0 00.09-.14.67.67 0 01-.09.14zm.22-.46a1.58 1.58 0 000-.32v-7.24 7.24a1.58 1.58 0 010 .32zm-.09.26a1.18 1.18 0 00.07-.2 1.18 1.18 0 01-.07.2z"
+            fill="url(#prefix__a_{{this.svgId}})"
+          />
+          <path
+            fill="url(#prefix__b_{{this.svgId}})"
+            d="M15.13 52.11l45.5 26.28 4.25-2.51L19.4 49.63l-4.27 2.48z"
+          />
+          <path
+            d="M32.66 52.85l-2.25 4.22a1.08 1.08 0 01-.36.35l2.83-1.65a1.08 1.08 0 00.36-.35l2.26-4.22z"
+            fill="url(#prefix__c_{{this.svgId}})"
+          />
+          <path
+            d="M63.45 26.58L20.63 1.86a1 1 0 00-1-.1l-4 2.3a1 1 0 011 .1l42.85 24.72a3.17 3.17 0 011.42 2.47l-.1 36.08a1 1 0 01-.42.91l4-2.3a1 1 0 00.42-.91L64.88 29a3.14 3.14 0 00-1.43-2.42z"
+            fill="url(#prefix__d_{{this.svgId}})"
+          />
+          <path
+            fill="url(#prefix__e_{{this.svgId}})"
+            d="M59.48 28.88a3.17 3.17 0 011.42 2.47l-.1 36.08c0 .9-.65 1.26-1.42.81l-26.7-15.4-2.26 4.22a.9.9 0 01-1.33.28 3.07 3.07 0 01-1.22-1.53l-2.33-7.09-9-5.2a3.15 3.15 0 01-1.43-2.46L15.23 5c0-.9.64-1.27 1.43-.81z"
+          />
+          <path
+            d="M59.48 28.88a3.17 3.17 0 011.42 2.47l-.1 36.08c0 .9-.65 1.26-1.42.81l-26.7-15.4-2.26 4.22a.9.9 0 01-1.33.28 3.07 3.07 0 01-1.22-1.53l-2.33-7.09-9-5.2a3.15 3.15 0 01-1.43-2.46L15.23 5c0-.9.64-1.27 1.43-.81z"
+            fill="url(#prefix__f_{{this.svgId}})"
+          />
+          <path
+            fill="url(#prefix__e_{{this.svgId}})"
+            d="M59.48 28.88a3.17 3.17 0 011.42 2.47l-.1 36.08c0 .9-.65 1.26-1.42.81l-26.7-15.4-2.26 4.22a.9.9 0 01-1.33.28 3.07 3.07 0 01-1.22-1.53l-2.33-7.09-9-5.2a3.15 3.15 0 01-1.43-2.46L15.23 5c0-.9.64-1.27 1.43-.81z"
+          />
+          <path
+            fill="url(#prefix__h_{{this.svgId}})"
+            d="M57.99 37.07l-.01 3.9L18.03 17.9l.01-3.9 39.95 23.07z"
+          />
+          <path
+            fill="url(#prefix__i_{{this.svgId}})"
+            d="M57.99 45.11l-.01 3.91-39.95-23.07.01-3.9 39.95 23.06z"
+          />
+          <path
+            fill="url(#prefix__j_{{this.svgId}})"
+            d="M44.62 45.04l-.01 3.9L18.03 33.6l.01-3.9 26.58 15.34z"
+          />
+          <path
+            d="M60.76 30.55a2.54 2.54 0 01.14.8v3.95l.41-.13v-3.82a3.54 3.54 0 00-1.63-2.82L16.86 3.8a2.09 2.09 0 00-.44-.19l-.78.45a1 1 0 01.21-.06h.48l.27.12 21.47 12.4 21.41 12.36a3.19 3.19 0 011.28 1.67z"
+            fill="url(#prefix__k_{{this.svgId}})"
+          />
+        {{/if}}
+      </svg>
+    {{else if (eq @kind "unauthorized")}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        class="c4p--empty-state__illustration c4p--empty-state__illustration-unauthorized c4p--empty-state__illustration--{{@size}}"
+        role="img"
+        aria-hidden="true"
+        ...attributes
+      >
+        <title>{{@alt}}</title>
+        {{#if this.isDark}}
+          <defs>
+            <linearGradient
+              id="prefix__b_dark_{{this.svgId}}"
+              x1="17.33"
+              y1="40.68"
+              x2="53.57"
+              y2="19.76"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__a_dark_{{this.svgId}}"
+              x1="37.21"
+              y1="61.49"
+              x2="71.41"
+              y2="41.74"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#393939" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_dark_{{this.svgId}}"
+              x1="39.97"
+              y1="32.38"
+              x2="39.97"
+              y2="1.64"
+              href="#prefix__a_dark_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__d_dark_{{this.svgId}}"
+              x1="24.58"
+              y1="44.68"
+              x2="51.62"
+              y2="44.68"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#393939" />
+              <stop offset="1" stop-color="#262626" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_dark_{{this.svgId}}"
+              x1="32.72"
+              y1="45.46"
+              x2="38.82"
+              y2="41.94"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#262626" />
+              <stop offset="1" stop-color="#161616" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            opacity="0.25"
+            d="M20.28 60.39l10.27-5.94 30.8 17.79-10.26 5.93-30.81-17.78z"
+          />
+          <path
+            d="M61.16 32.9a1.44 1.44 0 00-.5-.51l-1.1-.64-28.48-16.44a.52.52 0 00-.5-.06l-10.11 5.83c-.11.07 2.16 28.77 2.16 28.77l4.3 2.79L61.26 33.1a1.24 1.24 0 00-.1-.2z"
+            fill="url(#prefix__b_dark_{{this.svgId}})"
+          />
+          <path
+            d="M61.16 62.45a.5.5 0 00.23-.48V33.64a1.38 1.38 0 00-.13-.54L26.93 52.64l24.12 15.64z"
+            fill="url(#prefix__a_dark_{{this.svgId}})"
+          />
+          <path
+            d="M46.88 31.4a.85.85 0 00.5.69 2.69 2.69 0 002.41 0 .85.85 0 00.49-.7V18.27c0-5.39-4.15-12-9.46-15.07-3-1.76-6-2-8.22-.78-1.9 1.09-3 3.19-3 5.89V21.5a.85.85 0 00.5.7 2.67 2.67 0 002.4 0 .87.87 0 00.5-.7V8.31a3.29 3.29 0 011.3-2.95c1.08-.62 2.88-.33 4.82.79 4.21 2.43 7.76 8 7.76 12.12z"
+            fill="url(#prefix__c_dark_{{this.svgId}})"
+          />
+          <path
+            d="M50.56 38.22l-1.1-.63L21 21.14a.44.44 0 00-.72.42v28.33a1.49 1.49 0 00.23.74 1.42 1.42 0 00.49.51l28.46 16.45 1.1.63a.5.5 0 00.49.06.49.49 0 00.23-.47V39.47a1.61 1.61 0 00-.72-1.25z"
+            fill="url(#prefix__d_dark_{{this.svgId}})"
+          />
+          <path
+            d="M38 41.63a5 5 0 00-2.25-3.9c-1.25-.72-2.26-.13-2.26 1.3a4.73 4.73 0 00.84 2.5l-.84 5.31 4.51 2.6-.84-6.27a1.48 1.48 0 00.84-1.54z"
+            fill="url(#prefix__e_dark_{{this.svgId}})"
+          />
+          <path
+            d="M51.41 38.51a1.9 1.9 0 00-.64-.65l-1.1-.63-28.49-16.45-.1-.05-.61.35a.33.33 0 01.17 0 .6.6 0 01.32.1l28.5 16.41 1.1.63a1.5 1.5 0 01.49.51s.05.09.08.14l.36-.21z"
+            fill="#6f6f6f"
+          />
+        {{else}}
+          <defs>
+            <linearGradient
+              id="prefix__b"
+              x1="27.98"
+              y1="73.72"
+              x2="53.65"
+              y2="58.9"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#525252" stop-opacity="0.05" />
+              <stop offset="1" stop-opacity="0.1" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__c_{{this.svgId}}"
+              x1="17.33"
+              y1="40.68"
+              x2="53.57"
+              y2="19.76"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="0.78" stop-color="#e0e0e0" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__d_{{this.svgId}}"
+              x1="28.59"
+              y1="16.01"
+              x2="58.88"
+              y2="68.47"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#f4f4f4" />
+              <stop offset="0.11" stop-color="#e0e0e0" />
+              <stop offset="0.25" stop-color="#d8d8d8" />
+              <stop offset="0.44" stop-color="#c6c6c6" />
+              <stop offset="0.53" stop-color="#ababab" />
+              <stop offset="0.93" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#8d8d8d" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__a_{{this.svgId}}"
+              x1="26.93"
+              y1="50.69"
+              x2="61.39"
+              y2="50.69"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__e_{{this.svgId}}"
+              x1="39.97"
+              y1="32.38"
+              x2="39.97"
+              y2="1.64"
+              href="#prefix__a_{{this.svgId}}"
+            />
+            <linearGradient
+              id="prefix__f_{{this.svgId}}"
+              x1="24.58"
+              y1="44.68"
+              x2="51.62"
+              y2="44.68"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#e0e0e0" />
+              <stop offset="1" stop-color="#c6c6c6" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__g_{{this.svgId}}"
+              x1="32.72"
+              y1="45.46"
+              x2="38.82"
+              y2="41.94"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0" stop-color="#a8a8a8" />
+              <stop offset="1" stop-color="#8d8d8d" />
+            </linearGradient>
+            <linearGradient
+              id="prefix__h_{{this.svgId}}"
+              x1="20.61"
+              y1="20.85"
+              x2="52.7"
+              y2="39.38"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0.67" stop-color="#fff" />
+              <stop offset="0.76" stop-color="#fff" stop-opacity="0.99" />
+              <stop offset="0.8" stop-color="#fdfdfd" stop-opacity="0.96" />
+              <stop offset="0.84" stop-color="#fbfbfb" stop-opacity="0.91" />
+              <stop offset="0.87" stop-color="#f7f7f7" stop-opacity="0.83" />
+              <stop offset="0.9" stop-color="#f3f3f3" stop-opacity="0.74" />
+              <stop offset="0.92" stop-color="#ededed" stop-opacity="0.62" />
+              <stop offset="0.95" stop-color="#e6e6e6" stop-opacity="0.48" />
+              <stop offset="0.97" stop-color="#dfdfdf" stop-opacity="0.31" />
+              <stop offset="0.99" stop-color="#d6d6d6" stop-opacity="0.13" />
+              <stop offset="1" stop-color="#d0d0d0" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path fill="none" d="M0 0h80v80H0z" />
+          <path
+            fill="url(#prefix__b_{{this.svgId}})"
+            d="M20.28 60.39l10.27-5.94 30.8 17.79-10.26 5.93-30.81-17.78z"
+          />
+          <path
+            d="M61.16 32.9a1.44 1.44 0 00-.5-.51l-1.1-.64-28.48-16.44a.52.52 0 00-.5-.06l-10.11 5.83c-.11.07 2.16 28.77 2.16 28.77l4.3 2.79L61.26 33.1a1.24 1.24 0 00-.1-.2z"
+            fill="url(#prefix__c_{{this.svgId}})"
+          />
+          <path
+            d="M61.16 62.45a.5.5 0 00.23-.48V33.64a1.38 1.38 0 00-.13-.54L26.93 52.64l24.12 15.64z"
+            fill="url(#prefix__d_{{this.svgId}})"
+          />
+          <path
+            d="M61.16 62.45a.5.5 0 00.23-.48V33.64a1.38 1.38 0 00-.13-.54L26.93 52.64l24.12 15.64z"
+            fill="url(#prefix__a_{{this.svgId}})"
+          />
+          <path
+            d="M46.88 31.4a.85.85 0 00.5.69 2.69 2.69 0 002.41 0 .85.85 0 00.49-.7V18.27c0-5.39-4.15-12-9.46-15.07-3-1.76-6-2-8.22-.78-1.9 1.09-3 3.19-3 5.89V21.5a.85.85 0 00.5.7 2.67 2.67 0 002.4 0 .87.87 0 00.5-.7V8.31a3.29 3.29 0 011.3-2.95c1.08-.62 2.88-.33 4.82.79 4.21 2.43 7.76 8 7.76 12.12z"
+            fill="url(#prefix__e_{{this.svgId}})"
+          />
+          <path
+            d="M50.56 38.22l-1.1-.63L21 21.14a.44.44 0 00-.72.42v28.33a1.49 1.49 0 00.23.74 1.42 1.42 0 00.49.51l28.46 16.45 1.1.63a.5.5 0 00.49.06.49.49 0 00.23-.47V39.47a1.61 1.61 0 00-.72-1.25z"
+            fill="url(#prefix__f_{{this.svgId}})"
+          />
+          <path
+            d="M38 41.63a5 5 0 00-2.25-3.9c-1.25-.72-2.26-.13-2.26 1.3a4.73 4.73 0 00.84 2.5l-.84 5.31 4.51 2.6-.84-6.27a1.48 1.48 0 00.84-1.54z"
+            fill="url(#prefix__g_{{this.svgId}})"
+          />
+          <path
+            d="M51.41 38.51a1.9 1.9 0 00-.64-.65l-1.1-.63-28.49-16.45-.1-.05-.61.35a.33.33 0 01.17 0 .6.6 0 01.32.1l28.5 16.41 1.1.63a1.5 1.5 0 01.49.51s.05.09.08.14l.36-.21z"
+            fill="url(#prefix__h_{{this.svgId}})"
+          />
+        {{/if}}
+      </svg>
+    {{/if}}
+  </template>
+}

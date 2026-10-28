@@ -170,6 +170,12 @@ catalogs:
     '@carbon/grid':
       specifier: ^11.65.0
       version: 11.65.0
+    '@carbon/ibm-products':
+      specifier: 2.101.0
+      version: 2.101.0
+    '@carbon/ibm-products-styles':
+      specifier: 2.97.0
+      version: 2.97.0
     '@carbon/icon-helpers':
       specifier: ^10.84.0
       version: 10.84.0
@@ -359,6 +365,9 @@ importers:
       '@carbon/ai-chat-components':
         specifier: catalog:carbon
         version: 1.11.0(@floating-ui/dom@1.8.0)(@types/react@19.3.0)(react@19.3.1)(sass@1.106.1)
+      '@carbon/ibm-products-styles':
+        specifier: catalog:carbon
+        version: 2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)
       '@carbon/themes':
         specifier: catalog:carbon
         version: 11.84.0
@@ -576,6 +585,9 @@ importers:
 
   dom-parity:
     devDependencies:
+      '@carbon/ibm-products':
+        specifier: catalog:carbon
+        version: 2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.106.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)
       '@carbon/react':
         specifier: catalog:carbon
         version: 1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.106.1)
@@ -1314,6 +1326,15 @@ packages:
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
 
+  '@carbon-labs/react-resizer@0.25.0':
+    resolution: {integrity: sha512-36pLSwxXJOVWN1IN5DjUa2adPIeWmVa+/2Q8elPG/hQS1HYd+o6PCT5csVMItS0FDSOZTHOjuy5fpFR7KaAkHQ==}
+
+  '@carbon-labs/utilities@0.28.0':
+    resolution: {integrity: sha512-66V0Z2f0cDQrfd6XWk41nPgwfuk59pYS9lo5wvJz3RZ/zyLmH0jRJ+/K5ZJpXbU5O1htpMlvGgmeI0A1Jnbh0A==}
+    peerDependencies:
+      react: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
+      react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
+
   '@carbon/ai-chat-components@1.11.0':
     resolution: {integrity: sha512-jZpaNtLjdERwWgYIlAq4Lrnnv3+t+RTn8YhRpr21W1J+aGCjMMPSBdPCLol3dvzdrMMZcvbMROp3rqCd5eUebw==}
     peerDependencies:
@@ -1330,6 +1351,28 @@ packages:
 
   '@carbon/grid@11.65.0':
     resolution: {integrity: sha512-zuHs9oDYd/gMZQPKV0a/PNJXK/iaYmnMFqcwgbm4zYJ3MnD3kWgJKoqFSSPGuks8xKrg722exFYW4yDdwImIDQ==}
+
+  '@carbon/ibm-products-styles@2.97.0':
+    resolution: {integrity: sha512-VNAVsKiu3x+FE4Grd8myljD+ceE9RQ9eBGuEaRaopH7Rq/bveQTkRbMB2tVK7sExd03RnUeV94QF9rRMJrwDVg==}
+    peerDependencies:
+      '@carbon/grid': ^11.61.0
+      '@carbon/layout': ^11.58.0
+      '@carbon/motion': ^11.51.0
+      '@carbon/themes': ^11.80.0
+      '@carbon/type': ^11.66.0
+
+  '@carbon/ibm-products@2.101.0':
+    resolution: {integrity: sha512-Urr0JgMQHPBYN0ImuIPuggPLsdnB3NBABZnxXMpGkqZxXu13WoineGkM/YTwdS/+HG+x5yaW8Fjp1rcWtABgeA==}
+    peerDependencies:
+      '@carbon/grid': ^11.61.0
+      '@carbon/layout': ^11.58.0
+      '@carbon/motion': ^11.51.0
+      '@carbon/react': ^1.115.0
+      '@carbon/themes': ^11.80.0
+      '@carbon/type': ^11.66.0
+      react: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
+      react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
+      react-is: ^16.13.1 || ^17.0.2 || ^18.3.1 || ^19.0.0
 
   '@carbon/icon-helpers@10.47.0':
     resolution: {integrity: sha512-vv2Wkuw7lYkYVKrn5ABzlZD+6ioAYwMuyKi2XPqYY3hrHYoL4CQUnuSFDhlj0DR2HHCB0L5MGRLxHLucx5cc7g==}
@@ -1370,12 +1413,21 @@ packages:
       sass:
         optional: true
 
+  '@carbon/telemetry@0.1.0':
+    resolution: {integrity: sha512-kNWt0bkgPwGW0i5h7HFuljbKRXPvIhsKbB+1tEURAYLXoJg9iJLF1eGvWN5iVoFCS2zje4GR3OGOsvvKVe7Hlg==}
+    hasBin: true
+
   '@carbon/themes@11.84.0':
     resolution: {integrity: sha512-SQI2Zq7bRC9+VOI6wPpoIt+k2nuzq47or76749h8xZTkjIYVMPKUh4OtUYI0+VZK3K4abeHCuUexQSqoAb54Gg==}
     engines: {node: '>=22'}
 
   '@carbon/type@11.70.0':
     resolution: {integrity: sha512-cmxwwhlVD/8L/J6k1N4/U6AhNldrpLynCQ4+Z7wSeGO6Ki0wE1Iczza8PAPa2eMoIw7frzk1q8jrwnI0zHBftw==}
+
+  '@carbon/utilities-react@0.28.0':
+    resolution: {integrity: sha512-Ia+XOdH/0Ily/3ATLMe+YcHWnpD2sbio4wcUct7SlnHBS8yl2qMM6+U0tt7/uMPRfdpCm8m77vq1WRU9nEswSA==}
+    peerDependencies:
+      react: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
 
   '@carbon/utilities@0.24.0':
     resolution: {integrity: sha512-tEA0kcLAns9PsYk/ey9EgXzIhli+zeBHLOAfrwTpmt20uw3jmot5CyGAbb8waRqajYtoa9WLa78BpfpzFYYV1g==}
@@ -1801,6 +1853,34 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       postcss-selector-parser: ^7.1.6
+
+  '@dnd-kit/accessibility@3.1.1':
+    resolution: {integrity: sha512-2P+YgaXF+gRsIihwwY1gCsQSYnu9Zyj2py8kY5fFvUM1qm2WA2u639R6YNVfU4GWr+ZM5mqEsfHZZLoRONbemw==}
+    peerDependencies:
+      react: '>=16.8.0'
+
+  '@dnd-kit/core@6.3.1':
+    resolution: {integrity: sha512-xkGBRQQab4RLwgXxoqETICr6S5JlogafbhNsidmrkVv2YRs5MLwpjoF2qpiGjQt8S9AoxtIV603s0GIUpY5eYQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@dnd-kit/modifiers@9.0.0':
+    resolution: {integrity: sha512-ybiLc66qRGuZoC20wdSSG6pDXFikui/dCNGthxv4Ndy8ylErY0N3KVxY2bgo7AWwIbxDmXDg3ylAFmnrjcbVvw==}
+    peerDependencies:
+      '@dnd-kit/core': ^6.3.0
+      react: '>=16.8.0'
+
+  '@dnd-kit/sortable@10.0.0':
+    resolution: {integrity: sha512-+xqhmIIzvAYMGfBYYnbKuNicfSsk4RksY2XdmJhT+HAC01nix6fHCztU68jooFiMUB01Ky3F0FyOvhG/BZrWkg==}
+    peerDependencies:
+      '@dnd-kit/core': ^6.3.0
+      react: '>=16.8.0'
+
+  '@dnd-kit/utilities@3.2.2':
+    resolution: {integrity: sha512-+MKAJEOfaBe5SmV6t34p80MMKhjvUz0vRrvVJbPT0WElzaOJ/1xs+D+KDv+tD/NE5ujfrChEcshd4fLn0wpiqg==}
+    peerDependencies:
+      react: '>=16.8.0'
 
   '@ember-data/rfc395-data@0.0.4':
     resolution: {integrity: sha512-tGRdvgC9/QMQSuSuJV45xoyhI0Pzjm7A9o/MVVA3HakXIImJbbzx/k/6dO9CUEQXIyS2y0fW6C1XaYOG7rY0FQ==}
@@ -6650,6 +6730,9 @@ packages:
     resolution: {integrity: sha512-qFCFUDs7U3b8mBDPyz5EToEKoAkgCzqquIgi9nkkR9bixxOVOre+09lbuH7+9Kn2NFpm56M3GUWVbU2hQgdACA==}
     engines: {node: '>=10'}
 
+  memoize-one@5.2.1:
+    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
+
   memory-streams@0.1.3:
     resolution: {integrity: sha512-qVQ/CjkMyMInPaaRMrwWNDvf6boRZXaT/DbQeMYcCWuXPEBf1v8qChOc9OlEVQp2uOvRXa1Qu30fLmKhY6NipA==}
 
@@ -7584,6 +7667,18 @@ packages:
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+
+  react-table@7.8.0:
+    resolution: {integrity: sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==}
+    peerDependencies:
+      react: ^16.8.3 || ^17.0.0-0 || ^18.0.0
+
+  react-window@1.8.11:
+    resolution: {integrity: sha512-+SRbUVT2scadgFSWx+R1P754xHPEqvcfSfVX10QYg6POOz+WNgkN48pS+BtZNIMGiL1HYrSEiCkwsMS15QogEQ==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react@19.3.1:
     resolution: {integrity: sha512-QNhWdt7nrgVWWQG58QuGsAR3jv3Hbe4mb4vz7w2csnHavciZJgda1CPNaldF6eVxv90ud3jUXpKlHL69gO38yw==}
@@ -10490,6 +10585,19 @@ snapshots:
       hashery: 1.5.1
       keyv: 5.6.0
 
+  '@carbon-labs/react-resizer@0.25.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@carbon-labs/utilities': 0.28.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@ibm/telemetry-js': 1.11.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
+  '@carbon-labs/utilities@0.28.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+
   '@carbon/ai-chat-components@1.11.0(@floating-ui/dom@1.8.0)(@types/react@19.3.0)(react@19.3.1)(sass@1.106.1)':
     dependencies:
       '@carbon/icon-helpers': 10.84.0
@@ -10579,6 +10687,42 @@ snapshots:
       '@carbon/layout': 11.62.0
       '@ibm/telemetry-js': 1.11.0
 
+  '@carbon/ibm-products-styles@2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)':
+    dependencies:
+      '@carbon/grid': 11.65.0
+      '@carbon/layout': 11.62.0
+      '@carbon/motion': 11.55.0
+      '@carbon/themes': 11.84.0
+      '@carbon/type': 11.70.0
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/ibm-products@2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.106.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)':
+    dependencies:
+      '@babel/runtime': 7.29.7
+      '@carbon-labs/react-resizer': 0.25.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@carbon/feature-flags': 1.11.0
+      '@carbon/grid': 11.65.0
+      '@carbon/ibm-products-styles': 2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)
+      '@carbon/layout': 11.62.0
+      '@carbon/motion': 11.55.0
+      '@carbon/react': 1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.106.1)
+      '@carbon/telemetry': 0.1.0
+      '@carbon/themes': 11.84.0
+      '@carbon/type': 11.70.0
+      '@carbon/utilities': 0.25.0
+      '@carbon/utilities-react': 0.28.0(react@19.3.1)
+      '@dnd-kit/core': 6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@dnd-kit/modifiers': 9.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+      '@dnd-kit/sortable': 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+      '@dnd-kit/utilities': 3.2.2(react@19.3.1)
+      '@ibm/telemetry-js': 1.11.0
+      prop-types: 15.8.1
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+      react-is: 18.3.1
+      react-table: 7.8.0(react@19.3.1)
+      react-window: 1.8.11(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+
   '@carbon/icon-helpers@10.47.0':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
@@ -10655,6 +10799,8 @@ snapshots:
     optionalDependencies:
       sass: 1.106.1
 
+  '@carbon/telemetry@0.1.0': {}
+
   '@carbon/themes@11.84.0':
     dependencies:
       '@carbon/colors': 11.61.0
@@ -10668,6 +10814,12 @@ snapshots:
       '@carbon/grid': 11.65.0
       '@carbon/layout': 11.62.0
       '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/utilities-react@0.28.0(react@19.3.1)':
+    dependencies:
+      '@carbon/utilities': 0.25.0
+      '@ibm/telemetry-js': 1.11.0
+      react: 19.3.1
 
   '@carbon/utilities@0.24.0':
     dependencies:
@@ -11232,6 +11384,38 @@ snapshots:
   '@csstools/selector-specificity@6.0.1(postcss-selector-parser@7.1.6)':
     dependencies:
       postcss-selector-parser: 7.1.6
+
+  '@dnd-kit/accessibility@3.1.1(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
+      tslib: 2.8.1
+
+  '@dnd-kit/core@6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@dnd-kit/accessibility': 3.1.1(react@19.3.1)
+      '@dnd-kit/utilities': 3.2.2(react@19.3.1)
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+      tslib: 2.8.1
+
+  '@dnd-kit/modifiers@9.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@dnd-kit/core': 6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@dnd-kit/utilities': 3.2.2(react@19.3.1)
+      react: 19.3.1
+      tslib: 2.8.1
+
+  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      '@dnd-kit/core': 6.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@dnd-kit/utilities': 3.2.2(react@19.3.1)
+      react: 19.3.1
+      tslib: 2.8.1
+
+  '@dnd-kit/utilities@3.2.2(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
+      tslib: 2.8.1
 
   '@ember-data/rfc395-data@0.0.4': {}
 
@@ -16540,6 +16724,8 @@ snapshots:
       map-age-cleaner: 0.1.3
       mimic-fn: 3.1.0
 
+  memoize-one@5.2.1: {}
+
   memory-streams@0.1.3:
     dependencies:
       readable-stream: 1.0.34
@@ -17488,6 +17674,17 @@ snapshots:
   react-is@17.0.2: {}
 
   react-is@18.3.1: {}
+
+  react-table@7.8.0(react@19.3.1):
+    dependencies:
+      react: 19.3.1
+
+  react-window@1.8.11(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      memoize-one: 5.2.1
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
 
   react@19.3.1: {}
 

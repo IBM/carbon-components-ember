@@ -1,8 +1,9 @@
 # dom-parity
 
-Compares carbon-components-ember with a pinned `@carbon/react` release: its
-rendered DOM (below) and its components' arguments
-([Argument parity](#argument-parity)).
+Compares carbon-components-ember with a pinned `@carbon/react` release, and
+its `carbon-components-ember/ibm-products` components with a pinned
+`@carbon/ibm-products` one: their rendered DOM (below) and their components'
+arguments ([Argument parity](#argument-parity)).
 
 DOM-level parity fixtures for `carbon-components-ember`.
 
@@ -57,7 +58,9 @@ recorded per component.
 
 1. Add a component entry (or a new variant to an existing one) to
    `lib/components.mjs`, describing how to render the `@carbon/react`
-   component for that variant.
+   component for that variant. A Carbon for IBM Products component is marked
+   `ibmProducts: true` and rendered from `@carbon/ibm-products`, the third
+   argument `createElement` gets; its fixture records that version too.
 2. Run `pnpm --filter dom-parity generate` to (re)write its fixture.
 3. Add a matching render case to
    `carbon-components-ember/tests/components/dom-parity-test.gts`, passing the same props
@@ -75,9 +78,11 @@ recorded per component.
 ## Argument parity
 
 `arg-parity.mjs` compares each component's arguments with the props of the
-Carbon React component of the same name. It reads both libraries'
-TypeScript types: `@carbon/react`'s declarations, and the addon's
-signatures, which it emits with `ember-tsc` first (a few seconds).
+Carbon React component of the same name, and each component in the
+`ibm-products` barrel with Carbon for IBM Products'. It reads the libraries'
+TypeScript types: `@carbon/react`'s and `@carbon/ibm-products`'
+declarations, and the addon's signatures, which it emits with `ember-tsc`
+first (a few seconds).
 
 ```sh
 pnpm --filter dom-parity args                     # components that differ
