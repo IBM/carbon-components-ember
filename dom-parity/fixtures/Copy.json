@@ -1,7 +1,7 @@
 {
   "component": "Copy",
-  "generatedAt": "2026-10-23T10:01:03.190Z",
-  "carbonReactVersion": "1.114.0",
+  "generatedAt": "2026-10-28T11:06:02.472Z",
+  "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -25,7 +25,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -55,7 +57,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#1",
@@ -66,7 +70,10 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -79,7 +86,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-caret"],
+                "classes": [
+                  "cds--popover-caret"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": []
@@ -111,7 +120,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -141,7 +152,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#1",
@@ -152,7 +165,10 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -165,7 +181,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-caret"],
+                "classes": [
+                  "cds--popover-caret"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": []
@@ -198,7 +216,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -230,7 +250,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#1",
@@ -241,7 +263,10 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -254,7 +279,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-caret"],
+                "classes": [
+                  "cds--popover-caret"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": []

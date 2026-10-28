@@ -25,6 +25,8 @@ export interface DataTableSkeletonSignature {
     showHeader?: boolean;
     /** Shows a placeholder toolbar. Defaults to `true`. */
     showToolbar?: boolean;
+    /** The toolbar's accessible name. Defaults to `'data table toolbar'`. */
+    toolbarLabel?: string;
     /** Row height. Defaults to `lg`. */
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     zebra?: boolean;
@@ -43,6 +45,10 @@ export default class DataTableSkeleton extends Component<DataTableSkeletonSignat
       { length: this.args.columnCount ?? headers?.length ?? 5 },
       (_, i) => headers?.[i]?.label,
     );
+  }
+
+  get toolbarLabel() {
+    return this.args.toolbarLabel ?? 'data table toolbar';
   }
 
   get rows() {
@@ -70,7 +76,7 @@ export default class DataTableSkeleton extends Component<DataTableSkeletonSignat
         </div>
       {{/unless}}
       {{#unless (eq @showToolbar false)}}
-        <section aria-label="data table toolbar" class="cds--table-toolbar">
+        <section aria-label={{this.toolbarLabel}} class="cds--table-toolbar">
           <div class="cds--toolbar-content">
             <span class="cds--skeleton cds--btn cds--btn--sm"></span>
           </div>

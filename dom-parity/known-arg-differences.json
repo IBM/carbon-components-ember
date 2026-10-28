@@ -17,7 +17,6 @@
       "autoAlignBoundary",
       "backgroundToken",
       "border",
-      "caret",
       "dropShadow",
       "highContrast",
       "isTabTip",
@@ -136,6 +135,9 @@
     ]
   },
   "FluidTextInput": {
+    "missing": [
+      "translateWithId"
+    ],
     "extra": [
       "hidePasswordLabel",
       "onTogglePasswordVisibility",
@@ -200,7 +202,15 @@
   "OverflowMenu": {
     "missing": [
       "badgeCount",
-      "isSelected"
+      "isSelected",
+      "label",
+      "menuAlignment",
+      "menuTarget",
+      "tooltipAlignment",
+      "tooltipAutoAlign",
+      "tooltipDefaultOpen",
+      "tooltipEnterDelayMs",
+      "tooltipLeaveDelayMs"
     ]
   },
   "Pagination": {
@@ -319,9 +329,15 @@
       "as"
     ]
   },
+  "TextArea": {
+    "missing": [
+      "translateWithId"
+    ]
+  },
   "TextInput": {
     "missing": [
-      "inline"
+      "inline",
+      "translateWithId"
     ],
     "values": [
       "size"
@@ -362,7 +378,6 @@
       "autoAlignBoundary",
       "backgroundToken",
       "border",
-      "caret",
       "dropShadow",
       "highContrast",
       "isTabTip",
