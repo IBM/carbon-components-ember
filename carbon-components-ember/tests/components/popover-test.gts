@@ -9,7 +9,7 @@ import {
   triggerKeyEvent,
 } from '@ember/test-helpers';
 import Modal from '#src/components/modal.gts';
-import Popover, { PopoverContent } from '#src/components/popover.gts';
+import Popover from '#src/components/popover.gts';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import { nonce } from '../helpers';
@@ -20,7 +20,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('renders the container and content', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}}>
+        <Popover @open={{true}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -37,7 +37,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@open={{false}} does not add the open class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{false}}>
+        <Popover @open={{false}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -52,7 +52,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('defaults to bottom alignment and caret enabled', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}}>
+        <Popover @open={{true}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -67,7 +67,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@align maps deprecated values to the new alignment classes', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @align="top-left">
+        <Popover @open={{true}} @align="top-left" as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -80,7 +80,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@caret={{false}} removes the caret class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @caret={{false}}>
+        <Popover @open={{true}} @caret={{false}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -95,7 +95,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@dropShadow={{false}} removes the drop shadow class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @dropShadow={{false}}>
+        <Popover @open={{true}} @dropShadow={{false}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -110,7 +110,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@border adds the border class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @border={{true}}>
+        <Popover @open={{true}} @border={{true}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -123,7 +123,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@highContrast adds the high-contrast class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @highContrast={{true}}>
+        <Popover @open={{true}} @highContrast={{true}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -138,7 +138,11 @@ module('Integration | Component | Popover', (hooks) => {
   test('@backgroundToken="background" adds the background-token class', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @backgroundToken="background">
+        <Popover
+          @open={{true}}
+          @backgroundToken="background"
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -153,7 +157,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@isTabTip adds the tab-tip class and defaults to bottom-start alignment', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @isTabTip={{true}}>
+        <Popover @open={{true}} @isTabTip={{true}} as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -170,7 +174,7 @@ module('Integration | Component | Popover', (hooks) => {
   test('@as renders a custom element type', async function (assert) {
     await render(
       <template>
-        <Popover @open={{true}} @as="div">
+        <Popover @open={{true}} @as="div" as |PopoverContent|>
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -188,7 +192,11 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <div id="outside">outside</div>
-        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+        <Popover
+          @open={{open.value}}
+          @onRequestClose={{onRequestClose}}
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -206,7 +214,11 @@ module('Integration | Component | Popover', (hooks) => {
 
     await render(
       <template>
-        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+        <Popover
+          @open={{open.value}}
+          @onRequestClose={{onRequestClose}}
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -224,7 +236,11 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <div id="outside">outside</div>
-        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+        <Popover
+          @open={{open.value}}
+          @onRequestClose={{onRequestClose}}
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -247,7 +263,11 @@ module('Integration | Component | Popover', (hooks) => {
     await render(
       <template>
         <button type="button" id="outside">outside</button>
-        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+        <Popover
+          @open={{open.value}}
+          @onRequestClose={{onRequestClose}}
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>Content</PopoverContent>
         </Popover>
@@ -265,7 +285,11 @@ module('Integration | Component | Popover', (hooks) => {
 
     await render(
       <template>
-        <Popover @open={{open.value}} @onRequestClose={{onRequestClose}}>
+        <Popover
+          @open={{open.value}}
+          @onRequestClose={{onRequestClose}}
+          as |PopoverContent|
+        >
           <button type="button">Trigger</button>
           <PopoverContent>
             <button type="button" id="inner">Inner</button>
@@ -286,10 +310,18 @@ module('Integration | Component | Popover', (hooks) => {
 
     await render(
       <template>
-        <Popover @open={{outer.value}} @onRequestClose={{closeOuter}}>
+        <Popover
+          @open={{outer.value}}
+          @onRequestClose={{closeOuter}}
+          as |PopoverContent|
+        >
           <button type="button">Outer</button>
           <PopoverContent>
-            <Popover @open={{inner.value}} @onRequestClose={{closeInner}}>
+            <Popover
+              @open={{inner.value}}
+              @onRequestClose={{closeInner}}
+              as |PopoverContent|
+            >
               <button type="button">Inner</button>
               <PopoverContent>
                 <button type="button" id="inner">Inside</button>
@@ -334,6 +366,7 @@ module('Integration | Component | Popover', (hooks) => {
           <Popover
             @open={{open.value}}
             @onRequestClose={{if closable.value onRequestClose}}
+            as |PopoverContent|
           >
             <button type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
@@ -360,7 +393,7 @@ module('Integration | Component | Popover', (hooks) => {
     test('adds the auto-align classes and puts the caret inside the content', async function (assert) {
       await render(
         <template>
-          <Popover @open={{false}} @autoAlign={{true}}>
+          <Popover @open={{false}} @autoAlign={{true}} as |PopoverContent|>
             <button type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
           </Popover>
@@ -380,7 +413,7 @@ module('Integration | Component | Popover', (hooks) => {
     test('renders the open content in the top layer, below the trigger', async function (assert) {
       await render(
         <template>
-          <Popover @open={{true}} @autoAlign={{true}}>
+          <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
             <button type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
           </Popover>
@@ -421,6 +454,7 @@ module('Integration | Component | Popover', (hooks) => {
             @align="bottom-start"
             @autoAlign={{true}}
             @alignmentAxisOffset={{20}}
+            as |PopoverContent|
           >
             <button class="offset-test__trigger" type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
@@ -447,7 +481,7 @@ module('Integration | Component | Popover', (hooks) => {
           </style>
           <div class="hide-test__scroller">
             <div class="hide-test__spacer"></div>
-            <Popover @open={{true}} @autoAlign={{true}}>
+            <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
               <button type="button">Trigger</button>
               <PopoverContent>Content</PopoverContent>
             </Popover>
@@ -483,7 +517,7 @@ module('Integration | Component | Popover', (hooks) => {
           </style>
           <div class="hide-test__clip">
             <Modal @open={{true}}>
-              <Popover @open={{true}} @autoAlign={{true}}>
+              <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
                 <button type="button" data-test-trigger>Trigger</button>
                 <PopoverContent data-test-content>Content</PopoverContent>
               </Popover>
@@ -512,7 +546,7 @@ module('Integration | Component | Popover', (hooks) => {
           <Modal @open={{true}}>
             <div class="hide-test__scroller">
               <div class="hide-test__spacer"></div>
-              <Popover @open={{true}} @autoAlign={{true}}>
+              <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
                 <button type="button" data-test-trigger>Trigger</button>
                 <PopoverContent data-test-content>Content</PopoverContent>
               </Popover>
@@ -535,7 +569,7 @@ module('Integration | Component | Popover', (hooks) => {
 
       await render(
         <template>
-          <Popover @open={{open.value}} @autoAlign={{true}}>
+          <Popover @open={{open.value}} @autoAlign={{true}} as |PopoverContent|>
             <button type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
           </Popover>
@@ -586,6 +620,7 @@ module('Integration | Component | Popover', (hooks) => {
                 @align="top"
                 @autoAlign={{true}}
                 @autoAlignBoundary={{boundary.value}}
+                as |PopoverContent|
               >
                 <button
                   class="flip-test__trigger"
@@ -608,7 +643,7 @@ module('Integration | Component | Popover', (hooks) => {
 
       await render(
         <template>
-          <Popover @open={{true}} @autoAlign={{true}}>
+          <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
             <button type="button">Trigger</button>
             {{#if show.value}}
               <PopoverContent>Content</PopoverContent>
@@ -631,7 +666,7 @@ module('Integration | Component | Popover', (hooks) => {
 
       await render(
         <template>
-          <Popover @open={{true}} @autoAlign={{true}}>
+          <Popover @open={{true}} @autoAlign={{true}} as |PopoverContent|>
             <button type="button">Trigger</button>
             {{#if first.value}}
               <PopoverContent id="first">First</PopoverContent>
@@ -655,7 +690,11 @@ module('Integration | Component | Popover', (hooks) => {
 
       await render(
         <template>
-          <Popover @open={{true}} @autoAlign={{autoAlign.value}}>
+          <Popover
+            @open={{true}}
+            @autoAlign={{autoAlign.value}}
+            as |PopoverContent|
+          >
             <button type="button">Trigger</button>
             <PopoverContent>Content</PopoverContent>
           </Popover>
