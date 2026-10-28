@@ -13,29 +13,13 @@ import Text from '../text.gts';
 import NotificationActionButton from './notification-action-button.gts';
 import NotificationButton from './notification-button.gts';
 import NotificationIcon from './-notification-icon.gts';
+import { tabbables } from '../../utils/tabbable.ts';
 import type {
   NotificationArgs,
   NotificationCaptionArgs,
   NotificationCloseHandler,
 } from './-notification-args.ts';
 import type { NotificationKind } from './-notification-icon.gts';
-
-const TABBABLE = [
-  'a[href]',
-  'area[href]',
-  'button:not([disabled])',
-  'input:not([disabled]):not([type="hidden"])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  'iframe',
-  '[contenteditable]:not([contenteditable="false"])',
-  '[tabindex]',
-].join(',');
-
-const tabbables = (container: HTMLElement) =>
-  [...container.querySelectorAll<HTMLElement>(TABBABLE)].filter(
-    (element) => element.tabIndex >= 0 && element.getClientRects().length > 0,
-  );
 
 export interface ActionableNotificationSignature {
   Element: HTMLDivElement;
