@@ -709,5 +709,31 @@
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
     }
+  ],
+  "PageHeader": [
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[0] > div[0] > div[0] > h1[0] > div[0].attributes.data-carbon-devtools-id",
+      "reason": "The title's TruncatedText. Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > div[0] > div[0] > div[0] > h2[1] > div[0].attributes.data-carbon-devtools-id",
+      "variant": "breadcrumb-bar",
+      "reason": "The title's TruncatedText. Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > span[0] > div[0]",
+      "variant": "scroll-button",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps an icon-only button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "div > span[0] > span[1]",
+      "variant": "scroll-button",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[0] > div[1] > ul[1] > li[0] > div[0]",
+      "variant": "breadcrumb-page-actions",
+      "reason": "Carbon for IBM Products renders the overflow menu with the v12 OverflowMenu (the `enableV12Overflowmenu` flag), a Menu in a `<div>`. This addon's OverflowMenu is the v11 one, a `<span>`; the comparison stops at that tag."
+    }
   ]
 }

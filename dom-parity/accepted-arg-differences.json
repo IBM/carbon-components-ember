@@ -157,5 +157,29 @@
     "extra": {
       "ariaLabel": "React's aria-label labels the close button; an aria-label attribute would label the notification."
     }
+  },
+  "PageHeaderTitleBreadcrumb": {
+    "extra": {
+      "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
+  "PageHeaderScrollButton": {
+    "missing": {
+      "align": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "badgeCount": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "closeOnActivation": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "defaultOpen": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "dropShadow": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "enterDelayMs": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "highContrast": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "leaveDelayMs": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "wrapperClasses": "Carbon React's IconButton takes it for its tooltip; this addon's Button has no such argument.",
+      "label": "PageHeaderScrollButton ignores it: the label is `collapseText` or `expandText`.",
+      "rel": "A plain attribute, through `...attributes`, as on a native `<a>`.",
+      "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
+    }
   }
 }

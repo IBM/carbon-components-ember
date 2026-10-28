@@ -1,0 +1,1871 @@
+{
+  "component": "PageHeader",
+  "generatedAt": "2026-10-28T12:39:44.624Z",
+  "carbonReactVersion": "1.119.0",
+  "ibmProductsVersion": "2.101.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "content": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__content__title-wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__content__start"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__content__title-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "h1",
+                                    "classes": [
+                                      "c4p--page-header__content__title"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "c4p--page-header__content__title-text",
+                                          "c4p--truncated-text"
+                                        ],
+                                        "attributes": {
+                                          "data-carbon-devtools-id": "c4p--TruncatedText"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "c4p--truncated-text__text-content"
+                                            ],
+                                            "attributes": {
+                                              "id": "#1"
+                                            },
+                                            "style": {
+                                              "-webkit-line-clamp": "2"
+                                            },
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Virtual machine"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__content__body"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "h2",
+                            "classes": [
+                              "c4p--page-header__content__subtitle"
+                            ],
+                            "attributes": {
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Subtitle"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "text": "Some text"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "breadcrumb-bar": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header--width--xl",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__breadcrumb-bar",
+              "c4p--page-header__breadcrumb__actions-flush"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid",
+                  "cds--css-grid--full-width",
+                  "cds--css-grid--narrow"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__breadcrumb-container"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__breadcrumb-wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__breadcrumb__icon"
+                                ],
+                                "attributes": {
+                                  "aria-hidden": "true"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [],
+                                    "attributes": {
+                                      "width": "16",
+                                      "height": "16"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "nav",
+                                "classes": [
+                                  "c4p--page-header-breadcrumb-overflow"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Breadcrumb"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "ol",
+                                    "classes": [
+                                      "cds--breadcrumb",
+                                      "cds--breadcrumb--no-trailing-slash"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "li",
+                                        "classes": [
+                                          "cds--breadcrumb-item"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "a",
+                                            "classes": [
+                                              "cds--link"
+                                            ],
+                                            "attributes": {
+                                              "href": "/1"
+                                            },
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Breadcrumb 1"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "li",
+                                        "classes": [
+                                          "cds--breadcrumb-item"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "a",
+                                            "classes": [
+                                              "cds--link"
+                                            ],
+                                            "attributes": {
+                                              "href": "/2"
+                                            },
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Breadcrumb 2"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "li",
+                                        "classes": [
+                                          "c4p--page-header-breadcrumb-overflow-item",
+                                          "cds--breadcrumb-item"
+                                        ],
+                                        "attributes": {
+                                          "data-floating-menu-container": "true",
+                                          "data-fixed": "true"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "cds--link"
+                                            ],
+                                            "attributes": {
+                                              "dir": "auto"
+                                            },
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Overflow"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "li",
+                                        "classes": [
+                                          "c4p--page-header-title-breadcrumb",
+                                          "c4p--page-header-title-breadcrumb-show__with-content-element",
+                                          "cds--breadcrumb-item",
+                                          "cds--breadcrumb-item--current"
+                                        ],
+                                        "attributes": {
+                                          "data-fixed": "true",
+                                          "aria-hidden": "true",
+                                          "tabindex": "-1"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "cds--link"
+                                            ],
+                                            "attributes": {
+                                              "aria-current": "true",
+                                              "dir": "auto"
+                                            },
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Virtual machine"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__breadcrumb__actions"
+                            ],
+                            "attributes": {
+                              "role": "toolbar",
+                              "aria-label": "Page header actions"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__breadcrumb__content-actions"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Page actions"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid",
+                  "cds--css-grid--full-width",
+                  "cds--css-grid--narrow"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__content__title-wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__content__start"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__content__title-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "c4p--page-header__content__icon"
+                                    ],
+                                    "attributes": {
+                                      "aria-hidden": "true"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "svg",
+                                        "classes": [],
+                                        "attributes": {
+                                          "width": "32",
+                                          "height": "32"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "h2",
+                                    "classes": [
+                                      "c4p--page-header__content__title"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "c4p--page-header__content__title-text",
+                                          "c4p--truncated-text"
+                                        ],
+                                        "attributes": {
+                                          "data-carbon-devtools-id": "c4p--TruncatedText"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "c4p--truncated-text__text-content"
+                                            ],
+                                            "attributes": {
+                                              "id": "#1"
+                                            },
+                                            "style": {
+                                              "-webkit-line-clamp": "1"
+                                            },
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Virtual machine"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__content__contextual-actions"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--tag",
+                                      "cds--tag--blue"
+                                    ],
+                                    "attributes": {
+                                      "id": "#2"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--tag__label"
+                                        ],
+                                        "attributes": {
+                                          "title": "Tag",
+                                          "dir": "auto"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Tag"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "tab-bar": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header--disable-sticky-tab-bar",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__content__title-wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__content__start"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__content__title-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "h1",
+                                    "classes": [
+                                      "c4p--page-header__content__title"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "c4p--page-header__content__title-text",
+                                          "c4p--truncated-text"
+                                        ],
+                                        "attributes": {
+                                          "data-carbon-devtools-id": "c4p--TruncatedText"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "c4p--truncated-text__text-content"
+                                            ],
+                                            "attributes": {
+                                              "id": "#1"
+                                            },
+                                            "style": {
+                                              "-webkit-line-clamp": "1"
+                                            },
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Virtual machine"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__tab-bar"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid",
+                  "cds--css-grid--condensed"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__tab-bar--tablist",
+                          "c4p--page-header__tab-bar--with-scroller"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "tabs"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Tabs"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "tags"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Tags"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "c4p--page-header--scroller-button-container"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "scroller"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Scroller"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "tab-bar-without-tags": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__tab-bar"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid",
+                  "cds--css-grid--condensed"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "tabs"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Tabs"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "hero-image": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__hero-image",
+              "c4p--page-header__hero-image--object-fit-contain",
+              "cds--aspect-ratio",
+              "cds--aspect-ratio--2x1"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "img",
+                "classes": [],
+                "attributes": {
+                  "alt": "Hero",
+                  "src": "hero.jpg"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "scroll-button": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--autoalign",
+              "cds--icon-tooltip",
+              "cds--popover--auto-align",
+              "cds--popover--caret",
+              "cds--popover--high-contrast",
+              "cds--popover--top",
+              "cds--popover-container",
+              "cds--tooltip"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--tooltip-trigger__wrapper"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "c4p--page-header--scroller-button",
+                      "cds--btn",
+                      "cds--btn--ghost",
+                      "cds--btn--icon-only",
+                      "cds--btn--md",
+                      "cds--layout--size-md"
+                    ],
+                    "attributes": {
+                      "aria-labelledby": "#1",
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "svg",
+                        "classes": [
+                          "c4p--page-header--scroller-button-icon"
+                        ],
+                        "attributes": {
+                          "focusable": "false",
+                          "preserveAspectRatio": "xMidYMid meet",
+                          "fill": "currentColor",
+                          "width": "16",
+                          "height": "16",
+                          "viewBox": "0 0 16 16",
+                          "aria-hidden": "true",
+                          "xmlns": "http://www.w3.org/2000/svg"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "path",
+                            "classes": [],
+                            "attributes": {
+                              "d": "M8 5 13 10 12.3 10.7 8 6.4 3.7 10.7 3 10z"
+                            },
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover"
+                ],
+                "attributes": {
+                  "aria-hidden": "true",
+                  "id": "#1",
+                  "role": "tooltip"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover-content",
+                      "cds--tooltip-content"
+                    ],
+                    "attributes": {},
+                    "style": {
+                      "position": "fixed",
+                      "left": "0px",
+                      "top": "0px",
+                      "visibility": "visible",
+                      "transform": "translate(0px, 0px)"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Collapse"
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover--auto-align",
+                          "cds--popover-caret"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "content-page-actions": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__content__title-wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__content__start"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__content__title-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "h1",
+                                    "classes": [
+                                      "c4p--page-header__content__title"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "c4p--page-header__content__title-text",
+                                          "c4p--truncated-text"
+                                        ],
+                                        "attributes": {
+                                          "data-carbon-devtools-id": "c4p--TruncatedText"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "c4p--truncated-text__text-content"
+                                            ],
+                                            "attributes": {
+                                              "id": "#1"
+                                            },
+                                            "style": {
+                                              "-webkit-line-clamp": "2"
+                                            },
+                                            "children": [
+                                              {
+                                                "type": "text",
+                                                "text": "Virtual machine"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "ul",
+                            "classes": [
+                              "c4p--page-header__content__page-actions"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "li",
+                                "classes": [],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "button",
+                                    "classes": [
+                                      "cds--btn"
+                                    ],
+                                    "attributes": {
+                                      "type": "button"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "text": "one"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "li",
+                                "classes": [],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "button",
+                                    "classes": [
+                                      "cds--btn"
+                                    ],
+                                    "attributes": {
+                                      "type": "button"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "text": "two"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "li",
+                                "classes": [],
+                                "attributes": {
+                                  "data-offset": "true",
+                                  "data-hidden": "true"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--menu-button__container"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "button",
+                                        "classes": [
+                                          "cds--btn",
+                                          "cds--btn--md",
+                                          "cds--btn--primary",
+                                          "cds--layout--size-md",
+                                          "cds--menu-button__trigger"
+                                        ],
+                                        "attributes": {
+                                          "aria-haspopup": "true",
+                                          "aria-expanded": "false",
+                                          "tabindex": "0",
+                                          "type": "button"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Actions"
+                                          },
+                                          {
+                                            "type": "element",
+                                            "tag": "svg",
+                                            "classes": [
+                                              "cds--btn__icon"
+                                            ],
+                                            "attributes": {
+                                              "focusable": "false",
+                                              "preserveAspectRatio": "xMidYMid meet",
+                                              "fill": "currentColor",
+                                              "aria-hidden": "true",
+                                              "width": "16",
+                                              "height": "16",
+                                              "viewBox": "0 0 16 16",
+                                              "xmlns": "http://www.w3.org/2000/svg"
+                                            },
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "element",
+                                                "tag": "path",
+                                                "classes": [],
+                                                "attributes": {
+                                                  "d": "M8 11 3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"
+                                                },
+                                                "style": {},
+                                                "children": []
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "breadcrumb-page-actions": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__breadcrumb-bar",
+              "c4p--page-header__breadcrumb-bar-border"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__breadcrumb-container"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__breadcrumb-wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header__breadcrumb__actions"
+                            ],
+                            "attributes": {
+                              "role": "toolbar",
+                              "aria-label": "Page header actions"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "c4p--page-header__breadcrumb__content-actions"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "ul",
+                                "classes": [
+                                  "c4p--page-header__breadcrumb-page-actions"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "li",
+                                    "classes": [
+                                      "c4p--page-header__breadcrumb-page-actions__overflow-item"
+                                    ],
+                                    "attributes": {
+                                      "data-offset": "true",
+                                      "data-hidden": "true",
+                                      "data-floating-menu-container": "true"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "cds--overflow-menu__container"
+                                        ],
+                                        "attributes": {
+                                          "aria-label": "More"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "cds--icon-tooltip",
+                                              "cds--popover--caret",
+                                              "cds--popover--high-contrast",
+                                              "cds--popover--top",
+                                              "cds--popover-container",
+                                              "cds--tooltip"
+                                            ],
+                                            "attributes": {},
+                                            "style": {},
+                                            "children": [
+                                              {
+                                                "type": "element",
+                                                "tag": "div",
+                                                "classes": [
+                                                  "cds--tooltip-trigger__wrapper"
+                                                ],
+                                                "attributes": {},
+                                                "style": {},
+                                                "children": [
+                                                  {
+                                                    "type": "element",
+                                                    "tag": "button",
+                                                    "classes": [
+                                                      "cds--btn",
+                                                      "cds--btn--ghost",
+                                                      "cds--btn--icon-only",
+                                                      "cds--layout--size-sm",
+                                                      "cds--overflow-menu",
+                                                      "cds--overflow-menu--sm"
+                                                    ],
+                                                    "attributes": {
+                                                      "aria-expanded": "false",
+                                                      "aria-haspopup": "true",
+                                                      "aria-labelledby": "#1",
+                                                      "tabindex": "0",
+                                                      "type": "button"
+                                                    },
+                                                    "style": {},
+                                                    "children": [
+                                                      {
+                                                        "type": "element",
+                                                        "tag": "svg",
+                                                        "classes": [
+                                                          "cds--btn__icon",
+                                                          "cds--overflow-menu__icon"
+                                                        ],
+                                                        "attributes": {
+                                                          "focusable": "false",
+                                                          "preserveAspectRatio": "xMidYMid meet",
+                                                          "fill": "currentColor",
+                                                          "width": "16",
+                                                          "height": "16",
+                                                          "viewBox": "0 0 32 32",
+                                                          "aria-hidden": "true",
+                                                          "xmlns": "http://www.w3.org/2000/svg"
+                                                        },
+                                                        "style": {},
+                                                        "children": [
+                                                          {
+                                                            "type": "element",
+                                                            "tag": "circle",
+                                                            "classes": [],
+                                                            "attributes": {
+                                                              "cx": "16",
+                                                              "cy": "8",
+                                                              "r": "2"
+                                                            },
+                                                            "style": {},
+                                                            "children": []
+                                                          },
+                                                          {
+                                                            "type": "element",
+                                                            "tag": "circle",
+                                                            "classes": [],
+                                                            "attributes": {
+                                                              "cx": "16",
+                                                              "cy": "16",
+                                                              "r": "2"
+                                                            },
+                                                            "style": {},
+                                                            "children": []
+                                                          },
+                                                          {
+                                                            "type": "element",
+                                                            "tag": "circle",
+                                                            "classes": [],
+                                                            "attributes": {
+                                                              "cx": "16",
+                                                              "cy": "24",
+                                                              "r": "2"
+                                                            },
+                                                            "style": {},
+                                                            "children": []
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "element",
+                                                "tag": "span",
+                                                "classes": [
+                                                  "cds--popover"
+                                                ],
+                                                "attributes": {
+                                                  "aria-hidden": "true",
+                                                  "id": "#1",
+                                                  "role": "tooltip"
+                                                },
+                                                "style": {},
+                                                "children": [
+                                                  {
+                                                    "type": "element",
+                                                    "tag": "span",
+                                                    "classes": [
+                                                      "cds--popover-content",
+                                                      "cds--tooltip-content"
+                                                    ],
+                                                    "attributes": {},
+                                                    "style": {},
+                                                    "children": [
+                                                      {
+                                                        "type": "text",
+                                                        "text": "Options"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "element",
+                                                    "tag": "span",
+                                                    "classes": [
+                                                      "cds--popover-caret"
+                                                    ],
+                                                    "attributes": {},
+                                                    "style": {},
+                                                    "children": []
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "tag-overflow": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--page-header",
+          "c4p--page-header__next"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "c4p--page-header__tab-bar"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--css-grid",
+                  "cds--css-grid--condensed"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--css-grid-column",
+                      "cds--lg:col-span-16",
+                      "cds--md:col-span-8",
+                      "cds--sm:col-span-4"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "c4p--page-header__tab-bar--tablist"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "tabs"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Tabs"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "c4p--page-header--tag-overflow-container",
+                              "c4p--page-header--tag-overflow-container__has-no-hidden-items"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [],
+                                "attributes": {
+                                  "id": "#1"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Tag 1"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [],
+                                "attributes": {
+                                  "id": "#2"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Tag 2"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "c4p--page-header--tag-overflow-popover",
+                                  "c4p--page-header--tag-overflow-popover__hidden",
+                                  "cds--popover--bottom",
+                                  "cds--popover--caret",
+                                  "cds--popover--drop-shadow",
+                                  "cds--popover-container"
+                                ],
+                                "attributes": {
+                                  "data-fixed": "true",
+                                  "aria-labelledby": "#3"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "button",
+                                    "classes": [],
+                                    "attributes": {
+                                      "id": "#3",
+                                      "type": "button",
+                                      "aria-expanded": "false"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "text",
+                                        "text": "+0"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "span",
+                                    "classes": [
+                                      "cds--popover"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--popover-content"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "ul",
+                                            "classes": [
+                                              "c4p--page-header__tags-popover-list"
+                                            ],
+                                            "attributes": {
+                                              "aria-label": "Hidden tags"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--popover-caret"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

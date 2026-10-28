@@ -1457,6 +1457,37 @@ const ibmProducts = (component, name, props) => ({
     React.createElement(IBMProducts[component], props),
 });
 
+// A variant of Carbon for IBM Products' `preview__PageHeader`, whose parts
+// `build` puts together from `{ h: React.createElement, PageHeader, Carbon }`.
+const pageHeader = (name, build) => ({
+  name,
+  props: {},
+  createElement: (React, Carbon, IBMProducts) =>
+    build({
+      h: React.createElement,
+      PageHeader: IBMProducts.preview__PageHeader,
+      Carbon,
+    }),
+});
+
+// The breadcrumbs of most PageHeader variants.
+const breadcrumbs = ({ h, PageHeader, Carbon }, ...extra) =>
+  h(
+    PageHeader.BreadcrumbOverflow,
+    {
+      noTrailingSlash: true,
+      renderOverflowBreadcrumb: () =>
+        h(
+          Carbon.BreadcrumbItem,
+          { 'data-floating-menu-container': true },
+          'Overflow',
+        ),
+    },
+    h(Carbon.BreadcrumbItem, { href: '/1' }, 'Breadcrumb 1'),
+    h(Carbon.BreadcrumbItem, { href: '/2' }, 'Breadcrumb 2'),
+    ...extra,
+  );
+
 export const COMPONENTS = [
   {
     name: 'Button',
@@ -2624,5 +2655,155 @@ export const COMPONENTS = [
         description: 'The page you requested has moved or is unavailable.',
       }),
     ),
+  },
+  {
+    name: 'PageHeader',
+    ibmProducts: true,
+    variants: [
+      pageHeader('content', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.Content,
+            { title: 'Virtual machine' },
+            h(PageHeader.ContentText, { subtitle: 'Subtitle' }, 'Some text'),
+          ),
+        ),
+      ),
+      pageHeader('breadcrumb-bar', (parts) => {
+        const { h, PageHeader, Carbon } = parts;
+        return h(
+          PageHeader.Root,
+          { fullWidthGrid: 'xl', narrowGrid: true },
+          h(
+            PageHeader.BreadcrumbBar,
+            {
+              border: false,
+              renderIcon: () => h('svg', { width: 16, height: 16 }),
+              pageActionsFlush: true,
+              pageActions: h('div', null, 'Page actions'),
+            },
+            breadcrumbs(
+              parts,
+              h(
+                PageHeader.TitleBreadcrumb,
+                { 'data-fixed': true },
+                'Virtual machine',
+              ),
+            ),
+          ),
+          h(PageHeader.Content, {
+            title: 'Virtual machine',
+            titleAs: 'h2',
+            renderIcon: () => h('svg', { width: 32, height: 32 }),
+            contextualActions: h(Carbon.Tag, { type: 'blue' }, 'Tag'),
+          }),
+        );
+      }),
+      pageHeader('tab-bar', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.Content, { title: 'Virtual machine', titleTruncate: 1 }),
+          h(
+            PageHeader.TabBar,
+            {
+              disableStickyTabBar: true,
+              tags: h('div', { className: 'tags' }, 'Tags'),
+              scroller: h('div', { className: 'scroller' }, 'Scroller'),
+            },
+            h('div', { className: 'tabs' }, 'Tabs'),
+          ),
+        ),
+      ),
+      pageHeader('tab-bar-without-tags', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.TabBar, null, h('div', { className: 'tabs' }, 'Tabs')),
+        ),
+      ),
+      pageHeader('hero-image', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.HeroImage,
+            { objectFit: 'contain' },
+            h('img', { src: 'hero.jpg', alt: 'Hero' }),
+          ),
+        ),
+      ),
+      pageHeader('scroll-button', ({ h, PageHeader }) =>
+        h(PageHeader.Root, null, h(PageHeader.ScrollButton, null)),
+      ),
+      pageHeader('content-page-actions', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.Content, {
+            title: 'Virtual machine',
+            pageActions: h(PageHeader.ContentPageActions, {
+              menuButtonLabel: 'Actions',
+              actions: ['one', 'two'].map((id) => ({
+                id,
+                onClick: () => {},
+                body: h(
+                  'button',
+                  { type: 'button', className: 'cds--btn' },
+                  id,
+                ),
+                menuItem: { label: id },
+              })),
+            }),
+          }),
+        ),
+      ),
+      pageHeader('breadcrumb-page-actions', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.BreadcrumbBar, {
+            pageActions: h(PageHeader.BreadcrumbPageActions, {
+              actions: [],
+              buttonSize: 'sm',
+              overflowMenuLabel: 'More',
+            }),
+          }),
+        ),
+      ),
+      pageHeader('tag-overflow', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.TabBar,
+            {
+              tags: h(
+                PageHeader.TagOverflow,
+                {
+                  renderOverflowTag: (hidden, onClick, open, triggerId) =>
+                    h(
+                      'button',
+                      {
+                        id: triggerId,
+                        type: 'button',
+                        onClick,
+                        'aria-expanded': open,
+                      },
+                      `+${hidden.length}`,
+                    ),
+                  renderPopoverContent: () => null,
+                },
+                h('span', { id: 'tag-1' }, 'Tag 1'),
+                h('span', { id: 'tag-2' }, 'Tag 2'),
+              ),
+            },
+            h('div', { className: 'tabs' }, 'Tabs'),
+          ),
+        ),
+      ),
+    ],
   },
 ];

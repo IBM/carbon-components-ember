@@ -33,5 +33,10 @@
     "reason": "Ported as its three components, AISkeletonIcon, AISkeletonPlaceholder and AISkeletonText: React's AISkeleton directory exports no AISkeleton component of its own.",
     "excludedAt": "2026-10-08T23:22:31.329Z",
     "issue": null
+  },
+  "PageHeader": {
+    "reason": "Deprecated in @carbon/react 1.119 as moved to Carbon for IBM Products; ported as carbon-components-ember/ibm-products' PageHeader",
+    "excludedAt": "2026-10-28T18:16:44.858Z",
+    "issue": null
   }
 }

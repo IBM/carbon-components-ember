@@ -628,7 +628,7 @@ export function main(argv = process.argv.slice(2)) {
           // Carbon for IBM Products' components, in their own barrel.
           ...readTypes({
             declarations,
-            react: '@carbon/ibm-products',
+            react: path.join(import.meta.dirname, 'ibm-products-types'),
             barrel: 'ibm-products',
           }),
         ].map(([name, types]) => [name, compareArgs(types)]),
