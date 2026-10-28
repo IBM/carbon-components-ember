@@ -12,7 +12,10 @@ import type { ButtonSignature } from '../button.gts';
 
 export interface ButtonBaseSignature {
   Element: ButtonSignature['Element'];
-  Args: ButtonSignature['Args'];
+  Args: Omit<ButtonSignature['Args'], 'kind'> & {
+    /** Defaults to `primary`. `''` leaves the kind class out, as in React. */
+    kind?: ButtonSignature['Args']['kind'] | '';
+  };
   Blocks: ButtonSignature['Blocks'];
 }
 
@@ -46,7 +49,7 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
       'cds--btn',
       (sized || size === 'xl' || size === '2xl') && `cds--btn--${size}`,
       size && `cds--layout--size-${size}`,
-      `cds--btn--${this.kind}`,
+      this.kind && `cds--btn--${this.kind}`,
       disabled && 'cds--btn--disabled',
       isExpressive && 'cds--btn--expressive',
       hasIconOnly && 'cds--btn--icon-only',
