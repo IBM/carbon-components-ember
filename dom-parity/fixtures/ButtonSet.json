@@ -1,0 +1,176 @@
+{
+  "component": "ButtonSet",
+  "generatedAt": "2026-10-28T11:26:43.154Z",
+  "carbonReactVersion": "1.114.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--btn-set"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--secondary"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Cancel"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--primary"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Save"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "stacked": {
+      "props": {
+        "stacked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--btn-set",
+          "cds--btn-set--stacked"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--secondary"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Cancel"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--btn",
+              "cds--btn--primary"
+            ],
+            "attributes": {
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Save"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "fluid": {
+      "props": {
+        "fluid": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--btn-set",
+          "cds--btn-set--fluid"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--btn-set__fluid-inner",
+              "cds--btn-set__fluid-inner--auto-stack"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--secondary"
+                ],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Save"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
