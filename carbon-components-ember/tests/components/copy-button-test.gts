@@ -35,6 +35,19 @@ module('Integration | Component | CopyButton', (hooks) => {
     assert.dom(`${BUTTON} code`).hasText('some code');
   });
 
+  test('it has no kind class unless given @kind, so it keeps its own colors', async function (assert) {
+    await render(
+      <template>
+        <CopyButton id="plain">some code</CopyButton>
+        <CopyButton id="ghost" @kind="ghost">some code</CopyButton>
+      </template>,
+    );
+
+    assert.dom('#plain').hasClass('cds--copy-btn');
+    assert.dom('#plain').doesNotHaveClass('cds--btn--primary');
+    assert.dom('#ghost').hasClass('cds--btn--ghost');
+  });
+
   test('without @inline, block content is visually hidden behind the icon', async function (assert) {
     await render(
       <template>

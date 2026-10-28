@@ -73,6 +73,10 @@ module('Integration | Component | Breadcrumb', (hooks) => {
     assert
       .dom('.cds--overflow-menu svg circle[cy="16"]')
       .exists({ count: 3 }, 'the horizontal icon');
+    assert
+      .dom('.cds--overflow-menu svg')
+      .hasClass('cds--overflow-menu__icon')
+      .doesNotHaveClass('cds--btn__icon', "only the overflow menu's class");
     await click('.cds--overflow-menu');
     const trigger = find('.cds--overflow-menu')!.getBoundingClientRect();
     const menu = find('.cds--breadcrumb-menu-options')!.getBoundingClientRect();
