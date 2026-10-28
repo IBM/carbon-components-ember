@@ -180,8 +180,21 @@ module(
 
     test('leaves a modified click to the browser', async function (assert) {
       await visit('/shop');
-      await click('#home', { metaKey: true });
+      // Past the link, the click is the browser's to follow; the test stops
+      // it there, or the page itself would navigate away.
+      let leftToBrowser = false;
+      const stop = (event: Event) => {
+        leftToBrowser = !event.defaultPrevented;
+        event.preventDefault();
+      };
+      document.addEventListener('click', stop);
+      try {
+        await click('#home', { metaKey: true });
+      } finally {
+        document.removeEventListener('click', stop);
+      }
 
+      assert.true(leftToBrowser);
       assert.strictEqual(currentURL(), '/shop');
     });
   },
