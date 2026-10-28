@@ -1,6 +1,6 @@
-# Agent Context and Development Guide
+# Codebase Conventions
 
-This document provides essential context and patterns for AI agents (like Bob Shell) working on the carbon-components-ember codebase.
+The conventions and patterns of the carbon-components-ember codebase, for people and AI agents alike. [CONTRIBUTING.md](CONTRIBUTING.md) covers setup and the workflow.
 
 ## Project Overview
 
