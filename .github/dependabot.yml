@@ -23,6 +23,8 @@ updates:
     ignore:
       - dependency-name: "@carbon/ai-chat-components"
       - dependency-name: "@carbon/grid"
+      - dependency-name: "@carbon/ibm-products"
+      - dependency-name: "@carbon/ibm-products-styles"
       - dependency-name: "@carbon/icon-helpers"
       - dependency-name: "@carbon/icons"
       - dependency-name: "@carbon/layout"

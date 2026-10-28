@@ -107,6 +107,7 @@
     "@babel/plugin-transform-typescript": "^8.0.6",
     "@babel/runtime": "^8.0.7",
     "@carbon/ai-chat-components": "catalog:carbon",
+    "@carbon/ibm-products-styles": "catalog:carbon",
     "@carbon/themes": "catalog:carbon",
     "@ember/app-tsconfig": "^2.1.0",
     "@ember/library-tsconfig": "^3.0.0",

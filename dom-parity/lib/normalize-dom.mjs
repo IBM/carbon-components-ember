@@ -143,6 +143,16 @@ function normalizeAttributes(el, idMap) {
       continue;
     }
 
+    if (!isHtml) {
+      // SVG paints and gradients refer to ids as `url(#id)` and `#id`.
+      attributes[name] = attr.value
+        .replace(/url\(#([^)]+)\)/g, (ref, id) =>
+          idMap.has(id) ? `url(${idMap.get(id)})` : ref,
+        )
+        .replace(/^#(.+)$/, (ref, id) => idMap.get(id) ?? ref);
+      continue;
+    }
+
     attributes[name] = attr.value;
   }
   return attributes;

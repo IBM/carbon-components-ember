@@ -1,7 +1,8 @@
 /**
- * Writes the barrels: src/components.ts, src/ai-chat.ts, src/charts.ts and
- * src/icons.ts, which apps import as `carbon-components-ember/components`,
- * `/ai-chat`, `/charts` and `/icons` (dist/*.js, via the package.json `./*`
+ * Writes the barrels: src/components.ts, src/ai-chat.ts, src/charts.ts,
+ * src/ibm-products.ts and src/icons.ts, which apps import as
+ * `carbon-components-ember/components`, `/ai-chat`, `/charts`,
+ * `/ibm-products` and `/icons` (dist/*.js, via the package.json `./*`
  * export). Run it after icons.mjs, which writes the icon components;
  * `pnpm generate` runs both.
  */
@@ -16,6 +17,7 @@ function createIndexFiles() {
     components: [],
     aiChat: [],
     charts: [],
+    ibmProducts: [],
     icons: [],
   };
   for (const addonFilename of files) {
@@ -36,15 +38,18 @@ function createIndexFiles() {
       addonFilename.startsWith('components/') &&
       !addonFilename.includes('/-')
     ) {
-      // AI Chat and the charts have their own barrels, as upstream's are
-      // packages of their own (`@carbon/ai-chat-components`,
-      // `@carbon/charts-react`), so AI Chat keeps upstream's names (`Card`,
+      // AI Chat, the charts and Carbon for IBM Products have their own
+      // barrels, as upstream's are packages of their own
+      // (`@carbon/ai-chat-components`, `@carbon/charts-react`,
+      // `@carbon/ibm-products`), so they keep upstream's names (`Card`,
       // `CodeSnippet`).
       const group = addonFilename.startsWith('components/ai-chat/')
         ? groups.aiChat
         : addonFilename.startsWith('components/charts/')
           ? groups.charts
-          : groups.components;
+          : addonFilename.startsWith('components/ibm-products/')
+            ? groups.ibmProducts
+            : groups.components;
       group.push(addonFilename);
     }
   }
@@ -56,6 +61,7 @@ function createIndexFiles() {
   writeBarrel(groups.components, './src/components.ts');
   writeBarrel(groups.aiChat, './src/ai-chat.ts');
   writeBarrel(groups.charts, './src/charts.ts');
+  writeBarrel(groups.ibmProducts, './src/ibm-products.ts');
   writeBarrel(groups.icons, './src/icons.ts');
 }
 

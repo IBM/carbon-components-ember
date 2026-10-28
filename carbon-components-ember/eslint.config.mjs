@@ -200,7 +200,8 @@ export default defineConfig([
           paths: [renamedTemplateImports],
           patterns: [
             {
-              regex: '(^|/)(ai-chat|charts|components|icons)\\.ts$',
+              regex:
+                '(^|/)(ai-chat|charts|components|ibm-products|icons)\\.ts$',
               message:
                 "Import the module itself, not one of the package's barrels.",
             },
