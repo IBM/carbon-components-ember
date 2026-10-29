@@ -118,7 +118,9 @@ export default class Tile extends Component<TileSignature> {
   }
 
   get clickableIsLink() {
-    return Boolean(this.args.href || this.args.route);
+    return Boolean(
+      this.args.href || this.args.route || this.args.externalRoute,
+    );
   }
 
   // As Carbon React's, which only calls onClick while enabled: a click on
@@ -246,6 +248,7 @@ export default class Tile extends Component<TileSignature> {
       <Link
         @href={{@href}}
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         @disabled={{@disabled}}

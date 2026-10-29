@@ -104,10 +104,11 @@ const BreadcrumbItem: TOC<BreadcrumbItemSignature> = <template>
     }}
       {{#if (has-block-params)}}
         {{yield item}}
-      {{else if (or @href @route)}}
+      {{else if (or @href @route @externalRoute)}}
         <Link
           @href={{@href}}
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           aria-current={{linkAriaCurrent @ariaCurrent @isCurrentPage}}

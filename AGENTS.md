@@ -117,7 +117,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | --- | --- | --- |
 | `children` inspected/cloned | Yield a contextual component pre-bound (`WithBoundArgs`) or typed subcomponent (`typeof SubComponent`) | `components/data-table.gts`, `components/tree-view.gts` |
 | Component passed as a prop | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts` |
-| A router `Link` passed as `as`/`element` | `@route`, `@models` and `@query`, rendered through `-private/router-link.gts` (Ember's `LinkTo`, else `<a href>`) | `components/link.gts` |
+| A router `Link` passed as `as`/`element` | `@route`, `@models` and `@query`, or `@externalRoute` for an ember-engines engine's external routes, rendered through `-private/router-link.gts` (Ember's `LinkTo`, else `<a href>`); it reaches the app's router from inside an engine | `components/link.gts` |
 | Component slot (`decorator`, `slug`) | A named block yielding the component pre-bound for the host: `<:decorator as \|AILabel\|>` | `components/tag.gts` |
 | `value` + `defaultValue` + `onChange` | Keep both: `@defaultValue` seeds `@tracked` state, `@value` wins whenever defined | `components/text-input.gts` |
 | `useNormalizedInputProps` and the helper, invalid and warning `Text` | `fieldState()` and `<FieldMessage>` from `components/-private/field.gts`, with the control's `aria-*` attributes as that React component sets them | `components/text-input.gts` |

@@ -266,6 +266,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
                   @itemText={{toolbarAction.text}}
                   @href={{toolbarAction.href}}
                   @route={{toolbarAction.route}}
+                  @externalRoute={{toolbarAction.externalRoute}}
                   @models={{toolbarAction.models}}
                   @query={{toolbarAction.query}}
                   @disabled={{toolbarAction.disabled}}

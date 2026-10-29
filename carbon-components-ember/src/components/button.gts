@@ -115,6 +115,7 @@ export default class Button extends Component<ButtonSignature> {
           @hasIconOnly={{true}}
           @href={{@href}}
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           @isExpressive={{@isExpressive}}
@@ -137,6 +138,7 @@ export default class Button extends Component<ButtonSignature> {
         @disabled={{@disabled}}
         @href={{@href}}
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         @iconDescription={{@iconDescription}}

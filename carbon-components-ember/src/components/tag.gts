@@ -105,7 +105,10 @@ export default class Tag extends Component<TagSignature> {
 
   // A disabled one is no link.
   get isLink() {
-    return Boolean(this.args.href || this.args.route) && !this.args.disabled;
+    return (
+      Boolean(this.args.href || this.args.route || this.args.externalRoute) &&
+      !this.args.disabled
+    );
   }
 
   get showIcon() {
@@ -151,6 +154,7 @@ export default class Tag extends Component<TagSignature> {
         <RouterLink
           @href={{@href}}
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           class="cds--ember-tag__link"

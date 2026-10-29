@@ -50,6 +50,7 @@ const UIShellHeader: TOC<UIShellHeaderSignature> = <template>
     <RouterLink
       @href={{@href}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       @activeClass=""

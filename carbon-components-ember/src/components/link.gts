@@ -78,7 +78,11 @@ export default class Link extends Component<LinkSignature> {
   }
 
   get isRouteLink() {
-    return Boolean(this.args.route) && !this.args.disabled && !this.args.as;
+    return (
+      Boolean(this.args.route || this.args.externalRoute) &&
+      !this.args.disabled &&
+      !this.args.as
+    );
   }
 
   get showIcon() {
@@ -98,6 +102,7 @@ export default class Link extends Component<LinkSignature> {
     {{#if this.isRouteLink}}
       <RouterLink
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         class={{this.classes}}
