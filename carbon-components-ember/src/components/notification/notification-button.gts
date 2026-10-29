@@ -6,7 +6,7 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import Close from '../icons/close.ts';
 
 export interface NotificationButtonSignature {
@@ -27,9 +27,7 @@ export interface NotificationButtonSignature {
      * A component used to render an icon, if something other than the
      * regular "close" icon is desirable. Drawn at 16px.
      */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string };
-    }>;
+    renderIcon?: IconComponent;
   };
 }
 

@@ -21,7 +21,8 @@ import './overflow-menu.scss';
 
 import type Owner from '@ember/owner';
 import type { Placement } from '@floating-ui/dom';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
+import type { IconComponent } from './icon.gts';
 import type { TooltipSignature } from './tooltip.gts';
 
 export type OverflowMenuDirection = 'top' | 'bottom';
@@ -94,9 +95,7 @@ export interface OverflowMenuSignature {
     /** Opens or closes the menu when it changes. */
     open?: boolean;
     /** The trigger's icon, drawn at 16px. Defaults to OverflowMenuVertical. */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string; ariaLabel?: string };
-    }>;
+    renderIcon?: IconComponent;
     /**
      * The element to focus when the menu opens, in it. Defaults to
      * `[data-floating-menu-primary-focus]`, then its first item.
@@ -345,7 +344,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
         >
           <this.renderIcon
             @size={{16}}
-            @svgClass="cds--overflow-menu__icon {{@iconClass}}"
+            @svgClass="cds--overflow-menu__icon cds--btn__icon {{@iconClass}}"
             @ariaLabel={{this.iconDescription}}
           />
         </button>

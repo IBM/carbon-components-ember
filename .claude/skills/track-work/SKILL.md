@@ -16,7 +16,7 @@ Planning lives in two GitHub Projects owned by the IBM org and linked to this re
 - **HTML tags in the title go in backticks** (`` `<select>` ``): release-plan copies titles into the notes as they are, and a bare `<select>` swallows everything after it.
 - **`preview`** for visual changes; it deploys a Storybook preview.
 - **Milestone `Stable`** for work before the stable release.
-- **`Closes #N`** for the issue it finishes. A parity-check issue also needs `--mark-synced` (see [implement-component](../implement-component/SKILL.md)).
+- **`Closes #N`** for the issue it finishes. A parity check's "Update" issue also needs `--mark-synced` (see [implement-component](../implement-component/SKILL.md)).
 - **A roadmap item** with Phase, Area and Size, Status "In review".
 
 ## Issues

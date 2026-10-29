@@ -36,6 +36,8 @@ export interface FileUploaderDropContainerSignature {
     ) => void;
     /** Provide a custom regex pattern used to extract a file's extension */
     pattern?: string;
+    /** Specify if the file input is required */
+    required?: boolean;
   };
 }
 
@@ -215,6 +217,7 @@ export default class FileUploaderDropContainer extends Component<FileUploaderDro
         accept={{this.acceptAttr}}
         name={{@name}}
         multiple={{@multiple}}
+        required={{@required}}
         {{captureElement onInsert=this.setInputElement}}
         {{on "change" this.handleInputChange}}
         {{on "click" this.resetInputValue}}

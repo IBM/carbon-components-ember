@@ -1,0 +1,20 @@
+/* A page far larger than the viewport, the button at its bottom, as in
+   Carbon React's story. */
+.menu-button-story__auto-align {
+  block-size: 5000px;
+  inline-size: 5000px;
+}
+
+.menu-button-story__auto-align-anchor {
+  position: absolute;
+  inset-block-end: 20px;
+}
+
+.menu-button-story__row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-button-story__row--top {
+  margin-block-start: 15rem;
+}

@@ -46,6 +46,21 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       control: 'select',
       options: NewPopoverAlignments,
     },
+    kind: {
+      control: 'select',
+      options: [
+        undefined,
+        'primary',
+        'secondary',
+        'tertiary',
+        'ghost',
+        'danger',
+        'danger--primary',
+        'danger--ghost',
+        'danger--tertiary',
+      ],
+    },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
   args: {
     code: "console.log('hello world');",
@@ -59,6 +74,8 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @feedback={{args.feedback}}
       @feedbackTimeout={{args.feedbackTimeout}}
       @iconDescription={{args.iconDescription}}
+      @kind={{args.kind}}
+      @size={{args.size}}
       {{on "click" args.onClick}}
     >{{args.code}}</CopyButton>
   </template>,

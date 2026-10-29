@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import Button from '../button.gts';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import './card.scss';
 
 /**
@@ -23,9 +23,7 @@ export type CardFooterAction = {
   id: string;
   kind?: CardFooterActionKind;
   disabled?: boolean;
-  icon?: ComponentLike<{
-    Args: { size?: number; svgClass?: string; fill?: string };
-  }>;
+  icon?: IconComponent;
   onClick?: () => void;
   tooltipText?: string;
   /**

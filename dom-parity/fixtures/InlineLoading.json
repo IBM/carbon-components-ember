@@ -1,8 +1,8 @@
 {
   "component": "InlineLoading",
-  "generatedAt": "2026-10-09T01:09:16.082Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.514Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "active": {
       "props": {

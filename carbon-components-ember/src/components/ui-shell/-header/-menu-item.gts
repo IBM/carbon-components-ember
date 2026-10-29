@@ -28,6 +28,7 @@ const UIShellHeaderMenuItem: TOC<UIShellHeaderMenuItemSignature> = <template>
     <RouterLink
       @href={{@href}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       @isActive={{@isActive}}

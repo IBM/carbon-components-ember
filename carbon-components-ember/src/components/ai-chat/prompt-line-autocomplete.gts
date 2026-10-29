@@ -11,7 +11,7 @@ import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import { guidFor } from '@ember/object/internals';
 import type { TOC } from '@ember/component/template-only';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import SendFilled from '../icons/send-filled.ts';
 import { resetTriggerChangeState } from './-prompt-line/tiptap/trigger-utils.ts';
 import type { PromptLineApi } from './prompt-line.gts';
@@ -125,9 +125,7 @@ interface ListEntry {
   isFirst: boolean;
   isLast: boolean;
   avatarUrl?: string;
-  avatarIcon?: ComponentLike<{
-    Args: { size?: number; svgClass?: string; fill?: string };
-  }>;
+  avatarIcon?: IconComponent;
   showSendIcon: boolean;
 }
 

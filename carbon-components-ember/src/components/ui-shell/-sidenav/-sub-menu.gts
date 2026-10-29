@@ -1,4 +1,4 @@
-import type Icon from '../../icon.gts';
+import type { IconComponent } from '../../icon.gts';
 import RouterLink from '../../-private/router-link.gts';
 import type { RouteArgs } from '../../-private/router-link.gts';
 import type { TOC } from '@ember/component/template-only';
@@ -25,7 +25,7 @@ export interface UIShellSideNavSubMenuSignature {
      * Prefer `@route`, which also marks the current link.
      */
     transitionTo?: () => void;
-    icon?: typeof Icon;
+    icon?: IconComponent;
     title: string;
   };
 }
@@ -36,6 +36,7 @@ const UIShellSideNavSubMenu: TOC<UIShellSideNavSubMenuSignature> = <template>
     <RouterLink
       @href={{if (or @href @route) @href "#"}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       @isActive={{@isCurrent}}

@@ -1,7 +1,7 @@
 {
   "component": "CodeSnippet",
-  "generatedAt": "2026-10-22T11:05:22.216Z",
-  "carbonReactVersion": "1.114.0",
+  "generatedAt": "2026-10-28T11:06:02.510Z",
+  "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
     "single": {
@@ -9,14 +9,19 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--snippet", "cds--snippet--single"],
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--single"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
+            "classes": [
+              "cds--snippet-container"
+            ],
             "attributes": {
               "role": "textbox",
               "tabindex": "0",
@@ -76,7 +81,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -101,7 +108,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -143,7 +152,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -170,7 +181,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -191,21 +204,20 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--snippet", "cds--snippet--multi"],
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--multi"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
-            "attributes": {
-              "role": "textbox",
-              "tabindex": "0",
-              "aria-label": "Copy to clipboard",
-              "aria-readonly": "true",
-              "aria-multiline": "true"
-            },
+            "classes": [
+              "cds--snippet-container"
+            ],
+            "attributes": {},
             "style": {
               "max-height": "240px",
               "min-height": "48px"
@@ -215,7 +227,13 @@
                 "type": "element",
                 "tag": "pre",
                 "classes": [],
-                "attributes": {},
+                "attributes": {
+                  "role": "textbox",
+                  "tabindex": "0",
+                  "aria-label": "Copy to clipboard",
+                  "aria-readonly": "true",
+                  "aria-multiline": "true"
+                },
                 "style": {
                   "max-height": "240px",
                   "min-height": "48px"
@@ -265,7 +283,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -290,7 +310,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -332,7 +354,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -359,7 +383,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -394,7 +420,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -438,7 +466,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#2",
@@ -449,7 +479,10 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -462,7 +495,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-caret"],
+                "classes": [
+                  "cds--popover-caret"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": []
@@ -490,7 +525,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
+            "classes": [
+              "cds--snippet-container"
+            ],
             "attributes": {
               "role": "textbox",
               "aria-label": "Copy to clipboard",
@@ -550,7 +587,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -577,7 +616,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -619,7 +660,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -646,7 +689,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -679,13 +724,10 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
-            "attributes": {
-              "role": "textbox",
-              "aria-label": "Copy to clipboard",
-              "aria-readonly": "true",
-              "aria-multiline": "true"
-            },
+            "classes": [
+              "cds--snippet-container"
+            ],
+            "attributes": {},
             "style": {
               "max-height": "240px",
               "min-height": "48px"
@@ -695,7 +737,12 @@
                 "type": "element",
                 "tag": "pre",
                 "classes": [],
-                "attributes": {},
+                "attributes": {
+                  "role": "textbox",
+                  "aria-label": "Copy to clipboard",
+                  "aria-readonly": "true",
+                  "aria-multiline": "true"
+                },
                 "style": {
                   "max-height": "240px",
                   "min-height": "48px"
@@ -746,7 +793,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -773,7 +822,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -815,7 +866,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -842,7 +895,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -879,7 +934,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -925,7 +982,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#2",
@@ -936,7 +995,10 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -949,7 +1011,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-caret"],
+                "classes": [
+                  "cds--popover-caret"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": []
@@ -977,7 +1041,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
+            "classes": [
+              "cds--snippet-container"
+            ],
             "attributes": {
               "role": "textbox",
               "tabindex": "0",
@@ -1066,14 +1132,10 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
-            "attributes": {
-              "role": "textbox",
-              "tabindex": "0",
-              "aria-label": "Copy to clipboard",
-              "aria-readonly": "true",
-              "aria-multiline": "true"
-            },
+            "classes": [
+              "cds--snippet-container"
+            ],
+            "attributes": {},
             "style": {
               "max-height": "240px",
               "min-height": "48px"
@@ -1083,7 +1145,13 @@
                 "type": "element",
                 "tag": "pre",
                 "classes": [],
-                "attributes": {},
+                "attributes": {
+                  "role": "textbox",
+                  "tabindex": "0",
+                  "aria-label": "Copy to clipboard",
+                  "aria-readonly": "true",
+                  "aria-multiline": "true"
+                },
                 "style": {
                   "max-height": "240px",
                   "min-height": "48px"
@@ -1133,7 +1201,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -1158,7 +1228,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -1200,7 +1272,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -1227,7 +1301,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -1248,14 +1324,19 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--snippet", "cds--snippet--single"],
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--single"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
+            "classes": [
+              "cds--snippet-container"
+            ],
             "attributes": {
               "role": "textbox",
               "tabindex": "0",
@@ -1315,7 +1396,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -1340,7 +1423,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -1382,7 +1467,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -1409,7 +1496,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -1430,14 +1519,19 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--snippet", "cds--snippet--single"],
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--single"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
+            "classes": [
+              "cds--snippet-container"
+            ],
             "attributes": {
               "role": "textbox",
               "tabindex": "0",
@@ -1497,7 +1591,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -1522,7 +1618,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -1564,7 +1662,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -1591,7 +1691,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
@@ -1613,21 +1715,20 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--snippet", "cds--snippet--multi"],
+        "classes": [
+          "cds--snippet",
+          "cds--snippet--multi"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--snippet-container"],
-            "attributes": {
-              "role": "textbox",
-              "tabindex": "0",
-              "aria-label": "Copy to clipboard",
-              "aria-readonly": "true",
-              "aria-multiline": "true"
-            },
+            "classes": [
+              "cds--snippet-container"
+            ],
+            "attributes": {},
             "style": {
               "max-height": "240px",
               "min-height": "48px"
@@ -1637,7 +1738,13 @@
                 "type": "element",
                 "tag": "pre",
                 "classes": [],
-                "attributes": {},
+                "attributes": {
+                  "role": "textbox",
+                  "tabindex": "0",
+                  "aria-label": "Copy to clipboard",
+                  "aria-readonly": "true",
+                  "aria-multiline": "true"
+                },
                 "style": {
                   "max-height": "240px",
                   "min-height": "48px"
@@ -1687,7 +1794,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--tooltip-trigger__wrapper"],
+                    "classes": [
+                      "cds--tooltip-trigger__wrapper"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -1712,7 +1821,9 @@
                           {
                             "type": "element",
                             "tag": "svg",
-                            "classes": ["cds--snippet__icon"],
+                            "classes": [
+                              "cds--snippet__icon"
+                            ],
                             "attributes": {
                               "focusable": "false",
                               "preserveAspectRatio": "xMidYMid meet",
@@ -1754,7 +1865,9 @@
                   {
                     "type": "element",
                     "tag": "span",
-                    "classes": ["cds--popover"],
+                    "classes": [
+                      "cds--popover"
+                    ],
                     "attributes": {
                       "aria-hidden": "true",
                       "id": "#1",
@@ -1781,7 +1894,9 @@
                       {
                         "type": "element",
                         "tag": "span",
-                        "classes": ["cds--popover-caret"],
+                        "classes": [
+                          "cds--popover-caret"
+                        ],
                         "attributes": {},
                         "style": {},
                         "children": []
