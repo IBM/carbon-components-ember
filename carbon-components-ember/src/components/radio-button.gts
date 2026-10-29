@@ -3,34 +3,33 @@ import { guidFor } from '@ember/object/internals';
 import type RadioButtonGroup from './radio-button/radio-button-group.gts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
+import type { FieldHelperArgs, FieldLabelArgs } from './-private/field.gts';
 
 export type Value = string | number;
 
 export interface RadioButtonSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    id?: string;
-    labelText?: string;
-    value?: Value;
-    name?: string;
-    checked?: boolean;
-    defaultChecked?: boolean;
-    disabled?: boolean;
-    hideLabel?: boolean;
-    labelPosition?: 'left' | 'right';
-    readOnly?: boolean;
-    required?: boolean;
-    group?: RadioButtonGroup;
-    onChange?: (
-      value: Value | undefined,
-      name: string | undefined,
-      event: Event,
-    ) => void;
-  };
+  Args: Pick<FieldHelperArgs, 'readOnly'> &
+    FieldLabelArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<input>`.
+       */
+      className?: string;
+      id?: string;
+      value?: Value;
+      name?: string;
+      checked?: boolean;
+      defaultChecked?: boolean;
+      disabled?: boolean;
+      labelPosition?: 'left' | 'right';
+      required?: boolean;
+      group?: RadioButtonGroup;
+      onChange?: (
+        value: Value | undefined,
+        name: string | undefined,
+        event: Event,
+      ) => void;
+    };
   Element: HTMLInputElement;
   Blocks: {
     /** The label's content. Keep it text: put an AI label or other controls in `<:decorator>`. */

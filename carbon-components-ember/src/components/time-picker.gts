@@ -12,109 +12,94 @@ import { guidFor } from '@ember/object/internals';
 import { concat } from '@ember/helper';
 import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface TimePickerSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    /**
-     * Specify a custom `id` for the `<input>`
-     */
-    id?: string;
-    /**
-     * Provide the text that will be read by a screen reader when visiting
-     * this control
-     */
-    labelText?: string;
-    /**
-     * Specify whether you want the underlying label to be visually hidden
-     */
-    hideLabel?: boolean;
-    /**
-     * Specify the value of the `<input>`
-     */
-    value?: string;
-    /**
-     * Optionally provide the initial value of the `<input>` when uncontrolled
-     */
-    defaultValue?: string;
-    /**
-     * Specify the placeholder attribute for the `<input>`
-     */
-    placeholder?: string;
-    /**
-     * Specify the regular expression working as the pattern of the time
-     * string in `<input>`
-     */
-    pattern?: string;
-    /**
-     * Specify the maximum length of the time string in `<input>`
-     */
-    maxLength?: number;
-    /**
-     * Specify the type of the `<input>`
-     */
-    type?: string;
-    /**
-     * Specify the size of the Time Picker
-     */
-    size?: 'sm' | 'md' | 'lg';
-    /**
-     * Specify whether the `<input>` should be disabled
-     */
-    disabled?: boolean;
-    /**
-     * Specify whether the TimePicker should be read-only
-     */
-    readOnly?: boolean;
-    /**
-     * Specify whether the control is currently invalid
-     */
-    invalid?: boolean;
-    /**
-     * Provide the text that is displayed when the control is in an invalid
-     * state
-     */
-    invalidText?: string;
-    /**
-     * Specify a warning message
-     */
-    warning?: boolean;
-    /**
-     * Provide the text that is displayed when the control is in a warning
-     * state
-     */
-    warningText?: string;
-    /**
-     * The `light` prop for `TimePicker` has been deprecated. It will be
-     * removed in v12. Use the `Layer` component instead.
-     *
-     * @deprecated
-     */
-    light?: boolean;
-    /**
-     * Specify an optional className to be applied to the `<input>` node
-     */
-    inputClassName?: string;
-    /**
-     * Specify an optional className to be applied to the container that
-     * wraps the `<input>` and select option(s)
-     */
-    pickerClassName?: string;
-    /**
-     * Called with the `input` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLInputElement }) => void;
-    /**
-     * Optionally provide an `onBlur` handler that is called whenever the
-     * `<input>` loses focus
-     */
-    onBlur?: (event: FocusEvent) => void;
-  };
+  Args: Pick<FieldValidationArgs, 'invalid' | 'invalidText'> &
+    Pick<FieldHelperArgs, 'readOnly'> &
+    FieldLabelArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<input>`.
+       */
+      className?: string;
+      /**
+       * Specify a custom `id` for the `<input>`
+       */
+      id?: string;
+      /**
+       * Specify the value of the `<input>`
+       */
+      value?: string;
+      /**
+       * Optionally provide the initial value of the `<input>` when uncontrolled
+       */
+      defaultValue?: string;
+      /**
+       * Specify the placeholder attribute for the `<input>`
+       */
+      placeholder?: string;
+      /**
+       * Specify the regular expression working as the pattern of the time
+       * string in `<input>`
+       */
+      pattern?: string;
+      /**
+       * Specify the maximum length of the time string in `<input>`
+       */
+      maxLength?: number;
+      /**
+       * Specify the type of the `<input>`
+       */
+      type?: string;
+      /**
+       * Specify the size of the Time Picker
+       */
+      size?: 'sm' | 'md' | 'lg';
+      /**
+       * Specify whether the `<input>` should be disabled
+       */
+      disabled?: boolean;
+      /**
+       * Specify a warning message
+       */
+      warning?: boolean;
+      /**
+       * Provide the text that is displayed when the control is in a warning
+       * state
+       */
+      warningText?: string;
+      /**
+       * The `light` prop for `TimePicker` has been deprecated. It will be
+       * removed in v12. Use the `Layer` component instead.
+       *
+       * @deprecated
+       */
+      light?: boolean;
+      /**
+       * Specify an optional className to be applied to the `<input>` node
+       */
+      inputClassName?: string;
+      /**
+       * Specify an optional className to be applied to the container that
+       * wraps the `<input>` and select option(s)
+       */
+      pickerClassName?: string;
+      /**
+       * Called with the `input` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLInputElement }) => void;
+      /**
+       * Optionally provide an `onBlur` handler that is called whenever the
+       * `<input>` loses focus
+       */
+      onBlur?: (event: FocusEvent) => void;
+    };
   Element: HTMLInputElement;
   Blocks: {
     /**

@@ -8,6 +8,11 @@ import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
 import SliderThumb from './slider/-thumb.gts';
 import SliderTextInput from './slider/-text-input.gts';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export type HandlePosition = 'lower' | 'upper';
 
@@ -21,40 +26,38 @@ const registerElement = modifier(
 );
 
 export interface SliderSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `.cds--slider` track.
-     */
-    className?: string;
-    ariaLabelInput?: string;
-    ariaLabelInputUpper?: string;
-    disabled?: boolean;
-    formatLabel?: (value: number, label?: string) => string;
-    hideLabel?: boolean;
-    hideTextInput?: boolean;
-    id?: string;
-    invalid?: boolean;
-    invalidText?: string;
-    labelText?: string;
-    max: number;
-    maxLabel?: string;
-    min: number;
-    minLabel?: string;
-    name?: string;
-    nameUpper?: string;
-    onBlur?: (data: { value: string; handlePosition?: HandlePosition }) => void;
-    onChange?: (data: { value: number; valueUpper?: number }) => void;
-    onRelease?: (data: { value: number; valueUpper?: number }) => void;
-    readOnly?: boolean;
-    required?: boolean;
-    step?: number;
-    stepMultiplier?: number;
-    value: number;
-    valueUpper?: number;
-    warn?: boolean;
-    warnText?: string;
-  };
+  Args: FieldValidationArgs &
+    Pick<FieldHelperArgs, 'readOnly'> &
+    FieldLabelArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `.cds--slider` track.
+       */
+      className?: string;
+      ariaLabelInput?: string;
+      ariaLabelInputUpper?: string;
+      disabled?: boolean;
+      formatLabel?: (value: number, label?: string) => string;
+      hideTextInput?: boolean;
+      id?: string;
+      max: number;
+      maxLabel?: string;
+      min: number;
+      minLabel?: string;
+      name?: string;
+      nameUpper?: string;
+      onBlur?: (data: {
+        value: string;
+        handlePosition?: HandlePosition;
+      }) => void;
+      onChange?: (data: { value: number; valueUpper?: number }) => void;
+      onRelease?: (data: { value: number; valueUpper?: number }) => void;
+      required?: boolean;
+      step?: number;
+      stepMultiplier?: number;
+      value: number;
+      valueUpper?: number;
+    };
   Element: HTMLDivElement;
 }
 

@@ -32,6 +32,10 @@ import {
 } from './-private/list-box/items.ts';
 import { afterRender } from '../utils/after-render.ts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+} from './-private/field.gts';
 
 export interface ComboBoxChange<T> {
   /**
@@ -48,105 +52,94 @@ export interface ComboBoxChange<T> {
 
 export interface ComboBoxSignature<T> {
   Element: HTMLInputElement;
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    /**
-     * The id of the input. The label, menu and items derive theirs from it,
-     * so pass it as `@id`: an `id` attribute is ignored. Auto-generated when
-     * omitted.
-     */
-    id?: string;
-    /**
-     * The items to choose from. They can be any value: `@itemToString` turns
-     * one into its text.
-     */
-    items: T[];
-    /**
-     * Turns an item into the text shown for it, in the input and the menu.
-     * Defaults to a string or number item itself, or an object's string
-     * `label`. Items with `disabled: true` can't be chosen.
-     */
-    itemToString?: (item: T) => string;
-    /**
-     * The field's label. Without it, the input is labelled "Choose an item";
-     * set `aria-label` on the component to change that.
-     */
-    titleText?: string;
-    /** Text shown in the input while it's empty. */
-    placeholder?: string;
-    /** Help shown below the field, unless it's invalid or warning. */
-    helperText?: string;
-    /**
-     * The selected item, for full control of the selection: pair it with
-     * `@onChange`. Wins over internal state whenever it's defined.
-     */
-    selectedItem?: T | null;
-    /**
-     * The item selected at first, for the uncontrolled case. Later changes
-     * are ignored.
-     */
-    initialSelectedItem?: T;
-    /**
-     * Called when the selection changes, whether the user changed it or
-     * `@selectedItem` did.
-     */
-    onChange?: (data: ComboBoxChange<T>) => void;
-    /**
-     * Called with the input's text whenever it changes, to load the items
-     * that match it, say.
-     */
-    onInputChange?: (inputText: string) => void;
-    /** Called when the button that opens and closes the menu is clicked. */
-    onToggleClick?: (event: MouseEvent) => void;
-    /**
-     * Whether to list an item for the text typed. Defaults to listing every
-     * item. Ignored with `@typeahead`.
-     */
-    shouldFilterItem?: (input: {
-      item: T;
-      itemToString: (item: T) => string;
-      inputValue: string;
-    }) => boolean;
-    /**
-     * Keep text that matches no item as the value, rather than clearing it
-     * when the field loses focus.
-     */
-    allowCustomValue?: boolean;
-    /**
-     * **Experimental:** list only the items that start with the text typed,
-     * and complete it with the first one; Tab accepts it.
-     */
-    typeahead?: boolean;
-    /**
-     * **Experimental:** position the menu with Floating UI, so it opens
-     * above the field when there's no room below, and hides when the field
-     * scrolls out of view.
-     */
-    autoAlign?: boolean;
-    /** The side of the field the menu opens on. Defaults to `bottom`. */
-    direction?: 'top' | 'bottom';
-    /**
-     * The field's height. Without it, the field follows an enclosing
-     * Layout's size.
-     */
-    size?: ListBoxSize;
-    /** Specify if the control should be disabled, or not. */
-    disabled?: boolean;
-    /** Whether the value can be read and focused, but not changed. */
-    readOnly?: boolean;
-    /** Specify if the currently selected value is invalid. */
-    invalid?: boolean;
-    /** Message which is displayed if the value is invalid. */
-    invalidText?: string;
-    /** Specify whether the control is currently in warning state. */
-    warn?: boolean;
-    /** Message which is displayed if the control is in warning state. */
-    warnText?: string;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<input>`.
+       */
+      className?: string;
+      /**
+       * The id of the input. The label, menu and items derive theirs from it,
+       * so pass it as `@id`: an `id` attribute is ignored. Auto-generated when
+       * omitted.
+       */
+      id?: string;
+      /**
+       * The items to choose from. They can be any value: `@itemToString` turns
+       * one into its text.
+       */
+      items: T[];
+      /**
+       * Turns an item into the text shown for it, in the input and the menu.
+       * Defaults to a string or number item itself, or an object's string
+       * `label`. Items with `disabled: true` can't be chosen.
+       */
+      itemToString?: (item: T) => string;
+      /**
+       * The field's label. Without it, the input is labelled "Choose an item";
+       * set `aria-label` on the component to change that.
+       */
+      titleText?: string;
+      /** Text shown in the input while it's empty. */
+      placeholder?: string;
+      /**
+       * The selected item, for full control of the selection: pair it with
+       * `@onChange`. Wins over internal state whenever it's defined.
+       */
+      selectedItem?: T | null;
+      /**
+       * The item selected at first, for the uncontrolled case. Later changes
+       * are ignored.
+       */
+      initialSelectedItem?: T;
+      /**
+       * Called when the selection changes, whether the user changed it or
+       * `@selectedItem` did.
+       */
+      onChange?: (data: ComboBoxChange<T>) => void;
+      /**
+       * Called with the input's text whenever it changes, to load the items
+       * that match it, say.
+       */
+      onInputChange?: (inputText: string) => void;
+      /** Called when the button that opens and closes the menu is clicked. */
+      onToggleClick?: (event: MouseEvent) => void;
+      /**
+       * Whether to list an item for the text typed. Defaults to listing every
+       * item. Ignored with `@typeahead`.
+       */
+      shouldFilterItem?: (input: {
+        item: T;
+        itemToString: (item: T) => string;
+        inputValue: string;
+      }) => boolean;
+      /**
+       * Keep text that matches no item as the value, rather than clearing it
+       * when the field loses focus.
+       */
+      allowCustomValue?: boolean;
+      /**
+       * **Experimental:** list only the items that start with the text typed,
+       * and complete it with the first one; Tab accepts it.
+       */
+      typeahead?: boolean;
+      /**
+       * **Experimental:** position the menu with Floating UI, so it opens
+       * above the field when there's no room below, and hides when the field
+       * scrolls out of view.
+       */
+      autoAlign?: boolean;
+      /** The side of the field the menu opens on. Defaults to `bottom`. */
+      direction?: 'top' | 'bottom';
+      /**
+       * The field's height. Without it, the field follows an enclosing
+       * Layout's size.
+       */
+      size?: ListBoxSize;
+      /** Specify if the control should be disabled, or not. */
+      disabled?: boolean;
+    };
   Blocks: {
     /**
      * Renders each item in the menu. Defaults to its text; the input always
