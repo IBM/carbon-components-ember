@@ -15,7 +15,7 @@ import Star from './icons/star.ts';
 import UserAvatar from './icons/user-avatar.ts';
 
 import type { TabsSignature } from './tabs.gts';
-import type Icon from './icon.gts';
+import type { IconComponent } from './icon.gts';
 import '#storybook/styles/tabs.css';
 
 // Parity gaps with Carbon React's Tabs stories:
@@ -35,7 +35,7 @@ import '#storybook/styles/tabs.css';
 type TabDef = {
   title: string;
   disabled?: boolean;
-  icon?: typeof Icon;
+  icon?: IconComponent;
   secondaryLabel?: string;
 };
 

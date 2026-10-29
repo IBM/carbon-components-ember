@@ -57,46 +57,6 @@
     {
       "path": "span > span[1]",
       "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
-    },
-    {
-      "path": "div > div[0].attributes",
-      "variant": "multi",
-      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
-    },
-    {
-      "path": "div > div[0] > pre[0].attributes",
-      "variant": "multi",
-      "reason": "The other half of the container entry: the <pre> is the textbox."
-    },
-    {
-      "path": "div > div[0].attributes",
-      "variant": "multi-disabled",
-      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
-    },
-    {
-      "path": "div > div[0] > pre[0].attributes",
-      "variant": "multi-disabled",
-      "reason": "The other half of the container entry: the <pre> is the textbox."
-    },
-    {
-      "path": "div > div[0].attributes",
-      "variant": "wrap-text",
-      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
-    },
-    {
-      "path": "div > div[0] > pre[0].attributes",
-      "variant": "wrap-text",
-      "reason": "The other half of the container entry: the <pre> is the textbox."
-    },
-    {
-      "path": "div > div[0].attributes",
-      "variant": "align",
-      "reason": "Deliberate: Carbon CSS scrolls a multi-line snippet's <pre> sideways, but Carbon React makes its container the focusable textbox, which only scrolls down, so a keyboard can't scroll the code sideways (axe's scrollable-region-focusable). The <pre> is the textbox here."
-    },
-    {
-      "path": "div > div[0] > pre[0].attributes",
-      "variant": "align",
-      "reason": "The other half of the container entry: the <pre> is the textbox."
     }
   ],
   "Link": [
@@ -495,66 +455,6 @@
       "path": "div.attributes.tabindex",
       "variant": "selected-panel",
       "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
-    }
-  ],
-  "ToastNotification": [
-    {
-      "path": "div > svg[0].attributes.aria-label",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > svg[0].attributes.role",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > svg[0].attributes.aria-hidden",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    }
-  ],
-  "InlineNotification": [
-    {
-      "path": "div > div[0] > svg[0].attributes.aria-label",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0].attributes.role",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0].attributes.aria-hidden",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    }
-  ],
-  "ActionableNotification": [
-    {
-      "path": "div > div[0] > div[0] > svg[0].attributes.aria-label",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > div[0] > svg[0].attributes.role",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > div[0] > svg[0].attributes.aria-hidden",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    }
-  ],
-  "Callout": [
-    {
-      "path": "div > div[0] > svg[0].attributes.aria-label",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0].attributes.role",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div > div[0] > svg[0].attributes.aria-hidden",
-      "reason": "Carbon React 1.118 labels the status icon (`aria-label`, so `role=\"img\"` instead of `aria-hidden`, carbon#23587); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
-    },
-    {
-      "path": "div.classes[cds--actionable-notification--callout]",
-      "reason": "Carbon React 1.118 adds this class for the v12 styles (carbon#23362); the fixtures are from 1.114 until the Carbon upgrade (#1054)."
     }
   ],
   "Modal": [

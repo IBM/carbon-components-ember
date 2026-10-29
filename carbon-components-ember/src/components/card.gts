@@ -7,7 +7,8 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
+import type { IconComponent } from './icon.gts';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import ArrowRight from './icons/arrow-right.ts';
@@ -44,7 +45,7 @@ export interface CardSignature {
      */
     horizontal?: boolean;
     /** The icon in a clickable card's footer. Defaults to an arrow. */
-    renderFooterIcon?: ComponentLike;
+    renderFooterIcon?: IconComponent;
     /**
      * Makes the card a clickable link to this URL, as Carbon React's
      * `as="a"` with `href`. `@route` links it to one of the app's routes.
@@ -82,12 +83,17 @@ export default class Card extends Component<CardSignature> {
   @tracked decorators = 0;
 
   get isLink() {
-    const { href, route, disabled } = this.args;
-    return Boolean(href || route) && !disabled;
+    const { href, route, externalRoute, disabled } = this.args;
+    return Boolean(href || route || externalRoute) && !disabled;
   }
 
   get isClickable() {
-    return Boolean(this.args.clickable || this.args.href || this.args.route);
+    return Boolean(
+      this.args.clickable ||
+      this.args.href ||
+      this.args.route ||
+      this.args.externalRoute,
+    );
   }
 
   get footerIcon() {
@@ -110,7 +116,8 @@ export default class Card extends Component<CardSignature> {
 
   // A disabled link card stays a link, without its URL, as Link does.
   get role() {
-    if (this.args.href || this.args.route) return 'link';
+    if (this.args.href || this.args.route || this.args.externalRoute)
+      return 'link';
     return this.args.clickable ? 'button' : undefined;
   }
 
@@ -160,6 +167,7 @@ export default class Card extends Component<CardSignature> {
         <RouterLink
           @href={{@href}}
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           class={{this.classes}}

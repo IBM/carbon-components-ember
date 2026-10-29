@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../../../icon.gts';
 
 /**
  * Ported from `@carbon/ai-chat-components`' `prompt-line/src/tiptap/types.ts`,
@@ -32,15 +32,10 @@ export interface SuggestionItem {
   description?: string;
   /**
    * Optional leading visual. A plain string is rendered as an image `src`;
-   * anything else is invoked as a component (`<entry.avatarIcon @size={{16}} />`),
-   * matching the `ComponentLike` icon-arg pattern used elsewhere in this
-   * addon (e.g. `CardFooter`'s `CardFooterAction.icon`).
+   * anything else is an icon component, invoked as
+   * `<entry.avatarIcon @size={{16}} />`.
    */
-  avatar?:
-    | string
-    | ComponentLike<{
-        Args: { size?: number; svgClass?: string; fill?: string };
-      }>;
+  avatar?: string | IconComponent;
   /** Whether the item is disabled and cannot be selected. */
   disabled?: boolean;
   /**

@@ -29,7 +29,7 @@ import { FileStatusValue } from './-file-uploads/types.ts';
 import { buildCarbonExtensions } from './-prompt-line/tiptap/build-extensions.ts';
 
 import type { TOC } from '@ember/component/template-only';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import type { userEvent as UserEventApi } from 'storybook/test';
 import type { Editor, Extension } from '@tiptap/core';
 import type { PromptLineSignature, PromptLineApi } from './prompt-line.gts';
@@ -99,10 +99,6 @@ type StoryArgs = PromptLineSignature['Args'] & {
   /** A file chip was removed (`FileUploads`' `@onRemove`). */
   onFileRemove: (detail: FileRemoveEventDetail) => void;
 };
-
-type IconComponent = ComponentLike<{
-  Args: { size?: number; svgClass?: string; fill?: string };
-}>;
 
 const MENTION_ITEMS: SuggestionItem[] = [
   {

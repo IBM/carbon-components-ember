@@ -1,8 +1,8 @@
 {
   "component": "Callout",
-  "generatedAt": "2026-10-15T19:52:01.432Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.558Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "info": {
       "props": {
@@ -14,6 +14,7 @@
         "tag": "div",
         "classes": [
           "cds--actionable-notification",
+          "cds--actionable-notification--callout",
           "cds--actionable-notification--hide-close-button",
           "cds--actionable-notification--info"
         ],
@@ -39,10 +40,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "info icon",
                   "width": "20",
                   "height": "20",
                   "viewBox": "0 0 32 32",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},
@@ -155,6 +157,7 @@
         "tag": "div",
         "classes": [
           "cds--actionable-notification",
+          "cds--actionable-notification--callout",
           "cds--actionable-notification--hide-close-button",
           "cds--actionable-notification--warning"
         ],
@@ -180,10 +183,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "warning icon",
                   "width": "20",
                   "height": "20",
                   "viewBox": "0 0 20 20",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},
@@ -296,6 +300,7 @@
         "tag": "div",
         "classes": [
           "cds--actionable-notification",
+          "cds--actionable-notification--callout",
           "cds--actionable-notification--hide-close-button",
           "cds--actionable-notification--info",
           "cds--actionable-notification--low-contrast"
@@ -322,10 +327,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "info icon",
                   "width": "20",
                   "height": "20",
                   "viewBox": "0 0 32 32",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},
@@ -439,6 +445,7 @@
         "tag": "div",
         "classes": [
           "cds--actionable-notification",
+          "cds--actionable-notification--callout",
           "cds--actionable-notification--hide-close-button",
           "cds--actionable-notification--info"
         ],
@@ -464,10 +471,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "info icon",
                   "width": "20",
                   "height": "20",
                   "viewBox": "0 0 32 32",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},

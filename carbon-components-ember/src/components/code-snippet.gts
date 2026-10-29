@@ -215,7 +215,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
     {{else}}
       <div class={{this.classes}} ...attributes>
         {{! What scrolls is the focusable textbox, so a keyboard can scroll the
-          code: a multi-line snippet's <pre>, unlike Carbon React's. }}
+          code: a multi-line snippet's <pre>, as in Carbon React. }}
         <div
           class="cds--snippet-container"
           role={{unless this.isMulti "textbox"}}

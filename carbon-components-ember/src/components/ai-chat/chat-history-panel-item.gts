@@ -9,14 +9,14 @@ import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import OverflowMenu from '../overflow-menu.gts';
 import ChatHistoryPanelItemInput from './chat-history-panel-item-input.gts';
 import './chat-history.scss';
 
 export type ChatHistoryItemAction = {
   text: string;
-  icon?: ComponentLike<{ Args: { size?: number } }>;
+  icon?: IconComponent;
   /** Renders as a destructive option in the overflow menu. */
   delete?: boolean;
   /** Renders a divider above this item in the overflow menu. */

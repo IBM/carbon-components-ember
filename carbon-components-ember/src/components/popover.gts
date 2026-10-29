@@ -14,6 +14,7 @@ import { clippingBoundary, float } from '../utils/floating.ts';
 import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
+import type { WithBoundArgs } from '@glint/template';
 
 /** Carbon React's `NewPopoverAlignment` values. */
 export const NewPopoverAlignments = [
@@ -126,9 +127,6 @@ function toPixels(value: string): number | undefined {
   return value.includes('px') ? number : number * 16;
 }
 
-const popovers = new WeakMap<Element, Popover>();
-const popoverContents = new WeakMap<Element, PopoverContent>();
-
 export interface PopoverSignature {
   Element: HTMLElement;
   Args: {
@@ -194,7 +192,8 @@ export interface PopoverSignature {
     open: boolean;
   };
   Blocks: {
-    default: [];
+    /** The trigger, then the yielded `PopoverContent`. */
+    default: [PopoverContent: WithBoundArgs<typeof PopoverContent, 'popover'>];
   };
 }
 
@@ -203,10 +202,10 @@ export interface PopoverSignature {
  * typically a button, in a given direction.
  *
  * ```gjs
- * import { Popover, PopoverContent } from 'carbon-components-ember/components';
+ * import { Popover } from 'carbon-components-ember/components';
  *
  * <template>
- *   <Popover @open={{true}}>
+ *   <Popover @open={{true}} as |PopoverContent|>
  *     <button type="button">Trigger</button>
  *     <PopoverContent>Content</PopoverContent>
  *   </Popover>
@@ -296,13 +295,6 @@ export default class Popover extends Component<PopoverSignature> {
 
   manage = modifier((element: HTMLElement) => {
     this.containerElement = element;
-    // On first render, PopoverContent's modifier runs before this one.
-    popovers.set(element, this);
-    for (const content of element.querySelectorAll<HTMLElement>(
-      ':scope > .cds--popover > .cds--popover-content',
-    )) {
-      popoverContents.get(content)?.connect(this, content);
-    }
     this.markTabTipTrigger();
   });
 
@@ -447,13 +439,17 @@ export default class Popover extends Component<PopoverSignature> {
         }}
         ...attributes
       >
-        {{yield}}
+        {{yield (component PopoverContent popover=this)}}
       </Tag>
     {{/let}}
   </template>
 }
 
 export interface PopoverContentSignature {
+  Args: {
+    /** The Popover it belongs to, bound by the Popover that yields it. */
+    popover: Popover;
+  };
   Element: HTMLSpanElement;
   Blocks: {
     default: [];
@@ -461,43 +457,28 @@ export interface PopoverContentSignature {
 }
 
 /**
- * `PopoverContent` renders the floating content of a `Popover`. It must be
- * used as a direct child of `Popover`, alongside the trigger element.
+ * `PopoverContent` renders the floating content of a `Popover`, which
+ * yields it already bound to itself. Render it directly inside the Popover,
+ * next to the trigger.
  */
 export class PopoverContent extends Component<PopoverContentSignature> {
-  @tracked popover?: Popover;
-  // Read by the modifiers instead of `popover`, so they never re-run.
-  #popover?: Popover;
-
   /** In floating mode, Carbon puts the caret inside the content. */
   get floating() {
-    return this.popover?.floating ?? false;
-  }
-
-  connect(popover: Popover, content: HTMLElement) {
-    popover.contentElement = content;
-    if (this.#popover === popover) return;
-    this.#popover = popover;
-    this.popover = popover;
+    return this.args.popover.floating;
   }
 
   register = modifier((content: HTMLElement) => {
-    popoverContents.set(content, this);
-    const container = content.parentElement?.parentElement;
-    const popover = container ? popovers.get(container) : undefined;
-    if (popover) {
-      this.connect(popover, content);
-    }
+    const { popover } = this.args;
+    popover.contentElement = content;
     return () => {
-      if (this.#popover?.contentElement === content) {
-        this.#popover.contentElement = undefined;
+      if (popover.contentElement === content) {
+        popover.contentElement = undefined;
       }
     };
   });
 
   registerCaret = modifier((caret: HTMLElement) => {
-    const popover = this.#popover;
-    if (!popover) return;
+    const { popover } = this.args;
     popover.caretElement = caret;
     return () => {
       if (popover.caretElement === caret) {

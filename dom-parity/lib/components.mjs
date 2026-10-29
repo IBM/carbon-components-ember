@@ -1142,6 +1142,18 @@ const formLabel = (name, props) => ({
     React.createElement(Carbon.FormLabel, props, 'Form label'),
 });
 
+// Closed: Carbon React renders the menu only while it's open.
+const menuButton = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.MenuButton,
+      { label: 'Actions', ...props },
+      React.createElement(Carbon.MenuItem, { label: 'First action' }),
+    ),
+});
+
 // Listed in Carbon's order, which a fluid set sorts them into: ours
 // renders them as written.
 const buttonSet = (name, props) => ({
@@ -2308,6 +2320,17 @@ export const COMPONENTS = [
     variants: [
       formLabel('default', {}),
       formLabel('with-id', { id: 'form-label-input-1' }),
+    ],
+  },
+  {
+    name: 'MenuButton',
+    variants: [
+      menuButton('default', {}),
+      menuButton('kind-tertiary', { kind: 'tertiary' }),
+      menuButton('kind-ghost', { kind: 'ghost' }),
+      menuButton('size-sm', { size: 'sm' }),
+      menuButton('size-md', { size: 'md' }),
+      menuButton('disabled', { disabled: true }),
     ],
   },
   {

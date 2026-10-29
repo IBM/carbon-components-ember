@@ -6,7 +6,7 @@ import NumberInputSkeleton from '#src/components/number-input-skeleton.gts';
 module('Integration | Component | NumberInputSkeleton', (hooks) => {
   setupRenderingTest(hooks);
 
-  test('should render a medium field with a label', async function (assert) {
+  test('should render a field with a label', async function (assert) {
     await render(
       <template><NumberInputSkeleton data-test-skeleton /></template>,
     );
@@ -16,7 +16,7 @@ module('Integration | Component | NumberInputSkeleton', (hooks) => {
     assert
       .dom('.cds--number')
       .hasClass('cds--skeleton')
-      .hasClass('cds--number--md');
+      .doesNotHaveClass('cds--number--md');
   });
 
   test('should take a size and hide its label', async function (assert) {
@@ -27,6 +27,9 @@ module('Integration | Component | NumberInputSkeleton', (hooks) => {
     );
 
     assert.dom('.cds--label').doesNotExist();
-    assert.dom('.cds--number').hasClass('cds--number--lg');
+    assert
+      .dom('.cds--number')
+      .hasClass('cds--number--lg')
+      .hasClass('cds--layout--size-lg');
   });
 });
