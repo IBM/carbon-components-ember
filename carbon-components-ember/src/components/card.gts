@@ -7,7 +7,8 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
+import type { IconComponent } from './icon.gts';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import ArrowRight from './icons/arrow-right.ts';
@@ -44,7 +45,7 @@ export interface CardSignature {
      */
     horizontal?: boolean;
     /** The icon in a clickable card's footer. Defaults to an arrow. */
-    renderFooterIcon?: ComponentLike;
+    renderFooterIcon?: IconComponent;
     /**
      * Makes the card a clickable link to this URL, as Carbon React's
      * `as="a"` with `href`. `@route` links it to one of the app's routes.

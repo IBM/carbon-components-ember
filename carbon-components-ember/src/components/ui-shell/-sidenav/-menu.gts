@@ -1,4 +1,4 @@
-import type Icon from '../../../components/icon.gts';
+import type { IconComponent } from '../../icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import UIShellSideNavSubMenu from './-sub-menu.gts';
@@ -7,7 +7,7 @@ import type { RouteArgs } from '../../-private/router-link.gts';
 import ChevronDown from '../../icons/chevron-down.ts';
 
 export type SubMenu = RouteArgs & {
-  icon?: typeof Icon;
+  icon?: IconComponent;
   title: string;
   /** The URL it links to. `route` links it to one of the app's routes. */
   href?: string;
@@ -31,7 +31,7 @@ export interface UIShellSideNavMenuSignature {
      * and makes it the current link while that route is current.
      */
     href?: string;
-    icon?: typeof Icon;
+    icon?: IconComponent;
     title: string;
     submenus: SubMenu[];
   };

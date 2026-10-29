@@ -161,7 +161,7 @@ For a cleaner registration example, read the charts: every yielded part extends 
 
 ### 2. Accept Components as Args
 
-Invoke a `renderIcon`-style `ComponentLike` arg as Carbon React does, passing a `@size` only where React passes `size`: icons are 16px by default and render a bare `<svg>`, as `@carbon/icons-react`'s do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
+Type a `renderIcon`-style arg as `IconComponent` from `icon.gts`, never `typeof Icon`, which rejects any icon that isn't an `Icon` subclass. Invoke it as Carbon React does, passing a `@size` only where React passes `size`: icons are 16px by default and render a bare `<svg>`, as `@carbon/icons-react`'s do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
 
 ```gts
 <@renderIcon />

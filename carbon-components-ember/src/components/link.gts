@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from './icon.gts';
 
 export interface LinkSignature {
   Element: HTMLElement;
@@ -33,9 +33,7 @@ export interface LinkSignature {
     /**
      * A component used to render an icon, drawn at 16px (as Carbon React).
      */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string };
-    }>;
+    renderIcon?: IconComponent;
     /**
      * Specify the size of the Link. Currently supports either `sm`, `md`
      * (default) or `lg` as an option.

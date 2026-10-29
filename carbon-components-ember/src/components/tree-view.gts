@@ -15,7 +15,7 @@ import style from 'ember-style-modifier';
 import { RovingFocus } from '../utils/roving-focus.ts';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
-import type Icon from './icon.gts';
+import type { IconComponent } from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
 const labelOffset = (offset: number) => ({
@@ -43,7 +43,7 @@ export interface TreeNodeSignature {
      * Icon rendered before the node's label, e.g. `Folder`/`Document` from
      * `carbon-components-ember/icons`.
      */
-    icon?: typeof Icon;
+    icon?: IconComponent;
     /**
      * Nesting depth of this node within the tree, starting at 0 for
      * top-level nodes. Set automatically when nodes are yielded — do not

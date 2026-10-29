@@ -1,11 +1,11 @@
-import type Icon from '../../icon.gts';
+import type { IconComponent } from '../../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellHeaderGlobalActionSignature {
   Element: HTMLButtonElement;
   Args: {
     'aria-label': string;
-    icon: typeof Icon;
+    icon: IconComponent;
     onClick: () => void;
   };
 }
