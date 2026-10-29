@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import OverflowMenu from '../overflow-menu.gts';
 import TruncatedText from './truncated-text.gts';
 import ToolbarActionButton from './-toolbar-action.gts';
@@ -21,7 +21,7 @@ export type ToolbarAction = RouteArgs & {
   /** Display text - also used as the tooltip label / overflow menu item text. */
   text: string;
   /** Icon component rendered for the action. */
-  icon: ComponentLike<{ Args: { size?: number } }>;
+  icon: IconComponent;
   onClick?: () => void;
   /**
    * Renders the action as a link instead of a button; `route` links it to
@@ -266,6 +266,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
                   @itemText={{toolbarAction.text}}
                   @href={{toolbarAction.href}}
                   @route={{toolbarAction.route}}
+                  @externalRoute={{toolbarAction.externalRoute}}
                   @models={{toolbarAction.models}}
                   @query={{toolbarAction.query}}
                   @disabled={{toolbarAction.disabled}}

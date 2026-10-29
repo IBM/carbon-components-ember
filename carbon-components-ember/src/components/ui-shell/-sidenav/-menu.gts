@@ -1,4 +1,4 @@
-import type Icon from '../../../components/icon.gts';
+import type { IconComponent } from '../../icon.gts';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import UIShellSideNavSubMenu from './-sub-menu.gts';
@@ -7,7 +7,7 @@ import type { RouteArgs } from '../../-private/router-link.gts';
 import ChevronDown from '../../icons/chevron-down.ts';
 
 export type SubMenu = RouteArgs & {
-  icon?: typeof Icon;
+  icon?: IconComponent;
   title: string;
   /** The URL it links to. `route` links it to one of the app's routes. */
   href?: string;
@@ -31,7 +31,7 @@ export interface UIShellSideNavMenuSignature {
      * and makes it the current link while that route is current.
      */
     href?: string;
-    icon?: typeof Icon;
+    icon?: IconComponent;
     title: string;
     submenus: SubMenu[];
   };
@@ -44,7 +44,9 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
   @tracked expanded = false;
 
   get isLink() {
-    return Boolean(this.args.href || this.args.route);
+    return Boolean(
+      this.args.href || this.args.route || this.args.externalRoute,
+    );
   }
 
   transition = () => this.args.transitionTo?.();
@@ -93,6 +95,7 @@ export default class UIShellSideNavMenu extends Component<UIShellSideNavMenuSign
           <RouterLink
             @href={{if this.isLink @href "#"}}
             @route={{@route}}
+            @externalRoute={{@externalRoute}}
             @models={{@models}}
             @query={{@query}}
             @isActive={{@isCurrent}}

@@ -12,6 +12,7 @@ import { tracked } from '@glimmer/tracking';
 import Tag from '#src/components/tag.gts';
 import { Add } from '#src/icons.ts';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
+import type { TOC } from '@ember/component/template-only';
 import { setupRoutes, visitWith, waitForAnimationFrame } from '../helpers';
 
 module('Integration | Component | Tag', (hooks) => {
@@ -96,6 +97,21 @@ module('Integration | Component | Tag', (hooks) => {
     assert.dom('.cds--tag__custom-icon svg').exists();
     assert.dom('.cds--tag__custom-icon svg').hasAttribute('width', '16');
     assert.dom('.cds--tag__custom-icon svg').hasAttribute('height', '16');
+  });
+
+  test('@renderIcon takes any icon component, not only an Icon subclass', async function (assert) {
+    const CustomIcon: TOC<{ Args: { size?: number | string } }> = <template>
+      <svg data-test-custom-icon width={{@size}} height={{@size}}></svg>
+    </template>;
+    await render(
+      <template>
+        <Tag @type="red" @renderIcon={{CustomIcon}}>Tag content</Tag>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--tag__custom-icon [data-test-custom-icon]')
+      .hasAttribute('width', '16');
   });
 
   test('positions the custom icon inside its wrapper under real Carbon styles', async function (this: RenderingTestContext, assert) {

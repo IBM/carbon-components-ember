@@ -8,12 +8,12 @@
 import { concat } from '@ember/helper';
 
 import type { TOC } from '@ember/component/template-only';
+import type { TagSignature } from './tag.gts';
 
 export interface TagSkeletonSignature {
   Element: HTMLSpanElement;
   Args: {
-    /** `sm`, or leave it out for the default size. */
-    size?: 'sm';
+    size?: TagSignature['Args']['size'];
   };
 }
 

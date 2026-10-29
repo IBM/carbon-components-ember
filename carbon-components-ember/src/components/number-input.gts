@@ -43,7 +43,7 @@ export interface NumberInputSignature {
       allowEmpty?: boolean;
       disabled?: boolean;
       hideSteppers?: boolean;
-      size?: 'sm' | 'md' | 'lg';
+      size?: 'xs' | 'sm' | 'md' | 'lg';
       light?: boolean;
       iconDescription?: string;
       /**
@@ -230,7 +230,10 @@ export default class NumberInput extends Component<NumberInputSignature> {
           {{if @light 'cds--number--light'}}
           {{if @hideLabel 'cds--number--nolabel'}}
           {{if @hideSteppers 'cds--number--nosteppers'}}
-          {{concat 'cds--number--' (if @size @size 'md')}}"
+          {{if
+            @size
+            (concat 'cds--number--' @size ' cds--layout--size-' @size)
+          }}"
         data-invalid={{if this.isInvalid "true"}}
       >
         {{#if @label}}

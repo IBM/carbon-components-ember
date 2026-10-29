@@ -48,7 +48,9 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
 
   // A disabled item stays a button.
   get isRouteLink() {
-    return Boolean(this.args.route) && !this.args.disabled;
+    return (
+      Boolean(this.args.route || this.args.externalRoute) && !this.args.disabled
+    );
   }
 
   get wrapperClass() {
@@ -80,6 +82,7 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
       {{#if this.isRouteLink}}
         <RouterLink
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           class="cds--overflow-menu-options__btn"

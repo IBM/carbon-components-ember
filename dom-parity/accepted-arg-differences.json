@@ -13,6 +13,7 @@
     "extra": {
       "ariaCurrent": "React's aria-current goes to the item's link, which Carbon styles as the current page; an aria-current attribute would go to the <li>.",
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
@@ -25,6 +26,7 @@
     "extra": {
       "autoAlign": "Carbon React's Button takes `autoAlign` at runtime and passes it to the icon-only button's tooltip, though its types leave it out.",
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
@@ -81,6 +83,7 @@
   "Link": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
@@ -122,6 +125,7 @@
     },
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
@@ -134,6 +138,7 @@
   "Tag": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040).",
       "href": "Carbon React's Tag takes `as` (a router Link, or `a` with `href`), which Ember can't take; @href links the tag's icon and label, keeping a decorator's button out of the link."
@@ -147,6 +152,7 @@
   "Tile": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040).",
       "href": "Carbon React's ClickableTile's href: this Tile also renders the ClickableTile (@clickable).",
