@@ -331,6 +331,7 @@ Components Carbon for IBM Products (`@carbon/ibm-products`) defines live in `src
 - Render IBM Products' markup and `c4p--` classes.
 - Each component imports a stylesheet that `@use`s its component's SCSS from `@carbon/ibm-products-styles` (`@use '@carbon/ibm-products-styles/scss/components/EmptyStates';`). The build compiles that into `styles.css`, so apps load nothing new.
 - Their DOM-parity fixtures render `@carbon/ibm-products` (entries marked `ibmProducts: true` in `dom-parity/lib/components.mjs`), and the argument check compares them with its props.
+- A component upstream exports under a namespace (`preview__PageHeader`) keeps its name here (`PageHeader`, `PageHeaderContent`). `dom-parity/ibm-products-types.ts` points the argument check at the namespace, and its fixtures render `IBMProducts.preview__PageHeader`.
 - Story titles are upstream's, prefixed with `IBM Products/`.
 
 ## Component Implementation Checklist

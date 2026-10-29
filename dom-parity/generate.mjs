@@ -47,11 +47,19 @@ globalThis.removeEventListener = dom.window.removeEventListener.bind(
   dom.window,
 );
 globalThis.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+globalThis.cancelAnimationFrame = (handle) => clearTimeout(handle);
 globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
 // jsdom has no ResizeObserver; ExpandableTile only uses it to re-measure
 // the above-the-fold content on resize, which this offline, one-shot
 // render never needs to react to.
 globalThis.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+// Nor an IntersectionObserver, which Carbon for IBM Products' PageHeader
+// uses to tell when its content scrolls out of view; nothing scrolls here.
+globalThis.IntersectionObserver = class IntersectionObserver {
   observe() {}
   unobserve() {}
   disconnect() {}

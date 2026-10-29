@@ -84,6 +84,10 @@ TypeScript types: `@carbon/react`'s and `@carbon/ibm-products`'
 declarations, and the addon's signatures, which it emits with `ember-tsc`
 first (a few seconds).
 
+A component `@carbon/ibm-products` exports under a namespace
+(`preview__PageHeader`) is compared through `ibm-products-types.ts`, which
+re-exports it under its own name.
+
 ```sh
 pnpm --filter dom-parity args                     # components that differ
 pnpm --filter dom-parity args --component Button  # one component
