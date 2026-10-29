@@ -1,8 +1,8 @@
 {
   "component": "SelectableTile",
-  "generatedAt": "2026-10-04T14:24:38.846Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.569Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {},
@@ -16,8 +16,7 @@
         "attributes": {
           "role": "checkbox",
           "aria-checked": "false",
-          "tabindex": "0",
-          "title": "title"
+          "tabindex": "0"
         },
         "style": {},
         "children": [

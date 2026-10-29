@@ -1,8 +1,8 @@
 {
   "component": "NotificationButton",
-  "generatedAt": "2026-10-15T19:52:01.433Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.560Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "toast": {
       "props": {

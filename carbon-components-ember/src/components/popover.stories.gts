@@ -11,7 +11,7 @@ import {
 
 import preview from '#storybook/preview.ts';
 import Checkbox from './checkbox.gts';
-import Popover, { NewPopoverAlignments, PopoverContent } from './popover.gts';
+import Popover, { NewPopoverAlignments } from './popover.gts';
 import RadioButtonGroup from './radio-button/radio-button-group.gts';
 import CheckboxIcon from './icons/checkbox.ts';
 import Settings from './icons/settings.ts';
@@ -52,7 +52,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "`Popover` is used for triggering a pop-up next to a trigger element, typically a button, in a given direction. It is a controlled component: the consumer owns the `@open` argument and toggles it (usually from the trigger's click handler), while `Popover` calls `@onRequestClose` whenever the user clicks outside of the popover or presses <kbd>Escape</kbd> while focus is inside the popover content.\n\nThe trigger element and `PopoverContent` are both yielded as plain children of `Popover`.",
+          "`Popover` is used for triggering a pop-up next to a trigger element, typically a button, in a given direction. It is a controlled component: the consumer owns the `@open` argument and toggles it (usually from the trigger's click handler), while `Popover` calls `@onRequestClose` whenever the user clicks outside of the popover or presses <kbd>Escape</kbd> while focus is inside the popover content.\n\nRender the trigger element, then the `PopoverContent` that `Popover` yields, bound to it: `<Popover @open={{this.open}} as |PopoverContent|>`.",
       },
     },
   },
@@ -94,6 +94,7 @@ export const Default = meta.story({
         @highContrast={{args.highContrast}}
         @backgroundToken={{args.backgroundToken}}
         @onRequestClose={{close}}
+        as |PopoverContent|
       >
         <button
           type="button"
@@ -155,6 +156,7 @@ export const TabTip = meta.story({
           @align="bottom-start"
           @isTabTip={{true}}
           @onRequestClose={{one.close}}
+          as |PopoverContent|
         >
           <button
             type="button"
@@ -190,6 +192,7 @@ export const TabTip = meta.story({
           @align="bottom-end"
           @isTabTip={{true}}
           @onRequestClose={{two.close}}
+          as |PopoverContent|
         >
           <button
             type="button"
@@ -242,6 +245,7 @@ export const ExperimentalAutoAlign = meta.story({
           @caret={{args.caret}}
           @autoAlign={{true}}
           @onRequestClose={{close}}
+          as |PopoverContent|
         >
           <button
             type="button"
@@ -287,6 +291,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
               @autoAlign={{true}}
               @autoAlignBoundary={{boundary.element}}
               @onRequestClose={{close}}
+              as |PopoverContent|
             >
               <button
                 type="button"
@@ -327,6 +332,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
           @autoAlign={{true}}
           @isTabTip={{true}}
           @onRequestClose={{close}}
+          as |PopoverContent|
         >
           <button
             type="button"
@@ -368,6 +374,7 @@ export const AutoAlignAtTopOfPage = meta.story({
         @align="top"
         @autoAlign={{true}}
         @onRequestClose={{close}}
+        as |PopoverContent|
       >
         <button
           type="button"

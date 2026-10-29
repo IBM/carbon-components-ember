@@ -1,8 +1,8 @@
 {
   "component": "NumberInput",
-  "generatedAt": "2026-10-04T14:24:38.952Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.713Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {},
@@ -20,8 +20,7 @@
             "tag": "div",
             "classes": [
               "cds--number",
-              "cds--number--helpertext",
-              "cds--number--md"
+              "cds--number--helpertext"
             ],
             "attributes": {},
             "style": {},
@@ -219,8 +218,7 @@
             "tag": "div",
             "classes": [
               "cds--number",
-              "cds--number--helpertext",
-              "cds--number--md"
+              "cds--number--helpertext"
             ],
             "attributes": {},
             "style": {},
@@ -423,8 +421,7 @@
             "tag": "div",
             "classes": [
               "cds--number",
-              "cds--number--helpertext",
-              "cds--number--md"
+              "cds--number--helpertext"
             ],
             "attributes": {
               "data-invalid": "true"
@@ -687,8 +684,7 @@
             "tag": "div",
             "classes": [
               "cds--number",
-              "cds--number--helpertext",
-              "cds--number--md"
+              "cds--number--helpertext"
             ],
             "attributes": {},
             "style": {},
@@ -960,7 +956,6 @@
             "classes": [
               "cds--number",
               "cds--number--helpertext",
-              "cds--number--md",
               "cds--number--readonly"
             ],
             "attributes": {},
@@ -1164,8 +1159,7 @@
             "classes": [
               "cds--number",
               "cds--number--helpertext",
-              "cds--number--light",
-              "cds--number--md"
+              "cds--number--light"
             ],
             "attributes": {},
             "style": {},
@@ -1364,7 +1358,6 @@
             "classes": [
               "cds--number",
               "cds--number--helpertext",
-              "cds--number--md",
               "cds--number--nosteppers"
             ],
             "attributes": {},
@@ -1437,6 +1430,7 @@
             "type": "element",
             "tag": "div",
             "classes": [
+              "cds--layout--size-sm",
               "cds--number",
               "cds--number--helpertext",
               "cds--number--sm"

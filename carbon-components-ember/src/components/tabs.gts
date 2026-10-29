@@ -5,7 +5,7 @@ import { concat } from '@ember/helper';
 import { registerDestructor } from '@ember/destroyable';
 import type { WithBoundArgs } from '@glint/template';
 import type Owner from '@ember/owner';
-import type Icon from './icon.gts';
+import type { IconComponent } from './icon.gts';
 import { modifier } from 'ember-modifier';
 import { runTask } from 'ember-lifeline';
 
@@ -22,7 +22,7 @@ export interface TabPaneSignature {
     disabled?: boolean;
     isDefault?: boolean;
     /** Icon rendered alongside the tab label, e.g. from `carbon-components-ember/icons`. */
-    renderIcon?: typeof Icon;
+    renderIcon?: IconComponent;
     /** Subtitle rendered under the label. Only shown when the parent `Tabs` is `@contained`. */
     secondaryLabel?: string;
   };

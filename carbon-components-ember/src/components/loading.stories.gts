@@ -10,8 +10,8 @@ import Modal from './modal.gts';
 import type { LoadingSignature } from './loading.gts';
 
 // Parity notes on Carbon React's Loading stories:
-// - React's `withOverlay` defaults to `false`; the Ember component defaults it
-//   to `true`, so every story here sets it explicitly.
+// - Like React's, they pass `withOverlay: false` except the overlay ones; the
+//   component defaults it to `true` in both.
 // - The overlay stories render in their own iframe on the docs page, since
 //   the overlay covers the whole viewport.
 
@@ -36,6 +36,14 @@ function overlayState() {
 const meta = preview.meta({
   title: 'Components/Loading',
   component: Loading,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'A spinner for content that is loading. `@small` draws the small one, `@active={{false}}` stops it, and `@description` is its accessible name (`loading` by default). By default it covers the page with an overlay (`@withOverlay`): while active, the overlay is a dialog that takes focus when nothing has it, keeps it from the page behind (Tab included), and gives it back when it stops or goes. A modal opened over it keeps its own focus.',
+      },
+    },
+  },
   args: {
     active: true,
     withOverlay: false,

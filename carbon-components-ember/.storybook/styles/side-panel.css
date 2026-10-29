@@ -1,0 +1,36 @@
+/* The panel and the header are `position: fixed`; the transform makes this
+   box their containing block, so they stay inside the story. */
+.side-panel-story__viewport {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  transform: translate(0);
+}
+
+.side-panel-story__story-content {
+  position: relative;
+  height: 100%;
+  padding: 4rem 1rem 1rem;
+  overflow: hidden;
+}
+
+.side-panel-story__text-inputs {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.side-panel-story__multi-select-container {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.side-panel-story__body-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.375rem;
+}
+
+.side-panel-story__content-subtitle {
+  margin: 1rem 0 0.75rem;
+}

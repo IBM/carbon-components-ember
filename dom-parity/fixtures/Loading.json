@@ -1,8 +1,8 @@
 {
   "component": "Loading",
-  "generatedAt": "2026-10-09T01:09:16.078Z",
-  "carbonReactVersion": "1.114.0",
-  "reactVersion": "19.3.0",
+  "generatedAt": "2026-10-28T11:06:02.467Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
   "variants": {
     "overlay-active": {
       "props": {
@@ -16,60 +16,75 @@
         "classes": [
           "cds--loading-overlay"
         ],
-        "attributes": {},
+        "attributes": {
+          "role": "presentation"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": [
-              "cds--loading"
-            ],
+            "classes": [],
             "attributes": {
-              "aria-atomic": "true",
-              "aria-live": "assertive"
+              "role": "dialog",
+              "aria-label": "Active loading indicator",
+              "tabindex": "-1"
             },
             "style": {},
             "children": [
               {
                 "type": "element",
-                "tag": "svg",
+                "tag": "div",
                 "classes": [
-                  "cds--loading__svg"
+                  "cds--loading"
                 ],
                 "attributes": {
-                  "viewBox": "0 0 100 100",
-                  "role": "img",
-                  "aria-label": "Active loading indicator"
+                  "aria-atomic": "true",
+                  "aria-live": "assertive"
                 },
                 "style": {},
                 "children": [
                   {
                     "type": "element",
-                    "tag": "title",
-                    "classes": [],
-                    "attributes": {},
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "Active loading indicator"
+                    },
                     "style": {},
                     "children": [
                       {
-                        "type": "text",
-                        "text": "Active loading indicator"
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Active loading indicator"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "44"
+                        },
+                        "style": {},
+                        "children": []
                       }
                     ]
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__stroke"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "44"
-                    },
-                    "style": {},
-                    "children": []
                   }
                 ]
               }
@@ -91,75 +106,90 @@
         "classes": [
           "cds--loading-overlay"
         ],
-        "attributes": {},
+        "attributes": {
+          "role": "presentation"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": [
-              "cds--loading",
-              "cds--loading--small"
-            ],
+            "classes": [],
             "attributes": {
-              "aria-atomic": "true",
-              "aria-live": "assertive"
+              "role": "dialog",
+              "aria-label": "Active loading indicator",
+              "tabindex": "-1"
             },
             "style": {},
             "children": [
               {
                 "type": "element",
-                "tag": "svg",
+                "tag": "div",
                 "classes": [
-                  "cds--loading__svg"
+                  "cds--loading",
+                  "cds--loading--small"
                 ],
                 "attributes": {
-                  "viewBox": "0 0 100 100",
-                  "role": "img",
-                  "aria-label": "Active loading indicator"
+                  "aria-atomic": "true",
+                  "aria-live": "assertive"
                 },
                 "style": {},
                 "children": [
                   {
                     "type": "element",
-                    "tag": "title",
-                    "classes": [],
-                    "attributes": {},
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "Active loading indicator"
+                    },
                     "style": {},
                     "children": [
                       {
-                        "type": "text",
-                        "text": "Active loading indicator"
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Active loading indicator"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__background"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
                       }
                     ]
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__background"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "42"
-                    },
-                    "style": {},
-                    "children": []
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__stroke"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "42"
-                    },
-                    "style": {},
-                    "children": []
                   }
                 ]
               }
@@ -181,61 +211,72 @@
           "cds--loading-overlay",
           "cds--loading-overlay--stop"
         ],
-        "attributes": {},
+        "attributes": {
+          "role": "presentation"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": [
-              "cds--loading",
-              "cds--loading--stop"
-            ],
-            "attributes": {
-              "aria-atomic": "true",
-              "aria-live": "off"
-            },
+            "classes": [],
+            "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
-                "tag": "svg",
+                "tag": "div",
                 "classes": [
-                  "cds--loading__svg"
+                  "cds--loading",
+                  "cds--loading--stop"
                 ],
                 "attributes": {
-                  "viewBox": "0 0 100 100",
-                  "role": "img",
-                  "aria-label": "Stopped loading indicator"
+                  "aria-atomic": "true",
+                  "aria-live": "off"
                 },
                 "style": {},
                 "children": [
                   {
                     "type": "element",
-                    "tag": "title",
-                    "classes": [],
-                    "attributes": {},
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "Stopped loading indicator"
+                    },
                     "style": {},
                     "children": [
                       {
-                        "type": "text",
-                        "text": "Stopped loading indicator"
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Stopped loading indicator"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "44"
+                        },
+                        "style": {},
+                        "children": []
                       }
                     ]
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__stroke"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "44"
-                    },
-                    "style": {},
-                    "children": []
                   }
                 ]
               }
@@ -258,76 +299,87 @@
           "cds--loading-overlay",
           "cds--loading-overlay--stop"
         ],
-        "attributes": {},
+        "attributes": {
+          "role": "presentation"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": [
-              "cds--loading",
-              "cds--loading--small",
-              "cds--loading--stop"
-            ],
-            "attributes": {
-              "aria-atomic": "true",
-              "aria-live": "off"
-            },
+            "classes": [],
+            "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
-                "tag": "svg",
+                "tag": "div",
                 "classes": [
-                  "cds--loading__svg"
+                  "cds--loading",
+                  "cds--loading--small",
+                  "cds--loading--stop"
                 ],
                 "attributes": {
-                  "viewBox": "0 0 100 100",
-                  "role": "img",
-                  "aria-label": "Stopped loading indicator"
+                  "aria-atomic": "true",
+                  "aria-live": "off"
                 },
                 "style": {},
                 "children": [
                   {
                     "type": "element",
-                    "tag": "title",
-                    "classes": [],
-                    "attributes": {},
+                    "tag": "svg",
+                    "classes": [
+                      "cds--loading__svg"
+                    ],
+                    "attributes": {
+                      "viewBox": "0 0 100 100",
+                      "role": "img",
+                      "aria-label": "Stopped loading indicator"
+                    },
                     "style": {},
                     "children": [
                       {
-                        "type": "text",
-                        "text": "Stopped loading indicator"
+                        "type": "element",
+                        "tag": "title",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Stopped loading indicator"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__background"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "circle",
+                        "classes": [
+                          "cds--loading__stroke"
+                        ],
+                        "attributes": {
+                          "cx": "50%",
+                          "cy": "50%",
+                          "r": "42"
+                        },
+                        "style": {},
+                        "children": []
                       }
                     ]
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__background"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "42"
-                    },
-                    "style": {},
-                    "children": []
-                  },
-                  {
-                    "type": "element",
-                    "tag": "circle",
-                    "classes": [
-                      "cds--loading__stroke"
-                    ],
-                    "attributes": {
-                      "cx": "50%",
-                      "cy": "50%",
-                      "r": "42"
-                    },
-                    "style": {},
-                    "children": []
                   }
                 ]
               }

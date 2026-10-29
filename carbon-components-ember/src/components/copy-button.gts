@@ -23,6 +23,12 @@ export interface CopyButtonSignature {
     feedback?: string;
     feedbackTimeout?: number;
     iconDescription?: string;
+    /**
+     * The button's kind. Without one it has no kind class and keeps the copy
+     * button's own colors, as Carbon's styles and stories intend; Carbon
+     * React falls back to `primary` unless its `kind` is empty.
+     */
+    kind?: ButtonSignature['Args']['kind'];
     /** The button's size. Defaults to `'md'`, and to none when `@inline`. */
     size?: ButtonSignature['Args']['size'];
     /** The text to copy, instead of the target's or the block's. */
@@ -142,6 +148,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
           @align={{this.align}}
           @autoAlign={{@autoAlign}}
           @disabled={{@disabled}}
+          @kind={{if @kind @kind ""}}
           @label={{this.label}}
           @leaveDelayMs={{this.leaveDelayMs}}
           @size={{this.size}}

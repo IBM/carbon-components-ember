@@ -13,7 +13,7 @@ import {
 import { tracked } from '@glimmer/tracking';
 import Modal from '#src/components/modal.gts';
 import ActionableNotification from '#src/components/notification/actionable-notification.gts';
-import Popover, { PopoverContent } from '#src/components/popover.gts';
+import Popover from '#src/components/popover.gts';
 import Portal from '#src/components/portal.gts';
 import Toggletip from '#src/components/toggletip.gts';
 
@@ -536,6 +536,7 @@ module('Integration | Component | Modal', function (hooks) {
             <Popover
               @open={{popoverOpen.value}}
               @onRequestClose={{closePopover}}
+              as |PopoverContent|
             >
               <button type="button">Trigger</button>
               <PopoverContent>
