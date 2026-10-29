@@ -147,6 +147,22 @@ import accordionFixture from '../../../dom-parity/fixtures/Accordion.json';
 import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.json';
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
 import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
+import EmptyState from '#src/components/ibm-products/empty-state.gts';
+import FullPageError from '#src/components/ibm-products/full-page-error.gts';
+import ErrorEmptyState from '#src/components/ibm-products/error-empty-state.gts';
+import NoDataEmptyState from '#src/components/ibm-products/no-data-empty-state.gts';
+import NoTagsEmptyState from '#src/components/ibm-products/no-tags-empty-state.gts';
+import NotFoundEmptyState from '#src/components/ibm-products/not-found-empty-state.gts';
+import NotificationsEmptyState from '#src/components/ibm-products/notifications-empty-state.gts';
+import UnauthorizedEmptyState from '#src/components/ibm-products/unauthorized-empty-state.gts';
+import emptyStateFixture from '../../../dom-parity/fixtures/EmptyState.json';
+import fullPageErrorFixture from '../../../dom-parity/fixtures/FullPageError.json';
+import errorEmptyStateFixture from '../../../dom-parity/fixtures/ErrorEmptyState.json';
+import noDataEmptyStateFixture from '../../../dom-parity/fixtures/NoDataEmptyState.json';
+import noTagsEmptyStateFixture from '../../../dom-parity/fixtures/NoTagsEmptyState.json';
+import notFoundEmptyStateFixture from '../../../dom-parity/fixtures/NotFoundEmptyState.json';
+import notificationsEmptyStateFixture from '../../../dom-parity/fixtures/NotificationsEmptyState.json';
+import unauthorizedEmptyStateFixture from '../../../dom-parity/fixtures/UnauthorizedEmptyState.json';
 
 // JSON imports widen string literals (`"type": "element"` reads as `string`),
 // so the fixture's DOM is narrowed once, where it's compared.
@@ -6278,6 +6294,385 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, tabContentFixture, ['selected', 'hidden']);
+    });
+  });
+});
+
+module('DOM parity | Carbon for IBM Products', function (hooks) {
+  setupRenderingTest(hooks);
+
+  const emptyStateAction = {
+    text: 'Create new',
+    kind: 'secondary' as const,
+    onClick: noop,
+  };
+  const link = { text: 'View documentation', href: '/docs' };
+
+  module('EmptyState', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <EmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        emptyStateFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('illustration', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <EmptyState
+            @title="Start by adding data assets"
+            @illustration="empty.svg"
+            @illustrationDescription="Empty"
+            @illustrationPosition="right"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        emptyStateFixture,
+        'illustration',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('small-with-action-and-link', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <EmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+            @size="sm"
+            @headingAs="h3"
+            @action={{emptyStateAction}}
+            @link={{link}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        emptyStateFixture,
+        'small-with-action-and-link',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, emptyStateFixture, [
+        'default',
+        'illustration',
+        'small-with-action-and-link',
+      ]);
+    });
+  });
+
+  module('ErrorEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ErrorEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        errorEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ErrorEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        errorEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, errorEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('NoDataEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NoDataEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        noDataEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NoDataEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        noDataEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, noDataEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('NoTagsEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NoTagsEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        noTagsEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NoTagsEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        noTagsEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, noTagsEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('NotFoundEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotFoundEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notFoundEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotFoundEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notFoundEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, notFoundEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('NotificationsEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotificationsEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notificationsEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <NotificationsEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        notificationsEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, notificationsEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('UnauthorizedEmptyState', function () {
+    test('light', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <UnauthorizedEmptyState
+            @title="Start by adding data assets"
+            @subtitle="Click Upload assets to upload your data"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        unauthorizedEmptyStateFixture,
+        'light',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('dark-small', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <UnauthorizedEmptyState
+            @title="Start by adding data assets"
+            @illustrationTheme="dark"
+            @illustrationPosition="left"
+            @size="sm"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        unauthorizedEmptyStateFixture,
+        'dark-small',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, unauthorizedEmptyStateFixture, [
+        'light',
+        'dark-small',
+      ]);
+    });
+  });
+
+  module('FullPageError', function () {
+    for (const kind of ['custom', '403', '404'] as const) {
+      test(kind, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <FullPageError
+              @kind={{kind}}
+              @label="Error 404"
+              @title="Page not found"
+              @description="The page you requested has moved or is unavailable."
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          fullPageErrorFixture,
+          kind,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, fullPageErrorFixture, [
+        'custom',
+        '403',
+        '404',
+      ]);
     });
   });
 });

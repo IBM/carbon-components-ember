@@ -216,7 +216,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
 - **`A()`, `NativeArray`, `pushObject`, `removeObject`, or `set()`** - use plain arrays/objects reassigned through `@tracked`.
 - **Classic `Component` + separate `.hbs`** - always use GTS files with `<template>` tags.
 - **`this.element`** - go through a modifier.
-- **The package's barrels inside `src`** (`icons.ts`, `components.ts`, `ai-chat.ts`, `charts.ts`) - they're the public entry points for apps. Inside `src`, import the module itself (`import CheckmarkFilled from './icons/checkmark-filled.ts'`): in dev every module a barrel pulls in is its own request, and `icons.ts` alone re-exports 2,760 icons. Lint enforces this.
+- **The package's barrels inside `src`** (`icons.ts`, `components.ts`, `ai-chat.ts`, `charts.ts`, `ibm-products.ts`) - they're the public entry points for apps. Inside `src`, import the module itself (`import CheckmarkFilled from './icons/checkmark-filled.ts'`): in dev every module a barrel pulls in is its own request, and `icons.ts` alone re-exports 2,760 icons. Lint enforces this.
 - **Importing a module only for its side effects** (`import './setup.ts';`) - package.json declares only stylesheets and the tests as side effects, so bundlers drop the import, in apps and in the Storybook and test builds. Export a function and call it. Lint enforces this in `src` and `.storybook`.
 - **`style` attributes**, static or bound (`trustHTML`, formerly `htmlSafe`, only silences Ember's warning) - strict CSPs block them. Use a class; for values computed from args, return them from a getter and apply it with the `{{style}}` modifier (`ember-style-modifier`), which writes through CSSOM. A modifier runs after the modifiers of the elements inside it, so a component measuring or positioning itself on render won't see its container's `{{style}}` yet: fixed values must be classes. Write vendor-prefixed properties hyphenated (`'-webkit-line-clamp'`); the modifier drops camelCase ones. Both test suites block style attributes (`style-src-attr 'none'`) and fail on a violation. The QUnit tests also block `<style>` elements without the page's nonce: pass `cspNonce()` (src/utils/csp-nonce.ts) to any library that injects them, and give a test template's `<style>` `nonce={{nonce}}` from tests/helpers.
 
@@ -230,7 +230,7 @@ Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-name
 
 ### ❌ Pitfall 2: Naming a File Differently from Its Export
 
-File names are kebab-case, and `pnpm generate` names each export of the `carbon-components-ember/components`, `/ai-chat` and `/charts` barrels after its file: `text-input.gts` exports `TextInput`, and a top-level `ai-` or `ui-` file spells the acronym (`AILabel`, `UIShell`). It fails when two files would export the same name from one barrel. So name a file after its export in full: `toggletip/toggletip-button.gts`, not `toggletip/button.gts`. Two files sharing a basename (`tile/group.gts` and `radio-button/group.gts`) once made the production rollup build mis-name exports.
+File names are kebab-case, and `pnpm generate` names each export of the `carbon-components-ember/components`, `/ai-chat`, `/charts` and `/ibm-products` barrels after its file: `text-input.gts` exports `TextInput`, and a top-level `ai-` or `ui-` file spells the acronym (`AILabel`, `UIShell`). It fails when two files would export the same name from one barrel. So name a file after its export in full: `toggletip/toggletip-button.gts`, not `toggletip/button.gts`. Two files sharing a basename (`tile/group.gts` and `radio-button/group.gts`) once made the production rollup build mis-name exports.
 
 ### ❌ Pitfall 3: MutationObservers to inspect Child DOM Nodes
 
@@ -301,7 +301,7 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 
 - `pnpm storybook` serves an MCP endpoint at `http://localhost:6006/mcp` (`@storybook/addon-mcp`). Use its `docs-list`, `docs-show` and `docs-show-story` tools for a component's API and examples rather than reading its source. The repo's `.mcp.json` registers it for Claude Code; it connects while Storybook runs.
 - Its manifest is generated from component signatures and stories (the ember-storybook patch). An argument's JSDoc, a block's labelled params and a story's description are what agents read, so keep them accurate.
-- `.storybook/manifests.ts` then points each component's import at its barrel: `carbon-components-ember/components`, `/ai-chat` or `/charts`. It's a preset in `addons` because ember-storybook's `StorybookConfig` type rejects `experimental_manifests` in `defineMain`.
+- `.storybook/manifests.ts` then points each component's import at its barrel: `carbon-components-ember/components`, `/ai-chat`, `/charts` or `/ibm-products`. It's a preset in `addons` because ember-storybook's `StorybookConfig` type rejects `experimental_manifests` in `defineMain`.
 - `/manifests/components.html` on the running Storybook shows what agents get.
 - Apps get the same tools from `carbon-components-ember-mcp`, which reads the manifest published with each release's docs. Try changes to it against your running Storybook with `node carbon-components-ember-mcp/bin.mjs --manifests http://localhost:6006`.
 - `carbon-components-ember/skills/carbon-components-ember/` is the agent skill apps install with the package, and that server sends its `SKILL.md` as instructions. Update it when a setup step or app-facing convention changes (imports, icons, the toast list). Its `references/components*` are written from the Storybook manifest when the package is packed (`pnpm build:skill`), so they're not committed; each page is named after its component, as `SKILL.md` tells agents. CI checks this skill and `.claude/skills` with the [Agent Skills specification](https://agentskills.io/specification)'s validator (`.github/skills-ref-requirements.txt`).
@@ -323,6 +323,15 @@ Stories live as `src/components/**/<name>.stories.gts` next to their components.
 The port target is the Lit-based framework-agnostic widget library `@carbon/ai-chat-components`, **not** the React shell application. Its components live in `src/components/ai-chat/` and are exported from their own barrel, `carbon-components-ember/ai-chat`, under upstream's names. Before porting or changing one, read [.claude/skills/port-ai-chat-component/SKILL.md](.claude/skills/port-ai-chat-component/SKILL.md): slots, styling, and the autotracking and modifier gotchas.
 
 ---
+
+## Carbon for IBM Products
+
+Components Carbon for IBM Products (`@carbon/ibm-products`) defines live in `src/components/ibm-products/` and are exported from `carbon-components-ember/ibm-products` under upstream's names.
+
+- Render IBM Products' markup and `c4p--` classes.
+- Each component imports a stylesheet that `@use`s its component's SCSS from `@carbon/ibm-products-styles` (`@use '@carbon/ibm-products-styles/scss/components/EmptyStates';`). The build compiles that into `styles.css`, so apps load nothing new.
+- Their DOM-parity fixtures render `@carbon/ibm-products` (entries marked `ibmProducts: true` in `dom-parity/lib/components.mjs`), and the argument check compares them with its props.
+- Story titles are upstream's, prefixed with `IBM Products/`.
 
 ## Component Implementation Checklist
 

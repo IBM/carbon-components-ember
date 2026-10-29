@@ -12,6 +12,8 @@ catalogs:
     '@carbon/ai-chat-components': 1.11.0
     '@carbon/grid': ^11.65.0
     '@carbon/icon-helpers': ^10.84.0
+    '@carbon/ibm-products': 2.101.0
+    '@carbon/ibm-products-styles': 2.97.0
     '@carbon/icons': ^11.91.0
     '@carbon/layout': ^11.62.0
     '@carbon/react': 1.119.0
@@ -23,6 +25,7 @@ catalogs:
     typescript: 6.0.3
 
 allowBuilds:
+  '@carbon-labs/react-resizer': false
   '@carbon/ai-chat-components': false
   '@carbon/charts': false
   '@carbon/colors': false
@@ -30,6 +33,8 @@ allowBuilds:
   '@carbon/grid': false
   '@carbon/icon-helpers': false
   '@carbon/icons': false
+  '@carbon/ibm-products': false
+  '@carbon/ibm-products-styles': false
   '@carbon/icons-react': false
   '@carbon/react': false
   '@carbon/layout': false
@@ -38,6 +43,7 @@ allowBuilds:
   '@carbon/themes': false
   '@carbon/type': false
   '@carbon/utilities': false
+  '@carbon/utilities-react': false
   '@carbon/utils-position': false
   '@carbon/web-components': false
   '@ibm/plex': false

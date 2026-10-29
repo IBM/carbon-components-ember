@@ -38,7 +38,10 @@ const kebab = (name) =>
     .replace(/[\s/]+/g, '-')
     .toLowerCase();
 
-/** The barrel a page's import names: `components`, `ai-chat` or `charts`. */
+/**
+ * The barrel a page's import names: `components`, `ai-chat`, `charts` or
+ * `ibm-products`.
+ */
 const barrelOf = (component) =>
   component.import?.match(/from 'carbon-components-ember\/([\w-]+)'/)?.[1] ??
   'components';

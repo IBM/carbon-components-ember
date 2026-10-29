@@ -1,0 +1,248 @@
+{
+  "component": "EmptyState",
+  "generatedAt": "2026-10-28T12:15:56.291Z",
+  "carbonReactVersion": "1.119.0",
+  "ibmProductsVersion": "2.101.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "title": "Start by adding data assets",
+        "subtitle": "Click Upload assets to upload your data"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--empty-state",
+          "c4p--empty-state-type--default"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--EmptyState"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "section",
+            "classes": [
+              "c4p--empty-state__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "h2",
+                "classes": [
+                  "c4p--empty-state__header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Start by adding data assets"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "c4p--empty-state__subtitle"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Click Upload assets to upload your data"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "illustration": {
+      "props": {
+        "title": "Start by adding data assets",
+        "illustration": "empty.svg",
+        "illustrationDescription": "Empty",
+        "illustrationPosition": "right"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--empty-state",
+          "c4p--empty-state-position--right",
+          "c4p--empty-state-type--default"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--EmptyState"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "img",
+            "classes": [
+              "c4p--empty-state__illustration",
+              "c4p--empty-state__illustration--lg"
+            ],
+            "attributes": {
+              "alt": "Empty",
+              "aria-hidden": "true",
+              "src": "empty.svg"
+            },
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "section",
+            "classes": [
+              "c4p--empty-state__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "h2",
+                "classes": [
+                  "c4p--empty-state__header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Start by adding data assets"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "small-with-action-and-link": {
+      "props": {
+        "title": "Start by adding data assets",
+        "subtitle": "Click Upload assets to upload your data",
+        "size": "sm",
+        "headingAs": "h3",
+        "action": {
+          "text": "Create new",
+          "kind": "secondary"
+        },
+        "link": {
+          "text": "View documentation",
+          "href": "/docs"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--empty-state",
+          "c4p--empty-state-type--default"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--EmptyState"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "section",
+            "classes": [
+              "c4p--empty-state__content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "h3",
+                "classes": [
+                  "c4p--empty-state__header",
+                  "c4p--empty-state__header--small"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Start by adding data assets"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "c4p--empty-state__subtitle",
+                  "c4p--empty-state__subtitle--small"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Click Upload assets to upload your data"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "c4p--empty-state__action-button",
+                  "cds--btn",
+                  "cds--btn--secondary",
+                  "cds--btn--sm",
+                  "cds--layout--size-sm"
+                ],
+                "attributes": {
+                  "text": "Create new",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Create new"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "a",
+                "classes": [
+                  "c4p--empty-state__link",
+                  "cds--link"
+                ],
+                "attributes": {
+                  "href": "/docs",
+                  "text": "View documentation"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "View documentation"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
