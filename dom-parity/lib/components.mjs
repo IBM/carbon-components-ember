@@ -1155,6 +1155,24 @@ const menuButton = (name, props) => ({
     ),
 });
 
+// Listed in Carbon's order, which a fluid set sorts them into: ours
+// renders them as written.
+const buttonSet = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.ButtonSet,
+      props,
+      React.createElement(
+        Carbon.Button,
+        { kind: 'secondary', key: 's' },
+        'Cancel',
+      ),
+      React.createElement(Carbon.Button, { kind: 'primary', key: 'p' }, 'Save'),
+    ),
+});
+
 const stack = (name, props) => ({
   name,
   props,
@@ -2322,6 +2340,14 @@ export const COMPONENTS = [
       menuButton('size-sm', { size: 'sm' }),
       menuButton('size-md', { size: 'md' }),
       menuButton('disabled', { disabled: true }),
+    ],
+  },
+  {
+    name: 'ButtonSet',
+    variants: [
+      buttonSet('default', {}),
+      buttonSet('stacked', { stacked: true }),
+      buttonSet('fluid', { fluid: true }),
     ],
   },
   {

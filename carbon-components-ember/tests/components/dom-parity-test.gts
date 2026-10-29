@@ -56,6 +56,7 @@ import FormGroup from '#src/components/form-group.gts';
 import FormItem from '#src/components/form-item.gts';
 import FormLabel from '#src/components/form-label.gts';
 import Stack from '#src/components/stack.gts';
+import ButtonSet from '#src/components/button-set.gts';
 import MenuButton from '#src/components/menu-button.gts';
 import Layer from '#src/components/layer.gts';
 import Theme from '#src/components/theme.gts';
@@ -131,6 +132,7 @@ import formGroupFixture from '../../../dom-parity/fixtures/FormGroup.json';
 import formItemFixture from '../../../dom-parity/fixtures/FormItem.json';
 import formLabelFixture from '../../../dom-parity/fixtures/FormLabel.json';
 import stackFixture from '../../../dom-parity/fixtures/Stack.json';
+import buttonSetFixture from '../../../dom-parity/fixtures/ButtonSet.json';
 import menuButtonFixture from '../../../dom-parity/fixtures/MenuButton.json';
 import layerFixture from '../../../dom-parity/fixtures/Layer.json';
 import themeFixture from '../../../dom-parity/fixtures/Theme.json';
@@ -4441,6 +4443,67 @@ module('DOM parity | Carbon React', function (hooks) {
         'size-sm',
         'size-md',
         'disabled',
+      ]);
+    });
+  });
+
+  module('ButtonSet', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ButtonSet>
+            <Button @kind="secondary">Cancel</Button>
+            <Button>Save</Button>
+          </ButtonSet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonSetFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('stacked', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ButtonSet @stacked={{true}}>
+            <Button @kind="secondary">Cancel</Button>
+            <Button>Save</Button>
+          </ButtonSet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonSetFixture,
+        'stacked',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('fluid', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <ButtonSet @fluid={{true}}>
+            <Button @kind="secondary">Cancel</Button>
+            <Button>Save</Button>
+          </ButtonSet>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonSetFixture,
+        'fluid',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, buttonSetFixture, [
+        'default',
+        'stacked',
+        'fluid',
       ]);
     });
   });
