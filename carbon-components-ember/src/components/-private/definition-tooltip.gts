@@ -11,6 +11,7 @@ import { guidFor } from '@ember/object/internals';
 import Popover from '../popover.gts';
 import type { PopoverAlignment } from '../popover.gts';
 import type { PopoverSignature } from '../popover.gts';
+import { isActivationKey } from '../../utils/keyboard.ts';
 
 export interface DefinitionTooltipSignature {
   Element: PopoverSignature['Element'];
@@ -85,7 +86,7 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
   };
 
   onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (isActivationKey(event)) {
       event.preventDefault();
       this.isOpen = !this.isOpen;
     } else if (this.isOpen && event.key === 'Escape') {

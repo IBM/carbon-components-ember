@@ -123,6 +123,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | `useNormalizedInputProps` and the helper, invalid and warning `Text` | `fieldState()` and `<FieldMessage>` from `components/-private/field.gts`, with the control's `aria-*` attributes as that React component sets them; the args come from its `FieldValidationArgs`, `FieldHelperArgs` and `FieldLabelArgs` | `components/text-input.gts` |
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
+| `useRef` to measure or drive an element | The `captureElement` modifier, handing the element to a class field | `modifiers/capture-element.ts` |
 | `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component, which renders into the topmost open Modal (the `carbon.layers` service), as nothing outside it works. A layer that must keep its state as modals open and close moves its element instead | `components/portal.gts`, `notification/toast-notification-list.gts` |
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
@@ -192,7 +193,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
   - A group of args several components take is an exported interface, which each signature intersects: `Args: SharedArgs & { … }`.
   - A part, variant or skeleton takes its component's type: `size?: ButtonSignature['Args']['size']`.
   - A union of values follows Carbon React: one type where React declares one (`ListBoxSize`), separate ones where React's values differ.
-  - A helper or modifier two components need goes in `utils/` or `-private/`, not in each component.
+  - A helper two components need goes in `utils/` or `-private/`, and a modifier in `modifiers/`, not in each component.
 - **`Element`:** the element `...attributes` is spread on.
   - A DOM element gets its own type, a union when branches differ.
   - When spreading onto another component, derive it: `Element: ButtonSignature['Element']`.

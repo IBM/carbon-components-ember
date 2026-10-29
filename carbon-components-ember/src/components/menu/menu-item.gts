@@ -18,6 +18,7 @@ import type { MenuItemFeatures } from '../menu.gts';
 import type MenuItemRadioGroup from './menu-item-radio-group.gts';
 import type MenuItemSelectable from './menu-item-selectable.gts';
 import type { WithBoundArgs } from '@glint/template';
+import { isActivationKey } from '../../utils/keyboard.ts';
 
 export interface MenuItemSignature {
   Element: HTMLLIElement;
@@ -147,7 +148,7 @@ export default class MenuItem
       this.submenuOpen = true;
       return;
     }
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (isActivationKey(event)) {
       event.preventDefault();
       this.handleClick(hasChildren, event);
     }

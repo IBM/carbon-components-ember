@@ -18,6 +18,7 @@
 import { EditorView } from '@codemirror/view';
 import RawChevronDown16 from '@carbon/icons/es/chevron--down/16';
 import { getAttributes } from '@carbon/icon-helpers';
+import { isActivationKey } from '../../../utils/keyboard.ts';
 
 /**
  * This addon's own generated `types/carbon-icons.d.ts` (consumed by its
@@ -116,7 +117,7 @@ export function carbonFoldMarkerKeyHandler() {
         target.tagName === 'svg' &&
         target.getAttribute('role') === 'button' &&
         target.hasAttribute('aria-expanded') &&
-        (event.key === 'Enter' || event.key === ' ')
+        isActivationKey(event)
       ) {
         event.preventDefault();
         // Trigger a mouse event to activate CodeMirror's fold handler

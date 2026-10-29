@@ -14,6 +14,7 @@ import { default as Tooltip } from '../tooltip.gts';
 import type { PopoverAlignment } from '../popover.gts';
 import './truncated-text.scss';
 import { observeResize } from '../../utils/resize-observer.ts';
+import { isActivationKey } from '../../utils/keyboard.ts';
 
 export interface TruncatedTextSignature {
   Element: HTMLDivElement;
@@ -174,7 +175,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
   };
 
   handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (isActivationKey(event)) {
       event.preventDefault();
       this.toggleExpansion();
     }
