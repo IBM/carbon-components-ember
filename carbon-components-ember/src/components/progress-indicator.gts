@@ -15,6 +15,7 @@ import CheckmarkOutline from './icons/checkmark-outline.ts';
 import Warning from './icons/warning.ts';
 import CircleDash from './icons/circle-dash.ts';
 import Incomplete from './icons/incomplete.ts';
+import { isActivationKey } from '../utils/keyboard.ts';
 
 export interface ProgressStepSignature {
   Args: {
@@ -130,7 +131,7 @@ class ProgressStep extends Component<ProgressStepSignature> {
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (isActivationKey(event)) {
       event.preventDefault();
       this.handleClick();
     }

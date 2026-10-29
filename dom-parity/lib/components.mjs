@@ -1,7 +1,8 @@
 /**
  * Registry of components (and per-component variants) covered by the
  * DOM-parity fixtures. Each variant describes how to render the upstream
- * `@carbon/react` component for one combination of args; the matching Ember
+ * `@carbon/react` component (or, for entries marked `ibmProducts`, the
+ * `@carbon/ibm-products` one) for one combination of args; the matching Ember
  * invocation lives alongside the comparison test in
  * carbon-components-ember/tests/components/dom-parity-test.gts and is kept in sync with
  * these props by hand - there is no codegen linking the two. `props` is
@@ -1154,6 +1155,24 @@ const menuButton = (name, props) => ({
     ),
 });
 
+// Listed in Carbon's order, which a fluid set sorts them into: ours
+// renders them as written.
+const buttonSet = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.ButtonSet,
+      props,
+      React.createElement(
+        Carbon.Button,
+        { kind: 'secondary', key: 's' },
+        'Cancel',
+      ),
+      React.createElement(Carbon.Button, { kind: 'primary', key: 'p' }, 'Save'),
+    ),
+});
+
 const stack = (name, props) => ({
   name,
   props,
@@ -1459,6 +1478,45 @@ const tabContent = (name, props) => ({
   createElement: (React, Carbon) =>
     React.createElement(Carbon.TabContent, props, 'Tab content'),
 });
+
+// A Carbon for IBM Products component, from @carbon/ibm-products.
+const ibmProducts = (component, name, props) => ({
+  name,
+  props,
+  createElement: (React, _Carbon, IBMProducts) =>
+    React.createElement(IBMProducts[component], props),
+});
+
+// A variant of Carbon for IBM Products' `preview__PageHeader`, whose parts
+// `build` puts together from `{ h: React.createElement, PageHeader, Carbon }`.
+const pageHeader = (name, build) => ({
+  name,
+  props: {},
+  createElement: (React, Carbon, IBMProducts) =>
+    build({
+      h: React.createElement,
+      PageHeader: IBMProducts.preview__PageHeader,
+      Carbon,
+    }),
+});
+
+// The breadcrumbs of most PageHeader variants.
+const breadcrumbs = ({ h, PageHeader, Carbon }, ...extra) =>
+  h(
+    PageHeader.BreadcrumbOverflow,
+    {
+      noTrailingSlash: true,
+      renderOverflowBreadcrumb: () =>
+        h(
+          Carbon.BreadcrumbItem,
+          { 'data-floating-menu-container': true },
+          'Overflow',
+        ),
+    },
+    h(Carbon.BreadcrumbItem, { href: '/1' }, 'Breadcrumb 1'),
+    h(Carbon.BreadcrumbItem, { href: '/2' }, 'Breadcrumb 2'),
+    ...extra,
+  );
 
 export const COMPONENTS = [
   {
@@ -2316,6 +2374,14 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'ButtonSet',
+    variants: [
+      buttonSet('default', {}),
+      buttonSet('stacked', { stacked: true }),
+      buttonSet('fluid', { fluid: true }),
+    ],
+  },
+  {
     name: 'Stack',
     variants: [
       stack('default', {}),
@@ -2577,6 +2643,216 @@ export const COMPONENTS = [
     variants: [
       tabContent('selected', { selected: true }),
       tabContent('hidden', { selected: false }),
+    ],
+  }, // Carbon for IBM Products (`ibmProducts`), rendered from
+  // @carbon/ibm-products.
+  {
+    name: 'EmptyState',
+    ibmProducts: true,
+    variants: [
+      ibmProducts('EmptyState', 'default', {
+        title: 'Start by adding data assets',
+        subtitle: 'Click Upload assets to upload your data',
+      }),
+      ibmProducts('EmptyState', 'illustration', {
+        title: 'Start by adding data assets',
+        illustration: 'empty.svg',
+        illustrationDescription: 'Empty',
+        illustrationPosition: 'right',
+      }),
+      ibmProducts('EmptyState', 'small-with-action-and-link', {
+        title: 'Start by adding data assets',
+        subtitle: 'Click Upload assets to upload your data',
+        size: 'sm',
+        headingAs: 'h3',
+        action: { text: 'Create new', kind: 'secondary', onClick: () => {} },
+        link: { text: 'View documentation', href: '/docs' },
+      }),
+    ],
+  },
+  ...[
+    'ErrorEmptyState',
+    'NoDataEmptyState',
+    'NoTagsEmptyState',
+    'NotFoundEmptyState',
+    'NotificationsEmptyState',
+    'UnauthorizedEmptyState',
+  ].map((name) => ({
+    name,
+    ibmProducts: true,
+    variants: [
+      ibmProducts(name, 'light', {
+        title: 'Start by adding data assets',
+        subtitle: 'Click Upload assets to upload your data',
+      }),
+      ibmProducts(name, 'dark-small', {
+        title: 'Start by adding data assets',
+        illustrationTheme: 'dark',
+        illustrationPosition: 'left',
+        size: 'sm',
+      }),
+    ],
+  })),
+  {
+    name: 'FullPageError',
+    ibmProducts: true,
+    variants: ['custom', '403', '404'].map((kind) =>
+      ibmProducts('FullPageError', kind, {
+        kind,
+        label: 'Error 404',
+        title: 'Page not found',
+        description: 'The page you requested has moved or is unavailable.',
+      }),
+    ),
+  },
+  {
+    name: 'PageHeader',
+    ibmProducts: true,
+    variants: [
+      pageHeader('content', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.Content,
+            { title: 'Virtual machine' },
+            h(PageHeader.ContentText, { subtitle: 'Subtitle' }, 'Some text'),
+          ),
+        ),
+      ),
+      pageHeader('breadcrumb-bar', (parts) => {
+        const { h, PageHeader, Carbon } = parts;
+        return h(
+          PageHeader.Root,
+          { fullWidthGrid: 'xl', narrowGrid: true },
+          h(
+            PageHeader.BreadcrumbBar,
+            {
+              border: false,
+              renderIcon: () => h('svg', { width: 16, height: 16 }),
+              pageActionsFlush: true,
+              pageActions: h('div', null, 'Page actions'),
+            },
+            breadcrumbs(
+              parts,
+              h(
+                PageHeader.TitleBreadcrumb,
+                { 'data-fixed': true },
+                'Virtual machine',
+              ),
+            ),
+          ),
+          h(PageHeader.Content, {
+            title: 'Virtual machine',
+            titleAs: 'h2',
+            renderIcon: () => h('svg', { width: 32, height: 32 }),
+            contextualActions: h(Carbon.Tag, { type: 'blue' }, 'Tag'),
+          }),
+        );
+      }),
+      pageHeader('tab-bar', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.Content, { title: 'Virtual machine', titleTruncate: 1 }),
+          h(
+            PageHeader.TabBar,
+            {
+              disableStickyTabBar: true,
+              tags: h('div', { className: 'tags' }, 'Tags'),
+              scroller: h('div', { className: 'scroller' }, 'Scroller'),
+            },
+            h('div', { className: 'tabs' }, 'Tabs'),
+          ),
+        ),
+      ),
+      pageHeader('tab-bar-without-tags', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.TabBar, null, h('div', { className: 'tabs' }, 'Tabs')),
+        ),
+      ),
+      pageHeader('hero-image', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.HeroImage,
+            { objectFit: 'contain' },
+            h('img', { src: 'hero.jpg', alt: 'Hero' }),
+          ),
+        ),
+      ),
+      pageHeader('scroll-button', ({ h, PageHeader }) =>
+        h(PageHeader.Root, null, h(PageHeader.ScrollButton, null)),
+      ),
+      pageHeader('content-page-actions', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.Content, {
+            title: 'Virtual machine',
+            pageActions: h(PageHeader.ContentPageActions, {
+              menuButtonLabel: 'Actions',
+              actions: ['one', 'two'].map((id) => ({
+                id,
+                onClick: () => {},
+                body: h(
+                  'button',
+                  { type: 'button', className: 'cds--btn' },
+                  id,
+                ),
+                menuItem: { label: id },
+              })),
+            }),
+          }),
+        ),
+      ),
+      pageHeader('breadcrumb-page-actions', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(PageHeader.BreadcrumbBar, {
+            pageActions: h(PageHeader.BreadcrumbPageActions, {
+              actions: [],
+              buttonSize: 'sm',
+              overflowMenuLabel: 'More',
+            }),
+          }),
+        ),
+      ),
+      pageHeader('tag-overflow', ({ h, PageHeader }) =>
+        h(
+          PageHeader.Root,
+          null,
+          h(
+            PageHeader.TabBar,
+            {
+              tags: h(
+                PageHeader.TagOverflow,
+                {
+                  renderOverflowTag: (hidden, onClick, open, triggerId) =>
+                    h(
+                      'button',
+                      {
+                        id: triggerId,
+                        type: 'button',
+                        onClick,
+                        'aria-expanded': open,
+                      },
+                      `+${hidden.length}`,
+                    ),
+                  renderPopoverContent: () => null,
+                },
+                h('span', { id: 'tag-1' }, 'Tag 1'),
+                h('span', { id: 'tag-2' }, 'Tag 2'),
+              ),
+            },
+            h('div', { className: 'tabs' }, 'Tabs'),
+          ),
+        ),
+      ),
     ],
   },
 ];

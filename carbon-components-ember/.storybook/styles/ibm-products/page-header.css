@@ -1,0 +1,14 @@
+/* Content tall enough to scroll, as Carbon for IBM Products' stories give it. */
+.ibm-products-page-header-story__tall-panel {
+  block-size: 200vh;
+}
+
+.ibm-products-page-header-story__wrapper {
+  margin-block-start: 3rem;
+}
+
+.ibm-products-page-header-story__hero {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}

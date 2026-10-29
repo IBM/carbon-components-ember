@@ -7,18 +7,9 @@
 
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { modifier } from 'ember-modifier';
 import style from 'ember-style-modifier';
+import captureElement from '../../modifiers/capture-element.ts';
 import type { HandlePosition } from '../slider.gts';
-
-const registerElement = modifier(
-  (
-    element: HTMLDivElement,
-    [onInsert]: [onInsert: (element: HTMLDivElement) => void],
-  ) => {
-    onInsert(element);
-  },
-);
 
 export interface SliderThumbSignature {
   Element: HTMLDivElement;
@@ -36,7 +27,7 @@ export interface SliderThumbSignature {
     ariaLabel?: string;
     ariaLabelledby?: string;
     onFocus: () => void;
-    registerElement: (element: HTMLDivElement) => void;
+    registerElement: (element: HTMLElement) => void;
   };
 }
 
@@ -80,7 +71,7 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
         aria-valuenow={{@ariaValueNow}}
         aria-labelledby={{@ariaLabelledby}}
         aria-label={{@ariaLabel}}
-        {{registerElement @registerElement}}
+        {{captureElement @registerElement}}
         {{on "focus" @onFocus}}
       >
         {{#if @twoHandles}}

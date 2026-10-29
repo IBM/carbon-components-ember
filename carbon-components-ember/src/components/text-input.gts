@@ -8,43 +8,42 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface TextInputSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    id?: string;
-    labelText?: string;
-    hideLabel?: boolean;
-    value?: string;
-    defaultValue?: string;
-    placeholder?: string;
-    type?: string;
-    size?: 'sm' | 'md' | 'lg';
-    disabled?: boolean;
-    readOnly?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
-    warn?: boolean;
-    warnText?: string;
-    helperText?: string;
-    enableCounter?: boolean;
-    maxCount?: number;
-    light?: boolean;
-    /**
-     * Called with the `input` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLInputElement }) => void;
-    /**
-     * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
-     * fluid style, with the invalid or warning text inside the field.
-     */
-    isFluid?: boolean;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    FieldLabelArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<input>`.
+       */
+      className?: string;
+      id?: string;
+      value?: string;
+      defaultValue?: string;
+      placeholder?: string;
+      type?: string;
+      size?: 'sm' | 'md' | 'lg';
+      disabled?: boolean;
+      enableCounter?: boolean;
+      maxCount?: number;
+      light?: boolean;
+      /**
+       * Called with the `input` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLInputElement }) => void;
+      /**
+       * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
+       * fluid style, with the invalid or warning text inside the field.
+       */
+      isFluid?: boolean;
+    };
   Element: HTMLInputElement;
   Blocks: {
     /**

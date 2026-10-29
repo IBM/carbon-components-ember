@@ -47,11 +47,19 @@ globalThis.removeEventListener = dom.window.removeEventListener.bind(
   dom.window,
 );
 globalThis.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+globalThis.cancelAnimationFrame = (handle) => clearTimeout(handle);
 globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
 // jsdom has no ResizeObserver; ExpandableTile only uses it to re-measure
 // the above-the-fold content on resize, which this offline, one-shot
 // render never needs to react to.
 globalThis.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+// Nor an IntersectionObserver, which Carbon for IBM Products' PageHeader
+// uses to tell when its content scrolls out of view; nothing scrolls here.
+globalThis.IntersectionObserver = class IntersectionObserver {
   observe() {}
   unobserve() {}
   disconnect() {}
@@ -87,12 +95,19 @@ const React = (await import('react')).default;
 const { act } = React;
 const { createRoot } = await import('react-dom/client');
 const Carbon = await import('@carbon/react');
+const IBMProducts = await import('@carbon/ibm-products');
 const { COMPONENTS } = await import('./lib/components.mjs');
 const { normalizeElement } = await import('./lib/normalize-dom.mjs');
 
 const carbonReactVersion = JSON.parse(
   readFileSync(
     join(__dirname, 'node_modules/@carbon/react/package.json'),
+    'utf8',
+  ),
+).version;
+const ibmProductsVersion = JSON.parse(
+  readFileSync(
+    join(__dirname, 'node_modules/@carbon/ibm-products/package.json'),
     'utf8',
   ),
 ).version;
@@ -109,7 +124,7 @@ for (const component of COMPONENTS) {
     const reactRoot = createRoot(container);
 
     act(() => {
-      reactRoot.render(variant.createElement(React, Carbon));
+      reactRoot.render(variant.createElement(React, Carbon, IBMProducts));
     });
 
     // Most variants render exactly one root element, which is also what
@@ -151,6 +166,7 @@ for (const component of COMPONENTS) {
     component: component.name,
     generatedAt: new Date().toISOString(),
     carbonReactVersion,
+    ...(component.ibmProducts && { ibmProductsVersion }),
     reactVersion,
     variants,
   };

@@ -5,9 +5,10 @@ import type { WithBoundArgs } from '@glint/template';
 import AILabel from '../ai-label.gts';
 import RadioButton from '../radio-button.gts';
 import type { Value } from '../radio-button.gts';
+import type { FieldHelperArgs } from '../-private/field.gts';
 
 export interface RadioButtonGroupSignature {
-  Args: {
+  Args: Pick<FieldHelperArgs, 'readOnly'> & {
     /** Defaults to `'horizontal'`. */
     orientation?: 'horizontal' | 'vertical';
     /** Defaults to `'right'`. */
@@ -15,7 +16,6 @@ export interface RadioButtonGroupSignature {
     legendText?: string;
     name?: string;
     disabled?: boolean;
-    readOnly?: boolean;
     required?: boolean;
     valueSelected?: Value;
     defaultSelected?: Value;

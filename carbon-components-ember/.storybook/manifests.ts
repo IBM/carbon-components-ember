@@ -1,7 +1,8 @@
 /**
  * A Storybook preset that points the components manifest's imports, which
  * agents read, at the barrel that exports each component:
- * `carbon-components-ember/components`, or `/ai-chat` and `/charts`. Every component is a named export there, including those that
+ * `carbon-components-ember/components`, or `/ai-chat`, `/charts` and
+ * `/ibm-products`. Every component is a named export there, including those that
  * aren't their file's default export.
  */
 
@@ -14,6 +15,7 @@ const BARRELS = {
   components: '../src/components.ts',
   'ai-chat': '../src/ai-chat.ts',
   charts: '../src/charts.ts',
+  'ibm-products': '../src/ibm-products.ts',
 };
 
 /**

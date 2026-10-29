@@ -112,9 +112,9 @@ export function fixDeclarations(out) {
 }
 
 /** The components a declarations directory's barrel exports, by name. */
-export function emberComponents(declarations) {
+export function emberComponents(declarations, barrelName = 'components') {
   const barrel = fs.readFileSync(
-    path.join(declarations, 'components.d.ts'),
+    path.join(declarations, `${barrelName}.d.ts`),
     'utf-8',
   );
   const components = new Map();
@@ -318,9 +318,13 @@ function passedOnProps(checker, reactModule, name, seen = new Set([name])) {
  * `ComponentProps<typeof Component>`, and ours from each component's
  * `<Name>Signature`. Returns the components both libraries have.
  */
-export function readTypes({ declarations, react = '@carbon/react' }) {
+export function readTypes({
+  declarations,
+  react = '@carbon/react',
+  barrel = 'components',
+}) {
   declarations = path.resolve(declarations);
-  const ember = emberComponents(declarations);
+  const ember = emberComponents(declarations, barrel);
   const entry = path.join(import.meta.dirname, '__arg-parity__.ts');
   const source = [
     "import type { ComponentProps, DOMAttributes } from 'react';",
@@ -619,10 +623,15 @@ export function main(argv = process.argv.slice(2)) {
   try {
     ({ differences, unused } = withoutAccepted(
       new Map(
-        [...readTypes({ declarations })].map(([name, types]) => [
-          name,
-          compareArgs(types),
-        ]),
+        [
+          ...readTypes({ declarations }),
+          // Carbon for IBM Products' components, in their own barrel.
+          ...readTypes({
+            declarations,
+            react: path.join(import.meta.dirname, 'ibm-products-types'),
+            barrel: 'ibm-products',
+          }),
+        ].map(([name, types]) => [name, compareArgs(types)]),
       ),
       accepted,
     ));
@@ -630,9 +639,10 @@ export function main(argv = process.argv.slice(2)) {
     console.error(`${path.basename(ACCEPTED_FILE)}: ${error.message}`);
     return 1;
   }
-  const version = createRequire(import.meta.url)(
-    '@carbon/react/package.json',
-  ).version;
+  const require = createRequire(import.meta.url);
+  const version = require('@carbon/react/package.json').version;
+  const ibmProductsVersion =
+    require('@carbon/ibm-products/package.json').version;
 
   if (values.update) {
     fs.writeFileSync(
@@ -648,7 +658,7 @@ export function main(argv = process.argv.slice(2)) {
     : [...differences].sort(([a], [b]) => a.localeCompare(b));
   if (values.component && !shown[0][1]) {
     console.error(
-      `${values.component} isn't a component we share with Carbon React.`,
+      `${values.component} isn't a component we share with Carbon React or Carbon for IBM Products.`,
     );
     return 1;
   }
@@ -665,7 +675,8 @@ export function main(argv = process.argv.slice(2)) {
       console.log(`${formatComponent(name, difference)}\n`);
     }
     console.log(
-      `${differences.size} components compared with @carbon/react ${version}: ` +
+      `${differences.size} components compared with @carbon/react ${version} ` +
+        `and @carbon/ibm-products ${ibmProductsVersion}: ` +
         `${differences.size - differing.length} match, ${differing.length} differ.`,
     );
   }
@@ -698,7 +709,7 @@ export function main(argv = process.argv.slice(2)) {
       return 1;
     }
     console.log(
-      `Arguments match @carbon/react ${version}, apart from the known differences.`,
+      `Arguments match @carbon/react ${version} and @carbon/ibm-products ${ibmProductsVersion}, apart from the known differences.`,
     );
   }
   return 0;

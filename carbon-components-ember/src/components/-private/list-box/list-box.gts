@@ -8,25 +8,25 @@
 import { concat } from '@ember/helper';
 
 import type { TOC } from '@ember/component/template-only';
+import type { FieldValidationArgs } from '../field.gts';
 
 /** The list boxes' heights, as Carbon React's `listBoxSizes`. */
 export const listBoxSizes = ['xs', 'sm', 'md', 'lg'] as const;
 
 export type ListBoxSize = (typeof listBoxSizes)[number];
 
+/** `inline` lays the field out next to its label, as Carbon React's `ListBoxType`. */
+export type ListBoxType = 'default' | 'inline';
+
 export interface ListBoxSignature {
   Element: HTMLDivElement;
-  Args: {
+  Args: FieldValidationArgs & {
     size?: ListBoxSize;
-    type?: 'default' | 'inline';
     disabled?: boolean;
     isOpen?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
     invalidTextId?: string;
-    warn?: boolean;
-    warnText?: string;
     warnTextId?: string;
+    type?: ListBoxType;
   };
   Blocks: {
     default: [];

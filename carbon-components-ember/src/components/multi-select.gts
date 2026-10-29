@@ -15,7 +15,10 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
-import type { ListBoxSize } from './-private/list-box/list-box.gts';
+import type {
+  ListBoxSize,
+  ListBoxType,
+} from './-private/list-box/list-box.gts';
 import ListBoxCheckbox from './-private/list-box/list-box-checkbox.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
@@ -43,6 +46,11 @@ import type {
   SortItemsOptions,
 } from './-private/list-box/items.ts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export type { CompareItems, SortItemsOptions };
 
@@ -53,116 +61,104 @@ export interface MultiSelectChange<T> {
 
 export interface MultiSelectSignature<T> {
   Element: HTMLDivElement;
-  Args: {
-    /**
-     * The id of the field. The label, button, menu and items derive theirs
-     * from it. Auto-generated when omitted.
-     */
-    id?: string;
-    /**
-     * The items to choose from. They can be any value: `@itemToString` turns
-     * one into its text. An item with `disabled: true` can't be chosen, and
-     * one with `isSelectAll: true` selects or clears every other item.
-     * Object items with an `undefined` value aren't listed, as in Carbon
-     * React.
-     */
-    items: T[];
-    /**
-     * Turns an item into the text shown for it. Defaults to a string or
-     * number item itself, or an object's string `label`.
-     */
-    itemToString?: (item: T) => string;
-    /** The text in the field, whatever is selected. */
-    label: string;
-    /** The field's label, above it. */
-    titleText?: string;
-    /** Visually hide `@titleText`, keeping it for assistive technology. */
-    hideLabel?: boolean;
-    /** Help shown below the field, unless it's invalid or warning. */
-    helperText?: string;
-    /**
-     * The selected items, for full control of the selection: pair it with
-     * `@onChange`. Wins over internal state whenever it's defined.
-     */
-    selectedItems?: T[];
-    /**
-     * The items selected at first, for the uncontrolled case. Later changes
-     * are ignored.
-     */
-    initialSelectedItems?: T[];
-    /** Called with the new selection whenever it changes. */
-    onChange?: (data: MultiSelectChange<T>) => void;
-    /** Called with `true` when the menu opens and `false` when it closes. */
-    onMenuChange?: (open: boolean) => void;
-    /**
-     * Whether the menu is open. It seeds the menu's state, and opens or
-     * closes the menu whenever it changes.
-     */
-    open?: boolean;
-    /**
-     * Where chosen items go in the list: `top` moves them to the top at
-     * once, `top-after-reopen` (the default) the next time the menu opens,
-     * and `fixed` leaves them in place.
-     */
-    selectionFeedback?: 'fixed' | 'top' | 'top-after-reopen';
-    /**
-     * Orders the items. The default puts a select-all option first, then the
-     * selected items (as `@selectionFeedback` says), then the rest by
-     * `@compareItems`. To only change how items compare, pass that instead.
-     */
-    sortItems?: (items: readonly T[], options: SortItemsOptions<T>) => T[];
-    /**
-     * Compares two items' texts for the default order. Defaults to
-     * `localeCompare` in `@locale`, with numbers compared by value.
-     */
-    compareItems?: CompareItems;
-    /** The locale the default `@compareItems` sorts in. Defaults to `en`. */
-    locale?: string;
-    /**
-     * Read to assistive technology before the number selected. Defaults to
-     * "Total items selected: ".
-     */
-    clearSelectionDescription?: string;
-    /**
-     * Read to assistive technology after the items selected. Defaults to
-     * "To clear selection, press Delete or Backspace".
-     */
-    clearSelectionText?: string;
-    /**
-     * Announced when Delete clears the selection. Defaults to "all items
-     * have been cleared".
-     */
-    clearAnnouncement?: string;
-    /** Show each item's text as its checkbox's tooltip. */
-    useTitleInItem?: boolean;
-    /**
-     * **Experimental:** position the menu with Floating UI, so it opens
-     * above the field when there's no room below, and hides when the field
-     * scrolls out of view.
-     */
-    autoAlign?: boolean;
-    /** The side of the field the menu opens on. Defaults to `bottom`. */
-    direction?: 'top' | 'bottom';
-    /**
-     * The field's height. Without it, the field follows an enclosing
-     * Layout's size.
-     */
-    size?: ListBoxSize;
-    /** `inline` lays the field out next to its label. */
-    type?: 'default' | 'inline';
-    /** Specify if the control should be disabled, or not. */
-    disabled?: boolean;
-    /** Whether the selection can be read and focused, but not changed. */
-    readOnly?: boolean;
-    /** Specify if the current selection is invalid. */
-    invalid?: boolean;
-    /** Message which is displayed if the selection is invalid. */
-    invalidText?: string;
-    /** Specify whether the control is currently in warning state. */
-    warn?: boolean;
-    /** Message which is displayed if the control is in warning state. */
-    warnText?: string;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    Pick<FieldLabelArgs, 'hideLabel'> & {
+      /**
+       * The id of the field. The label, button, menu and items derive theirs
+       * from it. Auto-generated when omitted.
+       */
+      id?: string;
+      /**
+       * The items to choose from. They can be any value: `@itemToString` turns
+       * one into its text. An item with `disabled: true` can't be chosen, and
+       * one with `isSelectAll: true` selects or clears every other item.
+       * Object items with an `undefined` value aren't listed, as in Carbon
+       * React.
+       */
+      items: T[];
+      /**
+       * Turns an item into the text shown for it. Defaults to a string or
+       * number item itself, or an object's string `label`.
+       */
+      itemToString?: (item: T) => string;
+      /** The text in the field, whatever is selected. */
+      label: string;
+      /** The field's label, above it. */
+      titleText?: string;
+      /**
+       * The selected items, for full control of the selection: pair it with
+       * `@onChange`. Wins over internal state whenever it's defined.
+       */
+      selectedItems?: T[];
+      /**
+       * The items selected at first, for the uncontrolled case. Later changes
+       * are ignored.
+       */
+      initialSelectedItems?: T[];
+      /** Called with the new selection whenever it changes. */
+      onChange?: (data: MultiSelectChange<T>) => void;
+      /** Called with `true` when the menu opens and `false` when it closes. */
+      onMenuChange?: (open: boolean) => void;
+      /**
+       * Whether the menu is open. It seeds the menu's state, and opens or
+       * closes the menu whenever it changes.
+       */
+      open?: boolean;
+      /**
+       * Where chosen items go in the list: `top` moves them to the top at
+       * once, `top-after-reopen` (the default) the next time the menu opens,
+       * and `fixed` leaves them in place.
+       */
+      selectionFeedback?: 'fixed' | 'top' | 'top-after-reopen';
+      /**
+       * Orders the items. The default puts a select-all option first, then the
+       * selected items (as `@selectionFeedback` says), then the rest by
+       * `@compareItems`. To only change how items compare, pass that instead.
+       */
+      sortItems?: (items: readonly T[], options: SortItemsOptions<T>) => T[];
+      /**
+       * Compares two items' texts for the default order. Defaults to
+       * `localeCompare` in `@locale`, with numbers compared by value.
+       */
+      compareItems?: CompareItems;
+      /** The locale the default `@compareItems` sorts in. Defaults to `en`. */
+      locale?: string;
+      /**
+       * Read to assistive technology before the number selected. Defaults to
+       * "Total items selected: ".
+       */
+      clearSelectionDescription?: string;
+      /**
+       * Read to assistive technology after the items selected. Defaults to
+       * "To clear selection, press Delete or Backspace".
+       */
+      clearSelectionText?: string;
+      /**
+       * Announced when Delete clears the selection. Defaults to "all items
+       * have been cleared".
+       */
+      clearAnnouncement?: string;
+      /** Show each item's text as its checkbox's tooltip. */
+      useTitleInItem?: boolean;
+      /**
+       * **Experimental:** position the menu with Floating UI, so it opens
+       * above the field when there's no room below, and hides when the field
+       * scrolls out of view.
+       */
+      autoAlign?: boolean;
+      /** The side of the field the menu opens on. Defaults to `bottom`. */
+      direction?: 'top' | 'bottom';
+      /**
+       * The field's height. Without it, the field follows an enclosing
+       * Layout's size.
+       */
+      size?: ListBoxSize;
+      /** Specify if the control should be disabled, or not. */
+      disabled?: boolean;
+      /** `inline` lays the field out next to its label. */
+      type?: ListBoxType;
+    };
   Blocks: {
     /** Renders each item's text in the menu. Defaults to `@itemToString`. */
     default: [item: T];
