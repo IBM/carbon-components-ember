@@ -35,7 +35,10 @@ export interface ToggletipSignature {
           typeof ToggletipButtonComponent,
           'open' | 'toggle' | 'id'
         >;
-        Content: WithBoundArgs<typeof ToggletipContentComponent, 'id'>;
+        Content: WithBoundArgs<
+          typeof ToggletipContentComponent,
+          'id' | 'PopoverContent'
+        >;
       },
     ];
   };
@@ -111,6 +114,7 @@ export default class Toggletip extends Component<ToggletipSignature> {
       {{on "keydown" this.onKeyDown}}
       {{on "focusout" this.onFocusOut}}
       ...attributes
+      as |PopoverContent|
     >
       {{yield
         (hash
@@ -120,7 +124,9 @@ export default class Toggletip extends Component<ToggletipSignature> {
             toggle=this.toggle
             id=this.id
           )
-          Content=(component ToggletipContentComponent id=this.id)
+          Content=(component
+            ToggletipContentComponent id=this.id PopoverContent=PopoverContent
+          )
         )
       }}
     </Popover>

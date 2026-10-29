@@ -15,7 +15,7 @@ const meta = preview.meta({
     },
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm'] },
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
   },
 });
 

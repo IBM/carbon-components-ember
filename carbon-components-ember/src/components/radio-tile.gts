@@ -70,7 +70,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
   };
 
   <template>
-    <div>
+    <div class="cds--radio-tile__wrapper">
       <input
         type="radio"
         class="cds--tile-input"

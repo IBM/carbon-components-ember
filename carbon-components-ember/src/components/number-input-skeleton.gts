@@ -6,14 +6,15 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
+import { concat } from '@ember/helper';
+import type { NumberInputSignature } from './number-input.gts';
 
 export interface NumberInputSkeletonSignature {
   Element: HTMLDivElement;
   Args: {
     /** Leaves out the label placeholder. */
     hideLabel?: boolean;
-    /** Defaults to `md`. */
-    size?: 'sm' | 'md' | 'lg';
+    size?: NumberInputSignature['Args']['size'];
   };
 }
 
@@ -24,7 +25,8 @@ const NumberInputSkeleton: TOC<NumberInputSkeletonSignature> = <template>
       <span class="cds--label cds--skeleton"></span>
     {{/unless}}
     <div
-      class="cds--number cds--skeleton cds--number--{{if @size @size 'md'}}"
+      class="cds--number cds--skeleton
+        {{if @size (concat 'cds--number--' @size ' cds--layout--size-' @size)}}"
     ></div>
   </div>
 </template>;

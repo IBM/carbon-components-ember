@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, settled, triggerKeyEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  focus,
+  settled,
+  triggerKeyEvent,
+} from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
 import Modal from '#src/components/modal.gts';
@@ -550,6 +556,54 @@ module('Integration | Component | Menu', (hooks) => {
     );
 
     assert.true(closed);
+  });
+
+  test('closing from the menu gives focus back to what had it when it opened', async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const open = tracked(false);
+    let closes = 0;
+    const onClose = () => {
+      closes++;
+      open.value = false;
+    };
+    const target = this.container;
+    await render(
+      <template>
+        <button type="button" id="trigger">Open</button>
+        <button type="button" id="other">Other</button>
+        <Menu
+          @label="Test menu"
+          @open={{open.value}}
+          @target={{target}}
+          @onClose={{onClose}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Cut" />
+        </Menu>
+      </template>,
+    );
+
+    await focus('#trigger');
+    open.value = true;
+    await settled();
+    await waitForAnimationFrame();
+    assert.dom('.cds--menu-item', this.container).isFocused();
+
+    await triggerKeyEvent(
+      this.container.querySelector('[role="menu"]')!,
+      'keydown',
+      'Escape',
+    );
+    assert.dom('#trigger').isFocused('Escape gives it back');
+    assert.strictEqual(closes, 1, 'and closes it once');
+
+    open.value = true;
+    await settled();
+    await waitForAnimationFrame();
+    await focus('#other');
+    assert.false(open.value, 'moving focus away closes it');
+    assert.dom('#other').isFocused('and focus stays where it went');
   });
 
   test('@size sets the size modifier class, defaulting to sm', async function (this: {

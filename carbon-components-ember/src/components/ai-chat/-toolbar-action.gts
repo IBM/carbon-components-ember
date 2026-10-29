@@ -43,12 +43,13 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
   };
 
   <template>
-    {{#if (or @action.href @action.route)}}
+    {{#if (or @action.href @action.route @action.externalRoute)}}
       <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
         {{! Disabled, it's a link to nowhere. }}
         <RouterLink
           @href={{unless @action.disabled @action.href}}
           @route={{unless @action.disabled @action.route}}
+          @externalRoute={{unless @action.disabled @action.externalRoute}}
           @models={{@action.models}}
           @query={{@action.query}}
           target={{or @action.target "_self"}}

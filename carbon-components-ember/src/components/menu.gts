@@ -71,6 +71,11 @@ export interface MenuSignature {
      */
     target?: Element;
     /**
+     * Whether the Menu positions itself from `@x` and `@y`. Defaults to
+     * `true`; pass `false` when the caller positions it, as MenuButton does.
+     */
+    legacyAutoalign?: boolean;
+    /**
      * Specify the x position of the Menu. Either pass a single number or an
      * array with two numbers describing your activator's boundaries
      * ([x1, x2]).
@@ -154,6 +159,9 @@ export default class Menu extends Component<MenuSignature> {
   // Carbon React's do; the items keep their own tabindex.
   rovingFocus = new RovingFocus({ loop: true, followFocus: false });
 
+  // What had focus when the menu opened, focused again when it closes.
+  focusReturn?: HTMLElement;
+
   // Carbon derives these two modifier classes from a React Context its items
   // push into as they mount. The Ember equivalent is having the items
   // register with the menu they belong to, which keeps the classes reactive
@@ -212,6 +220,7 @@ export default class Menu extends Component<MenuSignature> {
     if (this.args.menuAlignment?.slice(0, 3) === 'top') {
       classes.push('cds--menu--box-shadow-top');
     }
+    if (this.args.legacyAutoalign === false) classes.push('cds--autoalign');
     return classes.join(' ');
   }
 
@@ -220,8 +229,11 @@ export default class Menu extends Component<MenuSignature> {
       this.shown = false;
       return;
     }
+    const { activeElement } = document;
+    this.focusReturn =
+      activeElement instanceof HTMLElement ? activeElement : undefined;
     const raf = requestAnimationFrame(() => {
-      this.applyPosition(element);
+      if (this.args.legacyAutoalign !== false) this.applyPosition(element);
       this.shown = true;
       this.focusFirstItem();
       this.args.onOpen?.();
@@ -313,6 +325,14 @@ export default class Menu extends Component<MenuSignature> {
     if (items[0]) this.rovingFocus.focus(items[0]);
   }
 
+  // As Carbon React's Menu does, focus goes back where it was, unless it
+  // just moved to another element.
+  // Closing first, so the blur that focusing causes finds the menu closed.
+  close(focusMovedAway = false) {
+    this.args.onClose?.();
+    if (!focusMovedAway) this.focusReturn?.focus();
+  }
+
   handleKeyDown = (event: KeyboardEvent) => {
     event.stopPropagation();
     const closesMenu =
@@ -322,7 +342,7 @@ export default class Menu extends Component<MenuSignature> {
       this.args.onClose;
     if (closesMenu) {
       event.preventDefault();
-      this.args.onClose?.();
+      this.close();
     }
   };
 
@@ -331,7 +351,7 @@ export default class Menu extends Component<MenuSignature> {
     const related = event.relatedTarget as Node | null;
     const menu = event.currentTarget as HTMLUListElement;
     if (related && menu.contains(related)) return;
-    this.args.onClose?.();
+    this.close(Boolean(related));
   };
 
   handleClick = (event: MouseEvent) => {
@@ -340,7 +360,7 @@ export default class Menu extends Component<MenuSignature> {
     if (!item) return;
     if (item.getAttribute('aria-disabled') === 'true') return;
     if (item.getAttribute('aria-haspopup') === 'true') return;
-    this.args.onClose?.();
+    this.close();
   };
 
   <template>

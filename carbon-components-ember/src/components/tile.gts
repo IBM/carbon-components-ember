@@ -119,7 +119,9 @@ export default class Tile extends Component<TileSignature> {
   }
 
   get clickableIsLink() {
-    return Boolean(this.args.href || this.args.route);
+    return Boolean(
+      this.args.href || this.args.route || this.args.externalRoute,
+    );
   }
 
   // As Carbon React's, which only calls onClick while enabled: a click on
@@ -168,12 +170,7 @@ export default class Tile extends Component<TileSignature> {
         content for this custom widget, not independently interactive, so
         the two a11y lint rules flagging "semantic descendants of
         role=checkbox" are suppressed - this is upstream's own real ARIA
-        pattern, not an accessibility regression. The literal title='title'
-        below matches upstream's own default title prop value verbatim (a
-        real, if unusual, upstream default) - previously this sat on the
-        now-removed, visually-hidden <input>, so hovering a selectable tile
-        now shows a native "title" tooltip where it didn't before; that's
-        expected, not a bug introduced here. }}
+        pattern, not an accessibility regression. }}
       <div
         id={{@id}}
         class="cds--tile cds--tile--selectable
@@ -183,7 +180,6 @@ export default class Tile extends Component<TileSignature> {
         {{! Forwards @tabindex, as Carbon React's tabIndex prop does. }}
         {{! eslint-disable-next-line ember/template-no-positive-tabindex }}
         tabindex={{this.tabindex}}
-        title="title"
         {{on "click" this.onSelectableClick}}
         {{on "keydown" this.onSelectableKeyDown}}
         ...attributes
@@ -253,6 +249,7 @@ export default class Tile extends Component<TileSignature> {
       <Link
         @href={{@href}}
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         @disabled={{@disabled}}

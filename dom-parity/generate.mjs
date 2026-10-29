@@ -38,6 +38,8 @@ globalThis.HTMLInputElement = dom.window.HTMLInputElement;
 globalThis.HTMLSelectElement = dom.window.HTMLSelectElement;
 globalThis.HTMLTextAreaElement = dom.window.HTMLTextAreaElement;
 globalThis.HTMLAnchorElement = dom.window.HTMLAnchorElement;
+// Loading's overlay checks whether its ancestors are an open modal dialog.
+globalThis.HTMLDialogElement = dom.window.HTMLDialogElement;
 // OverflowMenu's FloatingMenu listens for resizes on `globalThis` as if it
 // were the window, and measures its target with a bare `getComputedStyle`.
 globalThis.addEventListener = dom.window.addEventListener.bind(dom.window);

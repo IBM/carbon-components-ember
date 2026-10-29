@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../../icon.gts';
 import Csv from '../../icons/csv.ts';
 import Doc from '../../icons/doc.ts';
 import Html from '../../icons/html.ts';
@@ -16,10 +16,8 @@ import Txt from '../../icons/txt.ts';
 import Xls from '../../icons/xls.ts';
 import Zip from '../../icons/zip.ts';
 
-type FileTypeIconComponent = ComponentLike<{ Args: { size?: number } }>;
-
 interface FileTypeIconEntry {
-  icon: FileTypeIconComponent;
+  icon: IconComponent;
   mimes: string[];
   extensions: string[];
 }
@@ -75,7 +73,7 @@ const FILE_TYPE_ICONS: FileTypeIconEntry[] = [
 export function pickFileTypeIcon(
   name?: string,
   mimeType?: string,
-): FileTypeIconComponent | null {
+): IconComponent | null {
   const extension = name?.split('.').pop()?.toLowerCase() ?? '';
   const mime = mimeType?.toLowerCase() ?? '';
   const match = FILE_TYPE_ICONS.find(

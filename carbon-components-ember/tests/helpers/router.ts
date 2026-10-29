@@ -7,12 +7,14 @@ interface Registry {
   unregister(name: string): void;
 }
 
+type RouterMap = Parameters<typeof EmberRouter.map>[0];
+
 /**
  * For an application test of links that navigate: a router with
- * `settings`, `users/:id`, and `docs` with a `docs.guides` child route.
- * Render what the test needs with `visitWith`.
+ * `settings`, `users/:id`, and `docs` with a `docs.guides` child route,
+ * plus what `more` maps. Render what the test needs with `visitWith`.
  */
-export function setupRoutes(hooks: NestedHooks) {
+export function setupRoutes(hooks: NestedHooks, more?: RouterMap) {
   hooks.beforeEach(function (this: TestContext) {
     class Router extends EmberRouter {
       location = 'none';
@@ -24,6 +26,7 @@ export function setupRoutes(hooks: NestedHooks) {
       this.route('docs', function () {
         this.route('guides');
       });
+      more?.call(this);
     });
     const owner = this.owner as unknown as Registry;
     owner.unregister('router:main');

@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import type { TrustedHTML } from '@ember/template';
+import type { ComponentLike } from '@glint/template';
 import Loading from '../components/loading.gts';
 import renderSvgPart from '../components/icon/render-svg-part.ts';
 import './icon.scss';
@@ -69,6 +70,18 @@ export interface IconSignature {
     ariaLabel?: string;
   };
 }
+
+/**
+ * A component taken as an icon, as `@renderIcon` or `@icon`: one of the
+ * per-icon components in `icons/`, or any component that takes the
+ * arguments they're given.
+ */
+export type IconComponent = ComponentLike<{
+  Args: Pick<
+    IconSignature['Args'],
+    'size' | 'svgClass' | 'fill' | 'title' | 'ariaLabel'
+  >;
+}>;
 
 export default class Icon extends Component<IconSignature> {
   // As in @carbon/icons-react.

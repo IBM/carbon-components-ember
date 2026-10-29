@@ -8,7 +8,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 import Button from '../button.gts';
 import './workspace-shell.scss';
 import { observeResize } from '../../utils/resize-observer.ts';
@@ -19,7 +19,7 @@ export type WorkspaceShellFooterAction = {
   kind?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger';
   disabled?: boolean;
   payload?: unknown;
-  icon?: ComponentLike<{ Args: { size?: number } }>;
+  icon?: IconComponent;
 };
 
 export interface WorkspaceShellFooterSignature {

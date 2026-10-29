@@ -29,6 +29,7 @@ const UIShellSwitcherItem: TOC<UIShellSwitcherItemSignature> = <template>
     <RouterLink
       @href={{@href}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       @isActive={{@isSelected}}

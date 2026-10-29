@@ -1,6 +1,6 @@
-# Agent Context and Development Guide
+# Codebase Conventions
 
-This document provides essential context and patterns for AI agents (like Bob Shell) working on the carbon-components-ember codebase.
+The conventions and patterns of the carbon-components-ember codebase, for people and AI agents alike. [CONTRIBUTING.md](CONTRIBUTING.md) covers setup and the workflow.
 
 ## Project Overview
 
@@ -117,7 +117,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | --- | --- | --- |
 | `children` inspected/cloned | Yield a contextual component pre-bound (`WithBoundArgs`) or typed subcomponent (`typeof SubComponent`) | `components/data-table.gts`, `components/tree-view.gts` |
 | Component passed as a prop | A `ComponentLike` arg, invoked as `<@renderIcon />` | `components/link.gts` |
-| A router `Link` passed as `as`/`element` | `@route`, `@models` and `@query`, rendered through `-private/router-link.gts` (Ember's `LinkTo`, else `<a href>`) | `components/link.gts` |
+| A router `Link` passed as `as`/`element` | `@route`, `@models` and `@query`, or `@externalRoute` for an ember-engines engine's external routes, rendered through `-private/router-link.gts` (Ember's `LinkTo`, else `<a href>`); it reaches the app's router from inside an engine | `components/link.gts` |
 | Component slot (`decorator`, `slug`) | A named block yielding the component pre-bound for the host: `<:decorator as \|AILabel\|>` | `components/tag.gts` |
 | `value` + `defaultValue` + `onChange` | Keep both: `@defaultValue` seeds `@tracked` state, `@value` wins whenever defined | `components/text-input.gts` |
 | `useNormalizedInputProps` and the helper, invalid and warning `Text` | `fieldState()` and `<FieldMessage>` from `components/-private/field.gts`, with the control's `aria-*` attributes as that React component sets them | `components/text-input.gts` |
@@ -129,7 +129,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
-| Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
+| Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` (`<Popover as \|PopoverContent\|>`) | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
 | `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
@@ -162,7 +162,7 @@ For a cleaner registration example, read the charts: every yielded part extends 
 
 ### 2. Accept Components as Args
 
-Invoke a `renderIcon`-style `ComponentLike` arg as Carbon React does, passing a `@size` only where React passes `size`: icons are 16px by default and render a bare `<svg>`, as `@carbon/icons-react`'s do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
+Type a `renderIcon`-style arg as `IconComponent` from `icon.gts`, never `typeof Icon`, which rejects any icon that isn't an `Icon` subclass. Invoke it as Carbon React does, passing a `@size` only where React passes `size`: icons are 16px by default and render a bare `<svg>`, as `@carbon/icons-react`'s do. `@svgClass` is `@carbon/icons-react`'s `className`: pass the class Carbon React (or, for AI Chat, upstream) passes there, and nothing else.
 
 ```gts
 <@renderIcon />
