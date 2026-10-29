@@ -6,15 +6,14 @@
  */
 
 import type { TOC } from '@ember/component/template-only';
-import type { WithBoundArgs } from '@glint/template';
-import type ToggletipContent from '../toggletip/toggletip-content.gts';
+import type { ToggletipSignature } from '../toggletip.gts';
 import type { ToggletipContentSignature } from '../toggletip/toggletip-content.gts';
 
 export interface AILabelContentSignature {
   Element: ToggletipContentSignature['Element'];
   Args: {
     /** The AI label's toggletip content, already bound to it. */
-    Content: WithBoundArgs<typeof ToggletipContent, 'id'>;
+    Content: ToggletipSignature['Blocks']['default'][0]['Content'];
   };
   Blocks: {
     default: [];

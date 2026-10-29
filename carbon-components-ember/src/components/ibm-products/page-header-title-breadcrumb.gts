@@ -58,6 +58,7 @@ export default class PageHeaderTitleBreadcrumb extends PageHeaderBreadcrumbPart<
       @ariaCurrent={{@ariaCurrent}}
       @href={{@href}}
       @route={{@route}}
+      @externalRoute={{@externalRoute}}
       @models={{@models}}
       @query={{@query}}
       class="c4p--page-header-title-breadcrumb

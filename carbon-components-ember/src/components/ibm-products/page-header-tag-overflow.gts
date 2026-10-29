@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
-import Popover, { PopoverContent } from '../popover.gts';
+import Popover from '../popover.gts';
 import { createOverflowHandler } from './-overflow-handler.ts';
 
 export interface PageHeaderTagOverflowSignature {
@@ -94,6 +94,7 @@ export default class PageHeaderTagOverflow extends Component<PageHeaderTagOverfl
         @onRequestClose={{this.close}}
         data-fixed="true"
         aria-labelledby={{this.triggerId}}
+        as |PopoverContent|
       >
         {{yield
           this.hiddenTags

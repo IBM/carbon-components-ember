@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from './icon.gts';
 import ButtonBase from './-private/button-base.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import Tooltip from './tooltip.gts';
@@ -56,9 +56,7 @@ export interface ButtonSignature {
      * An icon component, shown at 16px after the label, or alone with
      * `@hasIconOnly`.
      */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string };
-    }>;
+    renderIcon?: IconComponent;
     /** The button's size. Without one, Carbon's default, `lg`, applies. */
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     /**
@@ -117,6 +115,7 @@ export default class Button extends Component<ButtonSignature> {
           @hasIconOnly={{true}}
           @href={{@href}}
           @route={{@route}}
+          @externalRoute={{@externalRoute}}
           @models={{@models}}
           @query={{@query}}
           @isExpressive={{@isExpressive}}
@@ -139,6 +138,7 @@ export default class Button extends Component<ButtonSignature> {
         @disabled={{@disabled}}
         @href={{@href}}
         @route={{@route}}
+        @externalRoute={{@externalRoute}}
         @models={{@models}}
         @query={{@query}}
         @iconDescription={{@iconDescription}}

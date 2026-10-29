@@ -12,7 +12,7 @@ import { registerPart, setFlag } from './-page-header-utils.ts';
 import type PageHeader from './page-header.gts';
 import type { PageHeaderObserverState } from './-page-header-utils.ts';
 import type { TOC } from '@ember/component/template-only';
-import type { ComponentLike } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 
 export interface PageHeaderContentSignature {
   Element: HTMLDivElement;
@@ -25,9 +25,7 @@ export interface PageHeaderContentSignature {
      */
     title?: string;
     /** An icon to render in front of the title. */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string };
-    }>;
+    renderIcon?: IconComponent;
     /** The element the title is. Defaults to `h1`. */
     titleAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
     /**

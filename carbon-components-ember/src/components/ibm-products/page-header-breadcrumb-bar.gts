@@ -10,7 +10,8 @@ import PageHeaderContentPageActions from './page-header-content-page-actions.gts
 import type PageHeader from './page-header.gts';
 import type { PageHeaderObserverState } from './-page-header-utils.ts';
 import type { TOC } from '@ember/component/template-only';
-import type { ComponentLike, WithBoundArgs } from '@glint/template';
+import type { WithBoundArgs } from '@glint/template';
+import type { IconComponent } from '../icon.gts';
 
 export interface PageHeaderBreadcrumbBarSignature {
   Element: HTMLDivElement;
@@ -26,9 +27,7 @@ export interface PageHeaderBreadcrumbBarSignature {
     /** `true` to set page actions flush with page. */
     pageActionsFlush?: boolean;
     /** An icon to render in front of the breadcrumbs. */
-    renderIcon?: ComponentLike<{
-      Args: { size?: number | string; svgClass?: string };
-    }>;
+    renderIcon?: IconComponent;
   };
   Blocks: {
     /** The breadcrumbs, such as a `BreadcrumbOverflow`. */

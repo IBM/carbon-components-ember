@@ -8,7 +8,7 @@ import DocumentIcon from './icons/document.ts';
 import Folder from './icons/folder.ts';
 
 import type { TreeViewSignature } from './tree-view.gts';
-import type Icon from './icon.gts';
+import type { IconComponent } from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
 import '#storybook/styles/tree-view.css';
 
@@ -30,7 +30,7 @@ type NodeDef = {
   label: string;
   isExpanded?: boolean;
   disabled?: boolean;
-  icon?: typeof Icon;
+  icon?: IconComponent;
   href?: string;
   children?: NodeDef[];
 };

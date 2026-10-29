@@ -1,11 +1,11 @@
 import UIShellSideNavIcon from './-icon.gts';
-import type Icon from '../../icon.gts';
+import type { IconComponent } from '../../icon.gts';
 import type { TOC } from '@ember/component/template-only';
 
 export interface UIShellSideNavHeaderSignature {
   Element: HTMLElement;
   Args: {
-    icon: typeof Icon;
+    icon: IconComponent;
   };
   Blocks: {
     default: [];

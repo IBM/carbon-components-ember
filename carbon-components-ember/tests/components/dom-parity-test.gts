@@ -58,6 +58,7 @@ import FormGroup from '#src/components/form-group.gts';
 import FormItem from '#src/components/form-item.gts';
 import FormLabel from '#src/components/form-label.gts';
 import Stack from '#src/components/stack.gts';
+import MenuButton from '#src/components/menu-button.gts';
 import Layer from '#src/components/layer.gts';
 import Theme from '#src/components/theme.gts';
 import Text from '#src/components/text.gts';
@@ -132,6 +133,7 @@ import formGroupFixture from '../../../dom-parity/fixtures/FormGroup.json';
 import formItemFixture from '../../../dom-parity/fixtures/FormItem.json';
 import formLabelFixture from '../../../dom-parity/fixtures/FormLabel.json';
 import stackFixture from '../../../dom-parity/fixtures/Stack.json';
+import menuButtonFixture from '../../../dom-parity/fixtures/MenuButton.json';
 import layerFixture from '../../../dom-parity/fixtures/Layer.json';
 import themeFixture from '../../../dom-parity/fixtures/Theme.json';
 import textFixture from '../../../dom-parity/fixtures/Text.json';
@@ -4336,6 +4338,115 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, formLabelFixture, ['default', 'with-id']);
+    });
+  });
+
+  module('MenuButton', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('kind-tertiary', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" @kind="tertiary" as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'kind-tertiary',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('kind-ghost', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" @kind="ghost" as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'kind-ghost',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" @size="sm" as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-md', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" @size="md" as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'size-md',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <MenuButton @label="Actions" @disabled={{true}} as |MenuItem|>
+            <MenuItem @label="First action" />
+          </MenuButton>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        menuButtonFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, menuButtonFixture, [
+        'default',
+        'kind-tertiary',
+        'kind-ghost',
+        'size-sm',
+        'size-md',
+        'disabled',
+      ]);
     });
   });
 
