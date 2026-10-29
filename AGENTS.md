@@ -128,7 +128,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
-| Floating UI positioning hooks | The addon's own `<Popover>` / `<PopoverContent>` | `components/popover.gts` |
+| Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` (`<Popover as \|PopoverContent\|>`) | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
 | `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |

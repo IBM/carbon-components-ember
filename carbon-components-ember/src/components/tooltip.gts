@@ -12,7 +12,7 @@ import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import { task, timeout } from 'ember-concurrency';
 import { scheduleTask } from 'ember-lifeline';
-import Popover, { PopoverContent } from './popover.gts';
+import Popover from './popover.gts';
 
 import type { PopoverAlignment, PopoverSignature } from './popover.gts';
 
@@ -183,6 +183,7 @@ export default class Tooltip extends Component<TooltipSignature> {
       {{on "focusout" this.onFocusOut}}
       {{on "keydown" this.onKeyDown}}
       {{on "click" this.onClick}}
+      as |PopoverContent|
     >
       <span
         class="cds--tooltip-trigger__wrapper"
