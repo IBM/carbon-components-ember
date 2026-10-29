@@ -1,7 +1,7 @@
 {
   "component": "Link",
-  "generatedAt": "2026-10-21T00:50:29.025Z",
-  "carbonReactVersion": "1.114.0",
+  "generatedAt": "2026-10-28T11:06:02.517Z",
+  "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -11,7 +11,9 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link"],
+        "classes": [
+          "cds--link"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -32,7 +34,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--disabled"],
+        "classes": [
+          "cds--link",
+          "cds--link--disabled"
+        ],
         "attributes": {
           "role": "link",
           "aria-disabled": "true"
@@ -54,7 +59,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--inline"],
+        "classes": [
+          "cds--link",
+          "cds--link--inline"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -75,7 +83,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--visited"],
+        "classes": [
+          "cds--link",
+          "cds--link--visited"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -96,7 +107,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--sm"],
+        "classes": [
+          "cds--link",
+          "cds--link--sm"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -117,7 +131,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--lg"],
+        "classes": [
+          "cds--link",
+          "cds--link--lg"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -138,7 +155,9 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link"],
+        "classes": [
+          "cds--link"
+        ],
         "attributes": {
           "rel": "noopener",
           "target": "_blank",
@@ -161,7 +180,9 @@
       "dom": {
         "type": "element",
         "tag": "button",
-        "classes": ["cds--link"],
+        "classes": [
+          "cds--link"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -182,7 +203,10 @@
       "dom": {
         "type": "element",
         "tag": "a",
-        "classes": ["cds--link", "cds--link--icon"],
+        "classes": [
+          "cds--link",
+          "cds--link--icon"
+        ],
         "attributes": {
           "href": "/about"
         },
@@ -195,7 +219,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--link__icon"],
+            "classes": [
+              "cds--link__icon"
+            ],
             "attributes": {},
             "style": {},
             "children": [

@@ -345,7 +345,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
         >
           <this.renderIcon
             @size={{16}}
-            @svgClass="cds--overflow-menu__icon {{@iconClass}}"
+            @svgClass="cds--overflow-menu__icon cds--btn__icon {{@iconClass}}"
             @ariaLabel={{this.iconDescription}}
           />
         </button>

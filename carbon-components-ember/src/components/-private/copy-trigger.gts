@@ -2,6 +2,7 @@ import Tooltip from '../tooltip.gts';
 import ButtonBase from './button-base.gts';
 import type { TOC } from '@ember/component/template-only';
 import type { ButtonSignature } from '../button.gts';
+import type { ButtonBaseSignature } from './button-base.gts';
 import type { PopoverAlignment } from '../popover.gts';
 
 export interface CopyTriggerSignature {
@@ -10,6 +11,8 @@ export interface CopyTriggerSignature {
     align: PopoverAlignment;
     autoAlign?: boolean;
     disabled?: boolean;
+    /** Defaults to `primary`, as Carbon React's Copy. */
+    kind?: ButtonBaseSignature['Args']['kind'];
     /** The tooltip, which names the button. */
     label: string;
     /** How long the tooltip stays after the pointer leaves. */
@@ -33,7 +36,7 @@ const CopyTrigger: TOC<CopyTriggerSignature> = <template>
     @leaveDelayMs={{@leaveDelayMs}}
   >
     <ButtonBase
-      @kind="primary"
+      @kind={{@kind}}
       @hasIconOnly={{true}}
       @size={{@size}}
       @disabled={{@disabled}}
