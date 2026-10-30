@@ -49,6 +49,15 @@ const restrictedTimers = ['setTimeout', 'setInterval'].map((name) => ({
     "Await ember-concurrency's timeout() in a task, which tests wait for and teardown cancels.",
 }));
 
+const restrictedGlobals = [
+  ...restrictedTimers,
+  {
+    name: 'ResizeObserver',
+    message:
+      'Use observeResize() from utils/resize-observer.ts, which shares one observer.',
+  },
+];
+
 export default defineConfig([
   globalIgnores([
     'dist/',
@@ -229,17 +238,23 @@ export default defineConfig([
     files: ['src/**/*'],
     ignores: ['**/*.stories.{gjs,gts}'],
     rules: {
-      'no-restricted-globals': ['error', ...restrictedTimers],
+      'no-restricted-globals': ['error', ...restrictedGlobals],
       'no-restricted-properties': [
         'error',
         ...['window', 'globalThis', 'self'].flatMap((object) =>
-          restrictedTimers.map((timer) => ({
+          restrictedGlobals.map((global) => ({
             object,
-            property: timer.name,
-            message: timer.message,
+            property: global.name,
+            message: global.message,
           })),
         ),
       ],
+    },
+  },
+  {
+    files: ['src/utils/resize-observer.ts'],
+    rules: {
+      'no-restricted-globals': ['error', ...restrictedTimers],
     },
   },
   {

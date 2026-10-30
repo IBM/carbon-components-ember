@@ -337,9 +337,6 @@ importers:
       ember-modifier:
         specifier: ^4.2.2
         version: 4.3.0(@babel/core@8.0.9)
-      ember-resize-modifier:
-        specifier: ^1.1.0
-        version: 1.1.0(@babel/core@8.0.9)
       ember-style-modifier:
         specifier: ^4.6.0
         version: 4.6.0(@babel/core@8.0.9)
@@ -5314,9 +5311,6 @@ packages:
     peerDependencies:
       '@ember/test-helpers': '>=3.0.3'
       qunit: ^2.13.0 || ^3.0.0
-
-  ember-resize-modifier@1.1.0:
-    resolution: {integrity: sha512-90znWeuNspcC7rgk3/BgMIwaAtsNc2xDcJ6h+JB2pIE0OYP+U3S239LOL6V8dNfHaVb3h7qU9tOMTKDb2ZWs5Q==}
 
   ember-rfc176-data@0.3.18:
     resolution: {integrity: sha512-JtuLoYGSjay1W3MQAxt3eINWXNYYQliK90tLwtb8aeCuQK8zKGCRbBodVIrkcTqshULMnRuTOS6t1P7oQk3g6Q==}
@@ -14979,14 +14973,6 @@ snapshots:
       '@embroider/addon-shim': 1.11.0
       qunit: 3.0.0
       qunit-theme-ember: 1.0.0
-
-  ember-resize-modifier@1.1.0(@babel/core@8.0.9):
-    dependencies:
-      '@embroider/addon-shim': 1.11.0
-      decorator-transforms: 2.4.0(@babel/core@8.0.9)
-      ember-modifier: 4.3.0(@babel/core@8.0.9)
-    transitivePeerDependencies:
-      - '@babel/core'
 
   ember-rfc176-data@0.3.18: {}
 

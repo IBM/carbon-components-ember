@@ -8,7 +8,9 @@ import {
   settled,
   triggerKeyEvent,
   find,
+  waitUntil,
 } from '@ember/test-helpers';
+import styleModifier from 'ember-style-modifier';
 import Tabs from '#src/components/tabs.gts';
 import { Folder } from '#src/icons.ts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
@@ -651,5 +653,33 @@ module('Integration | Component | Tabs', (hooks) => {
       undefined,
       'clicking the hidden button does not call @onTabCloseRequest',
     );
+  });
+
+  test('the scroll buttons show once a resize makes the tab list overflow', async function (assert) {
+    const width = tracked('4000px');
+    const titles = Array.from({ length: 9 }, (_, i) => `Tab ${i + 2}`);
+    const next = '.cds--tab--overflow-nav-button--next';
+    const hidden = 'cds--tab--overflow-nav-button--hidden';
+    await render(
+      <template>
+        <div {{styleModifier width=width.value}}>
+          <Tabs as |TabPane|>
+            <TabPane @title="Tab 1" @isDefault={{true}}>Tab 1</TabPane>
+            {{#each titles as |title|}}
+              <TabPane @title={{title}}>{{title}}</TabPane>
+            {{/each}}
+          </Tabs>
+        </div>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    assert.dom(next).hasClass(hidden);
+
+    width.value = '200px';
+    await waitUntil(() => !find(next)?.classList.contains(hidden), {
+      timeoutMessage: 'the next scroll button stayed hidden after the resize',
+    });
+
+    assert.dom(next).doesNotHaveClass(hidden);
   });
 });
