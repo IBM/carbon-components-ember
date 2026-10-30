@@ -160,5 +160,25 @@ module(
       const router = this.owner.lookup('service:router');
       assert.strictEqual(router.currentURL, '/settings');
     });
+
+    test('its action and link can go to an external route', async function (assert) {
+      const toSettings = { text: 'Settings', externalRoute: 'settings' };
+      const link = { text: 'Ada', externalRoute: 'user', models: ['42'] };
+      await visitWith(
+        this,
+        <template>
+          <EmptyState
+            @title="No assets"
+            @action={{toSettings}}
+            @link={{link}}
+          />
+        </template>,
+      );
+
+      assert.dom('a.c4p--empty-state__link').hasAttribute('href', '/users/42');
+      assert
+        .dom('a.c4p--empty-state__action-button')
+        .hasAttribute('href', '/settings');
+    });
   },
 );

@@ -34,7 +34,10 @@ export interface EmptyStateLink extends RouteArgs {
 export interface EmptyStateSignature {
   Element: HTMLDivElement;
   Args: {
-    /** A button, shown when it has `text` and `onClick`, `href` or `route`. */
+    /**
+     * A button, shown when it has `text` and `onClick`, `href`, `route` or
+     * `externalRoute`.
+     */
     action?: EmptyStateAction;
     /** The `src` of an image to show. */
     illustration?: string;
@@ -42,7 +45,7 @@ export interface EmptyStateSignature {
     illustrationDescription?: string;
     /** Where the image sits next to the text. Defaults to `top`. */
     illustrationPosition?: 'top' | 'right' | 'bottom' | 'left';
-    /** A link, shown when it has `text` and `href` or `route`. */
+    /** A link, shown when it has `text` and `href`, `route` or `externalRoute`. */
     link?: EmptyStateLink;
     /** The heading's element. Defaults to `h2`; use `h1` on a page of its own. */
     headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
