@@ -506,5 +506,234 @@
       "path": "ul.style",
       "reason": "Same as the `ul.attributes.popover` entry: Floating UI writes a fixed position with left and top, where FloatingMenu writes absolute offsets (hidden in jsdom, which it can't measure)."
     }
+  ],
+  "EmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > section[0] > button[2].attributes.text",
+      "variant": "small-with-action-and-link",
+      "reason": "Carbon for IBM Products spreads the whole `action`/`link` object onto the Button or Link, so its `text` lands in the DOM as a stray attribute."
+    },
+    {
+      "path": "div > section[0] > a[3].attributes.text",
+      "variant": "small-with-action-and-link",
+      "reason": "Carbon for IBM Products spreads the whole `action`/`link` object onto the Button or Link, so its `text` lands in the DOM as a stray attribute."
+    }
+  ],
+  "ErrorEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    }
+  ],
+  "NoDataEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    }
+  ],
+  "NoTagsEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns:xlink",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[7].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[7].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > section[1] > h2[0]",
+      "variant": "light",
+      "reason": "Carbon for IBM Products' NoTagsEmptyState passes `title={(title = '')}`, which blanks the title; ours shows it."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns:xlink",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[2].attributes.xlink:href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[2].attributes.href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[5].attributes.xlink:href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[5].attributes.href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.xlink:href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > section[1] > h2[0]",
+      "variant": "dark-small",
+      "reason": "Carbon for IBM Products' NoTagsEmptyState passes `title={(title = '')}`, which blanks the title; ours shows it."
+    }
+  ],
+  "NotFoundEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[6].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    }
+  ],
+  "NotificationsEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[4].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[4].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[7].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[7].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[8].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[8].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    }
+  ],
+  "UnauthorizedEmptyState": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns:xlink",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[4].attributes.xlink:href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[4].attributes.href",
+      "variant": "light",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > path[3].attributes.fill",
+      "variant": "light",
+      "reason": "Upstream's light illustration fills this path from `prefix__b`, a gradient only its dark one defines, so neither side's reference resolves and the generated ids differ."
+    },
+    {
+      "path": "div > svg[0].attributes.xmlns:xlink",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[2].attributes.xlink:href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    },
+    {
+      "path": "div > svg[0] > defs[1] > lineargradient[2].attributes.href",
+      "variant": "dark-small",
+      "reason": "The gradient refers to another with SVG 2's `href` here, which Glint types, where Carbon for IBM Products uses the deprecated `xlink:href` (and declares `xmlns:xlink`)."
+    }
+  ],
+  "FullPageError": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    }
+  ],
+  "PageHeader": [
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[0] > div[0] > div[0] > h1[0] > div[0].attributes.data-carbon-devtools-id",
+      "reason": "The title's TruncatedText. Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > div[1] > div[0] > div[0] > div[0] > div[0] > div[0] > h2[1] > div[0].attributes.data-carbon-devtools-id",
+      "variant": "breadcrumb-bar",
+      "reason": "The title's TruncatedText. Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    },
+    {
+      "path": "div > span[0] > div[0]",
+      "variant": "scroll-button",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps an icon-only button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "div > span[0] > span[1]",
+      "variant": "scroll-button",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[0] > div[0] > div[1] > ul[1] > li[0] > div[0]",
+      "variant": "breadcrumb-page-actions",
+      "reason": "Carbon for IBM Products renders the overflow menu with the v12 OverflowMenu (the `enableV12Overflowmenu` flag), a Menu in a `<div>`. This addon's OverflowMenu is the v11 one, a `<span>`; the comparison stops at that tag."
+    }
   ]
 }

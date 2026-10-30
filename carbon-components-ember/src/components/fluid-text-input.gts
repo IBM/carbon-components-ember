@@ -10,37 +10,38 @@ import PasswordInput from './password-input.gts';
 import TextInput from './text-input.gts';
 import type { TextInputSignature } from './text-input.gts';
 import type { TOC } from '@ember/component/template-only';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface FluidTextInputSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, or for the `<input>` with `@isPassword`, as
-     * Carbon React's `className`.
-     */
-    className?: string;
-    id?: string;
-    labelText?: string;
-    value?: string;
-    defaultValue?: string;
-    placeholder?: string;
-    disabled?: boolean;
-    readOnly?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
-    warn?: boolean;
-    warnText?: string;
-    enableCounter?: boolean;
-    maxCount?: number;
-    isPassword?: boolean;
-    showPasswordLabel?: string;
-    hidePasswordLabel?: string;
-    /**
-     * Called with the `input` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLInputElement }) => void;
-    onTogglePasswordVisibility?: (event: MouseEvent) => void;
-  };
+  Args: FieldValidationArgs &
+    Pick<FieldHelperArgs, 'readOnly'> &
+    Pick<FieldLabelArgs, 'labelText'> & {
+      /**
+       * Classes for the wrapper, or for the `<input>` with `@isPassword`, as
+       * Carbon React's `className`.
+       */
+      className?: string;
+      id?: string;
+      value?: string;
+      defaultValue?: string;
+      placeholder?: string;
+      disabled?: boolean;
+      enableCounter?: boolean;
+      maxCount?: number;
+      isPassword?: boolean;
+      showPasswordLabel?: string;
+      hidePasswordLabel?: string;
+      /**
+       * Called with the `input` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLInputElement }) => void;
+      onTogglePasswordVisibility?: (event: MouseEvent) => void;
+    };
   Blocks: {
     /**
      * The label, in place of `@labelText`, when it's more than plain text,

@@ -17,6 +17,7 @@ import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import type { IconComponent } from './icon.gts';
 import type { TOC } from '@ember/component/template-only';
+import { isActivationKey } from '../utils/keyboard.ts';
 
 const labelOffset = (offset: number) => ({
   marginInlineStart: `-${offset}rem`,
@@ -247,7 +248,7 @@ class TreeNode extends Component<TreeNodeSignature> {
       } else {
         this.setExpanded(true);
       }
-    } else if (event.key === 'Enter' || event.key === ' ') {
+    } else if (isActivationKey(event)) {
       event.preventDefault();
       if (event.key === 'Enter' && hasChildren) {
         this.setExpanded(!this.expanded);

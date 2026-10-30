@@ -38,7 +38,7 @@ import Add from 'carbon-components-ember/components/icons/add';
 </template>
 ```
 
-Icons are components too: import each one from `carbon-components-ember/components/icons/<name>`. They're 16px unless given a `@size`, as in `@carbon/icons-react`. The [Carbon AI Chat](https://github.com/carbon-design-system/carbon-ai-chat) components come from `carbon-components-ember/ai-chat`, under upstream's names (`ChatShell`, `CodeSnippet`), and the charts from `carbon-components-ember/charts`, under [`@carbon/charts-react`](https://charts.carbondesignsystem.com/react)'s names (`SimpleBarChart`, `LineChart`, `PieChart`).
+Icons are components too: import each one from `carbon-components-ember/components/icons/<name>`. They're 16px unless given a `@size`, as in `@carbon/icons-react`. The [Carbon AI Chat](https://github.com/carbon-design-system/carbon-ai-chat) components come from `carbon-components-ember/ai-chat`, under upstream's names (`ChatShell`, `CodeSnippet`), the charts from `carbon-components-ember/charts`, under [`@carbon/charts-react`](https://charts.carbondesignsystem.com/react)'s names (`SimpleBarChart`, `LineChart`, `PieChart`), and [Carbon for IBM Products](https://github.com/carbon-design-system/ibm-products)' components from `carbon-components-ember/ibm-products`, under its names (`EmptyState`, `FullPageError`). Their styles are in `styles.css` too.
 
 > [!IMPORTANT]
 > **Strict mode only.** Import components, icons and modifiers as above. Loose-mode `.hbs` templates can't resolve them by name: `<Carbon::TextInput>` and `{{component "carbon/text-input"}}` don't work. Write the templates that use them as `.gts` or `.gjs`.

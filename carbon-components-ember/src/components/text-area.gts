@@ -8,40 +8,39 @@ import AILabel from './ai-label.gts';
 import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
 import './text-area.scss';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface TextAreaSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<textarea>`.
-     */
-    className?: string;
-    id?: string;
-    labelText?: string;
-    hideLabel?: boolean;
-    value?: string;
-    defaultValue?: string;
-    placeholder?: string;
-    rows?: number;
-    cols?: number;
-    disabled?: boolean;
-    readOnly?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
-    warn?: boolean;
-    warnText?: string;
-    helperText?: string;
-    enableCounter?: boolean;
-    maxCount?: number;
-    counterMode?: 'character' | 'word';
-    light?: boolean;
-    /**
-     * Called with the `input` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLTextAreaElement }) => void;
-    onKeyDown?: (event: KeyboardEvent) => void;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    FieldLabelArgs & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<textarea>`.
+       */
+      className?: string;
+      id?: string;
+      value?: string;
+      defaultValue?: string;
+      placeholder?: string;
+      rows?: number;
+      cols?: number;
+      disabled?: boolean;
+      enableCounter?: boolean;
+      maxCount?: number;
+      counterMode?: 'character' | 'word';
+      light?: boolean;
+      /**
+       * Called with the `input` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLTextAreaElement }) => void;
+      onKeyDown?: (event: KeyboardEvent) => void;
+    };
   Element: HTMLTextAreaElement;
   Blocks: {
     /**

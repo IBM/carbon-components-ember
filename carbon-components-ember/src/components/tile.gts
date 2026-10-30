@@ -9,6 +9,7 @@ import Link from './link.gts';
 import type { LinkSignature } from './link.gts';
 import { observeResize } from '../utils/resize-observer.ts';
 import type { RouteArgs } from './-private/router-link.gts';
+import { isActivationKey } from '../utils/keyboard.ts';
 
 // Matches @carbon/react's ExpandableTile: while collapsed, the tile's own
 // max-height is clamped to the above-the-fold content's real height (plus
@@ -148,7 +149,7 @@ export default class Tile extends Component<TileSignature> {
   };
 
   onSelectableKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (isActivationKey(event)) {
       event.preventDefault();
       this.selected = !this.selected;
       this.args.onSelect?.();

@@ -15,6 +15,7 @@ import { scheduleTask } from 'ember-lifeline';
 import Popover from './popover.gts';
 
 import type { PopoverAlignment, PopoverSignature } from './popover.gts';
+import { isActivationKey } from '../utils/keyboard.ts';
 
 /**
  * Puts `attribute` (aria-labelledby / aria-describedby) on the trigger the
@@ -154,7 +155,7 @@ export default class Tooltip extends Component<TooltipSignature> {
       event.stopPropagation();
       this.open = false;
     }
-    if (this.args.closeOnActivation && ['Enter', ' '].includes(event.key)) {
+    if (this.args.closeOnActivation && isActivationKey(event)) {
       void this.setOpen.cancelAll();
       this.open = false;
     }

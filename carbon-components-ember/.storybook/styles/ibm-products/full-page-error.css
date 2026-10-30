@@ -1,0 +1,4 @@
+/* A page-sized frame, as Carbon for IBM Products' story gives it. */
+.ibm-products-full-page-error-story__viewport {
+  block-size: 100vh;
+}

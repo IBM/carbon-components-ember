@@ -17,42 +17,41 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import Tooltip from './tooltip.gts';
 import { FieldMessage, fieldState } from './-private/field.gts';
 import type { NewPopoverAlignment } from './popover.gts';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface PasswordInputSignature {
-  Args: {
-    id?: string;
-    labelText?: string;
-    hideLabel?: boolean;
-    value?: string;
-    defaultValue?: string;
-    placeholder?: string;
-    type?: 'password' | 'text';
-    size?: 'xs' | 'sm' | 'md' | 'lg';
-    disabled?: boolean;
-    readOnly?: boolean;
-    inline?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
-    warn?: boolean;
-    warnText?: string;
-    helperText?: string;
-    light?: boolean;
-    hidePasswordLabel?: string;
-    showPasswordLabel?: string;
-    tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
-    tooltipAlignment?: 'start' | 'center' | 'end';
-    /**
-     * Called with the `input` event on each change, as Carbon React's
-     * `onChange`; the value is `event.target.value`.
-     */
-    onChange?: (event: Event & { target: HTMLInputElement }) => void;
-    onTogglePasswordVisibility?: (event: MouseEvent) => void;
-    /**
-     * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
-     * fluid style, with the invalid or warning text inside the field.
-     */
-    isFluid?: boolean;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    FieldLabelArgs & {
+      id?: string;
+      value?: string;
+      defaultValue?: string;
+      placeholder?: string;
+      type?: 'password' | 'text';
+      size?: 'xs' | 'sm' | 'md' | 'lg';
+      disabled?: boolean;
+      inline?: boolean;
+      light?: boolean;
+      hidePasswordLabel?: string;
+      showPasswordLabel?: string;
+      tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
+      tooltipAlignment?: 'start' | 'center' | 'end';
+      /**
+       * Called with the `input` event on each change, as Carbon React's
+       * `onChange`; the value is `event.target.value`.
+       */
+      onChange?: (event: Event & { target: HTMLInputElement }) => void;
+      onTogglePasswordVisibility?: (event: MouseEvent) => void;
+      /**
+       * @internal Set by FluidTextInput, as Carbon React's `FormContext`: the
+       * fluid style, with the invalid or warning text inside the field.
+       */
+      isFluid?: boolean;
+    };
   Element: HTMLInputElement;
   Blocks: {
     /**

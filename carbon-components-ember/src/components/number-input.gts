@@ -17,47 +17,47 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import { FieldMessage, fieldState } from './-private/field.gts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface NumberInputSignature {
-  Args: {
-    /**
-     * Classes for the wrapper, as Carbon React's `className`. `class` and the
-     * other attributes go on the `<input>`.
-     */
-    className?: string;
-    id?: string;
-    label?: string;
-    hideLabel?: boolean;
-    value?: number | '';
-    defaultValue?: number | '';
-    min?: number;
-    max?: number;
-    step?: number;
-    stepStartValue?: number;
-    allowEmpty?: boolean;
-    disabled?: boolean;
-    readOnly?: boolean;
-    invalid?: boolean;
-    invalidText?: string;
-    warn?: boolean;
-    warnText?: string;
-    helperText?: string;
-    hideSteppers?: boolean;
-    size?: 'xs' | 'sm' | 'md' | 'lg';
-    light?: boolean;
-    iconDescription?: string;
-    /**
-     * Called on each change, as Carbon React's `onChange`: with the `input`
-     * event when typing, or the stepper's `click` event, and the new value
-     * and the direction it moved in.
-     */
-    onChange?: (
-      event: Event,
-      state: { value: number | ''; direction: 'up' | 'down' },
-    ) => void;
-    onClick?: (event: MouseEvent) => void;
-    onBlur?: (event: FocusEvent) => void;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    Pick<FieldLabelArgs, 'hideLabel'> & {
+      /**
+       * Classes for the wrapper, as Carbon React's `className`. `class` and the
+       * other attributes go on the `<input>`.
+       */
+      className?: string;
+      id?: string;
+      label?: string;
+      value?: number | '';
+      defaultValue?: number | '';
+      min?: number;
+      max?: number;
+      step?: number;
+      stepStartValue?: number;
+      allowEmpty?: boolean;
+      disabled?: boolean;
+      hideSteppers?: boolean;
+      size?: 'xs' | 'sm' | 'md' | 'lg';
+      light?: boolean;
+      iconDescription?: string;
+      /**
+       * Called on each change, as Carbon React's `onChange`: with the `input`
+       * event when typing, or the stepper's `click` event, and the new value
+       * and the direction it moved in.
+       */
+      onChange?: (
+        event: Event,
+        state: { value: number | ''; direction: 'up' | 'down' },
+      ) => void;
+      onClick?: (event: MouseEvent) => void;
+      onBlur?: (event: FocusEvent) => void;
+    };
   Element: HTMLInputElement;
   Blocks: {
     /**

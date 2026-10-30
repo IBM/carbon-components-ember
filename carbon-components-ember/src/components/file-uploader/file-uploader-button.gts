@@ -9,7 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import type Owner from '@ember/owner';
-import captureElement from './-capture-element.ts';
+import captureElement from '../../modifiers/capture-element.ts';
 
 export interface FileUploaderButtonSignature {
   Element: HTMLButtonElement;
@@ -124,7 +124,7 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
       disabled={{@disabled}}
       class={{this.classes}}
       {{on "click" this.handleButtonClick}}
-      {{captureElement onInsert=this.setButtonElement}}
+      {{captureElement this.setButtonElement}}
       ...attributes
     >{{this.label}}</button>
     <label class="cds--visually-hidden" for={{this.inputId}}>
@@ -139,7 +139,7 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
       multiple={{@multiple}}
       accept={{this.acceptAttr}}
       name={{@name}}
-      {{captureElement onInsert=this.setInputElement}}
+      {{captureElement this.setInputElement}}
       {{on "change" this.handleFileChange}}
     />
   </template>

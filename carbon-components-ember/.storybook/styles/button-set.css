@@ -1,0 +1,8 @@
+.button-set-story__frame {
+  max-inline-size: 100%;
+}
+
+/* The story's padding is 42px, as in Carbon React's story. */
+.button-set-story__frame--visible {
+  box-shadow: 0 0 0 42px var(--cds-layer-01);
+}

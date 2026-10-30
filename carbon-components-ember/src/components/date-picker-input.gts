@@ -13,6 +13,11 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import type { WithBoundArgs } from '@glint/template';
+import type {
+  FieldValidationArgs,
+  FieldHelperArgs,
+  FieldLabelArgs,
+} from './-private/field.gts';
 
 export interface DatePickerInputSignature {
   Element: HTMLInputElement;
@@ -23,80 +28,48 @@ export interface DatePickerInputSignature {
      */
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
-  Args: {
-    /**
-     * The id of the `<input>`. Also used to associate the label with the
-     * field. Auto-generated when omitted.
-     */
-    id?: string;
-    /**
-     * The text read by assistive technology and (unless `@hideLabel` is
-     * set) rendered above the field.
-     */
-    labelText: string;
-    /**
-     * Visually hide the label, while still keeping it available to
-     * assistive technology.
-     */
-    hideLabel?: boolean;
-    /**
-     * Placeholder text shown in the field when it is empty.
-     */
-    placeholder?: string;
-    /**
-     * A regular expression pattern the input's value must match.
-     */
-    pattern?: string;
-    /**
-     * The `<input>` element's `type` attribute.
-     */
-    type?: string;
-    /**
-     * Specify the size of the field.
-     */
-    size?: 'sm' | 'md' | 'lg';
-    /**
-     * Set by the parent `DatePicker` (`simple` renders no calendar icon
-     * unless `@invalid`/`@warn` is set).
-     */
-    datePickerType?: 'simple' | 'single' | 'range';
-    /**
-     * Specify whether or not the input should be disabled.
-     */
-    disabled?: boolean;
-    /**
-     * Whether the field is read-only. Set by the parent `DatePicker` when it
-     * is read-only.
-     */
-    readOnly?: boolean;
-    /**
-     * Specify whether the value is invalid.
-     */
-    invalid?: boolean;
-    /**
-     * Message which is displayed if the value is invalid.
-     */
-    invalidText?: string;
-    /**
-     * Specify whether the control is currently in warning state.
-     */
-    warn?: boolean;
-    /**
-     * Message which is displayed if the control is in warning state.
-     */
-    warnText?: string;
-    /**
-     * Provide text that is used alongside the control label for additional
-     * help.
-     */
-    helperText?: string;
-    /**
-     * Called whenever the raw `<input>` fires a `change` event. `DatePicker`
-     * drives the actual value through flatpickr directly on the DOM node;
-     * this is for consumers that want the raw text as the user types it.
-     */
-    onChange?: (event: Event) => void;
-  };
+  Args: FieldValidationArgs &
+    FieldHelperArgs &
+    FieldLabelArgs & {
+      /**
+       * The id of the `<input>`. Also used to associate the label with the
+       * field. Auto-generated when omitted.
+       */
+      id?: string;
+      /**
+       * Placeholder text shown in the field when it is empty.
+       */
+      placeholder?: string;
+      /**
+       * A regular expression pattern the input's value must match.
+       */
+      pattern?: string;
+      /**
+       * The `<input>` element's `type` attribute.
+       */
+      type?: string;
+      /**
+       * Specify the size of the field.
+       */
+      size?: 'sm' | 'md' | 'lg';
+      /**
+       * Set by the parent `DatePicker` (`simple` renders no calendar icon
+       * unless `@invalid`/`@warn` is set).
+       */
+      datePickerType?: 'simple' | 'single' | 'range';
+      /**
+       * Specify whether or not the input should be disabled.
+       */
+      disabled?: boolean;
+      /**
+       * Called whenever the raw `<input>` fires a `change` event. `DatePicker`
+       * drives the actual value through flatpickr directly on the DOM node;
+       * this is for consumers that want the raw text as the user types it.
+       */
+      onChange?: (event: Event) => void;
+      // Carbon React requires it, unlike the other fields' label.
+      labelText: string;
+    };
 }
 
 /**

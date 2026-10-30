@@ -20,6 +20,7 @@ import type { ToolbarAction } from './toolbar.gts';
 import Copy from '../icons/copy.ts';
 import ChevronDown from '../icons/chevron-down.ts';
 import { writeToClipboard } from '../../utils/clipboard.ts';
+import { observeResize } from '../../utils/resize-observer.ts';
 import type {
   LanguageController,
   LanguageStateUpdate,
@@ -151,7 +152,6 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
   private container: HTMLElement | null = null;
   private editorContainer: HTMLElement | null = null;
   private editorView: EditorView | undefined;
-  private resizeObserver: ResizeObserver | undefined;
   private contentSync: ContentSyncHandle | undefined;
   private languageController: LanguageController | null = null;
   private codemirrorRuntime: CodeMirrorRuntimeModule | null = null;
@@ -451,7 +451,7 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
 
   /**
    * Owns the outer container: setup that must happen exactly once
-   * (ResizeObserver, kicking off the CodeMirror runtime load) and final
+   * (observing its size, kicking off the CodeMirror runtime load) and final
    * teardown. Deliberately separate from `mountEditor` below (which reacts
    * to structural arg changes and tears down/rebuilds *just* the editor
    * view on every one of those) - mirrors `PromptLine`'s `mountSurface` vs.
@@ -462,21 +462,14 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
    */
   mountContainer = modifier<{ Element: HTMLDivElement }>((element) => {
     this.container = element;
-    const observer = new ResizeObserver(() => {
-      // Defer to requestAnimationFrame to avoid ResizeObserver loop errors
-      // (see the `Toolbar`/`WorkspaceShell` precedent in batch 3).
-      requestAnimationFrame(() => {
-        this.checkShowMoreButton();
-      });
-    });
-    observer.observe(element);
-    this.resizeObserver = observer;
+    const stopObserving = observeResize(element, () =>
+      this.checkShowMoreButton(),
+    );
 
     void this.ensureCodeMirrorRuntime();
 
     return () => {
-      observer.disconnect();
-      this.resizeObserver = undefined;
+      stopObserving();
       this.contentSync?.cancel();
       this.languageController?.dispose();
       this.destroyEditor();
