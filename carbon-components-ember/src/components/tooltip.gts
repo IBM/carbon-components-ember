@@ -184,10 +184,11 @@ export default class Tooltip extends Component<TooltipSignature> {
       {{on "focusout" this.onFocusOut}}
       {{on "keydown" this.onKeyDown}}
       {{on "click" this.onClick}}
-      as |PopoverContent|
+      as |PopoverContent trigger|
     >
       <span
         class="cds--tooltip-trigger__wrapper"
+        {{trigger}}
         {{describeTrigger this.triggerAttribute this.id}}
       >
         {{yield}}

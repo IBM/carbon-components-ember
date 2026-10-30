@@ -124,12 +124,12 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | State/controllable single prop | One arg plus a private `@tracked` fallback; arg is source of truth only when change handler is passed | `components/tree-view.gts` |
 | `useRef` + `useEffect` DOM listeners | A functional `modifier()` from `ember-modifier` returning its teardown | `modifiers/close-on-outside-click.ts` |
 | `useRef` to measure or drive an element | The `captureElement` modifier, handing the element to a class field | `modifiers/capture-element.ts` |
-| `forwardRef` | Yield a `ModifierLike` for the caller to apply to their own element | none yet |
+| `forwardRef`, or a ref a component puts on a child it's given | Yield a `ModifierLike` for the caller to apply to their own element | `components/popover.gts` (`trigger`) |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component, which renders into the topmost open Modal (the `carbon.layers` service), as nothing outside it works. A layer that must keep its state as modals open and close moves its element instead | `components/portal.gts`, `notification/toast-notification-list.gts` |
 | A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
-| Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` (`<Popover as \|PopoverContent\|>`) | `components/popover.gts` |
+| Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` and a `trigger` modifier for the trigger (`<Popover as \|PopoverContent trigger\|>`) | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
 | `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
