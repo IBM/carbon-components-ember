@@ -45,7 +45,12 @@ const EmptyStateContent: TOC<EmptyStateContentSignature> = <template>
         {{/if}}
       </div>
     {{/if}}
-    {{#if (and @action.text (or @action.onClick @action.href @action.route))}}
+    {{#if
+      (and
+        @action.text
+        (or @action.onClick @action.href @action.route @action.externalRoute)
+      )
+    }}
       <Button
         class="c4p--empty-state__action-button"
         @kind={{or @action.kind "tertiary"}}
@@ -55,16 +60,18 @@ const EmptyStateContent: TOC<EmptyStateContentSignature> = <template>
         @disabled={{@action.disabled}}
         @href={{@action.href}}
         @route={{@action.route}}
+        @externalRoute={{@action.externalRoute}}
         @models={{@action.models}}
         @query={{@action.query}}
         {{on "click" (or @action.onClick noop)}}
       >{{@action.text}}</Button>
     {{/if}}
-    {{#if (and @link.text (or @link.href @link.route))}}
+    {{#if (and @link.text (or @link.href @link.route @link.externalRoute))}}
       <Link
         class="c4p--empty-state__link"
         @href={{@link.href}}
         @route={{@link.route}}
+        @externalRoute={{@link.externalRoute}}
         @models={{@link.models}}
         @query={{@link.query}}
         @target={{@link.target}}
