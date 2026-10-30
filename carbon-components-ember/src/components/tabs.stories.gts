@@ -15,40 +15,50 @@ import Star from './icons/star.ts';
 import UserAvatar from './icons/user-avatar.ts';
 
 import type { TabsSignature } from './tabs.gts';
+import type { TabListSignature } from './tabs/tab-list.gts';
 import type { IconComponent } from './icon.gts';
 import '#storybook/styles/tabs.css';
 
 // Parity gaps with Carbon React's Tabs stories:
-// - `IconOnly` / `Icon20Only` (+ their visual snapshots): no IconTab /
-//   `iconSize`.
-// - `Vertical`: no TabsVertical / TabListVertical.
-// - No `scrollDebounceWait`, `scrollIntoView` or `left/rightOverflowButtonProps`
-//   args, and the selected tab is chosen by title (`@selectedTab`) rather than
-//   `selectedIndex`.
-// - React's TabList/Tab/TabPanels/TabPanel split is a single TabPane here:
-//   each yielded TabPane is both the tab and its panel.
-// - Nothing is selected initially unless a TabPane sets `@isDefault` (React
-//   selects the first tab), so the stories mark their first tab.
+// - `IconOnly` / `Icon20Only` (+ their visual snapshots): no IconTab and no
+//   TabList `iconSize` (#1279).
+// - `Vertical`: no TabsVertical / TabListVertical (#1280).
+// - No Tab `as` / `renderButton` (#1281), and no TabList
+//   `left/rightOverflowButtonProps`.
 // - In right-to-left, ArrowLeft moves to the next tab (React keeps
 //   ArrowRight), as the ARIA tabs pattern recommends.
+// - No story for React's `scrollDebounceWait` / `scrollIntoView` controls
+//   beyond the Default story's.
 
 type TabDef = {
-  title: string;
+  label: string;
+  panel: string;
   disabled?: boolean;
   icon?: IconComponent;
   secondaryLabel?: string;
 };
 
-type StoryArgs = TabsSignature['Args'] & { tabs: TabDef[] };
+type StoryArgs = TabsSignature['Args'] &
+  Pick<
+    TabListSignature['Args'],
+    | 'activation'
+    | 'contained'
+    | 'fullWidth'
+    | 'size'
+    | 'scrollDebounceWait'
+    | 'scrollIntoView'
+  > & { ariaLabel?: string; tabs: TabDef[] };
 
-const DEFAULT_TABS: TabDef[] = [
-  { title: 'Dashboard' },
-  { title: 'Monitoring' },
-  { title: 'Activity' },
-  { title: 'Settings' },
-];
+// Gives each tab the panel text React's stories use: "Tab Panel 1", ...
+const withPanels = (defs: Omit<TabDef, 'panel'>[]): TabDef[] =>
+  defs.map((def, index) => ({ ...def, panel: `Tab Panel ${index + 1}` }));
 
-const isFirst = (index: number) => index === 0;
+const DEFAULT_TABS = withPanels([
+  { label: 'Dashboard' },
+  { label: 'Monitoring' },
+  { label: 'Activity' },
+  { label: 'Settings' },
+]);
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Tabs',
@@ -57,15 +67,19 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "`Tabs` yields a bound `TabPane` component for each tab; its block is the tab's panel. The active tab can be uncontrolled (the first enabled tab, or the one with `@isDefault`) or controlled with `@selectedTab` / `@tabSelected`.",
+          "`Tabs` holds the selection and yields `TabList` and `TabPanels`, as Carbon React's composed API. `TabList` yields a `Tab` for each tab, `TabPanels` a `TabPanel` for each panel, and the nth tab controls the nth panel. The selection is uncontrolled (`@defaultSelectedIndex`) or controlled with `@selectedIndex` and `@onChange`.",
       },
     },
   },
   args: {
+    ariaLabel: 'List of tabs',
     tabs: DEFAULT_TABS,
+    defaultSelectedIndex: 0,
     contained: false,
+    dismissable: false,
     activation: 'automatic',
-    tabSelected: fn(),
+    scrollDebounceWait: 200,
+    onChange: fn(),
   },
   argTypes: {
     activation: { control: 'select', options: ['automatic', 'manual'] },
@@ -73,26 +87,36 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   },
   render: (args: StoryArgs) => <template>
     <Tabs
-      @contained={{args.contained}}
-      @size={{args.size}}
-      @fullWidth={{args.fullWidth}}
-      @activation={{args.activation}}
-      @ariaLabel={{args.ariaLabel}}
-      @tabSelected={{args.tabSelected}}
-      as |TabPane|
+      @defaultSelectedIndex={{args.defaultSelectedIndex}}
+      @selectedIndex={{args.selectedIndex}}
+      @dismissable={{args.dismissable}}
+      @onChange={{args.onChange}}
+      @onTabCloseRequest={{args.onTabCloseRequest}}
+      as |TabList TabPanels|
     >
-      {{#each args.tabs as |tab index|}}
-        <TabPane
-          @title={{tab.title}}
-          @disabled={{tab.disabled}}
-          @renderIcon={{tab.icon}}
-          @secondaryLabel={{tab.secondaryLabel}}
-          @isDefault={{isFirst index}}
-        >
-          Tab Panel
-          {{index}}
-        </TabPane>
-      {{/each}}
+      <TabList
+        aria-label={{args.ariaLabel}}
+        @activation={{args.activation}}
+        @contained={{args.contained}}
+        @fullWidth={{args.fullWidth}}
+        @size={{args.size}}
+        @scrollDebounceWait={{args.scrollDebounceWait}}
+        @scrollIntoView={{args.scrollIntoView}}
+        as |Tab|
+      >
+        {{#each args.tabs as |tab|}}
+          <Tab
+            @disabled={{tab.disabled}}
+            @renderIcon={{tab.icon}}
+            @secondaryLabel={{tab.secondaryLabel}}
+          >{{tab.label}}</Tab>
+        {{/each}}
+      </TabList>
+      <TabPanels as |TabPanel|>
+        {{#each args.tabs as |tab|}}
+          <TabPanel>{{tab.panel}}</TabPanel>
+        {{/each}}
+      </TabPanels>
     </Tabs>
   </template>,
 });
@@ -102,16 +126,16 @@ export const Default = meta.story();
 Default.test(
   'selects a tab on click and shows its panel',
   async ({ canvas, userEvent, args }) => {
-    // Tabs register with Tabs on the next runloop, so wait for them.
+    // Tabs register with Tabs after they render, so wait for them.
     await expect(await canvas.findByRole('tabpanel')).toHaveTextContent(
-      'Tab Panel 0',
+      'Tab Panel 1',
     );
     await userEvent.click(canvas.getByRole('tab', { name: 'Monitoring' }));
-    await expect(args.tabSelected).toHaveBeenCalledWith('Monitoring');
+    await expect(args.onChange).toHaveBeenCalledWith({ selectedIndex: 1 });
     await expect(
       canvas.getByRole('tab', { name: 'Monitoring' }),
     ).toHaveAttribute('aria-selected', 'true');
-    await expect(canvas.getByRole('tabpanel')).toHaveTextContent('Tab Panel 1');
+    await expect(canvas.getByRole('tabpanel')).toHaveTextContent('Tab Panel 2');
   },
 );
 
@@ -128,29 +152,29 @@ Default.test(
   },
 );
 
-const ALL_TABS: TabDef[] = [
-  { title: 'Dashboard' },
-  { title: 'Monitoring' },
-  { title: 'Activity' },
-  { title: 'Analyze' },
-  { title: 'Settings', disabled: true },
-];
+const ALL_TABS = withPanels([
+  { label: 'Dashboard' },
+  { label: 'Monitoring' },
+  { label: 'Activity' },
+  { label: 'Analyze' },
+  { label: 'Settings', disabled: true },
+]);
 
-const ICON_TABS: TabDef[] = [
-  { title: 'Dashboard', icon: Dashboard },
-  { title: 'Monitoring', icon: CloudMonitoring },
-  { title: 'Activity', icon: Activity },
-  { title: 'Analyze', icon: IbmWatsonDiscovery },
-  { title: 'Settings', icon: Settings, disabled: true },
-];
+const ICON_TABS = withPanels([
+  { label: 'Dashboard', icon: Dashboard },
+  { label: 'Monitoring', icon: CloudMonitoring },
+  { label: 'Activity', icon: Activity },
+  { label: 'Analyze', icon: IbmWatsonDiscovery },
+  { label: 'Settings', icon: Settings, disabled: true },
+]);
 
-const SECONDARY_LABEL_TABS: TabDef[] = [
-  { title: 'Engage', secondaryLabel: '(21/25)' },
-  { title: 'Analyze', secondaryLabel: '(12/16)' },
-  { title: 'Remediate', secondaryLabel: '(0/7)' },
-  { title: 'Assets', secondaryLabel: '(4/12)' },
-  { title: 'Monitoring', secondaryLabel: '(0/10)', disabled: true },
-];
+const SECONDARY_LABEL_TABS = withPanels([
+  { label: 'Engage', secondaryLabel: '(21/25)' },
+  { label: 'Analyze', secondaryLabel: '(12/16)' },
+  { label: 'Remediate', secondaryLabel: '(0/7)' },
+  { label: 'Assets', secondaryLabel: '(4/12)' },
+  { label: 'Monitoring', secondaryLabel: '(0/10)', disabled: true },
+]);
 
 // Tabs renders each tab's close button next to it inside role="tablist",
 // as @carbon/react does (checked by the DOM-parity tests). The selected
@@ -163,14 +187,26 @@ const DISMISSABLE_A11Y = {
   },
 };
 
-// Removing a tab is up to the consumer: `@onTabCloseRequest` receives the
-// closed tab's title, and the story filters it out of its list.
+// Removing a tab is up to the consumer, as in Carbon React's story:
+// `@onTabCloseRequest` receives the closed tab's index, and the story filters
+// it out of its list and keeps the selection on the same tab.
 function dismissableRender(initial: TabDef[]) {
   return (args: StoryArgs) => {
-    const state = trackedObject({ tabs: initial });
-    const close = (title: string) => {
-      state.tabs = state.tabs.filter((t) => t.title !== title);
-      args.onTabCloseRequest?.(title);
+    const state = trackedObject({ tabs: initial, selectedIndex: 0 });
+    const change = ({ selectedIndex }: { selectedIndex: number }) => {
+      state.selectedIndex = selectedIndex;
+      args.onChange?.({ selectedIndex });
+    };
+    const close = (index: number) => {
+      if (state.tabs[index]?.disabled) return;
+      const selected = state.tabs[state.selectedIndex];
+      const tabs = state.tabs.filter((_tab, i) => i !== index);
+      state.selectedIndex =
+        index === state.selectedIndex
+          ? tabs.findIndex((tab) => !tab.disabled)
+          : tabs.indexOf(selected!);
+      state.tabs = tabs;
+      args.onTabCloseRequest?.(index);
     };
     const reset = () => {
       state.tabs = initial;
@@ -179,33 +215,41 @@ function dismissableRender(initial: TabDef[]) {
     return <template>
       <Button class="tabs-story__reset" {{on "click" reset}}>Reset</Button>
       <Tabs
+        @selectedIndex={{state.selectedIndex}}
+        @onChange={{change}}
         @dismissable={{true}}
-        @contained={{args.contained}}
-        @size={{args.size}}
         @onTabCloseRequest={{close}}
-        as |TabPane|
+        as |TabList TabPanels|
       >
-        {{#each state.tabs as |tab index|}}
-          <TabPane
-            @title={{tab.title}}
-            @disabled={{tab.disabled}}
-            @renderIcon={{tab.icon}}
-            @isDefault={{isFirst index}}
-          >
-            {{tab.title}}
-          </TabPane>
-        {{/each}}
+        <TabList
+          aria-label="List of tabs"
+          @contained={{args.contained}}
+          @size={{args.size}}
+          as |Tab|
+        >
+          {{#each state.tabs as |tab|}}
+            <Tab
+              @disabled={{tab.disabled}}
+              @renderIcon={{tab.icon}}
+            >{{tab.label}}</Tab>
+          {{/each}}
+        </TabList>
+        <TabPanels as |TabPanel|>
+          {{#each state.tabs as |tab|}}
+            <TabPanel>{{tab.label}}</TabPanel>
+          {{/each}}
+        </TabPanels>
       </Tabs>
     </template>;
   };
 }
 
-const DISMISSABLE_TABS: TabDef[] = [
-  { title: 'Dashboard' },
-  { title: 'Monitoring' },
-  { title: 'Activity' },
-  { title: 'Settings', disabled: true },
-];
+const DISMISSABLE_TABS = withPanels([
+  { label: 'Dashboard' },
+  { label: 'Monitoring' },
+  { label: 'Activity' },
+  { label: 'Settings', disabled: true },
+]);
 
 export const Dismissable = meta.story({
   parameters: DISMISSABLE_A11Y,
@@ -219,7 +263,7 @@ Dismissable.test(
   'closing a tab removes it',
   async ({ canvas, userEvent, args }) => {
     await userEvent.click(await canvas.findByTitle('Remove Monitoring tab'));
-    await expect(args.onTabCloseRequest).toHaveBeenCalledWith('Monitoring');
+    await expect(args.onTabCloseRequest).toHaveBeenCalledWith(1);
     await waitFor(() =>
       expect(canvas.queryByRole('tab', { name: 'Monitoring' })).toBeNull(),
     );
@@ -236,7 +280,7 @@ Dismissable.test(
     const tab = await canvas.findByRole('tab', { name: 'Monitoring' });
     tab.focus();
     await userEvent.keyboard('{Delete}');
-    await expect(args.onTabCloseRequest).toHaveBeenCalledWith('Monitoring');
+    await expect(args.onTabCloseRequest).toHaveBeenCalledWith(1);
     await userEvent.click(canvas.getByRole('button', { name: 'Reset' }));
   },
 );
@@ -255,12 +299,14 @@ export const DismissableWithIcons = meta.story({
   args: {
     onTabCloseRequest: fn(),
   },
-  render: dismissableRender([
-    { title: 'Dashboard', icon: Dashboard },
-    { title: 'Monitoring', icon: CloudMonitoring },
-    { title: 'Activity', icon: Activity },
-    { title: 'Settings', icon: Settings, disabled: true },
-  ]),
+  render: dismissableRender(
+    withPanels([
+      { label: 'Dashboard', icon: Dashboard },
+      { label: 'Monitoring', icon: CloudMonitoring },
+      { label: 'Activity', icon: Activity },
+      { label: 'Settings', icon: Settings, disabled: true },
+    ]),
+  ),
 });
 
 export const WithIcons = meta.story({
@@ -319,18 +365,18 @@ export const ContainedWithSecondaryLabels = meta.story({
 export const ContainedWithSecondaryLabelsAndIcons = meta.story({
   args: {
     contained: true,
-    tabs: [
-      { title: 'Engage', secondaryLabel: '(21/25)', icon: Dashboard },
-      { title: 'Analyze', secondaryLabel: '(12/16)', icon: CloudMonitoring },
-      { title: 'Remediate', secondaryLabel: '(0/7)', icon: Activity },
-      { title: 'Assets', secondaryLabel: '(4/12)', icon: IbmWatsonDiscovery },
+    tabs: withPanels([
+      { label: 'Engage', secondaryLabel: '(21/25)', icon: Dashboard },
+      { label: 'Analyze', secondaryLabel: '(12/16)', icon: CloudMonitoring },
+      { label: 'Remediate', secondaryLabel: '(0/7)', icon: Activity },
+      { label: 'Assets', secondaryLabel: '(4/12)', icon: IbmWatsonDiscovery },
       {
-        title: 'Monitoring',
+        label: 'Monitoring',
         secondaryLabel: '(0/10)',
         icon: Settings,
         disabled: true,
       },
-    ],
+    ]),
   },
 });
 
@@ -340,16 +386,16 @@ export const ContainedFullWidth = meta.story({
   args: {
     contained: true,
     fullWidth: true,
-    tabs: [
-      { title: 'TLS' },
-      { title: 'Origin' },
-      { title: 'Rate limiting', disabled: true },
-      { title: 'WAF' },
-      { title: 'IP Firewall' },
-      { title: 'Firewall rules' },
-      { title: 'Range' },
-      { title: 'Mutual TLS' },
-    ],
+    tabs: withPanels([
+      { label: 'TLS' },
+      { label: 'Origin' },
+      { label: 'Rate limiting', disabled: true },
+      { label: 'WAF' },
+      { label: 'IP Firewall' },
+      { label: 'Firewall rules' },
+      { label: 'Range' },
+      { label: 'Mutual TLS' },
+    ]),
   },
 });
 
@@ -359,7 +405,7 @@ export const Skeleton = meta.story({
     docs: {
       description: {
         story:
-          '`TabsSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments. `<Tabs @loading={{true}} />` renders the same placeholder.',
+          '`TabsSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
       },
     },
   },
@@ -370,14 +416,31 @@ export const Skeleton = meta.story({
 // `@contained` is set.
 export const Sizes = meta.story({
   render: () => <template>
-    <Tabs @size="sm" as |TabPane|>
-      <TabPane @title="Tab Label 1" @isDefault={{true}}>Content 1</TabPane>
-      <TabPane @title="Tab Label 2">Content 2</TabPane>
+    <Tabs as |TabList TabPanels|>
+      <TabList aria-label="Small tabs" @size="sm" as |Tab|>
+        <Tab>Tab Label 1</Tab>
+        <Tab>Tab Label 2</Tab>
+      </TabList>
+      <TabPanels as |TabPanel|>
+        <TabPanel>Content 1</TabPanel>
+        <TabPanel>Content 2</TabPanel>
+      </TabPanels>
     </Tabs>
     <br />
-    <Tabs @contained={{true}} @size="lg" as |TabPane|>
-      <TabPane @title="Tab Label 1" @isDefault={{true}}>Content 1</TabPane>
-      <TabPane @title="Tab Label 2">Content 2</TabPane>
+    <Tabs as |TabList TabPanels|>
+      <TabList
+        aria-label="Large contained tabs"
+        @contained={{true}}
+        @size="lg"
+        as |Tab|
+      >
+        <Tab>Tab Label 1</Tab>
+        <Tab>Tab Label 2</Tab>
+      </TabList>
+      <TabPanels as |TabPanel|>
+        <TabPanel>Content 1</TabPanel>
+        <TabPanel>Content 2</TabPanel>
+      </TabPanels>
     </Tabs>
   </template>,
 });
@@ -385,56 +448,53 @@ export const Sizes = meta.story({
 export const WithRenderIcon = meta.story({
   name: 'With icons (renderIcon)',
   args: {
-    tabs: [
-      { title: 'Tab Label 1', icon: Star },
-      { title: 'Tab Label 2', icon: UserAvatar },
-    ],
+    tabs: withPanels([
+      { label: 'Tab Label 1', icon: Star },
+      { label: 'Tab Label 2', icon: UserAvatar },
+    ]),
   },
 });
 
-// Controlled: the selected tab's title lives in local state, passed back as
-// `@selectedTab` and updated from `@tabSelected`.
+// Controlled: the selected index lives in local state, passed back as
+// `@selectedIndex` and updated from `@onChange`.
 export const Controlled = meta.story({
   render: (args: StoryArgs) => {
-    const state = trackedObject({ selected: 'Tab Label 1' });
-    const select = (title: string) => {
-      state.selected = title;
-      args.tabSelected?.(title);
+    const state = trackedObject({ selected: 0 });
+    const change = ({ selectedIndex }: { selectedIndex: number }) => {
+      state.selected = selectedIndex;
+      args.onChange?.({ selectedIndex });
     };
 
     return <template>
       <Tabs
-        @selectedTab={{state.selected}}
-        @tabSelected={{select}}
-        as |TabPane|
+        @selectedIndex={{state.selected}}
+        @onChange={{change}}
+        as |TabList TabPanels|
       >
-        <TabPane @title="Tab Label 1">selected: {{state.selected}}</TabPane>
-        <TabPane @title="Tab Label 2" @disabled={{true}}>
-          selected:
-          {{state.selected}}
-        </TabPane>
-        <TabPane @title="Tab Label 4 with a very long long label">
-          selected:
-          {{state.selected}}
-        </TabPane>
+        <TabList aria-label="List of tabs" as |Tab|>
+          <Tab>Tab Label 1</Tab>
+          <Tab @disabled={{true}}>Tab Label 2</Tab>
+          <Tab>Tab Label 4 with a very long long label</Tab>
+        </TabList>
+        <TabPanels as |TabPanel|>
+          <TabPanel>selected: {{state.selected}}</TabPanel>
+          <TabPanel>selected: {{state.selected}}</TabPanel>
+          <TabPanel>selected: {{state.selected}}</TabPanel>
+        </TabPanels>
       </Tabs>
     </template>;
   },
 });
 
 Controlled.test(
-  'reports the selection and follows @selectedTab',
+  'reports the selection and follows @selectedIndex',
   async ({ canvas, userEvent, args }) => {
     const tab = await canvas.findByRole('tab', {
       name: 'Tab Label 4 with a very long long label',
     });
     await userEvent.click(tab);
-    await expect(args.tabSelected).toHaveBeenCalledWith(
-      'Tab Label 4 with a very long long label',
-    );
-    await expect(canvas.getByRole('tabpanel')).toHaveTextContent(
-      'selected: Tab Label 4 with a very long long label',
-    );
+    await expect(args.onChange).toHaveBeenCalledWith({ selectedIndex: 2 });
+    await expect(canvas.getByRole('tabpanel')).toHaveTextContent('selected: 2');
   },
 );
 

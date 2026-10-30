@@ -305,22 +305,15 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "Tabs": {
+  "Tab": {
     "missing": [
-      "defaultSelectedIndex",
-      "onChange",
-      "selectedIndex"
-    ],
-    "extra": [
-      "activation",
-      "ariaLabel",
-      "contained",
-      "disabled",
-      "fullWidth",
-      "loading",
-      "selectedTab",
-      "size",
-      "tabSelected"
+      "as",
+      "renderButton"
+    ]
+  },
+  "TabList": {
+    "missing": [
+      "iconSize"
     ]
   },
   "Tag": {
