@@ -11,7 +11,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'A loading placeholder for `Tabs`. `<Tabs @loading={{true}} />` renders the same placeholder.',
+          'A loading placeholder for `Tabs`: render it in place of `Tabs` while the tabs load.',
       },
     },
   },

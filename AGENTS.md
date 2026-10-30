@@ -131,8 +131,8 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` (`<Popover as \|PopoverContent\|>`) | `components/popover.gts` |
 | Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
-| `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs.gts` |
-| `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs.gts` |
+| `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs/tab-list.gts` |
+| `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs/tab.gts` |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |
 
 ### 1. Yield Contextual Components instead of Inspecting Children
@@ -144,13 +144,13 @@ import type Owner from '@ember/owner';
 import { registerDestructor } from '@ember/destroyable';
 import { afterRender } from '../utils/after-render.ts';
 
-export default class TabPane extends Component<TabPaneSignature> {
-  constructor(owner: Owner, args: TabPaneSignature['Args']) {
+export default class Tab extends Component<TabSignature> {
+  constructor(owner: Owner, args: TabSignature['Args']) {
     super(owner, args);
     // The parent read its children during this render; register after it.
     afterRender(this, () => {
-      this.args.tab.registerTab(this);
-      registerDestructor(this, () => this.args.tab.unregisterTab(this));
+      this.args.tabs.registerTab(this);
+      registerDestructor(this, () => this.args.tabs.unregisterTab(this));
     });
   }
 }
@@ -200,7 +200,7 @@ Signatures follow the [Ember guides](https://guides.emberjs.com/release/typescri
   - No `...attributes`, no `Element`. Never write `Element: null`.
 - **`...attributes`:** every component spreads it on the element Carbon React spreads its rest props onto (TextInput's `<input>`, Slider's track), or on its root where React spreads none. Where React's `className` styles a different element, take it as `@className`; where it styles that same element, as PasswordInput's does, `class` covers it. Before `...attributes`, an attribute is a default the caller can override; after it, the component's value wins, and an undefined one removes the caller's. So only what the component must control, such as an `id` its label points at, goes after it; anything a caller may also set, such as TextArea's `maxlength`, goes before. A component with no element of its own opts out of `ember/template-require-splattributes` inline, with the reason.
 - **`Blocks`:** only the blocks the template yields.
-  - Label positional params: `default: [TabPane: WithBoundArgs<typeof TabPane, 'tab'>]`. The label becomes the block param name in editors and Storybook's "Show code".
+  - Label positional params: `default: [Tab: WithBoundArgs<typeof Tab, 'tabs' | 'list'>]`. The label becomes the block param name in editors and Storybook's "Show code".
   - A yielded hash stays unlabelled, since its keys name its entries.
 - **Yielded components:** `typeof X` when yielding the class itself, `WithBoundArgs<typeof X, 'a'>` for `(component X a=…)`.
 - **Template-only components:** `const X: TOC<XSignature> = <template>…`.

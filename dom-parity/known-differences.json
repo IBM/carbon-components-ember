@@ -450,13 +450,6 @@
       "reason": "Deliberate a11y divergence (axe aria-required-children/aria-required-parent): @carbon/react puts each row's visually hidden selection <input> directly inside role=\"row\", which may only own cells. The Ember port wraps it in an out-of-flow, visually hidden role=\"cell\" <div>, so the row only owns cells and no visible column is added. The input itself, its attributes and its behaviour are unchanged (see structured-list-test.gts)."
     }
   ],
-  "Tabs": [
-    {
-      "path": "div.attributes.tabindex",
-      "variant": "selected-panel",
-      "reason": "Ember's yielded `TabPane` renders `tabindex=\"0\"` on its panel; the pinned `@carbon/react`'s `TabPanel` renders none. Left as-is: it only makes the panel itself focusable, which the WAI-ARIA tabs pattern recommends when a panel has no focusable content of its own, and removing it would silently change keyboard behaviour for existing consumers - a real, deliberate-looking divergence rather than a markup slip."
-    }
-  ],
   "Modal": [
     {
       "path": "div.attributes.role",
