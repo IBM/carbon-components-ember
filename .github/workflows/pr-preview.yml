@@ -15,6 +15,7 @@ jobs:
       contents: write
       pull-requests: write
       actions: write # starts the Pages deploy
+      deployments: write # shows the preview on the pull request
     steps:
       - uses: actions/checkout@v7
 
@@ -75,6 +76,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
+      # Shows the preview in the pull request's deployments. Transient and
+      # never retired by another deployment, so one pull request's preview
+      # doesn't mark the others' inactive.
+      - name: Record the deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ github.head_ref }}
+          URL: https://ibm.github.io/carbon-components-ember/pr-previews/pr-${{ github.event.pull_request.number }}/
+          LOG: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          id=$(jq -n --arg ref "$REF" '{ref: $ref, environment: "pr-preview", description: "Storybook preview", auto_merge: false, required_contexts: [], transient_environment: true}' \
+            | gh api "repos/$GITHUB_REPOSITORY/deployments" --input - --jq .id)
+          jq -n --arg url "$URL" --arg log "$LOG" '{state: "success", environment_url: $url, log_url: $log, auto_inactive: false}' \
+            | gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" --input - > /dev/null
+
       - name: Post or update preview comment
         uses: actions/github-script@v9
         with:
@@ -124,6 +140,7 @@ jobs:
       contents: write
       pull-requests: write
       actions: write # starts the Pages deploy
+      deployments: write # shows the preview on the pull request
     steps:
       - name: Checkout gh-pages branch
         uses: actions/checkout@v7
@@ -169,6 +186,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
+
+      - name: Retire the deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ github.head_ref }}
+        run: |
+          for id in $(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=pr-preview&ref=$REF" --paginate --jq '.[].id'); do
+            gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" -f state=inactive > /dev/null
+          done
 
       - name: Update preview comment
         uses: actions/github-script@v9
