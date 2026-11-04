@@ -536,9 +536,9 @@ module('Integration | Component | Modal', function (hooks) {
             <Popover
               @open={{popoverOpen.value}}
               @onRequestClose={{closePopover}}
-              as |PopoverContent|
+              as |PopoverContent trigger|
             >
-              <button type="button">Trigger</button>
+              <button type="button" {{trigger}}>Trigger</button>
               <PopoverContent>
                 <button type="button" id="inner">Inner</button>
               </PopoverContent>

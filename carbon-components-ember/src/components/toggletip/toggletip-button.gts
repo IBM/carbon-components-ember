@@ -1,10 +1,13 @@
 import Component from '@glimmer/component';
+import type { PopoverSignature } from '../popover.gts';
 
 export interface ToggletipButtonSignature {
   Args: {
     open: boolean;
     toggle: () => void;
     id: string;
+    /** The Toggletip's Popover's trigger modifier, bound by the Toggletip. */
+    trigger: PopoverSignature['Blocks']['default'][1];
     /**
      * Provide an accessible label for this button. Defaults to `'Show information'`.
      */
@@ -34,6 +37,7 @@ export default class ToggletipButton extends Component<ToggletipButtonSignature>
       aria-controls={{@id}}
       aria-describedby={{if @open @id}}
       {{on "click" @toggle}}
+      {{@trigger}}
       ...attributes
     >
       {{yield}}

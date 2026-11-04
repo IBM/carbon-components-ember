@@ -52,7 +52,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "`Popover` is used for triggering a pop-up next to a trigger element, typically a button, in a given direction. It is a controlled component: the consumer owns the `@open` argument and toggles it (usually from the trigger's click handler), while `Popover` calls `@onRequestClose` whenever the user clicks outside of the popover or presses <kbd>Escape</kbd> while focus is inside the popover content.\n\nRender the trigger element, then the `PopoverContent` that `Popover` yields, bound to it: `<Popover @open={{this.open}} as |PopoverContent|>`.",
+          "`Popover` is used for triggering a pop-up next to a trigger element, typically a button, in a given direction. It is a controlled component: the consumer owns the `@open` argument and toggles it (usually from the trigger's click handler), while `Popover` calls `@onRequestClose` whenever the user clicks outside of the popover or presses <kbd>Escape</kbd> while focus is inside the popover content.\n\nRender the trigger element with the `trigger` modifier `Popover` yields on it (`@autoAlign` and `@isTabTip` need it), then the `PopoverContent` it yields, bound to it: `<Popover @open={{this.open}} as |PopoverContent trigger|>`.",
       },
     },
   },
@@ -94,13 +94,14 @@ export const Default = meta.story({
         @highContrast={{args.highContrast}}
         @backgroundToken={{args.backgroundToken}}
         @onRequestClose={{close}}
-        as |PopoverContent|
+        as |PopoverContent trigger|
       >
         <button
           type="button"
           aria-label="Checkbox"
           aria-expanded={{if state.open "true" "false"}}
           {{on "click" toggle}}
+          {{trigger}}
         >
           <CheckboxIcon />
         </button>
@@ -156,13 +157,14 @@ export const TabTip = meta.story({
           @align="bottom-start"
           @isTabTip={{true}}
           @onRequestClose={{one.close}}
-          as |PopoverContent|
+          as |PopoverContent trigger|
         >
           <button
             type="button"
             aria-label="Settings"
             aria-expanded={{if one.state.open "true" "false"}}
             {{on "click" one.toggle}}
+            {{trigger}}
           >
             <Settings />
           </button>
@@ -192,13 +194,14 @@ export const TabTip = meta.story({
           @align="bottom-end"
           @isTabTip={{true}}
           @onRequestClose={{two.close}}
-          as |PopoverContent|
+          as |PopoverContent trigger|
         >
           <button
             type="button"
             aria-label="Settings"
             aria-expanded={{if two.state.open "true" "false"}}
             {{on "click" two.toggle}}
+            {{trigger}}
           >
             <Settings />
           </button>
@@ -245,7 +248,7 @@ export const ExperimentalAutoAlign = meta.story({
           @caret={{args.caret}}
           @autoAlign={{true}}
           @onRequestClose={{close}}
-          as |PopoverContent|
+          as |PopoverContent trigger|
         >
           <button
             type="button"
@@ -253,6 +256,7 @@ export const ExperimentalAutoAlign = meta.story({
             aria-expanded={{if state.open "true" "false"}}
             {{scrollIntoView}}
             {{on "click" toggle}}
+            {{trigger}}
           >
             <CheckboxIcon />
           </button>
@@ -291,7 +295,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
               @autoAlign={{true}}
               @autoAlignBoundary={{boundary.element}}
               @onRequestClose={{close}}
-              as |PopoverContent|
+              as |PopoverContent trigger|
             >
               <button
                 type="button"
@@ -299,6 +303,7 @@ export const ExperimentalAutoAlignBoundary = meta.story({
                 aria-expanded={{if state.open "true" "false"}}
                 {{scrollIntoView}}
                 {{on "click" toggle}}
+                {{trigger}}
               >
                 <CheckboxIcon />
               </button>
@@ -332,7 +337,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
           @autoAlign={{true}}
           @isTabTip={{true}}
           @onRequestClose={{close}}
-          as |PopoverContent|
+          as |PopoverContent trigger|
         >
           <button
             type="button"
@@ -340,6 +345,7 @@ export const TabTipExperimentalAutoAlign = meta.story({
             aria-expanded={{if state.open "true" "false"}}
             {{scrollIntoView}}
             {{on "click" toggle}}
+            {{trigger}}
           >
             <CheckboxIcon />
           </button>
@@ -374,13 +380,14 @@ export const AutoAlignAtTopOfPage = meta.story({
         @align="top"
         @autoAlign={{true}}
         @onRequestClose={{close}}
-        as |PopoverContent|
+        as |PopoverContent trigger|
       >
         <button
           type="button"
           aria-label="Available storage"
           aria-expanded={{if state.open "true" "false"}}
           {{on "click" toggle}}
+          {{trigger}}
         >
           <CheckboxIcon />
         </button>

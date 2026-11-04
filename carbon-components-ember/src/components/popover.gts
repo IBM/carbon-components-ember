@@ -14,7 +14,7 @@ import { clippingBoundary, float } from '../utils/floating.ts';
 import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
-import type { WithBoundArgs } from '@glint/template';
+import type { ModifierLike, WithBoundArgs } from '@glint/template';
 
 /** Carbon React's `NewPopoverAlignment` values. */
 export const NewPopoverAlignments = [
@@ -192,8 +192,15 @@ export interface PopoverSignature {
     open: boolean;
   };
   Blocks: {
-    /** The trigger, then the yielded `PopoverContent`. */
-    default: [PopoverContent: WithBoundArgs<typeof PopoverContent, 'popover'>];
+    /**
+     * The trigger, with the yielded `trigger` modifier on it, then the
+     * yielded `PopoverContent`. `@autoAlign` positions against the element
+     * `trigger` marks and `@isTabTip` styles it, so both need it.
+     */
+    default: [
+      PopoverContent: WithBoundArgs<typeof PopoverContent, 'popover'>,
+      trigger: ModifierLike<{ Element: HTMLElement }>,
+    ];
   };
 }
 
@@ -205,8 +212,8 @@ export interface PopoverSignature {
  * import { Popover } from 'carbon-components-ember/components';
  *
  * <template>
- *   <Popover @open={{true}} as |PopoverContent|>
- *     <button type="button">Trigger</button>
+ *   <Popover @open={{true}} as |PopoverContent trigger|>
+ *     <button type="button" {{trigger}}>Trigger</button>
  *     <PopoverContent>Content</PopoverContent>
  *   </Popover>
  * </template>
@@ -218,6 +225,20 @@ export default class Popover extends Component<PopoverSignature> {
   // tracked() skips equal writes, so re-registering doesn't re-position.
   #contentElement = tracked<HTMLElement | undefined>(undefined);
   #caretElement = tracked<HTMLElement | undefined>(undefined);
+  #triggerElement = tracked<HTMLElement | undefined>(undefined);
+
+  /**
+   * Marks the caller's trigger, as Carbon React's ref on it: floating mode
+   * positions against it, and `manage` styles it for a tab tip.
+   */
+  trigger = modifier((element: HTMLElement) => {
+    this.#triggerElement.value = element;
+    return () => {
+      if (this.#triggerElement.value === element) {
+        this.#triggerElement.value = undefined;
+      }
+    };
+  });
 
   get contentElement() {
     return this.#contentElement.value;
@@ -295,7 +316,10 @@ export default class Popover extends Component<PopoverSignature> {
 
   manage = modifier((element: HTMLElement) => {
     this.containerElement = element;
-    this.markTabTipTrigger();
+    this.#triggerElement.value?.classList.toggle(
+      'cds--popover--tab-tip__button',
+      !!this.args.isTabTip,
+    );
   });
 
   // Only a Popover that can ask to close needs the document listeners.
@@ -305,12 +329,11 @@ export default class Popover extends Component<PopoverSignature> {
 
   /**
    * Floating mode (`@autoAlign`), configured like Carbon React's
-   * `useFloating` call. The reference is the trigger, as in
-   * `markTabTipTrigger`.
+   * `useFloating` call. The reference is the element `trigger` marks.
    */
   positionContent = modifier((container: HTMLElement) => {
     if (!this.floating || !this.args.open) return;
-    const reference = container.querySelector(':scope > :not(.cds--popover)');
+    const reference = this.#triggerElement.value;
     const content =
       this.contentElement ??
       container.querySelector<HTMLElement>(
@@ -385,16 +408,6 @@ export default class Popover extends Component<PopoverSignature> {
     });
   });
 
-  markTabTipTrigger() {
-    const trigger = this.containerElement?.querySelector<HTMLElement>(
-      ':scope > *:not(.cds--popover)',
-    );
-    trigger?.classList.toggle(
-      'cds--popover--tab-tip__button',
-      !!this.args.isTabTip,
-    );
-  }
-
   handleOutsideClick = () => {
     if (this.args.open) {
       this.args.onRequestClose?.();
@@ -439,7 +452,7 @@ export default class Popover extends Component<PopoverSignature> {
         }}
         ...attributes
       >
-        {{yield (component PopoverContent popover=this)}}
+        {{yield (component PopoverContent popover=this) this.trigger}}
       </Tag>
     {{/let}}
   </template>
