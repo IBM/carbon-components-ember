@@ -1,485 +1,607 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { RenderStory } from 'ember-storybook';
-import { expect, fn } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import {
-  MENU_ITEMS,
-  CURRENT,
-  NO_ITEMS,
-  HOME,
-  noop,
+  StoryContent,
+  headerArgs,
+  navigationArgs,
+  sideNavArgs,
   withShellFrame,
 } from '#storybook/fixtures/ui-shell.gts';
 import preview from '#storybook/preview.ts';
-import UIShell from '../ui-shell.gts';
+import Header from './header.gts';
+import HeaderContainer from './header-container.gts';
+import HeaderGlobalAction from './header-global-action.gts';
+import HeaderGlobalBar from './header-global-bar.gts';
+import HeaderMenu from './header-menu.gts';
+import HeaderMenuButton from './header-menu-button.gts';
+import HeaderMenuItem from './header-menu-item.gts';
+import HeaderName from './header-name.gts';
+import HeaderNavigation from './header-navigation.gts';
+import HeaderPanel from './header-panel.gts';
+import HeaderSideNavItems from './header-side-nav-items.gts';
+import SideNav from './side-nav.gts';
+import SkipToContent from './skip-to-content.gts';
+import SwitcherDivider from './switcher-divider.gts';
 import Fade from '../icons/fade.ts';
 import Notification from '../icons/notification.ts';
 import Search from '../icons/search.ts';
 import SwitcherIcon from '../icons/switcher.ts';
-import UserAvatar from '../icons/user-avatar.ts';
 
 import type { StoryArgs } from '#storybook/fixtures/ui-shell.gts';
-import '#storybook/styles/ui-shell/header.css';
 
-// Carbon React's UI Shell story pages: Header (with the Ember-only Overview
-// and HeaderContainer stories) and SideNav.
-//
-// Parity gaps:
-// - `Side Nav Rail with Header`: no rail (`isRail`) mode.
-// - `Side Nav with Large Side Nav Items`: no `large` side-nav items.
-// - No `SkipToContent` customization (the header always renders "Skip to
-//   main content") or `HeaderName` `prefix`, no `HeaderMenuButton`
-//   `isCollapsible`, and no `HeaderNavigation` `aria-label` (it is always
-//   "IBM [Platform]").
+// Parity gaps with Carbon React's Header stories:
+// - `Header with Actions and Right Panel`: no `badgeCount` on the
+//   notifications action: no `IconButton` with a `badgeCount` yet (#454).
 
-const meta = preview.type<{ args: StoryArgs }>().meta({
+type HeaderStoryArgs = StoryArgs & {
+  navigationAriaLabel: string;
+  navigationMenuLabel: string;
+};
+
+const meta = preview.type<{ args: HeaderStoryArgs }>().meta({
   title: 'Components/UI Shell/Header',
-  component: UIShell,
+  component: Header,
   parameters: {
     docs: {
       description: {
         component:
-          "The UI Shell is the structural framework of an application that houses navigational elements and page content, so users can move through an application consistently and predictably. Its `shell` block yields a `Header` (top bar with the product name, navigation, and global actions), a `Nav` (top-level navigation links and `HeaderMenu`s), a `Sidenav` (left-hand navigation panel), a `Switcher` and a `HeaderContainer`; the `content` block is the page content.\n\nThe header name, nav items, menu items, switcher items and side-nav menus link to an `@href`, or to one of the app's routes with `@route` (plus `@models` and `@query`), which renders Ember's `LinkTo` and marks the link to the current route as current.\n\nThe `Header` yields a `GlobalAction` into its `headerGlobal` block (icon buttons for search, notifications, the app switcher, ...) and a `HeaderPanel` into its `headerPanel` block. The `Sidenav` block yields `Menu`, `Divider`, `SideNavHeader`, `SideNavDetails`, `SideNavIcon` and `HeaderSideNavItems`, and its `footer` block a `Footer` toggle; wire the toggle to the same `@open`/`@onToggle` state as the `Header`'s menu button (or use `HeaderContainer`, which manages it).",
+          "The UI Shell's `Header` is the application's top bar, built from Carbon React's parts, each imported from `carbon-components-ember/components`: `SkipToContent`, a `HeaderMenuButton` that opens the `SideNav` below `lg`, the `HeaderName`, `HeaderNavigation` with `HeaderMenuItem`s and `HeaderMenu`s, a `HeaderGlobalBar` of `HeaderGlobalAction`s, and a `HeaderPanel` they open. `HeaderContainer` yields `isSideNavExpanded` and `onClickSideNavExpand` for the menu button and the side nav, and the page goes in `Content`.\n\nA `HeaderMenu` yields its `HeaderMenuItem`, and a `HeaderPanel` yields a `Switcher`, which yields its `SwitcherItem`. The name and the items link to `@href`, or to one of the app's routes with `@route` (plus `@models` and `@query`), which marks the link to the current route as current, and the menu holding it while it's closed.",
       },
     },
   },
   args: {
-    title: 'IBM',
-    subtitle: '[Platform]',
-    onAction: fn(),
+    ...headerArgs,
+    ...navigationArgs,
+    ...sideNavArgs,
+    onAction: spy(),
   },
   decorators: [withShellFrame],
 });
 
 export const HeaderWNavigation = meta.story({
   name: 'Header with Navigation',
-  render: (args: StoryArgs) => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
-          <:header>
-            <s.Nav as |Item HeaderMenu|>
-              <Item @href="#">Link 1</Item>
-              <Item @href="#">Link 2</Item>
-              <Item @href="#">Link 3</Item>
-              <HeaderMenu @menuLinkName="Link 4" as |MenuItemLink|>
-                <MenuItemLink @href="#">Sub-link 1</MenuItemLink>
-                <MenuItemLink @href="#">Sub-link 2</MenuItemLink>
-                <MenuItemLink @href="#">Sub-link 3</MenuItemLink>
+  render: (args: HeaderStoryArgs) => <template>
+    <HeaderContainer as |container|>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <SkipToContent />
+        <HeaderMenuButton
+          @ariaLabel={{if container.isSideNavExpanded "Close menu" "Open menu"}}
+          @isActive={{container.isSideNavExpanded}}
+          aria-expanded={{if container.isSideNavExpanded "true" "false"}}
+          {{on "click" container.onClickSideNavExpand}}
+        />
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <HeaderNavigation aria-label={{args.navigationAriaLabel}}>
+          <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+          <HeaderMenu
+            @ariaLabel={{args.navigationMenuLabel}}
+            @menuLinkName={{args.navigationMenuLabel}}
+            as |HeaderMenuItem|
+          >
+            <HeaderMenuItem @href="#">Sub-link 1</HeaderMenuItem>
+            <HeaderMenuItem @isActive={{true}} @href="#">Sub-link 2</HeaderMenuItem>
+            <HeaderMenuItem @href="#">Sub-link 3</HeaderMenuItem>
+          </HeaderMenu>
+        </HeaderNavigation>
+        <SideNav
+          aria-label={{args.sideNavAriaLabel}}
+          @expanded={{container.isSideNavExpanded}}
+          @isPersistent={{false}}
+          @onSideNavBlur={{container.onClickSideNavExpand}}
+          as |SideNavItems|
+        >
+          <SideNavItems>
+            <HeaderSideNavItems>
+              <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+              <HeaderMenu
+                @ariaLabel={{args.navigationMenuLabel}}
+                @menuLinkName={{args.navigationMenuLabel}}
+                as |HeaderMenuItem|
+              >
+                <HeaderMenuItem @href="#">Sub-link 1</HeaderMenuItem>
+                <HeaderMenuItem @isActive={{true}} @href="#">Sub-link 2</HeaderMenuItem>
+                <HeaderMenuItem @href="#">Sub-link 3</HeaderMenuItem>
               </HeaderMenu>
-            </s.Nav>
-          </:header>
-        </s.Header>
-      </:shell>
-      <:content></:content>
-    </UIShell>
+            </HeaderSideNavItems>
+          </SideNavItems>
+        </SideNav>
+      </Header>
+      <StoryContent />
+    </HeaderContainer>
   </template>,
 });
 
 HeaderWNavigation.test(
-  'opens a header menu',
+  'a header menu opens, and shows its current item while closed',
   async ({ canvas, canvasElement, userEvent }) => {
-    // The menu title is an `href="#"` link; keep the test page in place.
+    // The menu's button is an `href="#"` link; keep the test page in place.
     canvasElement.addEventListener('click', (e) => e.preventDefault());
-    const menu = canvas.getByRole('link', { name: 'Link 4' });
+    const nav = canvas.getByRole('navigation', { name: 'IBM [Platform]' });
+    const menu = nav.querySelector('.cds--header__menu-title')!;
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await expect(menu).toHaveClass('cds--header__menu-item--current');
     await userEvent.click(menu);
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    await expect(menu).not.toHaveClass('cds--header__menu-item--current');
+    await userEvent.keyboard('{Escape}');
+    await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await expect(menu).toHaveFocus();
   },
 );
 
 export const HeaderWNavigationAndActions = meta.story({
   name: 'Header with Navigation and Actions',
-  render: (args: StoryArgs) => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
-          <:header>
-            <s.Nav as |Item|>
-              <Item @href="#">Link 1</Item>
-              <Item @href="#">Link 2</Item>
-              <Item @href="#">Link 3</Item>
-            </s.Nav>
-          </:header>
-          <:headerGlobal as |GlobalAction|>
-            <GlobalAction
-              @aria-label="Search"
-              @icon={{Search}}
-              @onClick={{args.onAction}}
-            />
-            <GlobalAction
-              @aria-label="Notifications"
-              @icon={{Notification}}
-              @onClick={{args.onAction}}
-            />
-            <GlobalAction
-              @aria-label="App Switcher"
-              @icon={{SwitcherIcon}}
-              @onClick={{args.onAction}}
-            />
-          </:headerGlobal>
-        </s.Header>
-      </:shell>
-      <:content></:content>
-    </UIShell>
+  render: (args: HeaderStoryArgs) => <template>
+    <HeaderContainer as |container|>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <SkipToContent />
+        <HeaderMenuButton
+          @ariaLabel={{if container.isSideNavExpanded "Close menu" "Open menu"}}
+          @isActive={{container.isSideNavExpanded}}
+          aria-expanded={{if container.isSideNavExpanded "true" "false"}}
+          {{on "click" container.onClickSideNavExpand}}
+        />
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <HeaderNavigation aria-label={{args.navigationAriaLabel}}>
+          <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+          <HeaderMenu
+            @isActive={{true}}
+            @ariaLabel={{args.navigationMenuLabel}}
+            @menuLinkName={{args.navigationMenuLabel}}
+            as |HeaderMenuItem|
+          >
+            <HeaderMenuItem @href="#">Sub-link 1</HeaderMenuItem>
+            <HeaderMenuItem @href="#">Sub-link 2</HeaderMenuItem>
+            <HeaderMenuItem @href="#">Sub-link 3</HeaderMenuItem>
+          </HeaderMenu>
+        </HeaderNavigation>
+        <HeaderGlobalBar>
+          <HeaderGlobalAction @ariaLabel="Search" {{on "click" args.onAction}}>
+            <Search @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="Notifications"
+            {{on "click" args.onAction}}
+          >
+            <Notification @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="App Switcher"
+            @tooltipAlignment="end"
+            {{on "click" args.onAction}}
+          >
+            <SwitcherIcon @size={{20}} />
+          </HeaderGlobalAction>
+        </HeaderGlobalBar>
+        <SideNav
+          aria-label={{args.sideNavAriaLabel}}
+          @expanded={{container.isSideNavExpanded}}
+          @isPersistent={{false}}
+          @onSideNavBlur={{container.onClickSideNavExpand}}
+          as |SideNavItems|
+        >
+          <SideNavItems>
+            <HeaderSideNavItems>
+              <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+              <HeaderMenu
+                @ariaLabel={{args.navigationMenuLabel}}
+                @menuLinkName={{args.navigationMenuLabel}}
+                as |HeaderMenuItem|
+              >
+                <HeaderMenuItem @href="#">Sub-link 1</HeaderMenuItem>
+                <HeaderMenuItem @href="#">Sub-link 2</HeaderMenuItem>
+                <HeaderMenuItem @href="#">Sub-link 3</HeaderMenuItem>
+              </HeaderMenu>
+            </HeaderSideNavItems>
+          </SideNavItems>
+        </SideNav>
+      </Header>
+      <StoryContent />
+    </HeaderContainer>
   </template>,
 });
 
 HeaderWNavigationAndActions.test(
-  'global actions call their handler',
+  'a global action is a button named by its tooltip',
   async ({ canvas, userEvent, args }) => {
-    await userEvent.click(
-      canvas.getByRole('button', { name: 'Notifications' }),
-    );
+    const button = canvas.getByRole('button', { name: 'Notifications' });
+    await expect(button).toHaveClass('cds--header__action');
+    await userEvent.click(button);
     await expect(args.onAction).toHaveBeenCalledOnce();
   },
 );
 
-// The header's menu button and the side nav share the `open` state.
-
 export const HeaderWNavigationActionsAndSideNav = meta.story({
   name: 'Header with Navigation, Actions and Side Nav',
-  render: (args: StoryArgs) => {
-    const state = trackedObject({ open: false });
-    const onToggle = (open: boolean) => {
-      state.open = open;
-    };
-
-    return <template>
-      <UIShell>
-        <:shell as |s|>
-          <s.Header
-            @href="#"
-            @title={{args.title}}
-            @subtitle={{args.subtitle}}
-            @open={{state.open}}
-            @onToggle={{onToggle}}
+  render: (args: HeaderStoryArgs) => <template>
+    <HeaderContainer as |container|>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <SkipToContent />
+        <HeaderMenuButton
+          @ariaLabel={{if container.isSideNavExpanded "Close menu" "Open menu"}}
+          @isActive={{container.isSideNavExpanded}}
+          aria-expanded={{if container.isSideNavExpanded "true" "false"}}
+          {{on "click" container.onClickSideNavExpand}}
+        />
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <HeaderNavigation aria-label={{args.navigationAriaLabel}}>
+          <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+          <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+          <HeaderMenu
+            @ariaLabel={{args.navigationMenuLabel}}
+            @menuLinkName={{args.navigationMenuLabel}}
+            as |HeaderMenuItem|
           >
-            <:header>
-              <s.Nav as |Item|>
-                <Item @href="#">Link 1</Item>
-                <Item @href="#">Link 2</Item>
-                <Item @href="#">Link 3</Item>
-              </s.Nav>
-            </:header>
-            <:headerGlobal as |GlobalAction|>
-              <GlobalAction
-                @aria-label="Search"
-                @icon={{Search}}
-                @onClick={{args.onAction}}
-              />
-              <GlobalAction
-                @aria-label="Notifications"
-                @icon={{Notification}}
-                @onClick={{args.onAction}}
-              />
-            </:headerGlobal>
-          </s.Header>
-          <s.Sidenav
-            @open={{state.open}}
-            @menuItems={{MENU_ITEMS}}
-            @currentMenu={{CURRENT}}
-            @transitionTo={{noop}}
+            <HeaderMenuItem @href="#one">Sub-link 1</HeaderMenuItem>
+            <HeaderMenuItem @href="#two">Sub-link 2</HeaderMenuItem>
+            <HeaderMenuItem @href="#three">Sub-link 3</HeaderMenuItem>
+          </HeaderMenu>
+        </HeaderNavigation>
+        <HeaderGlobalBar>
+          <HeaderGlobalAction
+            @ariaLabel="Search"
+            @tooltipAlignment="start"
+            {{on "click" args.onAction}}
           >
-            <:footer as |Footer|>
-              <Footer @open={{state.open}} @onToggle={{onToggle}} />
-            </:footer>
-          </s.Sidenav>
-        </:shell>
-        <:content><p>Page content</p></:content>
-      </UIShell>
-    </template>;
-  },
+            <Search @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="Notifications"
+            {{on "click" args.onAction}}
+          >
+            <Notification @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="App Switcher"
+            @tooltipAlignment="end"
+            {{on "click" args.onAction}}
+          >
+            <SwitcherIcon @size={{20}} />
+          </HeaderGlobalAction>
+        </HeaderGlobalBar>
+        <SideNav
+          aria-label={{args.sideNavAriaLabel}}
+          @expanded={{container.isSideNavExpanded}}
+          @onSideNavBlur={{container.onClickSideNavExpand}}
+          @href="#main-content"
+          as |SideNavItems|
+        >
+          <SideNavItems as |SideNavLink SideNavMenu|>
+            <HeaderSideNavItems @hasDivider={{true}}>
+              <HeaderMenuItem @href="#">Link 1</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 2</HeaderMenuItem>
+              <HeaderMenuItem @href="#">Link 3</HeaderMenuItem>
+              <HeaderMenu
+                @ariaLabel={{args.navigationMenuLabel}}
+                @menuLinkName={{args.navigationMenuLabel}}
+                as |HeaderMenuItem|
+              >
+                <HeaderMenuItem @href="#">Sub-link 1</HeaderMenuItem>
+                <HeaderMenuItem @href="#">Sub-link 2</HeaderMenuItem>
+                <HeaderMenuItem @href="#">Sub-link 3</HeaderMenuItem>
+              </HeaderMenu>
+            </HeaderSideNavItems>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              @tabIndex={{0}}
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 5
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 6
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 7
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              @tabIndex={{0}}
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 8
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 9
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 10
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              @isActive={{true}}
+              @tabIndex={{0}}
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 11
+              </SideNavMenuItem>
+              <SideNavMenuItem
+                aria-current="page"
+                @href="https://www.carbondesignsystem.com/"
+              >
+                Link 12
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link 13
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavLink
+              @renderIcon={{Fade}}
+              @href="https://www.carbondesignsystem.com/"
+            >
+              Link
+            </SideNavLink>
+            <SideNavLink
+              @renderIcon={{Fade}}
+              @href="https://www.carbondesignsystem.com/"
+            >
+              Link
+            </SideNavLink>
+          </SideNavItems>
+        </SideNav>
+      </Header>
+      <StoryContent />
+    </HeaderContainer>
+  </template>,
 });
-
-HeaderWNavigationActionsAndSideNav.test(
-  'the menu button and the footer toggle the side nav',
-  async ({ canvas, canvasElement, userEvent }) => {
-    const sidenav = canvasElement.querySelector('.cds--side-nav')!;
-    await expect(sidenav).not.toHaveClass('cds--side-nav--expanded');
-    await userEvent.click(canvas.getByRole('button', { name: 'Open menu' }));
-    await expect(sidenav).toHaveClass('cds--side-nav--expanded');
-    await userEvent.click(canvas.getByRole('button', { name: 'Collapse' }));
-    await expect(sidenav).not.toHaveClass('cds--side-nav--expanded');
-  },
-);
 
 export const HeaderWSideNav = meta.story({
   name: 'Header with Side Nav',
-  render: (args: StoryArgs) => {
-    const state = trackedObject({ open: true });
-    const onToggle = (open: boolean) => {
-      state.open = open;
-    };
-
-    return <template>
-      <UIShell>
-        <:shell as |s|>
-          <s.Header
-            @href="#"
-            @title={{args.title}}
-            @subtitle={{args.subtitle}}
-            @open={{state.open}}
-            @onToggle={{onToggle}}
-          />
-          <s.Sidenav
-            @open={{state.open}}
-            @menuItems={{MENU_ITEMS}}
-            @currentMenu={{CURRENT}}
-            @transitionTo={{noop}}
-          />
-        </:shell>
-        <:content><p>Page content</p></:content>
-      </UIShell>
-    </template>;
-  },
+  render: (args: HeaderStoryArgs) => <template>
+    <HeaderContainer as |container|>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <SkipToContent />
+        <HeaderMenuButton
+          @ariaLabel={{if container.isSideNavExpanded "Close menu" "Open menu"}}
+          @isActive={{container.isSideNavExpanded}}
+          aria-expanded={{if container.isSideNavExpanded "true" "false"}}
+          {{on "click" container.onClickSideNavExpand}}
+        />
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <SideNav
+          aria-label={{args.sideNavAriaLabel}}
+          @expanded={{container.isSideNavExpanded}}
+          @onSideNavBlur={{container.onClickSideNavExpand}}
+          @href="#main-content"
+          as |SideNavItems|
+        >
+          <SideNavItems as |SideNavLink SideNavMenu|>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              @isActive={{true}}
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem
+                aria-current="page"
+                @href="https://www.carbondesignsystem.com/"
+              >
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavMenu
+              @renderIcon={{Fade}}
+              @title="Category title"
+              as |SideNavMenuItem|
+            >
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+              <SideNavMenuItem @href="https://www.carbondesignsystem.com/">
+                Link
+              </SideNavMenuItem>
+            </SideNavMenu>
+            <SideNavLink
+              @renderIcon={{Fade}}
+              @href="https://www.carbondesignsystem.com/"
+            >
+              Link
+            </SideNavLink>
+            <SideNavLink
+              @renderIcon={{Fade}}
+              @href="https://www.carbondesignsystem.com/"
+            >
+              Link
+            </SideNavLink>
+          </SideNavItems>
+        </SideNav>
+      </Header>
+      <StoryContent />
+    </HeaderContainer>
+  </template>,
 });
-
-// A GlobalAction toggles a HeaderPanel's `@expanded`.
 
 export const HeaderWActionsAndRightPanel = meta.story({
   name: 'Header with Actions and Right Panel',
-  render: (args: StoryArgs) => {
+  render: (args: HeaderStoryArgs) => {
     const state = trackedObject({ expanded: false });
-    const toggle = () => {
-      state.expanded = !state.expanded;
-      args.onAction();
-    };
-    const onToggle = (expanded: boolean) => {
-      state.expanded = expanded;
+    const toggle = () => (state.expanded = !state.expanded);
+    const close = () => (state.expanded = false);
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') close();
     };
 
     return <template>
-      <UIShell>
-        <:shell as |s|>
-          <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
-            <:headerGlobal as |GlobalAction|>
-              <GlobalAction
-                @aria-label="Search"
-                @icon={{Search}}
-                @onClick={{args.onAction}}
-              />
-              <GlobalAction
-                @aria-label="Notifications"
-                @icon={{Notification}}
-                @onClick={{toggle}}
-              />
-            </:headerGlobal>
-            <:headerPanel as |HeaderPanel|>
-              <HeaderPanel
-                @expanded={{state.expanded}}
-                @onToggle={{onToggle}}
-                data-test-header-panel
-              >
-                <p class="ui-shell-header-story__panel-text">Header panel
-                  content</p>
-              </HeaderPanel>
-            </:headerPanel>
-          </s.Header>
-        </:shell>
-        <:content></:content>
-      </UIShell>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <HeaderGlobalBar>
+          <HeaderGlobalAction @ariaLabel="Search" {{on "click" args.onAction}}>
+            <Search @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="Notifications"
+            @isActive={{state.expanded}}
+            @tooltipAlignment="center"
+            id="notification-button"
+            {{on "click" toggle}}
+            {{on "blur" close}}
+            {{on "keydown" closeOnEscape}}
+          >
+            <Notification @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="App Switcher"
+            @tooltipAlignment="end"
+            {{on "click" args.onAction}}
+          >
+            <SwitcherIcon @size={{20}} />
+          </HeaderGlobalAction>
+        </HeaderGlobalBar>
+        <HeaderPanel
+          @expanded={{state.expanded}}
+          @href="#notification-button"
+          data-test-header-panel
+        />
+      </Header>
+      <StoryContent />
     </template>;
   },
 });
 
 HeaderWActionsAndRightPanel.test(
-  'a global action expands the header panel',
+  'a global action opens the header panel',
   async ({ canvas, canvasElement, userEvent }) => {
     const panel = canvasElement.querySelector('[data-test-header-panel]')!;
+    const button = canvas.getByRole('button', { name: 'Notifications' });
     await expect(panel).not.toHaveClass('cds--header-panel--expanded');
-    await userEvent.click(
-      canvas.getByRole('button', { name: 'Notifications' }),
-    );
+    await userEvent.click(button);
     await expect(panel).toHaveClass('cds--header-panel--expanded');
-    await userEvent.click(
-      canvas.getByRole('button', { name: 'Notifications' }),
-    );
+    await expect(button).toHaveClass('cds--header__action--active');
+    await userEvent.click(button);
     await expect(panel).not.toHaveClass('cds--header-panel--expanded');
   },
 );
 
-// The top-level UIShell yields a Switcher (with Item and Divider) for the
-// contents of an application switcher panel.
-
 export const HeaderWActionsAndSwitcher = meta.story({
   name: 'Header with Actions and Switcher',
-  render: (args: StoryArgs) => {
-    const state = trackedObject({ expanded: false });
-    const toggle = () => {
-      state.expanded = !state.expanded;
-    };
-    const onToggle = (expanded: boolean) => {
-      state.expanded = expanded;
-    };
-
-    return <template>
-      <UIShell>
-        <:shell as |s|>
-          <s.Header @href="#" @title={{args.title}} @subtitle={{args.subtitle}}>
-            <:headerGlobal as |GlobalAction|>
-              <GlobalAction
-                @aria-label="Search"
-                @icon={{Search}}
-                @onClick={{args.onAction}}
-              />
-              <GlobalAction
-                @aria-label="App Switcher"
-                @icon={{SwitcherIcon}}
-                @onClick={{toggle}}
-              />
-            </:headerGlobal>
-            <:headerPanel as |HeaderPanel|>
-              <HeaderPanel @expanded={{state.expanded}} @onToggle={{onToggle}}>
-                <s.Switcher @aria-label="Switcher Container" as |Item Divider|>
-                  <Item @href="#" @aria-label="Link 1" @isSelected={{true}}>Link
-                    1</Item>
-                  <Divider />
-                  <Item @href="#" @aria-label="Link 2">Link 2</Item>
-                  <Item @href="#" @aria-label="Link 3">Link 3</Item>
-                  <Item @href="#" @aria-label="Link 4">Link 4</Item>
-                  <Divider />
-                  <Item @href="#" @aria-label="Link 5">Link 5</Item>
-                </s.Switcher>
-              </HeaderPanel>
-            </:headerPanel>
-          </s.Header>
-        </:shell>
-        <:content></:content>
-      </UIShell>
-    </template>;
-  },
-});
-
-export const Overview = meta.story({
-  render: (args: StoryArgs) => {
-    const state = trackedObject({ open: true });
-    const onToggle = (open: boolean) => {
-      state.open = open;
-    };
-    const subLinks = [
-      { title: 'Sub-link 1', icon: Fade },
-      { title: 'Sub-link 2', icon: Fade },
-    ];
-
-    return <template>
-      <UIShell>
-        <:shell as |s|>
-          <s.Header
-            @href="#"
-            @title="IBM"
-            @subtitle="Platform"
-            @open={{state.open}}
-            @onToggle={{onToggle}}
+  render: (args: HeaderStoryArgs) => <template>
+    <HeaderContainer as |container|>
+      <Header aria-label={{args.headerAriaLabel}}>
+        <HeaderName @href="#" @prefix={{args.platformPrefix}}>
+          {{args.platformName}}
+        </HeaderName>
+        <HeaderGlobalBar>
+          <HeaderGlobalAction @ariaLabel="Search" {{on "click" args.onAction}}>
+            <Search @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel="Notifications"
+            {{on "click" args.onAction}}
           >
-            <:header>
-              <s.Nav as |Item|>
-                <Item @href="#">Link 1</Item>
-                <Item @href="#">Link 2</Item>
-                <Item @href="#">Link 3</Item>
-              </s.Nav>
-            </:header>
-            <:headerGlobal as |GlobalAction|>
-              <GlobalAction
-                @aria-label="Notifications"
-                @icon={{Notification}}
-                @onClick={{args.onAction}}
-              />
-              <GlobalAction
-                @aria-label="User Avatar"
-                @icon={{UserAvatar}}
-                @onClick={{args.onAction}}
-              />
-            </:headerGlobal>
-          </s.Header>
-          <s.Sidenav
-            @open={{state.open}}
-            @menuItems={{NO_ITEMS}}
-            @currentMenu={{HOME}}
-            @transitionTo={{noop}}
+            <Notification @size={{20}} />
+          </HeaderGlobalAction>
+          <HeaderGlobalAction
+            @ariaLabel={{if
+              container.isSideNavExpanded
+              "Close switcher"
+              "Open switcher"
+            }}
+            @isActive={{container.isSideNavExpanded}}
+            @tooltipAlignment="end"
+            aria-expanded={{if container.isSideNavExpanded "true" "false"}}
+            id="switcher-button"
+            {{on "click" container.onClickSideNavExpand}}
           >
-            <:default as |Menu Divider|>
-              <Menu
-                @title="Category 1"
-                @icon={{Fade}}
-                @isCurrent={{false}}
-                @submenus={{subLinks}}
-                @transitionTo={{noop}}
-                as |Sub|
-              >
-                {{#each subLinks as |link|}}
-                  <Sub
-                    @title={{link.title}}
-                    @icon={{link.icon}}
-                    @isCurrent={{false}}
-                    @transitionTo={{noop}}
-                  />
-                {{/each}}
-              </Menu>
-              <Divider />
-              <Menu
-                @title="Category 2"
-                @icon={{Fade}}
-                @isCurrent={{false}}
-                @submenus={{NO_ITEMS}}
-                @transitionTo={{noop}}
-              />
-            </:default>
-            <:footer as |Footer|>
-              <Footer @open={{state.open}} @onToggle={{onToggle}} />
-            </:footer>
-          </s.Sidenav>
-        </:shell>
-        <:content><p>Page content</p></:content>
-      </UIShell>
-    </template>;
-  },
-});
-
-// The Sidenav block also yields SideNavHeader (an icon and heading for the
-// rail), SideNavDetails (a titled block, e.g. for account info) and
-// HeaderSideNavItems (mirrors the top Header nav items into the side nav on
-// smaller viewports).
-
-export const HeaderContainer = meta.story({
-  decorators: [
-    (Story, context) => <template>
-      <div class="fixtures-ui-shell-story__small-frame">
-        <RenderStory @story={{Story}} @args={{context.args}} />
-      </div>
-    </template>,
-  ],
-  render: (args: StoryArgs) => <template>
-    <UIShell>
-      <:shell as |s|>
-        <s.HeaderContainer as |c|>
-          <s.Header
-            @href="#"
-            @title={{args.title}}
-            @subtitle={{args.subtitle}}
-            @open={{c.isSideNavExpanded}}
-            @onToggle={{c.onClickSideNavExpand}}
-          />
-          <s.Sidenav
-            @open={{c.isSideNavExpanded}}
-            @menuItems={{MENU_ITEMS}}
-            @currentMenu={{CURRENT}}
-            @transitionTo={{noop}}
-          />
-        </s.HeaderContainer>
-      </:shell>
-      <:content></:content>
-    </UIShell>
+            <SwitcherIcon @size={{20}} />
+          </HeaderGlobalAction>
+        </HeaderGlobalBar>
+        <HeaderPanel
+          @expanded={{container.isSideNavExpanded}}
+          @onHeaderPanelFocus={{container.onClickSideNavExpand}}
+          @href="#switcher-button"
+          as |Switcher|
+        >
+          <Switcher
+            aria-label="Switcher Container"
+            @expanded={{container.isSideNavExpanded}}
+            as |SwitcherItem|
+          >
+            <SwitcherItem aria-label="Link 1" @href="#">Link 1</SwitcherItem>
+            <SwitcherDivider />
+            <SwitcherItem @href="#" aria-label="Link 2">Link 2</SwitcherItem>
+            <SwitcherItem @href="#" aria-label="Link 3">Link 3</SwitcherItem>
+            <SwitcherItem @href="#" aria-label="Link 4">Link 4</SwitcherItem>
+            <SwitcherItem @href="#" aria-label="Link 5">Link 5</SwitcherItem>
+            <SwitcherDivider />
+            <SwitcherItem @href="#" aria-label="Link 6">Link 6</SwitcherItem>
+          </Switcher>
+        </HeaderPanel>
+      </Header>
+      <StoryContent />
+    </HeaderContainer>
   </template>,
 });
 
-HeaderContainer.test(
-  'toggles the side nav and collapses it on Escape',
+HeaderWActionsAndSwitcher.test(
+  'the switcher opens, its arrow keys move between items, and a click outside closes it',
   async ({ canvas, canvasElement, userEvent }) => {
-    const sidenav = canvasElement.querySelector('.cds--side-nav')!;
-    await userEvent.click(canvas.getByRole('button', { name: 'Open menu' }));
-    await expect(sidenav).toHaveClass('cds--side-nav--expanded');
-    await userEvent.keyboard('{Escape}');
-    await expect(sidenav).not.toHaveClass('cds--side-nav--expanded');
+    const panel = canvasElement.querySelector('.cds--header-panel')!;
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Open switcher' }),
+    );
+    await expect(panel).toHaveClass('cds--header-panel--expanded');
+
+    const first = canvas.getByRole('link', { name: 'Link 1' });
+    await expect(first).toHaveAttribute('tabindex', '0');
+    first.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(canvas.getByRole('link', { name: 'Link 2' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowUp}{ArrowUp}');
+    await expect(canvas.getByRole('link', { name: 'Link 6' })).toHaveFocus();
+
+    await userEvent.click(canvasElement.querySelector('.cds--content')!);
+    await expect(panel).not.toHaveClass('cds--header-panel--expanded');
   },
 );

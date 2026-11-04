@@ -69,7 +69,7 @@ function createIndexFiles() {
  * Writes a barrel exporting each component under its file name in
  * PascalCase (`text-input.gts` is `TextInput`), so name the file after the
  * export. A top-level `ai-` or `ui-` file spells the acronym as Carbon React
- * does (`AILabel`, `UIShell`).
+ * does (`AILabel`).
  */
 function writeBarrel(components, file) {
   const lines = [];
