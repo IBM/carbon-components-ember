@@ -1,488 +1,136 @@
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import { concat } from '@ember/helper';
-import { registerDestructor } from '@ember/destroyable';
 import type { WithBoundArgs } from '@glint/template';
-import type Owner from '@ember/owner';
-import type { IconComponent } from './icon.gts';
-import { modifier } from 'ember-modifier';
-import { runTask } from 'ember-lifeline';
-
-import TabsSkeleton from './tabs-skeleton.gts';
-import { mediaQuery, minWidth } from '../utils/media-query.ts';
-import { observeResize } from '../utils/resize-observer.ts';
-import { byDocumentPosition, RovingFocus } from '../utils/roving-focus.ts';
-
-export interface TabPaneSignature {
-  Element: HTMLDivElement;
-  Args: {
-    tab: Tabs;
-    title: string;
-    disabled?: boolean;
-    isDefault?: boolean;
-    /** Icon rendered alongside the tab label, e.g. from `carbon-components-ember/icons`. */
-    renderIcon?: IconComponent;
-    /** Subtitle rendered under the label. Only shown when the parent `Tabs` is `@contained`. */
-    secondaryLabel?: string;
-  };
-  Blocks: {
-    default: [];
-  };
-}
-
-class TabPane extends Component<TabPaneSignature> {
-  element?: HTMLElement;
-
-  get index() {
-    return this.args.tab.tabs.findIndex((t) => t === this);
-  }
-
-  get isSelected(): boolean {
-    return this.args.tab.selectedTab === this;
-  }
-
-  get isTabStop(): boolean {
-    return this.args.tab.tabStop === this;
-  }
-
-  capture = modifier((element: HTMLDivElement) => {
-    this.element = element;
-  });
-
-  constructor(owner: Owner, args: TabPaneSignature['Args']) {
-    super(owner, args);
-    runTask(this, () => {
-      if (this.isDestroyed) {
-        return;
-      }
-      this.args.tab.registerTab(this);
-      registerDestructor(this, () => {
-        this.args.tab.unregisterTab(this);
-      });
-    });
-  }
-  <template>
-    {{! Always rendered (matching @carbon/react which always mounts every
-        TabPanel); hidden when not selected so that aria-controls on the
-        tab buttons always points at an existing element. }}
-    <div
-      class="cds--tab-content"
-      aria-labelledby="{{@tab.guid}}-tab-{{this.index}}"
-      id="{{@tab.guid}}-tabpanel-{{this.index}}"
-      tabindex={{if this.isSelected "0"}}
-      role="tabpanel"
-      hidden={{unless this.isSelected true}}
-      {{this.capture}}
-      ...attributes
-    >
-      {{yield}}
-    </div>
-  </template>
-}
+import TabList from './tabs/tab-list.gts';
+import TabPanels from './tabs/tab-panels.gts';
+import { afterRender } from '../utils/after-render.ts';
+import { byDocumentPosition } from '../utils/roving-focus.ts';
+import type Tab from './tabs/tab.gts';
+import type TabPanel from './tabs/tab-panel.gts';
 
 export interface TabsSignature {
-  Element: HTMLDivElement;
   Args: {
-    selectedTab?: string;
-    tabSelected?: (tab: string) => void;
-    loading?: boolean;
-    contained?: boolean;
-    disabled?: boolean;
     /**
-     * Size of the tabs. `sm` and `md` apply to line tabs; `lg` only takes
-     * effect when `@contained` is also set (a no-op on line tabs otherwise).
+     * Which tab is selected when first rendered, when `@selectedIndex` isn't
+     * given. Defaults to `0`.
      */
-    size?: 'sm' | 'md' | 'lg';
+    defaultSelectedIndex?: number;
     /**
-     * When `@contained`, stretches tabs to fill the available width in equal
-     * shares.
+     * Which tab is selected. When given, it wins over the selection the
+     * user makes; pair it with `@onChange` to follow it.
      */
-    fullWidth?: boolean;
+    selectedIndex?: number;
+    /** Called with the new `selectedIndex` whenever the selected tab changes. */
+    onChange?: (state: { selectedIndex: number }) => void;
     /**
-     * `automatic` (default) selects a tab as soon as it receives keyboard
-     * focus. `manual` only moves focus with the arrow keys; Enter/Space
-     * selects the focused tab.
+     * Renders a close button on every tab. Give `@onTabCloseRequest` too, and
+     * remove the tab there.
      */
-    activation?: 'automatic' | 'manual';
-    /** Renders a close button on every tab. Requires `@onTabCloseRequest`. */
     dismissable?: boolean;
-    onTabCloseRequest?: (tab: string) => void;
-    ariaLabel?: string;
+    /** Called with the index of the tab whose close button or Delete key was used. */
+    onTabCloseRequest?: (index: number) => void;
   };
   Blocks: {
-    default: [TabPane: WithBoundArgs<typeof TabPane, 'tab'>];
+    default: [
+      TabList: WithBoundArgs<typeof TabList, 'tabs'>,
+      TabPanels: WithBoundArgs<typeof TabPanels, 'tabs'>,
+    ];
   };
 }
 
+/**
+ * Holds the selection of a `TabList` and its `TabPanels`, as Carbon React's
+ * `Tabs`. It renders no element; the nth tab belongs to the nth panel.
+ */
 export default class Tabs extends Component<TabsSignature> {
-  @tracked resized: number = 1;
-  @tracked scrolled: number = 1;
-  @tracked currentTab?: TabPane;
-  @tracked tabsDivElement?: HTMLDivElement;
-  @tracked tabs: TabPane[] = [];
-  // Carbon React's Tabs reads the same breakpoint.
-  #lg = mediaQuery(this, minWidth('lg'), true);
+  @tracked tabs: Tab[] = [];
+  @tracked panels: TabPanel[] = [];
+  @tracked uncontrolledIndex = this.args.defaultSelectedIndex ?? 0;
+  baseId = guidFor(this);
+  #checkedInitialTab = false;
 
-  get isLg() {
-    return this.#lg.matches;
+  get selectedIndex(): number {
+    return this.args.selectedIndex ?? this.uncontrolledIndex;
   }
 
-  get guid() {
-    return guidFor(this);
+  // The selected tab, or the first enabled one when that is missing or
+  // disabled, so the tablist stays reachable.
+  get tabStop(): Tab | undefined {
+    const selected = this.tabs[this.selectedIndex];
+    return selected && !selected.args.disabled
+      ? selected
+      : this.tabs.find((tab) => !tab.args.disabled);
   }
 
-  // Arrows move focus between the tabs; the tab stop stays on the selected
-  // tab, as in Carbon React, through the template's tabindex.
-  rovingFocus = new RovingFocus({
-    orientation: 'horizontal',
-    loop: true,
-    followFocus: false,
-    onNavigate: (element) => {
-      const tab = this.tabs.find(
-        (_tab, index) => element.id === `${this.guid}-tab-${index}`,
-      );
-      if (tab && this.activation === 'automatic') this.tabSelected(tab);
-    },
-  });
+  // As Carbon React, this calls `@onChange` even when the index is the same.
+  setSelectedIndex = (index: number) => {
+    if (
+      this.args.selectedIndex === undefined &&
+      index !== this.uncontrolledIndex
+    ) {
+      this.uncontrolledIndex = index;
+    }
+    this.args.onChange?.({ selectedIndex: index });
+  };
 
-  registerTab(tab: TabPane) {
-    // In the panels' DOM order when a tab registers, not registration order.
-    this.tabs = [...this.tabs, tab].sort((a, b) =>
+  registerTab(tab: Tab) {
+    this.tabs = this.#inDocumentOrder([...this.tabs, tab]);
+    this.#selectFirstEnabledTab();
+  }
+
+  unregisterTab(tab: Tab) {
+    const index = this.tabs.indexOf(tab);
+    this.tabs = this.tabs.filter((other) => other !== tab);
+    if (!tab.closing) return;
+    // The closed tab had focus; hand it to the next enabled tab, else the previous.
+    const isEnabled = (other: Tab) => !other.args.disabled;
+    const next =
+      this.tabs.slice(index).find(isEnabled) ??
+      this.tabs.slice(0, index).reverse().find(isEnabled);
+    afterRender(this, () => {
+      if (!document.activeElement || document.activeElement === document.body) {
+        next?.element?.focus();
+      }
+    });
+  }
+
+  registerPanel(panel: TabPanel) {
+    this.panels = this.#inDocumentOrder([...this.panels, panel]);
+  }
+
+  unregisterPanel(panel: TabPanel) {
+    this.panels = this.panels.filter((other) => other !== panel);
+  }
+
+  #inDocumentOrder<T extends { element?: HTMLElement }>(items: T[]): T[] {
+    return items.sort((a, b) =>
       a.element && b.element ? byDocumentPosition(a.element, b.element) : 0,
     );
-    if (tab.args.isDefault && !this.currentTab) {
-      this.tabSelected(tab);
-    }
   }
 
-  unregisterTab(tab: TabPane) {
-    this.tabs = this.tabs.filter((t) => t !== tab);
-  }
-
-  get selectedTab(): TabPane | undefined {
-    if (this.args.selectedTab) {
-      return this.tabs.find((t) => t.args.title === this.args.selectedTab);
-    }
-    // Uncontrolled: fall back to the first enabled tab when no explicit
-    // default has been set yet (matching @carbon/react which always selects
-    // index 0 unless overridden via defaultSelectedIndex).
-    return this.currentTab ?? this.enabledTabs[0];
-  }
-
-  // The selected tab, as in Carbon React, or the first enabled tab when the
-  // selected one is missing or disabled, so the tablist stays reachable.
-  get tabStop(): TabPane | undefined {
-    const selected = this.selectedTab;
-    return selected && !this.isTabDisabled(selected)
-      ? selected
-      : this.enabledTabs[0];
-  }
-
-  isTabDisabled = (tab: TabPane) => {
-    return !!(this.args.disabled || tab.args.disabled);
-  };
-
-  get enabledTabs() {
-    return this.tabs.filter((t) => !this.isTabDisabled(t));
-  }
-
-  get activation() {
-    return this.args.activation ?? 'automatic';
-  }
-
-  get hasSecondaryLabelTabs() {
-    return (
-      !!this.args.contained &&
-      this.tabs.some((t) => t.args.secondaryLabel !== undefined)
-    );
-  }
-
-  get showSizeClass() {
-    return (
-      !!this.args.size &&
-      !this.hasSecondaryLabelTabs &&
-      (!!this.args.contained ||
-        this.args.size === 'sm' ||
-        this.args.size === 'md')
-    );
-  }
-
-  get showFullWidthClass() {
-    return (
-      !!this.args.fullWidth &&
-      !!this.args.contained &&
-      this.tabs.length < 9 &&
-      this.isLg
-    );
-  }
-
-  tabSelected = (tab: TabPane) => {
-    if (this.isTabDisabled(tab)) return;
-    this.currentTab = tab;
-    this.args.tabSelected?.(tab.args.title);
-  };
-
-  closeTab = (tab: TabPane, event?: Event) => {
-    event?.stopPropagation();
-    // The close button is always rendered (visually hidden when not
-    // dismissable, matching @carbon/react's DOM), so guard here too.
-    if (!this.args.dismissable || this.isTabDisabled(tab)) return;
-    this.args.onTabCloseRequest?.(tab.args.title);
-  };
-
-  get scrollButtonCheckConditions() {
-    return this.resized && this.tabs.length && this.scrolled;
-  }
-
-  get showScrollLeft() {
-    return (
-      this.scrollButtonCheckConditions && this.tabsDivElement?.scrollLeft !== 0
-    );
-  }
-
-  get showScrollRight() {
-    if (!this.tabsDivElement) return false;
-    const maxScrollLeft =
-      this.tabsDivElement?.scrollWidth - this.tabsDivElement?.clientWidth - 0.5;
-    return (
-      this.scrollButtonCheckConditions &&
-      this.tabsDivElement.scrollLeft < maxScrollLeft
-    );
-  }
-
-  registerTabsDiv = modifier<{ Element: HTMLDivElement }>((element) => {
-    this.tabsDivElement = element;
-    const stopObserving = observeResize(element, this.onResize);
-    return () => {
-      stopObserving();
-      this.tabsDivElement = undefined;
-    };
-  });
-
-  scrollRight = () => {
-    this.tabsDivElement?.scrollBy({
-      left: 100,
+  // Once, as Carbon React does on mount: when the tab selected at the start is
+  // disabled, select the first enabled one. Registered tabs queue their
+  // registration in render order, so this runs after the first ones.
+  #selectFirstEnabledTab() {
+    if (this.#checkedInitialTab) return;
+    this.#checkedInitialTab = true;
+    afterRender(this, () => {
+      if (!this.tabs[this.selectedIndex]?.args.disabled) return;
+      const first = this.tabs.findIndex((tab) => !tab.args.disabled);
+      if (first >= 0) this.setSelectedIndex(first);
     });
-  };
+  }
 
-  scrollLeft = () => {
-    this.tabsDivElement?.scrollBy({
-      left: -100,
-    });
-  };
-
-  onResize = () => {
-    this.resized++;
-  };
-
-  onScroll = () => {
-    this.scrolled++;
-  };
-
-  handleTabKeydown = (tab: TabPane, event: KeyboardEvent) => {
-    switch (event.key) {
-      case 'Enter':
-      case ' ':
-        if (this.activation === 'manual') {
-          event.preventDefault();
-          this.tabSelected(tab);
-        }
-        break;
-      case 'Delete':
-        if (this.args.dismissable) {
-          event.preventDefault();
-          this.closeTab(tab);
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
+  // eslint-disable-next-line ember/template-require-splattributes -- renders no element of its own, like React's Tabs provider
   <template>
-    {{#if @loading}}
-      <div ...attributes>
-        <TabsSkeleton @contained={{@contained}} />
-      </div>
-    {{else}}
-      <div
-        class="cds--tabs
-          {{if @contained 'cds--tabs--contained'}}
-          {{if this.showFullWidthClass 'cds--tabs--full-width'}}
-          {{if @dismissable 'cds--tabs--dismissable'}}
-          {{if this.showSizeClass (concat 'cds--layout--size-' @size)}}
-          {{if this.hasSecondaryLabelTabs 'cds--tabs--tall'}}"
-        ...attributes
-      >
-        <button
-          {{on "click" this.scrollLeft}}
-          aria-hidden="true"
-          tabindex="-1"
-          aria-label="Scroll left"
-          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--previous
-            {{unless
-              this.showScrollLeft
-              'cds--tab--overflow-nav-button--hidden'
-            }}"
-          type="button"
-        >
-          <svg
-            focusable="false"
-            preserveAspectRatio="xMidYMid meet"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            aria-hidden="true"
-          >
-            <path d="M5 8 10 3 10.7 3.7 6.4 8 10.7 12.3 10 13z"></path>
-          </svg>
-        </button>
-        <div
-          aria-label="{{if @ariaLabel @ariaLabel 'List of tabs'}}"
-          role="tablist"
-          class="cds--tab--list"
-          {{this.registerTabsDiv}}
-          {{this.rovingFocus.container}}
-          {{on "scroll" this.onScroll}}
-        >
-          {{#each this.tabs as |tab index|}}
-            <button
-              aria-controls="{{this.guid}}-tabpanel-{{index}}"
-              aria-selected="{{if tab.isSelected 'true' 'false'}}"
-              aria-disabled="{{if (this.isTabDisabled tab) 'true'}}"
-              disabled={{this.isTabDisabled tab}}
-              id="{{this.guid}}-tab-{{index}}"
-              role="tab"
-              class="cds--tabs__nav-item cds--tabs__nav-link
-                {{if tab.isSelected 'cds--tabs__nav-item--selected'}}
-                {{if (this.isTabDisabled tab) 'cds--tabs__nav-item--disabled'}}"
-              tabindex="{{if tab.isTabStop '0' '-1'}}"
-              type="button"
-              {{on "click" (fn this.tabSelected tab)}}
-              {{on "keydown" (fn this.handleTabKeydown tab)}}
-              {{this.rovingFocus.item disabled=(this.isTabDisabled tab)}}
-            >
-              <div class="cds--tabs__nav-item-label-wrapper">
-                {{#if (and @dismissable tab.args.renderIcon)}}
-                  <div class="cds--tabs__nav-item--icon-left">
-                    {{#let tab.args.renderIcon as |RenderIcon|}}
-                      <RenderIcon @size="16" />
-                    {{/let}}
-                  </div>
-                {{/if}}
-                <span class="cds--tabs__nav-item-label" dir="auto">
-                  {{tab.args.title}}
-                </span>
-                {{#if (and (not @dismissable) tab.args.renderIcon)}}
-                  <div class="cds--tabs__nav-item--icon">
-                    {{#let tab.args.renderIcon as |RenderIcon|}}
-                      <RenderIcon @size="16" />
-                    {{/let}}
-                  </div>
-                {{/if}}
-              </div>
-              {{#if (and @contained tab.args.secondaryLabel)}}
-                <div
-                  class="cds--tabs__nav-item-secondary-label"
-                  title={{tab.args.secondaryLabel}}
-                  dir="auto"
-                >
-                  {{tab.args.secondaryLabel}}
-                </div>
-              {{/if}}
-            </button>
-            {{! A sibling of the tab button above, not a descendant: nesting a close button inside role=tab would be invalid HTML and break roving tabindex. Rendered after every tab even when not dismissable, visually hidden, matching @carbon/react - Carbon's own tab CSS relies on it being there (e.g. its contained-tabs selected + div + nav-item separator rule). }}
-            <div
-              class={{if
-                @dismissable
-                "cds--tabs__nav-item--close"
-                "cds--tabs__nav-item--close--hidden"
-              }}
-            >
-              {{! The close button sits in the tablist, as in Carbon React; it is
-                aria-hidden and tabindex -1, so assistive tech and the tab order
-                only see the tabs. }}
-              {{! eslint-disable-next-line ember/template-no-nested-interactive }}
-              <button
-                title="Remove {{tab.args.title}} tab"
-                aria-hidden={{if
-                  (and tab.isSelected @dismissable)
-                  "false"
-                  "true"
-                }}
-                aria-disabled="{{if (this.isTabDisabled tab) 'true'}}"
-                class="{{if
-                    @dismissable
-                    'cds--tabs__nav-item--close-icon'
-                    'cds--visually-hidden'
-                  }}
-                  {{if
-                    tab.isSelected
-                    'cds--tabs__nav-item--close-icon--selected'
-                  }}
-                  {{if
-                    (this.isTabDisabled tab)
-                    'cds--tabs__nav-item--close-icon--disabled'
-                  }}"
-                disabled={{this.isTabDisabled tab}}
-                tabindex="-1"
-                type="button"
-                {{on "click" (fn this.closeTab tab)}}
-              >
-                <svg
-                  focusable="false"
-                  preserveAspectRatio="xMidYMid meet"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 32 32"
-                  aria-hidden={{if
-                    (and tab.isSelected @dismissable)
-                    "false"
-                    "true"
-                  }}
-                  aria-label="Press delete to remove {{tab.args.title}} tab"
-                  role="img"
-                >
-                  <path
-                    d="M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-          {{/each}}
-        </div>
-        <button
-          {{on "click" this.scrollRight}}
-          aria-hidden="true"
-          tabindex="-1"
-          aria-label="Scroll right"
-          class="cds--tab--overflow-nav-button cds--tab--overflow-nav-button--next
-            {{unless
-              this.showScrollRight
-              'cds--tab--overflow-nav-button--hidden'
-            }}"
-          type="button"
-        >
-          <svg
-            focusable="false"
-            preserveAspectRatio="xMidYMid meet"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            aria-hidden="true"
-          >
-            <path d="M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
-          </svg>
-        </button>
-      </div>
-      {{yield (component TabPane tab=this)}}
-    {{/if}}
+    {{yield (component TabList tabs=this) (component TabPanels tabs=this)}}
   </template>
 }

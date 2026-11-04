@@ -135,6 +135,12 @@
       "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
     }
   },
+  "TabList": {
+    "missing": {
+      "leftOverflowButtonProps": "Attributes for the scroll buttons: Glimmer can't spread an object of attributes onto an element, and `...attributes` goes to the tablist, where React spreads its rest props.",
+      "rightOverflowButtonProps": "Attributes for the scroll buttons: Glimmer can't spread an object of attributes onto an element, and `...attributes` goes to the tablist, where React spreads its rest props."
+    }
+  },
   "Tag": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",

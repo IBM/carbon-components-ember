@@ -17,10 +17,7 @@ export interface TabsSkeletonSignature {
 
 const TABS = [1, 2, 3, 4, 5];
 
-/**
- * A loading placeholder for `Tabs`. `Tabs` can also show it through
- * `@loading`.
- */
+/** A loading placeholder for `Tabs`. */
 const TabsSkeleton: TOC<TabsSkeletonSignature> = <template>
   <div
     class="cds--tabs cds--skeleton {{if @contained 'cds--tabs--contained'}}"

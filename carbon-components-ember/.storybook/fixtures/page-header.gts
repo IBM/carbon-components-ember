@@ -168,14 +168,25 @@ export const breadcrumbPageActionItems = (
 
 /** Seven tabs; the page's content is below, in `StoryTallPanel`. */
 export const StoryTabs: TOC<{ Element: HTMLDivElement }> = <template>
-  <Tabs ...attributes as |TabPane|>
-    <TabPane @title="Tab 1" />
-    <TabPane @title="Tab 2" />
-    <TabPane @title="Tab 3" />
-    <TabPane @title="Tab 4" />
-    <TabPane @title="Tab 5" />
-    <TabPane @title="Tab 6" />
-    <TabPane @title="Tab 7" />
+  <Tabs as |TabList TabPanels|>
+    <TabList aria-label="List of tabs" ...attributes as |Tab|>
+      <Tab>Tab 1</Tab>
+      <Tab>Tab 2</Tab>
+      <Tab>Tab 3</Tab>
+      <Tab>Tab 4</Tab>
+      <Tab>Tab 5</Tab>
+      <Tab>Tab 6</Tab>
+      <Tab>Tab 7</Tab>
+    </TabList>
+    <TabPanels as |TabPanel|>
+      <TabPanel />
+      <TabPanel />
+      <TabPanel />
+      <TabPanel />
+      <TabPanel />
+      <TabPanel />
+      <TabPanel />
+    </TabPanels>
   </Tabs>
 </template>;
 

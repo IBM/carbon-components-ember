@@ -6,6 +6,7 @@ import {
   focus,
   rerender,
   settled,
+  triggerEvent,
   triggerKeyEvent,
   find,
   waitUntil,
@@ -28,13 +29,23 @@ import {
 module('Integration | Component | Tabs', (hooks) => {
   setupRenderingTest(hooks);
 
+  const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
+  const panels = () =>
+    Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
   test('white theme: should display tabs', async function (this: RenderingTestContext, assert) {
     disableCarbonStyles();
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="List of tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
@@ -57,9 +68,15 @@ module('Integration | Component | Tabs', (hooks) => {
     const darkStyleValue = tracked('');
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="List of tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
         <style nonce={{nonce}}>
           {{darkStyleValue.value}}
@@ -82,179 +99,281 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.snapshot(stylesDiff, 'should correctly switch to dark styles');
   });
 
-  test('renders a tablist with the default tab selected', async function (assert) {
+  test('renders a tablist with the first tab selected', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="List of tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    assert.dom('[role="tablist"]').exists();
+    assert
+      .dom('[role="tablist"]')
+      .hasAttribute(
+        'aria-label',
+        'List of tabs',
+        'attributes go on the tablist',
+      );
     assert.dom('[role="tab"]').exists({ count: 2 });
-    assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'true');
-    assert
-      .dom('[role="tab"]:last-of-type')
-      .hasAttribute('aria-selected', 'false');
+    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'false');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
   });
 
-  test('without @isDefault or @selectedTab, the first enabled tab is selected by default', async function (assert) {
+  test('@defaultSelectedIndex selects a tab at first', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1">Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs @defaultSelectedIndex={{1}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'true');
-    assert
-      .dom('[role="tab"]:last-of-type')
-      .hasAttribute('aria-selected', 'false');
-    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 1');
-  });
-
-  test('without @isDefault, if the first tab is disabled, the first enabled tab is selected', async function (assert) {
-    await render(
-      <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @disabled={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
-        </Tabs>
-      </template>,
-    );
-
-    assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'false');
-    assert
-      .dom('[role="tab"]:last-of-type')
-      .hasAttribute('aria-selected', 'true');
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
     assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
   });
 
-  test('all tab panels are always rendered in the DOM, with unselected panels marked hidden', async function (assert) {
+  test('if the selected tab is disabled at first, the first enabled tab is selected', async function (assert) {
+    const changes: number[] = [];
+    const onChange = ({ selectedIndex }: { selectedIndex: number }) => {
+      changes.push(selectedIndex);
+    };
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1">Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
-          <TabPane @title="Tab 3">Content 3</TabPane>
+        <Tabs @onChange={{onChange}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @disabled={{true}}>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    const panels = document.querySelectorAll('[role="tabpanel"]');
-    assert.strictEqual(panels.length, 3, 'all 3 panels are mounted in the DOM');
+    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'false');
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+    assert.deepEqual(changes, [1]);
+  });
 
-    const tabs = document.querySelectorAll('[role="tab"]');
-    tabs.forEach((tab, index) => {
-      const controlsId = tab.getAttribute('aria-controls');
-      assert.ok(controlsId, `tab ${index} has aria-controls`);
-      const targetPanel = document.getElementById(controlsId!);
-      assert.ok(targetPanel, `panel with id="${controlsId}" exists in the DOM`);
+  test('all tab panels are always rendered, with unselected ones hidden, and the tabs control them', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+            <Tab>Tab 3</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+            <TabPanel>Content 3</TabPanel>
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    assert.strictEqual(panels().length, 3);
+    tabs().forEach((tab, index) => {
+      const panel = document.getElementById(tab.getAttribute('aria-controls')!);
+      assert.strictEqual(
+        panel,
+        panels()[index],
+        `tab ${index} controls panel ${index}`,
+      );
+      assert.dom(panel).hasAttribute('aria-labelledby', tab.id);
     });
-
-    assert.dom(panels[0]).doesNotHaveAttribute('hidden');
-    assert.dom(panels[0]).hasAttribute('tabindex', '0');
-
-    assert.dom(panels[1]).hasAttribute('hidden');
-    assert.dom(panels[1]).doesNotHaveAttribute('tabindex');
-
-    assert.dom(panels[2]).hasAttribute('hidden');
-    assert.dom(panels[2]).doesNotHaveAttribute('tabindex');
+    assert.dom(panels()[0]).doesNotHaveAttribute('hidden');
+    assert.dom(panels()[1]).hasAttribute('hidden');
+    assert.dom(panels()[2]).hasAttribute('hidden');
   });
 
-  test('clicking a tab selects it', async function (assert) {
+  test('attributes go on the tab and the panel', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab data-test-tab class="mine">Tab 1</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel data-test-panel>Content 1</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    await click('[role="tab"]:last-of-type');
-
+    assert.dom('[data-test-tab]').hasAttribute('role', 'tab');
     assert
-      .dom('[role="tab"]:last-of-type')
-      .hasAttribute('aria-selected', 'true');
-    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+      .dom('[data-test-tab]')
+      .hasClass('mine')
+      .hasClass('cds--tabs__nav-item');
+    assert.dom('[data-test-panel]').hasAttribute('role', 'tabpanel');
   });
 
-  test('@selectedTab/@tabSelected support controlled selection', async function (assert) {
-    const selected = tracked('Tab 1');
-    const onSelect = (title: string) => {
-      selected.value = title;
+  test('clicking a tab selects it and reports the index', async function (assert) {
+    const changes: { selectedIndex: number }[] = [];
+    const onChange = (state: { selectedIndex: number }) => {
+      changes.push(state);
+    };
+    await render(
+      <template>
+        <Tabs @onChange={{onChange}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    await click(tabs()[1]!);
+
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+    assert.deepEqual(changes, [{ selectedIndex: 1 }]);
+
+    await click(tabs()[1]!);
+    assert.deepEqual(
+      changes,
+      [{ selectedIndex: 1 }, { selectedIndex: 1 }],
+      'as in Carbon React, selecting the selected tab reports it again',
+    );
+  });
+
+  test('a caller can listen to a tab with {{on}}', async function (assert) {
+    let clicks = 0;
+    const count = () => {
+      clicks++;
+    };
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab {{on "click" count}}>Tab 1</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    await click(tabs()[0]!);
+    assert.strictEqual(clicks, 1);
+  });
+
+  test('@selectedIndex controls the selection', async function (assert) {
+    const selected = tracked(0);
+    const onChange = ({ selectedIndex }: { selectedIndex: number }) => {
+      selected.value = selectedIndex;
     };
     await render(
       <template>
         <Tabs
-          @selectedTab={{selected.value}}
-          @tabSelected={{onSelect}}
-          as |TabPane|
+          @selectedIndex={{selected.value}}
+          @onChange={{onChange}}
+          as |TabList TabPanels|
         >
-          <TabPane @title="Tab 1">Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'true');
+    await click(tabs()[1]!);
+    assert.strictEqual(selected.value, 1);
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
 
-    await click('[role="tab"]:last-of-type');
+    selected.value = 0;
+    await settled();
+    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
+  });
 
-    assert.strictEqual(selected.value, 'Tab 2');
-    assert
-      .dom('[role="tab"]:last-of-type')
-      .hasAttribute('aria-selected', 'true');
+  test('without a change handler @selectedIndex holds the selection', async function (assert) {
+    await render(
+      <template>
+        <Tabs @selectedIndex={{0}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    await click(tabs()[1]!);
+    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
   });
 
   test('a disabled tab cannot be selected', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab @disabled={{true}}>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
-    assert
-      .dom('[role="tab"]:last-of-type')
-      .hasClass('cds--tabs__nav-item--disabled');
-    // The tab button now carries the native `disabled` attribute (matching
-    // @carbon/react), so click() would throw — assert the disabled state
-    // instead, which is sufficient proof it cannot be selected.
-    assert.dom('[role="tab"]:last-of-type').isDisabled();
-    assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'true');
+    assert.dom(tabs()[1]).hasClass('cds--tabs__nav-item--disabled');
+    assert.dom(tabs()[1]).isDisabled();
+    assert.dom(tabs()[1]).hasAttribute('aria-disabled', 'true');
+    assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
   });
 
   test('ArrowRight/ArrowLeft/Home/End move focus and (in automatic mode) selection', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
-          <TabPane @title="Tab 3">Content 3</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+            <Tab>Tab 3</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+            <TabPanel>Content 3</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
-
-    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
 
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
     assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
@@ -273,17 +392,21 @@ module('Integration | Component | Tabs', (hooks) => {
       .hasAttribute('aria-selected', 'true', 'wraps around to the last tab');
   });
 
-  test('@activation="manual" only moves focus on arrow keys; Enter/Space selects', async function (assert) {
+  test('@activation="manual" only moves focus on arrow keys; pressing the tab selects it', async function (assert) {
     await render(
       <template>
-        <Tabs @activation="manual" as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" @activation="manual" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
-
-    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
 
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
     assert
@@ -298,23 +421,28 @@ module('Integration | Component | Tabs', (hooks) => {
       .dom(tabs()[0])
       .hasAttribute('tabindex', '0', 'the selected tab keeps the tab stop');
 
-    await triggerKeyEvent(tabs()[1]!, 'keydown', 'Enter');
-    assert
-      .dom(tabs()[1])
-      .hasAttribute('aria-selected', 'true', 'Enter selects the focused tab');
+    // A button's Enter and Space presses click it.
+    await click(tabs()[1]!);
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
   });
 
   test('arrow keys wrap around and skip disabled tabs, selecting as they go', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1">Content 1</TabPane>
-          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
-          <TabPane @title="Tab 3">Content 3</TabPane>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab @disabled={{true}}>Tab 2</Tab>
+            <Tab>Tab 3</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+            <TabPanel>Content 3</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
-    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
 
     await focus(tabs()[0]!);
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
@@ -328,49 +456,66 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom(tabs()[2]).isFocused();
   });
 
-  test('keeps a tab stop when @selectedTab names no tab', async function (assert) {
+  test('keeps a tab stop when @selectedIndex names no tab', async function (assert) {
     await render(
       <template>
-        <Tabs @selectedTab="Missing" as |TabPane|>
-          <TabPane @title="Tab 1" @disabled={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs @selectedIndex={{5}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @disabled={{true}}>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
-    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
 
-    assert.dom(tabs[1]).hasAttribute('tabindex', '0', 'the first enabled tab');
-    assert.dom(tabs[1]).hasAttribute('aria-selected', 'false');
+    assert
+      .dom(tabs()[1])
+      .hasAttribute('tabindex', '0', 'the first enabled tab');
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'false');
   });
 
   test('in right-to-left, ArrowLeft moves to the next tab', async function (assert) {
     await render(
       <template>
         <div dir="rtl">
-          <Tabs as |TabPane|>
-            <TabPane @title="Tab 1">Content 1</TabPane>
-            <TabPane @title="Tab 2">Content 2</TabPane>
+          <Tabs as |TabList|>
+            <TabList aria-label="Tabs" as |Tab|>
+              <Tab>Tab 1</Tab>
+              <Tab>Tab 2</Tab>
+            </TabList>
           </Tabs>
         </div>
       </template>,
     );
-    const tabs = () => Array.from(document.querySelectorAll('[role="tab"]'));
 
     await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowLeft');
     assert.dom(tabs()[1]).isFocused();
   });
 
-  test('a tab rendered later in the middle stays in the middle', async function (assert) {
+  test('tabs and panels pair by DOM order when some are added later', async function (assert) {
     const showMiddle = tracked(false);
 
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="First">First</TabPane>
-          {{#if showMiddle.value}}
-            <TabPane @title="Middle">Middle</TabPane>
-          {{/if}}
-          <TabPane @title="Last">Last</TabPane>
+        <Tabs @defaultSelectedIndex={{1}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>First</Tab>
+            {{#if showMiddle.value}}
+              <Tab>Middle</Tab>
+            {{/if}}
+            <Tab>Last</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>First panel</TabPanel>
+            {{#if showMiddle.value}}
+              <TabPanel>Middle panel</TabPanel>
+            {{/if}}
+            <TabPanel>Last panel</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
@@ -378,48 +523,149 @@ module('Integration | Component | Tabs', (hooks) => {
     await settled();
 
     assert.deepEqual(
-      Array.from(document.querySelectorAll('[role="tab"]')).map((tab) =>
-        tab.textContent?.trim(),
-      ),
+      tabs().map((tab) => tab.textContent?.trim()),
       ['First', 'Middle', 'Last'],
     );
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Middle panel');
+    tabs().forEach((tab, index) => {
+      assert.strictEqual(
+        document.getElementById(tab.getAttribute('aria-controls')!),
+        panels()[index],
+      );
+    });
+
+    showMiddle.value = false;
+    await settled();
+
+    assert.deepEqual(
+      tabs().map((tab) => tab.textContent?.trim()),
+      ['First', 'Last'],
+    );
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Last panel');
   });
 
-  test('@dismissable renders a close button per tab and calls @onTabCloseRequest', async function (assert) {
-    let closed: string | undefined;
-    const onClose = (title: string) => {
-      closed = title;
+  test('@dismissable renders a close button per tab and calls @onTabCloseRequest with the index', async function (assert) {
+    let closed: number | undefined;
+    const onClose = (index: number) => {
+      closed = index;
     };
     await render(
       <template>
-        <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs
+          @dismissable={{true}}
+          @onTabCloseRequest={{onClose}}
+          as |TabList TabPanels|
+        >
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
         </Tabs>
       </template>,
     );
 
+    assert.dom('.cds--tabs').hasClass('cds--tabs--dismissable');
     assert.dom('.cds--tabs__nav-item--close-icon').exists({ count: 2 });
-
-    const firstCloseButton = document.querySelectorAll(
-      '.cds--tabs__nav-item--close-icon',
-    )[0] as HTMLElement;
-    await click(firstCloseButton);
-
-    assert.strictEqual(closed, 'Tab 1');
-    // Closing shouldn't also select the tab being closed.
     assert
-      .dom('[role="tab"]:first-child')
-      .hasAttribute('aria-selected', 'true');
+      .dom('.cds--tabs__nav-item--close-icon')
+      .hasAttribute('title', 'Remove Tab 1 tab');
+
+    await click(
+      document.querySelectorAll('.cds--tabs__nav-item--close-icon')[1]!,
+    );
+
+    assert.strictEqual(closed, 1);
+    assert
+      .dom(tabs()[0])
+      .hasAttribute('aria-selected', 'true', 'closing does not select the tab');
+  });
+
+  test('the Delete key asks to close the focused dismissable tab', async function (assert) {
+    const closed: number[] = [];
+    const onClose = (index: number) => {
+      closed.push(index);
+    };
+    await render(
+      <template>
+        <Tabs @dismissable={{true}} @onTabCloseRequest={{onClose}} as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    await triggerKeyEvent(tabs()[1]!, 'keydown', 'Delete');
+    assert.deepEqual(closed, [1]);
+  });
+
+  test('the Delete key does nothing without @dismissable', async function (assert) {
+    const closed: number[] = [];
+    const onClose = (index: number) => {
+      closed.push(index);
+    };
+    await render(
+      <template>
+        <Tabs @onTabCloseRequest={{onClose}} as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    await triggerKeyEvent(tabs()[0]!, 'keydown', 'Delete');
+    assert.deepEqual(closed, []);
+  });
+
+  test('focus moves to the next tab when a focused tab is closed', async function (assert) {
+    const labels = tracked(['Tab 1', 'Tab 2', 'Tab 3']);
+    const onClose = (index: number) => {
+      labels.value = labels.value.filter((_label, i) => i !== index);
+    };
+    await render(
+      <template>
+        <Tabs
+          @dismissable={{true}}
+          @onTabCloseRequest={{onClose}}
+          as |TabList TabPanels|
+        >
+          <TabList aria-label="Tabs" as |Tab|>
+            {{#each labels.value as |label|}}
+              <Tab>{{label}}</Tab>
+            {{/each}}
+          </TabList>
+          <TabPanels as |TabPanel|>
+            {{#each labels.value as |label|}}
+              <TabPanel>{{label}}</TabPanel>
+            {{/each}}
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    await focus(tabs()[1]!);
+    await triggerKeyEvent(tabs()[1]!, 'keydown', 'Delete');
+
+    assert.deepEqual(
+      tabs().map((tab) => tab.textContent?.trim()),
+      ['Tab 1', 'Tab 3'],
+    );
+    assert.dom(tabs()[1]).isFocused();
   });
 
   test('@renderIcon renders the given icon inside the tab at the 16px size Carbon expects', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
-            Content 1
-          </TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @renderIcon={{Folder}}>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -429,18 +675,18 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs__nav-item--icon svg').hasAttribute('height', '16');
   });
 
-  test('@dismissable @renderIcon renders the given icon at the 16px size Carbon expects', async function (assert) {
+  test('@dismissable @renderIcon puts the icon before the label', async function (assert) {
     await render(
       <template>
-        <Tabs @dismissable={{true}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
-            Content 1
-          </TabPane>
+        <Tabs @dismissable={{true}} as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @renderIcon={{Folder}}>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
 
-    assert.dom('.cds--tabs__nav-item--icon-left').exists();
+    assert.dom('.cds--tabs__nav-item--icon').doesNotExist();
     assert
       .dom('.cds--tabs__nav-item--icon-left svg')
       .hasAttribute('width', '16');
@@ -452,10 +698,10 @@ module('Integration | Component | Tabs', (hooks) => {
   test('@renderIcon fits inside its wrapper under real Carbon styles, without the default icon margin', async function (this: RenderingTestContext, assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @renderIcon={{Folder}}>
-            Content 1
-          </TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @renderIcon={{Folder}}>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -478,13 +724,13 @@ module('Integration | Component | Tabs', (hooks) => {
     );
   });
 
-  test('@secondaryLabel only renders when @contained is set', async function (assert) {
+  test('@secondaryLabel only renders when the list is @contained', async function (assert) {
     await render(
       <template>
-        <Tabs as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
-            Content 1
-          </TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @secondaryLabel="Sub">Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -493,29 +739,44 @@ module('Integration | Component | Tabs', (hooks) => {
 
     await render(
       <template>
-        <Tabs @contained={{true}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
-            Content 1
-          </TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" @contained={{true}} as |Tab|>
+            <Tab @secondaryLabel="Sub">Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
 
     assert.dom('.cds--tabs__nav-item-secondary-label').hasText('Sub');
+    assert.dom('.cds--tabs').hasClass('cds--tabs--tall');
   });
 
-  test('@contained, @fullWidth and @size add their modifier classes', async function (assert) {
+  test('@contained, @fullWidth, @size and @light add their modifier classes', async function (assert) {
     await render(
       <template>
-        <Tabs @contained={{true}} @fullWidth={{true}} @size="lg" as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+        <Tabs as |TabList|>
+          <TabList
+            aria-label="Tabs"
+            @contained={{true}}
+            @fullWidth={{true}}
+            @size="lg"
+            @light={{true}}
+            @className="mine"
+            as |Tab|
+          >
+            <Tab>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
 
-    assert.dom('.cds--tabs').hasClass('cds--tabs--contained');
-    assert.dom('.cds--tabs').hasClass('cds--tabs--full-width');
-    assert.dom('.cds--tabs').hasClass('cds--layout--size-lg');
+    assert
+      .dom('.cds--tabs')
+      .hasClass('cds--tabs--contained')
+      .hasClass('cds--tabs--full-width')
+      .hasClass('cds--layout--size-lg')
+      .hasClass('cds--tabs--light')
+      .hasClass('mine');
   });
 
   test('@fullWidth applies only from the lg breakpoint', async function (assert) {
@@ -529,8 +790,15 @@ module('Integration | Component | Tabs', (hooks) => {
     try {
       await render(
         <template>
-          <Tabs @contained={{true}} @fullWidth={{true}} as |TabPane|>
-            <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+          <Tabs as |TabList|>
+            <TabList
+              aria-label="Tabs"
+              @contained={{true}}
+              @fullWidth={{true}}
+              as |Tab|
+            >
+              <Tab>Tab 1</Tab>
+            </TabList>
           </Tabs>
         </template>,
       );
@@ -541,11 +809,33 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs').doesNotHaveClass('cds--tabs--full-width');
   });
 
+  test('@fullWidth needs fewer than 9 tabs', async function (assert) {
+    const labels = Array.from({ length: 9 }, (_, i) => `Tab ${i + 1}`);
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList
+            aria-label="Tabs"
+            @contained={{true}}
+            @fullWidth={{true}}
+            as |Tab|
+          >
+            {{#each labels as |label|}}<Tab>{{label}}</Tab>{{/each}}
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    assert.dom('.cds--tabs').doesNotHaveClass('cds--tabs--full-width');
+  });
+
   test('@size="lg" without @contained does not add the size class (line tabs cap out at md)', async function (assert) {
     await render(
       <template>
-        <Tabs @size="lg" as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" @size="lg" as |Tab|>
+            <Tab>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -556,8 +846,10 @@ module('Integration | Component | Tabs', (hooks) => {
   test('@fullWidth without @contained does not add the full-width class', async function (assert) {
     await render(
       <template>
-        <Tabs @fullWidth={{true}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" @fullWidth={{true}} as |Tab|>
+            <Tab>Tab 1</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -565,73 +857,42 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom('.cds--tabs').doesNotHaveClass('cds--tabs--full-width');
   });
 
-  test('a contained @secondaryLabel tab adds the cds--tabs--tall class', async function (assert) {
+  test('a disabled, dismissable tab cannot be closed', async function (assert) {
     await render(
       <template>
-        <Tabs @contained={{true}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}} @secondaryLabel="Sub">
-            Content 1
-          </TabPane>
+        <Tabs @dismissable={{true}} as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab @disabled={{true}}>Tab 2</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
 
-    assert.dom('.cds--tabs').hasClass('cds--tabs--tall');
-  });
-
-  test('a disabled, dismissable tab cannot be closed by click or Delete key', async function (assert) {
-    const noOp = () => {};
-    await render(
-      <template>
-        <Tabs @dismissable={{true}} @onTabCloseRequest={{noOp}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2" @disabled={{true}}>Content 2</TabPane>
-        </Tabs>
-      </template>,
-    );
-
-    const disabledCloseButton = document.querySelectorAll(
+    const closeButton = document.querySelectorAll(
       '.cds--tabs__nav-item--close-icon',
     )[1] as HTMLElement;
 
     assert
-      .dom(disabledCloseButton)
+      .dom(closeButton)
       .hasClass('cds--tabs__nav-item--close-icon--disabled');
-    assert.dom(disabledCloseButton).hasAttribute('aria-disabled', 'true');
-    assert
-      .dom(disabledCloseButton)
-      .isDisabled(
-        'the native disabled attribute prevents the button from being clicked at all',
-      );
-
-    // The disabled tab button itself also carries the native `disabled`
-    // attribute (matching @carbon/react), so keyboard interaction is natively
-    // blocked — no need to fire a synthetic Delete keydown on a disabled element.
-    const disabledTab = document.querySelectorAll('[role="tab"]')[1]!;
-    assert
-      .dom(disabledTab)
-      .isDisabled('disabled tab button has native disabled attribute');
-  });
-
-  test('@loading renders a skeleton, honoring @contained', async function (assert) {
-    await render(
-      <template><Tabs @loading={{true}} @contained={{true}} /></template>,
-    );
-
-    assert.dom('.cds--tabs.cds--skeleton').hasClass('cds--tabs--contained');
-    assert.dom('[role="tablist"]').doesNotExist();
+    assert.dom(closeButton).hasAttribute('aria-disabled', 'true');
+    assert.dom(closeButton).isDisabled();
+    assert.dom(tabs()[1]).isDisabled();
   });
 
   test('without @dismissable every tab still has a hidden close wrapper that cannot close it', async function (assert) {
-    let closed: string | undefined;
-    const onClose = (title: string) => {
-      closed = title;
+    let closed: number | undefined;
+    const onClose = (index: number) => {
+      closed = index;
     };
     await render(
       <template>
-        <Tabs @onTabCloseRequest={{onClose}} as |TabPane|>
-          <TabPane @title="Tab 1" @isDefault={{true}}>Content 1</TabPane>
-          <TabPane @title="Tab 2">Content 2</TabPane>
+        <Tabs @onTabCloseRequest={{onClose}} as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab>Tab 2</Tab>
+          </TabList>
         </Tabs>
       </template>,
     );
@@ -657,17 +918,16 @@ module('Integration | Component | Tabs', (hooks) => {
 
   test('the scroll buttons show once a resize makes the tab list overflow', async function (assert) {
     const width = tracked('4000px');
-    const titles = Array.from({ length: 9 }, (_, i) => `Tab ${i + 2}`);
+    const labels = Array.from({ length: 10 }, (_, i) => `Tab ${i + 1}`);
     const next = '.cds--tab--overflow-nav-button--next';
     const hidden = 'cds--tab--overflow-nav-button--hidden';
     await render(
       <template>
         <div {{styleModifier width=width.value}}>
-          <Tabs as |TabPane|>
-            <TabPane @title="Tab 1" @isDefault={{true}}>Tab 1</TabPane>
-            {{#each titles as |title|}}
-              <TabPane @title={{title}}>{{title}}</TabPane>
-            {{/each}}
+          <Tabs as |TabList|>
+            <TabList aria-label="Tabs" as |Tab|>
+              {{#each labels as |label|}}<Tab>{{label}}</Tab>{{/each}}
+            </TabList>
           </Tabs>
         </div>
       </template>,
@@ -681,5 +941,107 @@ module('Integration | Component | Tabs', (hooks) => {
     });
 
     assert.dom(next).doesNotHaveClass(hidden);
+  });
+
+  test('a scroll button scrolls the tab list', async function (assert) {
+    const labels = Array.from({ length: 10 }, (_, i) => `Tab ${i + 1}`);
+    const next = '.cds--tab--overflow-nav-button--next';
+    const previous = '.cds--tab--overflow-nav-button--previous';
+    const hidden = 'cds--tab--overflow-nav-button--hidden';
+    await render(
+      <template>
+        <div {{styleModifier width="200px"}}>
+          <Tabs as |TabList|>
+            <TabList aria-label="Tabs" as |Tab|>
+              {{#each labels as |label|}}<Tab>{{label}}</Tab>{{/each}}
+            </TabList>
+          </Tabs>
+        </div>
+      </template>,
+    );
+    await waitUntil(() => !find(next)?.classList.contains(hidden));
+    assert.dom(previous).hasClass(hidden);
+
+    await click(next);
+    await waitUntil(() => !find(previous)?.classList.contains(hidden), {
+      timeoutMessage: 'the previous scroll button stayed hidden',
+    });
+
+    assert.true((find('[role="tablist"]') as HTMLElement).scrollLeft > 0);
+  });
+
+  test('closing the focused last tab moves focus to the previous one', async function (assert) {
+    const labels = tracked(['Tab 1', 'Tab 2', 'Tab 3']);
+    const onClose = (index: number) => {
+      labels.value = labels.value.filter((_label, i) => i !== index);
+    };
+    await render(
+      <template>
+        <Tabs
+          @dismissable={{true}}
+          @onTabCloseRequest={{onClose}}
+          as |TabList TabPanels|
+        >
+          <TabList aria-label="Tabs" as |Tab|>
+            {{#each labels.value as |label|}}
+              <Tab>{{label}}</Tab>
+            {{/each}}
+          </TabList>
+          <TabPanels as |TabPanel|>
+            {{#each labels.value as |label|}}
+              <TabPanel>{{label}}</TabPanel>
+            {{/each}}
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    await focus(tabs()[2]!);
+    await triggerKeyEvent(tabs()[2]!, 'keydown', 'Delete');
+
+    assert.strictEqual(tabs().length, 2);
+    assert.dom(tabs()[1]).isFocused();
+  });
+
+  test("a contained tab doesn't highlight while its close button is hovered", async function (assert) {
+    const noop = () => {};
+    await render(
+      <template>
+        <Tabs @dismissable={{true}} @onTabCloseRequest={{noop}} as |TabList|>
+          <TabList aria-label="Tabs" @contained={{true}} as |Tab|>
+            <Tab>Tab 1</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+    const hoverOff = 'cds--tabs__nav-item--hover-off';
+
+    await triggerEvent('.cds--tabs__nav-item--close-icon', 'mouseover');
+    assert.dom(tabs()[0]).hasClass(hoverOff);
+
+    await triggerEvent('.cds--tabs__nav-item--close-icon', 'mouseleave');
+    assert.dom(tabs()[0]).doesNotHaveClass(hoverOff);
+  });
+
+  test('in right-to-left the scroll buttons swap their labels', async function (assert) {
+    await render(
+      <template>
+        <div dir="rtl">
+          <Tabs as |TabList|>
+            <TabList aria-label="Tabs" as |Tab|>
+              <Tab>Tab 1</Tab>
+            </TabList>
+          </Tabs>
+        </div>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert
+      .dom('.cds--tab--overflow-nav-button--previous')
+      .hasAttribute('aria-label', 'Scroll right');
+    assert
+      .dom('.cds--tab--overflow-nav-button--next')
+      .hasAttribute('aria-label', 'Scroll left');
   });
 });
