@@ -21,7 +21,11 @@ export interface SideNavSwitcherSignature {
   };
 }
 
-/** A select in the `SideNav`, such as for the product or the account. */
+/**
+ * A select in the `SideNav`, such as for the product or the account.
+ * Carbon's stylesheet no longer styles it, as Carbon React's Storybook has
+ * no story for it.
+ */
 export default class SideNavSwitcher extends Component<SideNavSwitcherSignature> {
   id = `${guidFor(this)}-side-nav-switcher`;
 

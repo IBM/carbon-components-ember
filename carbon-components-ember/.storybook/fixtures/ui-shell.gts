@@ -62,56 +62,46 @@ export class StoryContent extends Component<StoryContentSignature> {
     <Content
       id="main-content"
       class="fixtures-ui-shell-story__content
-        {{if this.offset 'fixtures-ui-shell-story__content--full'}}"
+        {{if this.offset 'fixtures-ui-shell-story__content--offset'}}"
     >
-      <div class="cds--grid">
-        <div class="cds--row">
-          <div class="cds--col-lg-13 {{if this.offset 'cds--offset-lg-3'}}">
-            <h2 class="fixtures-ui-shell-story__heading">Purpose and function</h2>
-            <p>
-              The shell is perhaps the most crucial piece of any UI built with
-              <a href="https://www.carbondesignsystem.com/">Carbon</a>. It
-              contains the shared navigation framework for the entire design
-              system and ties the products in IBM’s portfolio together in a
-              cohesive and elegant way. The shell is the home of the topmost
-              navigation, where users can quickly and dependably gain their
-              bearings and move between pages.
-            </p>
-            <h2 class="fixtures-ui-shell-story__heading">Header responsive
-              behavior</h2>
-            <p>
-              As a header scales down to fit smaller screen sizes, headers with
-              persistent side nav menus should have the side nav collapse into
-              “hamburger” menu. See the example to better understand responsive
-              behavior of the header.
-            </p>
-            <h2 class="fixtures-ui-shell-story__heading">Secondary navigation</h2>
-            <p>
-              The side-nav contains secondary navigation and fits below the
-              header. It can be configured to be either fixed-width or flexible,
-              with only one level of nested items allowed. Both links and
-              category lists can be used in the side-nav and may be mixed
-              together.
-            </p>
-            <Button {{on "click" this.openModal}}>Launch modal</Button>
-            <Modal
-              @modalHeading="Add a custom domain"
-              @modalLabel="Account resources"
-              @primaryButtonText="Add"
-              @secondaryButtonText="Cancel"
-              @open={{this.open}}
-              @onRequestClose={{this.closeModal}}
-            >
-              <p class="fixtures-ui-shell-story__modal-text">
-                Custom domains direct requests for your apps in this Cloud
-                Foundry organization to a URL that you own. A custom domain can
-                be a shared domain, a shared subdomain, or a shared domain and
-                host.
-              </p>
-            </Modal>
-          </div>
-        </div>
-      </div>
+      <h2 class="fixtures-ui-shell-story__heading">Purpose and function</h2>
+      <p>
+        The shell is perhaps the most crucial piece of any UI built with
+        <a href="https://www.carbondesignsystem.com/">Carbon</a>. It contains
+        the shared navigation framework for the entire design system and ties
+        the products in IBM’s portfolio together in a cohesive and elegant way.
+        The shell is the home of the topmost navigation, where users can quickly
+        and dependably gain their bearings and move between pages.
+      </p>
+      <h2 class="fixtures-ui-shell-story__heading">Header responsive behavior</h2>
+      <p>
+        As a header scales down to fit smaller screen sizes, headers with
+        persistent side nav menus should have the side nav collapse into
+        “hamburger” menu. See the example to better understand responsive
+        behavior of the header.
+      </p>
+      <h2 class="fixtures-ui-shell-story__heading">Secondary navigation</h2>
+      <p>
+        The side-nav contains secondary navigation and fits below the header. It
+        can be configured to be either fixed-width or flexible, with only one
+        level of nested items allowed. Both links and category lists can be used
+        in the side-nav and may be mixed together.
+      </p>
+      <Button {{on "click" this.openModal}}>Launch modal</Button>
+      <Modal
+        @modalHeading="Add a custom domain"
+        @modalLabel="Account resources"
+        @primaryButtonText="Add"
+        @secondaryButtonText="Cancel"
+        @open={{this.open}}
+        @onRequestClose={{this.closeModal}}
+      >
+        <p class="fixtures-ui-shell-story__modal-text">
+          Custom domains direct requests for your apps in this Cloud Foundry
+          organization to a URL that you own. A custom domain can be a shared
+          domain, a shared subdomain, or a shared domain and host.
+        </p>
+      </Modal>
     </Content>
   </template>
 }

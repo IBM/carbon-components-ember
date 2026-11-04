@@ -19,7 +19,10 @@ export interface SideNavDetailsSignature {
   };
 }
 
-/** A heading for the `SideNav`, in its `SideNavHeader`. */
+/**
+ * A heading for the `SideNav`, in its `SideNavHeader`. Carbon's stylesheet
+ * no longer styles it, as Carbon React's Storybook has no story for it.
+ */
 const SideNavDetails: TOC<SideNavDetailsSignature> = <template>
   <div ...attributes class="cds--side-nav__details">
     <h2 class="cds--side-nav__title" title={{@title}}>{{@title}}</h2>

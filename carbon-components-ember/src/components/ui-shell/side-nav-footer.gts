@@ -24,7 +24,11 @@ export interface SideNavFooterSignature {
   };
 }
 
-/** A toggle at the bottom of the `SideNav` that opens and closes it. */
+/**
+ * A toggle at the bottom of the `SideNav` that opens and closes it. Carbon's
+ * stylesheet no longer styles it, and Carbon React leaves it out of its
+ * `SideNav` until rails have a footer.
+ */
 const SideNavFooter: TOC<SideNavFooterSignature> = <template>
   {{#let
     (if

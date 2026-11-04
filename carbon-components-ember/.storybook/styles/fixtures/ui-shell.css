@@ -13,9 +13,12 @@
   height: 100%;
 }
 
-.fixtures-ui-shell-story__content--full {
-  width: 100%;
-  margin: 0;
+/* React's StoryContent leaves room for the side nav with the flexbox grid's
+   offset columns, which Carbon's stylesheet leaves out. */
+@media (width >= 66rem) {
+  .fixtures-ui-shell-story__content--offset {
+    padding-left: calc(16rem + 2rem);
+  }
 }
 
 .fixtures-ui-shell-story__heading {

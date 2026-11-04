@@ -21,7 +21,10 @@ export interface SideNavHeaderSignature {
   };
 }
 
-/** The top of the `SideNav`: an icon and `SideNavDetails`. */
+/**
+ * The top of the `SideNav`: an icon and `SideNavDetails`. Carbon's stylesheet
+ * no longer styles it, as Carbon React's Storybook has no story for it.
+ */
 const SideNavHeader: TOC<SideNavHeaderSignature> = <template>
   <header ...attributes class="cds--side-nav__header">
     <SideNavIcon>

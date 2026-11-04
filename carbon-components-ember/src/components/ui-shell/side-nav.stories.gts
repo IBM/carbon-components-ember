@@ -18,23 +18,18 @@ import HeaderName from './header-name.gts';
 import HeaderNavigation from './header-navigation.gts';
 import HeaderSideNavItems from './header-side-nav-items.gts';
 import SideNav from './side-nav.gts';
-import SideNavDetails from './side-nav-details.gts';
 import SideNavDivider from './side-nav-divider.gts';
-import SideNavFooter from './side-nav-footer.gts';
-import SideNavHeader from './side-nav-header.gts';
-import SideNavSwitcher from './side-nav-switcher.gts';
 import SkipToContent from './skip-to-content.gts';
 import Fade from '../icons/fade.ts';
 import Notification from '../icons/notification.ts';
 import Search from '../icons/search.ts';
 import SwitcherIcon from '../icons/switcher.ts';
-import UserAvatar from '../icons/user-avatar.ts';
 
 import type { StoryArgs } from '#storybook/fixtures/ui-shell.gts';
 
-// Carbon React's SideNav stories, and an Ember-only one for the parts they
-// don't show: SideNavHeader, SideNavDetails, SideNavSwitcher and
-// SideNavFooter.
+// Carbon React's SideNav stories. Like them, none shows SideNavHeader,
+// SideNavDetails, SideNavSwitcher or SideNavFooter, which Carbon's stylesheet
+// no longer styles; their tests are in tests/components/ui-shell-test.gts.
 
 type SideNavStoryArgs = StoryArgs & {
   expanded: boolean;
@@ -50,7 +45,7 @@ const meta = preview.type<{ args: SideNavStoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "The UI Shell's `SideNav` is the application's side navigation, in the `Header` or beside it, built from Carbon React's parts, each imported from `carbon-components-ember/components`. It yields `SideNavItems`, which yields `SideNavLink` and `SideNavMenu`: they follow whether the side nav is open, and leave the tab order while it's closed. A `SideNavMenu` yields its `SideNavMenuItem`. `SideNavDivider`, `SideNavItem` and `HeaderSideNavItems` (the header's links, for small screens) go in `SideNavItems` too, and `SideNavHeader`, `SideNavDetails`, `SideNavSwitcher` and `SideNavFooter` in the side nav.\n\n`@isFixedNav` keeps it beside the content, `@isRail` shows only its icons until the pointer or focus opens it, and `@large` makes an item taller. Links take `@href`, or one of the app's routes with `@route` (plus `@models` and `@query`), which marks the link to the current route as current, and the menu holding it while it's closed; `@as` renders another element, such as a `button`.",
+          "The UI Shell's `SideNav` is the application's side navigation, in the `Header` or beside it, built from Carbon React's parts, each imported from `carbon-components-ember/components`. It yields `SideNavItems`, which yields `SideNavLink` and `SideNavMenu`: they follow whether the side nav is open, and leave the tab order while it's closed. A `SideNavMenu` yields its `SideNavMenuItem`. `SideNavDivider`, `SideNavItem` and `HeaderSideNavItems` (the header's links, for small screens) go in `SideNavItems` too. `SideNavHeader`, `SideNavDetails`, `SideNavSwitcher` and `SideNavFooter` are exported as in Carbon React, but Carbon's stylesheet no longer styles them.\n\n`@isFixedNav` keeps it beside the content, `@isRail` shows only its icons until the pointer or focus opens it, and `@large` makes an item taller. Links take `@href`, or one of the app's routes with `@route` (plus `@models` and `@query`), which marks the link to the current route as current, and the menu holding it while it's closed; `@as` renders another element, such as a `button`.",
       },
     },
   },
@@ -575,48 +570,3 @@ export const SideNavWLargeSideNavItems = meta.story({
     <StoryContent />
   </template>,
 });
-
-const ACCOUNTS = ['Personal', 'Team', 'Organization'];
-
-// Ember-only: the parts Carbon React's stories don't show. A fixed side nav
-// is inert while collapsed, so here the footer only reports its clicks.
-export const SideNavHeaderAndDetails = meta.story({
-  name: 'Side Nav with Header, Details and Footer',
-  render: (args: SideNavStoryArgs) => <template>
-    <SideNav
-      @isFixedNav={{true}}
-      @expanded={{args.expanded}}
-      @isChildOfHeader={{false}}
-      aria-label={{args.sideNavAriaLabel}}
-      as |SideNavItems|
-    >
-      <SideNavHeader @renderIcon={{UserAvatar}}>
-        <SideNavDetails @title="Account">
-          <SideNavSwitcher @labelText="Switch account" @options={{ACCOUNTS}} />
-        </SideNavDetails>
-      </SideNavHeader>
-      <SideNavItems as |SideNavLink|>
-        <SideNavLink @renderIcon={{Fade}} @href="#">Link</SideNavLink>
-        <SideNavLink @renderIcon={{Fade}} @href="#">Link</SideNavLink>
-      </SideNavItems>
-      <SideNavFooter @expanded={{args.expanded}} @onToggle={{args.onAction}} />
-    </SideNav>
-    <StoryContent @useResponsiveOffset={{false}} />
-  </template>,
-});
-
-SideNavHeaderAndDetails.test(
-  'the switcher shows its label until an option is chosen, and the footer reports clicks',
-  async ({ canvas, userEvent, args }) => {
-    const select = canvas.getByRole('combobox', { name: 'Switch account' });
-    await expect(select).toHaveValue('');
-    await userEvent.selectOptions(select, 'Team');
-    await expect(select).toHaveValue('Team');
-    await userEvent.click(
-      canvas.getByRole('button', {
-        name: 'Toggle opening or closing the side navigation',
-      }),
-    );
-    await expect(args.onAction).toHaveBeenCalledOnce();
-  },
-);
