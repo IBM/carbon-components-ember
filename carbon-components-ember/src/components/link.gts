@@ -111,12 +111,12 @@ export default class Link extends Component<LinkSignature> {
         {{on "click" this.handleClick}}
         ...attributes
       >
-        {{yield}}
-        {{#if this.showIcon}}
+        {{~yield~}}
+        {{~#if this.showIcon~}}
           <span class="cds--link__icon">
             <@renderIcon @size="16" />
           </span>
-        {{/if}}
+        {{~/if~}}
       </RouterLink>
     {{else}}
       {{#let (element this.tag) as |Tag|}}
@@ -130,12 +130,12 @@ export default class Link extends Component<LinkSignature> {
           {{on "click" this.handleClick}}
           ...attributes
         >
-          {{yield}}
-          {{#if this.showIcon}}
+          {{~yield~}}
+          {{~#if this.showIcon~}}
             <span class="cds--link__icon">
               <@renderIcon @size="16" />
             </span>
-          {{/if}}
+          {{~/if~}}
         </Tag>
       {{/let}}
     {{/if}}
