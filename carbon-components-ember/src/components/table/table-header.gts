@@ -12,6 +12,8 @@ import ArrowUp from '../icons/arrow-up.ts';
 import ArrowsVertical from '../icons/arrows-vertical.ts';
 import captureElement from '../../modifiers/capture-element.ts';
 import { afterRender } from '../../utils/after-render.ts';
+import AILabel from '../ai-label.gts';
+import type { WithBoundArgs } from '@glint/template';
 
 /** The directions a table can be sorted in, as Carbon React's `sortStates`. */
 export const sortStates = {
@@ -68,6 +70,12 @@ export interface TableHeaderSignature {
      * description once, when it renders.
      */
     default: [];
+    /**
+     * **Experimental:** the column's AI label, shown after the header's
+     * label. Yields an `AILabel` already sized for the header. The header
+     * takes Carbon's AI column styles, so put only an AI label here.
+     */
+    decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };
 }
 
@@ -147,7 +155,12 @@ export default class TableHeader extends Component<TableHeaderSignature> {
       <th
         id={{@id}}
         aria-sort={{this.ariaSort}}
-        class="{{@className}} cds--table-sort__header"
+        class="{{@className}}
+          cds--table-sort__header
+          {{if
+            (has-block 'decorator')
+            'cds--table-sort__header--ai-label cds--table-sort__header--decorator'
+          }}"
         colspan={{@colSpan}}
         scope={{this.scope}}
       >
@@ -178,6 +191,11 @@ export default class TableHeader extends Component<TableHeaderSignature> {
             />
           </span>
         </button>
+        {{#if (has-block "decorator")}}
+          <div class="cds--table-header-label--decorator-inner">
+            {{yield (component AILabel size="mini") to="decorator"}}
+          </div>
+        {{/if}}
       </th>
     {{else}}
       <th
@@ -188,9 +206,19 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         ...attributes
       >
         {{#if (has-block)}}
-          <div class="cds--table-header-label">
+          <div
+            class="cds--table-header-label
+              {{if
+                (has-block 'decorator')
+                'cds--table-header-label--slug cds--table-header-label--ai-label cds--table-header-label--decorator'
+              }}"
+          >
             {{yield}}
-            <div class="cds--table-header-label--decorator-inner"></div>
+            <div class="cds--table-header-label--decorator-inner">
+              {{#if (has-block "decorator")}}
+                {{yield (component AILabel size="mini") to="decorator"}}
+              {{/if}}
+            </div>
           </div>
         {{/if}}
       </th>

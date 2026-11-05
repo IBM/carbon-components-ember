@@ -1,4 +1,6 @@
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
+
+import '#storybook/styles/table/table.css';
 
 import { ROWS, HEADERS } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
@@ -20,7 +22,8 @@ import type { TOC } from '@ember/component/template-only';
 // A sticky header scrolls the rows, so the table takes `tabindex="0"` to be
 // reachable from the keyboard.
 //
-// Parity gaps: `experimentalAutoAlign` is not ported.
+// Carbon React has no story for `experimentalAutoAlign`; `AutoAlign` is
+// Ember-only.
 
 const Rows: TOC<{ Args: { twoLines?: boolean } }> = <template>
   <TableHead>
@@ -64,7 +67,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   parameters: {
     docs: {
       description: {
-        component: `\`Table\` and its parts build a data table by hand, as Carbon React's \`Table\`, \`TableHead\`, \`TableBody\`, \`TableRow\`, \`TableHeader\` and \`TableCell\`, imported from \`carbon-components-ember/components\`. They render Carbon's markup and take its options (\`@size\`, \`@useZebraStyles\`, \`@stickyHeader\`, \`@useStaticWidth\`); the rows, sorting and selection are yours to keep. Wrap the table in \`TableContainer\` for a title and description.
+        component: `\`Table\` and its parts build a data table by hand, as Carbon React's \`Table\`, \`TableHead\`, \`TableBody\`, \`TableRow\`, \`TableHeader\` and \`TableCell\`, imported from \`carbon-components-ember/components\`. They render Carbon's markup and take its options (\`@size\`, \`@useZebraStyles\`, \`@stickyHeader\`, \`@useStaticWidth\`); the rows, sorting and selection are yours to keep. Wrap the table in \`TableContainer\` for a title and description. \`@experimentalAutoAlign\` top-aligns the cells once a cell's or header's text wraps.
 
 \`\`\`gts
 <Table @size="md">
@@ -124,6 +127,33 @@ export const XLWithTwoLines = meta.story({
       <Rows @twoLines={{true}} />
     </Table>
   </template>,
+});
+
+// **Experimental:** `@experimentalAutoAlign` top-aligns the cells when a body
+// cell or a header label wraps its text. The cells of this table wrap, and
+// the narrow table scrolls, so it takes `tabindex="0"`.
+export const AutoAlign = meta.story({
+  render: (args: StoryArgs) => <template>
+    <div class="table-table-story__narrow">
+      <Table
+        @size={{args.size}}
+        @useZebraStyles={{args.useZebraStyles}}
+        @experimentalAutoAlign={{true}}
+        aria-label="Load balancers"
+        tabindex="0"
+      >
+        <Rows @twoLines={{true}} />
+      </Table>
+    </div>
+  </template>,
+});
+
+AutoAlign.test('top-aligns the body when a cell wraps', async ({ canvas }) => {
+  await waitFor(() =>
+    expect(canvas.getByRole('table')).toHaveClass(
+      'cds--data-table--top-aligned-body',
+    ),
+  );
 });
 
 export const Zebra = meta.story({ args: { useZebraStyles: true } });

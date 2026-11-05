@@ -1,6 +1,6 @@
 {
   "component": "Table",
-  "generatedAt": "2026-11-05T12:02:58.992Z",
+  "generatedAt": "2026-11-05T19:08:12.650Z",
   "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -2027,6 +2027,205 @@
               "cds--data-table",
               "cds--data-table--lg",
               "cds--data-table--visible-overflow-menu"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "thead",
+                "classes": [],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "tr",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "th",
+                        "classes": [],
+                        "attributes": {
+                          "scope": "col"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--table-header-label"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Name"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label--decorator-inner"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "th",
+                        "classes": [],
+                        "attributes": {
+                          "scope": "col"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--table-header-label"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Role"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label--decorator-inner"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "tbody",
+                "classes": [],
+                "attributes": {
+                  "aria-live": "polite"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "tr",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "td",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Ada"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "td",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Engineer"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tr",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "td",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Grace"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "td",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Admiral"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "auto-align": {
+      "props": {
+        "experimentalAutoAlign": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--data-table-content"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "table",
+            "classes": [
+              "cds--data-table",
+              "cds--data-table--lg"
             ],
             "attributes": {},
             "style": {},
