@@ -263,6 +263,22 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--open');
   });
 
+  test('closes on an Escape pressed anywhere', async function (assert) {
+    await render(
+      <template>
+        <Tooltip @label="Close">
+          <button type="button">Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+
+    await triggerEvent('.cds--tooltip', 'mouseenter');
+    assert.dom('.cds--tooltip').hasClass('cds--popover--open');
+
+    await triggerKeyEvent(document.body, 'keydown', 'Escape');
+    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--open');
+  });
+
   test('@closeOnActivation closes the tooltip on click', async function (assert) {
     await render(
       <template>
