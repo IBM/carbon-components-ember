@@ -13,8 +13,8 @@ export interface TableDecoratorRowSignature {
   Element: HTMLTableCellElement;
   Blocks: {
     /**
-     * **Experimental:** an AI label, or any other decorator, in the row's
-     * first cell. Yields an `AILabel` already set up for it.
+     * **Experimental:** the row's AI label, in its first cell. Yields an
+     * `AILabel` already set up for it.
      */
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };

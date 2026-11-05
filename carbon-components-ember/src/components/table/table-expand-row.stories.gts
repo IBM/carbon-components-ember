@@ -27,6 +27,10 @@ import TableRow from './table-row.gts';
 // The expand header's visually hidden label is Ember-only: Carbon React's
 // header is empty there, which axe flags.
 
+interface StoryArgs {
+  onExpand: (event: MouseEvent) => void;
+}
+
 const meta = preview.meta({
   title: 'Components/Table/TableExpandRow',
   component: TableExpandRow,
@@ -36,7 +40,7 @@ const meta = preview.meta({
       description: {
         component: `\`TableExpandRow\` is a row with a button that expands the \`TableExpandedRow\` after it, as Carbon React's \`TableExpandRow\` and \`TableExpandedRow\`. \`TableExpandHeader\` heads the button column, and with \`@enableToggle\` it adds an expand all button. They keep no state: pass \`@isExpanded\` and handle \`@onExpand\`. \`@colSpan\` on \`TableExpandedRow\` spans the table's columns, counting the button column.
 
-The row's \`decorator\` block puts an AI label (or another decorator) in the row's first cell, which Carbon React does with a \`TableDecoratorRow\` child; it yields an \`AILabel\` set up for the cell.
+The row's \`decorator\` block puts its AI label in the row's first cell, which Carbon React does with a \`TableDecoratorRow\` child; it yields an \`AILabel\` set up for the cell.
 
 \`\`\`gts
 <Table>
@@ -63,11 +67,12 @@ The row's \`decorator\` block puts an AI label (or another decorator) in the row
       },
     },
   },
-  render: () => {
+  render: (args) => {
     const state = trackedObject<Record<string, boolean>>({});
     const isOpen = (id: string) => Boolean(state[id]);
-    const toggle = (id: string) => () => {
+    const toggle = (id: string) => (event: MouseEvent) => {
       state[id] = !state[id];
+      args.onExpand(event);
     };
     return <template>
       <Table aria-label="Load balancers">
@@ -123,16 +128,18 @@ Default.test('expands and collapses a row', async ({ canvas }) => {
 });
 
 export const BatchExpansion = meta.story({
-  render: () => {
+  render: (args: StoryArgs) => {
     const state = trackedObject<Record<string, boolean>>({});
     const allExpanded = () => ROWS.every((row) => state[row.id]);
-    const toggleAll = () => {
+    const toggleAll = (event: MouseEvent) => {
       const next = !allExpanded();
+      args.onExpand(event);
       for (const row of ROWS) state[row.id] = next;
     };
     const isOpen = (id: string) => Boolean(state[id]);
-    const toggle = (id: string) => () => {
+    const toggle = (id: string) => (event: MouseEvent) => {
       state[id] = !state[id];
+      args.onExpand(event);
     };
     return <template>
       <Table aria-label="Load balancers">
@@ -184,11 +191,12 @@ BatchExpansion.test('expands every row at once', async ({ canvas }) => {
 });
 
 export const AILabelWithExpansion = meta.story({
-  render: () => {
+  render: (args: StoryArgs) => {
     const state = trackedObject<Record<string, boolean>>({});
     const isOpen = (id: string) => Boolean(state[id]);
-    const toggle = (id: string) => () => {
+    const toggle = (id: string) => (event: MouseEvent) => {
       state[id] = !state[id];
+      args.onExpand(event);
     };
     return <template>
       <Table aria-label="Load balancers">

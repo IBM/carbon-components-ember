@@ -15,8 +15,6 @@ export interface TableExpandHeaderSignature {
     ariaControls?: string;
     /** Labels the expand button for assistive technology. */
     ariaLabel?: string;
-    /** Shows the expand all button, as `enableToggle` does. */
-    enableExpando?: boolean;
     /** Shows an expand all button. */
     enableToggle?: boolean;
     /** The expand button's title, and the chevron's label. */
@@ -40,7 +38,7 @@ export interface TableExpandHeaderSignature {
  */
 export default class TableExpandHeader extends Component<TableExpandHeaderSignature> {
   get showButton() {
-    return Boolean(this.args.enableExpando || this.args.enableToggle);
+    return Boolean(this.args.enableToggle);
   }
 
   get ariaExpanded() {

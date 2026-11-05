@@ -34,9 +34,10 @@ export interface TableExpandRowSignature {
     /** The row's cells, after the expand button's. */
     default: [];
     /**
-     * **Experimental:** an AI label, or any other decorator, in a cell
-     * before the expand button's, as a `TableDecoratorRow` child in Carbon
-     * React. Yields an `AILabel` already set up for it.
+     * **Experimental:** the row's AI label, in a cell before the expand
+     * button's, as a `TableDecoratorRow` child in Carbon React. Yields an
+     * `AILabel` already set up for it. The row takes Carbon's AI row
+     * styles, so put only an AI label here.
      */
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };

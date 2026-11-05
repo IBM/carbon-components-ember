@@ -2851,11 +2851,6 @@ export const COMPONENTS = [
         onExpand: () => {},
         'aria-label': 'Collapse all rows',
       }),
-      tableExpandHeader('enable-expando', {
-        enableExpando: true,
-        isExpanded: false,
-        onExpand: () => {},
-      }),
       tableExpandHeader('id', { id: 'toggle' }),
     ],
   },

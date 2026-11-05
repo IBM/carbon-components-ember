@@ -6984,36 +6984,6 @@ module('DOM parity | Carbon React', function (hooks) {
         );
       });
 
-      test('enable-expando', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableExpandHeader
-                    @enableExpando={{true}}
-                    @isExpanded={{false}}
-                    @onExpand={{noop}}
-                  />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableExpandHeaderFixture,
-          'enable-expando',
-          this.element.querySelector('thead th.cds--table-expand'),
-        );
-      });
-
       test('id', async function (this: RenderingTestContext, assert) {
         await render(
           <template>
@@ -7045,7 +7015,6 @@ module('DOM parity | Carbon React', function (hooks) {
           'default',
           'enable-toggle',
           'expanded',
-          'enable-expando',
           'id',
         ]);
       });
