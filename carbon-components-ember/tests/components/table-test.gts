@@ -278,6 +278,26 @@ module('Integration | Component | Table', (hooks) => {
   module('experimentalAutoAlign', () => {
     const LONG = 'A load balancer whose name wraps in a narrow column';
 
+    test('tables measure again once fonts load, each on its own', async function (assert) {
+      // Both tables wait on the fonts in the same render.
+      Object.defineProperty(document, 'fonts', {
+        configurable: true,
+        value: { status: 'loading', ready: Promise.resolve() },
+      });
+
+      try {
+        await render(
+          <template>
+            <Table @experimentalAutoAlign={{true}} />
+            <Table @experimentalAutoAlign={{true}} />
+          </template>,
+        );
+        assert.dom('table').exists({ count: 2 });
+      } finally {
+        Reflect.deleteProperty(document, 'fonts');
+      }
+    });
+
     test('a body cell that wraps top-aligns the body, and a header label that wraps the header', async function (assert) {
       await render(
         <template>

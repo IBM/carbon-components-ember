@@ -77,7 +77,8 @@ export default modifier(
     update();
     const stop = observeResize(table, update);
     if (document.fonts?.status && document.fonts.status !== 'loaded') {
-      void waitForPromise(document.fonts.ready).then(update);
+      // Every table waits on the same promise; each waits on one of its own.
+      void waitForPromise(document.fonts.ready.then(update));
     }
 
     return () => {
