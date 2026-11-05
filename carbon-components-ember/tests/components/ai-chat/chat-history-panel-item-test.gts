@@ -172,10 +172,9 @@ module('Integration | Component | ai-chat/ChatHistoryPanelItem', (hooks) => {
       .dom('.cds--overflow-menu-options__option--danger')
       .exists({ count: 1 });
 
-    // The action's icon renders as its own `.option-icon` sibling of the
-    // text `.option-content`, not nested inside it - `.cds--overflow-menu-
-    // options__btn`'s `justify-content: space-between` then pushes it flush
-    // right, matching upstream's `cds-overflow-menu-item` layout.
+    // The action's icon is its own `.option-icon` beside the text
+    // `.option-content`, which the icon's auto margin keeps at the item's
+    // end, as upstream's `cds-overflow-menu-item` lays it out.
     assert
       .dom(
         '.cds--overflow-menu-options__option:last-child .cds--overflow-menu-options__option-icon svg',
