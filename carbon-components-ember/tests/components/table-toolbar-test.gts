@@ -221,6 +221,31 @@ module('Integration | Component | TableToolbar', (hooks) => {
     assert.dom('.cds--overflow-menu-options').doesNotExist();
   });
 
+  test("a menu action takes the menu item's arguments", async function (assert) {
+    await render(
+      <template>
+        <TableToolbar as |Content|>
+          <Content as |Search Menu|>
+            <Menu as |Action|>
+              <Action
+                @requireTitle={{true}}
+                @title="Export every row"
+                @wrapperClassName="export"
+              >
+                Export
+              </Action>
+            </Menu>
+          </Content>
+        </TableToolbar>
+      </template>,
+    );
+
+    await click('button.cds--overflow-menu');
+    assert
+      .dom('li.export .cds--overflow-menu-options__btn')
+      .hasAttribute('title', 'Export every row');
+  });
+
   test("the batch bar shows the count with React's messages", async function (assert) {
     class State {
       @tracked selected = 0;

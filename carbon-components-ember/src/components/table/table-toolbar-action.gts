@@ -12,10 +12,7 @@ import type { OverflowMenuItemSignature } from '../overflow-menu/overflow-menu-i
 
 export interface TableToolbarActionSignature {
   Element: OverflowMenuItemSignature['Element'];
-  Args: Pick<
-    OverflowMenuItemSignature['Args'],
-    'disabled' | 'hasDivider' | 'href' | 'isDelete'
-  > & {
+  Args: Omit<OverflowMenuItemSignature['Args'], 'itemText' | 'menu'> & {
     /**
      * The menu's item this renders. Set by the `TableToolbarAction` that
      * `TableToolbarMenu` yields.
@@ -34,10 +31,18 @@ export interface TableToolbarActionSignature {
  */
 const TableToolbarAction: TOC<TableToolbarActionSignature> = <template>
   <@item
+    @dangerDescription={{@dangerDescription}}
     @disabled={{@disabled}}
+    @externalRoute={{@externalRoute}}
     @hasDivider={{@hasDivider}}
     @href={{@href}}
     @isDelete={{@isDelete}}
+    @models={{@models}}
+    @query={{@query}}
+    @requireTitle={{@requireTitle}}
+    @route={{@route}}
+    @title={{@title}}
+    @wrapperClassName={{@wrapperClassName}}
     ...attributes
   >
     <div class="cds--overflow-menu-options__option-content">{{yield}}</div>

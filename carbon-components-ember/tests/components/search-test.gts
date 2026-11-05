@@ -50,6 +50,16 @@ module('Integration | Component | Search', (hooks) => {
     assert.dom('input.cds--search-input').hasValue('my search');
   });
 
+  test('a collapsed search hides its clear button, as in Carbon React', async function (assert) {
+    await render(
+      <template>
+        <Search @labelText="Search" @value="my search" @isExpanded={{false}} />
+      </template>,
+    );
+
+    assert.dom('.cds--search-close').hasClass('cds--search-close--hidden');
+  });
+
   test('respects the disabled argument', async function (assert) {
     await render(
       <template><Search @labelText="Search" @disabled={{true}} /></template>,
