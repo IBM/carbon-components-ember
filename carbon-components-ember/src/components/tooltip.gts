@@ -150,10 +150,28 @@ export default class Tooltip extends Component<TooltipSignature> {
     });
   };
 
+  close = () => {
+    void this.setOpen.cancelAll();
+    this.open = false;
+  };
+
+  // As in Carbon React, an Escape pressed anywhere closes it while it's open.
+  // One pressed in it stops there (see `onKeyDown`), so it never gets here.
+  closeOnEscape = modifier((_element: HTMLElement, [open]: [boolean]) => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') this.close();
+    };
+    document.addEventListener('keydown', close);
+    return () => document.removeEventListener('keydown', close);
+  });
+
+  // An Escape in it closes only the tooltip, as in Carbon React: a Modal or
+  // menu around it stays open until the next one.
   onKeyDown = (event: KeyboardEvent) => {
     if (this.open && event.key === 'Escape') {
       event.stopPropagation();
-      this.open = false;
+      this.close();
     }
     if (this.args.closeOnActivation && isActivationKey(event)) {
       void this.setOpen.cancelAll();
@@ -184,6 +202,7 @@ export default class Tooltip extends Component<TooltipSignature> {
       {{on "focusout" this.onFocusOut}}
       {{on "keydown" this.onKeyDown}}
       {{on "click" this.onClick}}
+      {{this.closeOnEscape this.open}}
       as |PopoverContent trigger|
     >
       <span
