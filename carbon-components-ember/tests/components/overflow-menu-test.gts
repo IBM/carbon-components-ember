@@ -141,6 +141,55 @@ module('Integration | Component | OverflowMenu', (hooks) => {
     assert.dom(item('Stop app')).isFocused();
   });
 
+  test("a link item's text starts where a button item's does, and an icon goes to the end", async function (assert) {
+    await render(
+      <template>
+        <OverflowMenu as |Item|>
+          <Item @itemText="Docs" @href="#docs" />
+          <Item @itemText="Stop app" />
+          <Item @href="#export">
+            <div class="cds--overflow-menu-options__option-content">
+              Export
+            </div>
+            <span class="cds--overflow-menu-options__option-icon">
+              <svg width="16" height="16"></svg>
+            </span>
+          </Item>
+        </OverflowMenu>
+      </template>,
+    );
+
+    await click(TRIGGER);
+
+    const offsets = (text: string) => {
+      const option = item(text);
+      const box = option.getBoundingClientRect();
+      const start = option
+        .querySelector('.cds--overflow-menu-options__option-content')!
+        .getBoundingClientRect().left;
+      const icon = option
+        .querySelector('.cds--overflow-menu-options__option-icon')
+        ?.getBoundingClientRect();
+      return {
+        start: start - box.left,
+        iconEnd: icon && box.right - icon.right,
+      };
+    };
+
+    const padding = offsets('Stop app').start;
+    assert.strictEqual(offsets('Docs').start, padding, 'a link lines up');
+    assert.strictEqual(
+      offsets('Export').start,
+      padding,
+      'so does a link with an icon',
+    );
+    assert.strictEqual(
+      offsets('Export').iconEnd,
+      padding,
+      'its icon is at the end',
+    );
+  });
+
   test("opening doesn't scroll the page", async function (assert) {
     const spacer = document.createElement('div');
     spacer.style.height = '300vh';
