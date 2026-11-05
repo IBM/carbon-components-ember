@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import type StructuredListRow from './structured-list-row.gts';
+import './structured-list-input.scss';
 
 export interface StructuredListInputSignature {
   Element: HTMLInputElement;
@@ -33,7 +34,10 @@ export default class StructuredListInput extends Component<StructuredListInputSi
 
   <template>
     {{! A row may only own cells, so the hidden input sits in one; out of flow, it adds no column. }}
-    <div role="cell" class="cds--visually-hidden">
+    <div
+      role="cell"
+      class="cds--visually-hidden cds--ember-structured-list-input"
+    >
       <input
         id={{this.id}}
         name={{this.name}}
