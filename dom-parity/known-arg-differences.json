@@ -311,6 +311,16 @@
       "renderButton"
     ]
   },
+  "Table": {
+    "missing": [
+      "experimentalAutoAlign"
+    ]
+  },
+  "TableHeader": {
+    "missing": [
+      "decorator"
+    ]
+  },
   "TabList": {
     "missing": [
       "iconSize"
