@@ -194,5 +194,93 @@
       "rel": "A plain attribute, through `...attributes`, as on a native `<a>`.",
       "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
     }
+  },
+  "HeaderContainer": {
+    "missing": {
+      "render": "Carbon React renders its `render` component with the state; this yields the state to its block."
+    }
+  },
+  "HeaderGlobalAction": {
+    "missing": {
+      "onClick": "{{on \"click\"}} on the component reaches the button, through ...attributes, where Carbon React puts its onClick."
+    },
+    "extra": {
+      "ariaLabel": "Carbon React's HeaderGlobalAction also reads its aria-label as the tooltip's label; a component can't read a caller's aria-label attribute, so it takes @ariaLabel."
+    }
+  },
+  "HeaderMenu": {
+    "extra": {
+      "ariaLabel": "Carbon React's aria-label labels the menu's link and its list; an aria-label attribute would go to the <li>, with the other attributes.",
+      "ariaLabelledBy": "Carbon React's aria-labelledby labels the menu's link and its list; an aria-labelledby attribute would go to the <li>, with the other attributes."
+    }
+  },
+  "HeaderMenuButton": {
+    "extra": {
+      "ariaLabel": "Carbon React's HeaderMenuButton also reads its aria-label as the button's title; a component can't read a caller's aria-label attribute, so it takes @ariaLabel."
+    }
+  },
+  "HeaderMenuItem": {
+    "missing": {
+      "isCurrentPage": "Carbon React deprecates it for isActive."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React passes href on to the `a` its Link renders; here the link can be LinkTo, which takes @route instead, so the component takes @href to choose."
+    }
+  },
+  "HeaderName": {
+    "missing": {
+      "isSideNavExpanded": "Carbon React's UI Shell Link only drops it, so it never reaches the element."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React passes href on to the `a` its Link renders; here the link can be LinkTo, which takes @route instead, so the component takes @href to choose."
+    }
+  },
+  "SideNavHeader": {
+    "missing": {
+      "isSideNavExpanded": "Carbon React declares it but never reads it."
+    }
+  },
+  "SideNavLink": {
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040).",
+      "href": "Carbon React passes href on to the `a` its Link renders; here the link can be LinkTo, which takes @route instead, so the component takes @href to choose."
+    }
+  },
+  "SideNavMenuItem": {
+    "missing": {
+      "isSideNavExpanded": "Carbon React's UI Shell Link only drops it, so it never reaches the element."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
+  "SwitcherItem": {
+    "missing": {
+      "expanded": "Switcher yields the item bound to it (@switcher), whose @expanded it follows; Carbon React clones these props into its children.",
+      "handleSwitcherItemFocus": "Switcher yields the item bound to it (@switcher), which moves focus between its items; Carbon React clones these props into its children.",
+      "index": "Switcher yields the item bound to it (@switcher), which keeps its items in DOM order; Carbon React clones these props into its children.",
+      "rel": "A plain attribute, through `...attributes`, as on a native `<a>`.",
+      "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
+    },
+    "extra": {
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
   }
 }
