@@ -2706,6 +2706,30 @@ export const COMPONENTS = [
     ),
   },
   {
+    name: 'TruncatedText',
+    ibmProducts: true,
+    variants: [
+      ibmProducts('preview__TruncatedText', 'default', {
+        value: 'Virtual machine',
+      }),
+      ibmProducts('preview__TruncatedText', 'lines', {
+        value: 'Virtual machine',
+        lines: 3,
+      }),
+      ibmProducts('preview__TruncatedText', 'expand', {
+        value: 'Virtual machine',
+        type: 'expand',
+        expandLabel: 'View more',
+        collapseLabel: 'View less',
+      }),
+      ibmProducts('preview__TruncatedText', 'id-and-class', {
+        value: 'Virtual machine',
+        id: 'example-id',
+        className: 'custom-class',
+      }),
+    ],
+  },
+  {
     name: 'PageHeader',
     ibmProducts: true,
     variants: [

@@ -1,0 +1,9 @@
+/* Carbon for IBM Products' story frame: body-01 text, at most 900px wide. */
+.ibm-products-truncated-text-story__viewport {
+  max-inline-size: 900px;
+  inline-size: 100%;
+  font-size: var(--cds-body-01-font-size);
+  font-weight: var(--cds-body-01-font-weight);
+  letter-spacing: var(--cds-body-01-letter-spacing);
+  line-height: var(--cds-body-01-line-height);
+}

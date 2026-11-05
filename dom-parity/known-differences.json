@@ -728,5 +728,11 @@
       "variant": "breadcrumb-page-actions",
       "reason": "Carbon for IBM Products renders the overflow menu with the v12 OverflowMenu (the `enableV12Overflowmenu` flag), a Menu in a `<div>`. This addon's OverflowMenu is the v11 one, a `<span>`; the comparison stops at that tag."
     }
+  ],
+  "TruncatedText": [
+    {
+      "path": "div.attributes.data-carbon-devtools-id",
+      "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    }
   ]
 }

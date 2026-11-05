@@ -7,7 +7,7 @@
 
 import { concat, uniqueId } from '@ember/helper';
 import Grid from '../grid.gts';
-import PageHeaderTruncatedText from './-page-header-truncated-text.gts';
+import TruncatedText from './truncated-text.gts';
 import { registerPart, setFlag } from './-page-header-utils.ts';
 import type PageHeader from './page-header.gts';
 import type { PageHeaderObserverState } from './-page-header-utils.ts';
@@ -83,7 +83,7 @@ const PageHeaderContent: TOC<PageHeaderContentSignature> = <template>
                       }}</span>
                   {{else}}
                     {{! Upstream's id is fixed; one per title keeps two headers on a page apart. }}
-                    <PageHeaderTruncatedText
+                    <TruncatedText
                       @id={{concat
                         "c4p--page-header__content__title__truncatedText-"
                         (uniqueId)
