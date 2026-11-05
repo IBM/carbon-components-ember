@@ -9,7 +9,7 @@ import {
   waitUntil,
 } from '@ember/test-helpers';
 import TruncatedText from '#src/components/ibm-products/truncated-text.gts';
-import { nonce } from '../../helpers';
+import { nonce, waitForAnimationFrame } from '../../helpers';
 
 const LONG =
   'Buttons are used to initialize an action, either in the background or foreground of an experience. There are several kinds of buttons.';
@@ -53,7 +53,12 @@ module(
             }
           </style>
           <div class="narrow">
-            <TruncatedText @value={{LONG}} @lines={{1}} @id="text" />
+            <TruncatedText
+              @value={{LONG}}
+              @lines={{1}}
+              @id="text"
+              @align="bottom"
+            />
           </div>
         </template>,
       );
@@ -69,7 +74,7 @@ module(
         .dom('.c4p--truncated-text__tooltip-trigger #text')
         .hasClass('c4p--truncated-text__text-content');
       assert.strictEqual(clamp(), '1');
-      assert.dom('.cds--popover-container.cds--popover--top').exists();
+      assert.dom('.cds--popover-container.cds--popover--bottom').exists();
       assert.dom('.cds--tooltip-content').hasText(LONG);
     });
 
@@ -120,16 +125,58 @@ module(
         .dom('#text')
         .doesNotHaveClass('c4p--truncated-text__text-content--expanded');
 
-      await triggerKeyEvent('[role="button"]', 'keydown', ' ');
+      const space = new KeyboardEvent('keydown', {
+        key: ' ',
+        bubbles: true,
+        cancelable: true,
+      });
+      document.querySelector('[role="button"]')?.dispatchEvent(space);
+      await settled();
+      assert.true(space.defaultPrevented, "Space doesn't scroll the page");
       assert.dom('[role="button"]').hasAttribute('aria-expanded', 'true');
 
       await triggerKeyEvent('[role="button"]', 'keydown', 'Shift');
       assert.dom('[role="button"]').hasAttribute('aria-expanded', 'true');
 
       // The toggle stays once the text is expanded and no longer cut off.
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-      await settled();
+      await waitForAnimationFrame();
       assert.dom('[role="button"]').exists();
+    });
+
+    test('collapsing measures again', async function (assert) {
+      const wide = tracked(false);
+
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .narrow {
+              width: 120px;
+            }
+            .wide {
+              width: 2000px;
+            }
+          </style>
+          <div class={{if wide.value "wide" "narrow"}}>
+            <TruncatedText
+              @value={{LONG}}
+              @type="expand"
+              @expandLabel="View more"
+              @collapseLabel="View less"
+            />
+          </div>
+        </template>,
+      );
+      await waitUntil(() => document.querySelector('[role="button"]'));
+      await click('[role="button"]');
+
+      // Wide enough for the text to fit, which the expanded text doesn't show.
+      wide.value = true;
+      await waitForAnimationFrame();
+      assert.dom('[role="button"]').hasText('View less');
+
+      await click('[role="button"]');
+      await waitUntil(() => !document.querySelector('[role="button"]'));
+      assert.strictEqual(clamp(), '2');
     });
 
     test('it measures again when the text changes', async function (assert) {
@@ -156,6 +203,32 @@ module(
         () => !document.querySelector('.c4p--truncated-text__tooltip-trigger'),
       );
       assert.dom('.c4p--truncated-text__text-content').hasText('Short');
+    });
+
+    test('it measures again when the lines change', async function (assert) {
+      const lines = tracked(1);
+
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .narrow {
+              width: 120px;
+            }
+          </style>
+          <div class="narrow">
+            <TruncatedText @value={{LONG}} @lines={{lines.value}} />
+          </div>
+        </template>,
+      );
+      await waitUntil(() =>
+        document.querySelector('.c4p--truncated-text__tooltip-trigger'),
+      );
+
+      lines.value = 100;
+      await waitUntil(
+        () => !document.querySelector('.c4p--truncated-text__tooltip-trigger'),
+      );
+      assert.strictEqual(clamp(), '100');
     });
   },
 );

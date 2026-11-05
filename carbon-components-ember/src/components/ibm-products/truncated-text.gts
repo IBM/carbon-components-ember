@@ -74,14 +74,17 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
     }
   };
 
-  // Re-measures whenever the text, or its element, changes size. Expanded
-  // text keeps its toggle.
+  // Measures on each change of the text, its lines or a toggle, and whenever
+  // its element changes size. Expanded text keeps its toggle.
   measure = modifier(
-    (element: HTMLElement, [value, lines]: [string?, number?]) => {
+    (
+      element: HTMLElement,
+      [value, lines, expanded]: [string?, number?, boolean?],
+    ) => {
       void value;
       void lines;
       return observeResize(element, () => {
-        if (!this.expanded) {
+        if (!expanded) {
           this.truncated = element.offsetHeight < element.scrollHeight;
         }
       });
@@ -105,7 +108,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
               class="c4p--truncated-text__text-content"
               id={{this.id}}
               {{style this.clamp}}
-              {{this.measure @value this.lines}}
+              {{this.measure @value this.lines this.expanded}}
             >{{@value}}</span>
           </button>
         </Tooltip>
@@ -115,7 +118,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
             {{if this.expanded 'c4p--truncated-text__text-content--expanded'}}"
           id={{this.id}}
           {{style this.clamp}}
-          {{this.measure @value this.lines}}
+          {{this.measure @value this.lines this.expanded}}
         >{{@value}}</span>
         {{#if this.truncated}}
           <span
