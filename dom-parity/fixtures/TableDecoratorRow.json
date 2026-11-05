@@ -1,0 +1,89 @@
+{
+  "component": "TableDecoratorRow",
+  "generatedAt": "2026-11-05T19:10:25.342Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "ai-label": {
+      "props": {
+        "decorator": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-decorator",
+          "cds--table-column-decorator--active"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--ai-label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--autoalign",
+                  "cds--popover--auto-align",
+                  "cds--popover--bottom",
+                  "cds--popover--caret",
+                  "cds--popover--high-contrast",
+                  "cds--popover-container",
+                  "cds--toggletip"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--ai-label__button",
+                      "cds--ai-label__button--default",
+                      "cds--ai-label__button--mini",
+                      "cds--toggletip-button"
+                    ],
+                    "attributes": {
+                      "aria-expanded": "false",
+                      "aria-controls": "id-_r_f7_",
+                      "aria-label": "AI Show information",
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--ai-label__text"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "AI"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
