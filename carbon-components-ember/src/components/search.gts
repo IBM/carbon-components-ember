@@ -33,6 +33,12 @@ export interface SearchSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     isLoading?: boolean;
     expandable?: boolean;
+    /**
+     * Whether an expandable search is expanded. When set, it is yours to
+     * keep; without it, pressing the search expands it, and pressing
+     * outside it collapses it again while it is empty.
+     */
+    isExpanded?: boolean;
     light?: boolean;
     disabled?: boolean;
     id?: string;
@@ -63,6 +69,10 @@ export default class Search extends Component<SearchSignature> {
   // An empty initial value renders no `value` attribute, as in Carbon React.
   get boundValue() {
     return this.value === '' ? undefined : this.value;
+  }
+
+  get isExpanded() {
+    return this.args.isExpanded ?? this.isActive;
   }
 
   get hasInput() {
@@ -164,7 +174,7 @@ export default class Search extends Component<SearchSignature> {
           'cds--toolbar-search-container-expandable'
           'cds--toolbar-search-container-persistent'
         }}
-        {{if this.isActive 'cds--toolbar-search-container-active'}}
+        {{if this.isExpanded 'cds--toolbar-search-container-active'}}
         {{@className}}"
     >
       <div class="cds--search-magnifier">

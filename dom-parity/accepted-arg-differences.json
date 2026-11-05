@@ -147,11 +147,52 @@
       "headers": "A plain attribute, through `...attributes`, as on a native `<td>`."
     }
   },
+  "TableBatchAction": {
+    "extra": {
+      "as": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "autoAlign": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "dangerDescription": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "externalRoute": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "href": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "isExpressive": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "isSelected": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "kind": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "models": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "query": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "route": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "size": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "tooltipAlignment": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "tooltipDropShadow": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "tooltipHighContrast": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are.",
+      "tooltipPosition": "Carbon React's TableBatchAction passes its other props on to Button, whose arguments these are."
+    }
+  },
   "TableRow": {
     "missing": {
       "expandHeader": "React's TableRow strips it and doesn't use it; it belongs to the expandable row.",
       "isExpanded": "React's TableRow strips it and doesn't use it; it belongs to the expandable row.",
       "onExpand": "React's TableRow strips it and doesn't use it; it belongs to the expandable row."
+    }
+  },
+  "TableToolbarAction": {
+    "extra": {
+      "disabled": "Carbon React's TableToolbarAction passes its other props on to OverflowMenuItem, whose arguments these are.",
+      "hasDivider": "Carbon React's TableToolbarAction passes its other props on to OverflowMenuItem, whose arguments these are.",
+      "href": "Carbon React's TableToolbarAction passes its other props on to OverflowMenuItem, whose arguments these are.",
+      "isDelete": "Carbon React's TableToolbarAction passes its other props on to OverflowMenuItem, whose arguments these are."
+    }
+  },
+  "TableToolbarMenu": {
+    "missing": {
+      "href": "The trigger opens the menu, so it's always a button: Carbon React's IconButton would render a link that can't.",
+      "id": "An id attribute reaches the trigger through ...attributes, as React's id does.",
+      "light": "Deprecated in Carbon React; use Layer.",
+      "onClick": "{{on \"click\"}} on the component reaches the trigger, through ...attributes.",
+      "rel": "The trigger opens the menu, so it's always a button: Carbon React's IconButton would render a link that can't.",
+      "target": "The trigger opens the menu, so it's always a button: Carbon React's IconButton would render a link that can't."
+    },
+    "values": {
+      "direction": "Carbon React's OverflowMenu only supports top and bottom: its default menuOffset throws for left and right, which its type allows."
     }
   },
   "Tag": {

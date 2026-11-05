@@ -1,0 +1,542 @@
+{
+  "component": "TableToolbarMenu",
+  "generatedAt": "2026-11-05T19:11:35.165Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "trigger": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu",
+          "cds--toolbar-action"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M13.5,8.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.3,0-0.4l1-0.8c0.4-0.3,0.4-0.9,0.2-1.3l-1.2-2C13.3,3.2,13,3,12.6,3 c-0.1,0-0.2,0-0.3,0.1l-1.2,0.4c-0.2-0.1-0.4-0.3-0.7-0.4l-0.3-1.3C10.1,1.3,9.7,1,9.2,1H6.8c-0.5,0-0.9,0.3-1,0.8L5.6,3.1 C5.3,3.2,5.1,3.3,4.9,3.4L3.7,3C3.6,3,3.5,3,3.4,3C3,3,2.7,3.2,2.5,3.5l-1.2,2C1.1,5.9,1.2,6.4,1.6,6.8l0.9,0.9c0,0.1,0,0.3,0,0.4 c0,0.1,0,0.3,0,0.4L1.6,9.2c-0.4,0.3-0.5,0.9-0.2,1.3l1.2,2C2.7,12.8,3,13,3.4,13c0.1,0,0.2,0,0.3-0.1l1.2-0.4 c0.2,0.1,0.4,0.3,0.7,0.4l0.3,1.3c0.1,0.5,0.5,0.8,1,0.8h2.4c0.5,0,0.9-0.3,1-0.8l0.3-1.3c0.2-0.1,0.4-0.2,0.7-0.4l1.2,0.4 c0.1,0,0.2,0.1,0.3,0.1c0.4,0,0.7-0.2,0.9-0.5l1.1-2c0.2-0.4,0.2-0.9-0.2-1.3L13.5,8.4z M12.6,12l-1.7-0.6c-0.4,0.3-0.9,0.6-1.4,0.8 L9.2,14H6.8l-0.4-1.8c-0.5-0.2-0.9-0.5-1.4-0.8L3.4,12l-1.2-2l1.4-1.2c-0.1-0.5-0.1-1.1,0-1.6L2.2,6l1.2-2l1.7,0.6 C5.5,4.2,6,4,6.5,3.8L6.8,2h2.4l0.4,1.8c0.5,0.2,0.9,0.5,1.4,0.8L12.6,4l1.2,2l-1.4,1.2c0.1,0.5,0.1,1.1,0,1.6l1.4,1.2L12.6,12z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3C11,9.6,9.7,11,8,11C8,11,8,11,8,11z M8,6C6.9,6,6,6.8,6,7.9C6,7.9,6,8,6,8 c0,1.1,0.8,2,1.9,2c0,0,0.1,0,0.1,0c1.1,0,2-0.8,2-1.9c0,0,0-0.1,0-0.1C10,6.9,9.2,6,8,6C8.1,6,8,6,8,6z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--btn--sm",
+          "cds--layout--size-sm",
+          "cds--overflow-menu",
+          "cds--overflow-menu--sm",
+          "cds--toolbar-action"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M13.5,8.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.3,0-0.4l1-0.8c0.4-0.3,0.4-0.9,0.2-1.3l-1.2-2C13.3,3.2,13,3,12.6,3 c-0.1,0-0.2,0-0.3,0.1l-1.2,0.4c-0.2-0.1-0.4-0.3-0.7-0.4l-0.3-1.3C10.1,1.3,9.7,1,9.2,1H6.8c-0.5,0-0.9,0.3-1,0.8L5.6,3.1 C5.3,3.2,5.1,3.3,4.9,3.4L3.7,3C3.6,3,3.5,3,3.4,3C3,3,2.7,3.2,2.5,3.5l-1.2,2C1.1,5.9,1.2,6.4,1.6,6.8l0.9,0.9c0,0.1,0,0.3,0,0.4 c0,0.1,0,0.3,0,0.4L1.6,9.2c-0.4,0.3-0.5,0.9-0.2,1.3l1.2,2C2.7,12.8,3,13,3.4,13c0.1,0,0.2,0,0.3-0.1l1.2-0.4 c0.2,0.1,0.4,0.3,0.7,0.4l0.3,1.3c0.1,0.5,0.5,0.8,1,0.8h2.4c0.5,0,0.9-0.3,1-0.8l0.3-1.3c0.2-0.1,0.4-0.2,0.7-0.4l1.2,0.4 c0.1,0,0.2,0.1,0.3,0.1c0.4,0,0.7-0.2,0.9-0.5l1.1-2c0.2-0.4,0.2-0.9-0.2-1.3L13.5,8.4z M12.6,12l-1.7-0.6c-0.4,0.3-0.9,0.6-1.4,0.8 L9.2,14H6.8l-0.4-1.8c-0.5-0.2-0.9-0.5-1.4-0.8L3.4,12l-1.2-2l1.4-1.2c-0.1-0.5-0.1-1.1,0-1.6L2.2,6l1.2-2l1.7,0.6 C5.5,4.2,6,4,6.5,3.8L6.8,2h2.4l0.4,1.8c0.5,0.2,0.9,0.5,1.4,0.8L12.6,4l1.2,2l-1.4,1.2c0.1,0.5,0.1,1.1,0,1.6l1.4,1.2L12.6,12z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3C11,9.6,9.7,11,8,11C8,11,8,11,8,11z M8,6C6.9,6,6,6.8,6,7.9C6,7.9,6,8,6,8 c0,1.1,0.8,2,1.9,2c0,0,0.1,0,0.1,0c1.1,0,2-0.8,2-1.9c0,0,0-0.1,0-0.1C10,6.9,9.2,6,8,6C8.1,6,8,6,8,6z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-icon-description": {
+      "props": {
+        "iconDescription": "Table settings"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu",
+          "cds--toolbar-action"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Table settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M13.5,8.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.3,0-0.4l1-0.8c0.4-0.3,0.4-0.9,0.2-1.3l-1.2-2C13.3,3.2,13,3,12.6,3 c-0.1,0-0.2,0-0.3,0.1l-1.2,0.4c-0.2-0.1-0.4-0.3-0.7-0.4l-0.3-1.3C10.1,1.3,9.7,1,9.2,1H6.8c-0.5,0-0.9,0.3-1,0.8L5.6,3.1 C5.3,3.2,5.1,3.3,4.9,3.4L3.7,3C3.6,3,3.5,3,3.4,3C3,3,2.7,3.2,2.5,3.5l-1.2,2C1.1,5.9,1.2,6.4,1.6,6.8l0.9,0.9c0,0.1,0,0.3,0,0.4 c0,0.1,0,0.3,0,0.4L1.6,9.2c-0.4,0.3-0.5,0.9-0.2,1.3l1.2,2C2.7,12.8,3,13,3.4,13c0.1,0,0.2,0,0.3-0.1l1.2-0.4 c0.2,0.1,0.4,0.3,0.7,0.4l0.3,1.3c0.1,0.5,0.5,0.8,1,0.8h2.4c0.5,0,0.9-0.3,1-0.8l0.3-1.3c0.2-0.1,0.4-0.2,0.7-0.4l1.2,0.4 c0.1,0,0.2,0.1,0.3,0.1c0.4,0,0.7-0.2,0.9-0.5l1.1-2c0.2-0.4,0.2-0.9-0.2-1.3L13.5,8.4z M12.6,12l-1.7-0.6c-0.4,0.3-0.9,0.6-1.4,0.8 L9.2,14H6.8l-0.4-1.8c-0.5-0.2-0.9-0.5-1.4-0.8L3.4,12l-1.2-2l1.4-1.2c-0.1-0.5-0.1-1.1,0-1.6L2.2,6l1.2-2l1.7,0.6 C5.5,4.2,6,4,6.5,3.8L6.8,2h2.4l0.4,1.8c0.5,0.2,0.9,0.5,1.4,0.8L12.6,4l1.2,2l-1.4,1.2c0.1,0.5,0.1,1.1,0,1.6l1.4,1.2L12.6,12z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3C11,9.6,9.7,11,8,11C8,11,8,11,8,11z M8,6C6.9,6,6,6.8,6,7.9C6,7.9,6,8,6,8 c0,1.1,0.8,2,1.9,2c0,0,0.1,0,0.1,0c1.1,0,2-0.8,2-1.9c0,0,0-0.1,0-0.1C10,6.9,9.2,6,8,6C8.1,6,8,6,8,6z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-class-name": {
+      "props": {
+        "className": "custom-class"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu",
+          "cds--toolbar-action",
+          "custom-class"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M13.5,8.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.3,0-0.4l1-0.8c0.4-0.3,0.4-0.9,0.2-1.3l-1.2-2C13.3,3.2,13,3,12.6,3 c-0.1,0-0.2,0-0.3,0.1l-1.2,0.4c-0.2-0.1-0.4-0.3-0.7-0.4l-0.3-1.3C10.1,1.3,9.7,1,9.2,1H6.8c-0.5,0-0.9,0.3-1,0.8L5.6,3.1 C5.3,3.2,5.1,3.3,4.9,3.4L3.7,3C3.6,3,3.5,3,3.4,3C3,3,2.7,3.2,2.5,3.5l-1.2,2C1.1,5.9,1.2,6.4,1.6,6.8l0.9,0.9c0,0.1,0,0.3,0,0.4 c0,0.1,0,0.3,0,0.4L1.6,9.2c-0.4,0.3-0.5,0.9-0.2,1.3l1.2,2C2.7,12.8,3,13,3.4,13c0.1,0,0.2,0,0.3-0.1l1.2-0.4 c0.2,0.1,0.4,0.3,0.7,0.4l0.3,1.3c0.1,0.5,0.5,0.8,1,0.8h2.4c0.5,0,0.9-0.3,1-0.8l0.3-1.3c0.2-0.1,0.4-0.2,0.7-0.4l1.2,0.4 c0.1,0,0.2,0.1,0.3,0.1c0.4,0,0.7-0.2,0.9-0.5l1.1-2c0.2-0.4,0.2-0.9-0.2-1.3L13.5,8.4z M12.6,12l-1.7-0.6c-0.4,0.3-0.9,0.6-1.4,0.8 L9.2,14H6.8l-0.4-1.8c-0.5-0.2-0.9-0.5-1.4-0.8L3.4,12l-1.2-2l1.4-1.2c-0.1-0.5-0.1-1.1,0-1.6L2.2,6l1.2-2l1.7,0.6 C5.5,4.2,6,4,6.5,3.8L6.8,2h2.4l0.4,1.8c0.5,0.2,0.9,0.5,1.4,0.8L12.6,4l1.2,2l-1.4,1.2c0.1,0.5,0.1,1.1,0,1.6l1.4,1.2L12.6,12z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3C11,9.6,9.7,11,8,11C8,11,8,11,8,11z M8,6C6.9,6,6,6.8,6,7.9C6,7.9,6,8,6,8 c0,1.1,0.8,2,1.9,2c0,0,0.1,0,0.1,0c1.1,0,2-0.8,2-1.9c0,0,0-0.1,0-0.1C10,6.9,9.2,6,8,6C8.1,6,8,6,8,6z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "trigger-disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "button",
+        "classes": [
+          "cds--btn",
+          "cds--btn--disabled",
+          "cds--btn--ghost",
+          "cds--btn--icon-only",
+          "cds--overflow-menu",
+          "cds--toolbar-action"
+        ],
+        "attributes": {
+          "aria-haspopup": "true",
+          "aria-expanded": "false",
+          "aria-labelledby": "#1",
+          "disabled": true,
+          "type": "button"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-label": "Settings",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "role": "img",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M13.5,8.4c0-0.1,0-0.3,0-0.4c0-0.1,0-0.3,0-0.4l1-0.8c0.4-0.3,0.4-0.9,0.2-1.3l-1.2-2C13.3,3.2,13,3,12.6,3 c-0.1,0-0.2,0-0.3,0.1l-1.2,0.4c-0.2-0.1-0.4-0.3-0.7-0.4l-0.3-1.3C10.1,1.3,9.7,1,9.2,1H6.8c-0.5,0-0.9,0.3-1,0.8L5.6,3.1 C5.3,3.2,5.1,3.3,4.9,3.4L3.7,3C3.6,3,3.5,3,3.4,3C3,3,2.7,3.2,2.5,3.5l-1.2,2C1.1,5.9,1.2,6.4,1.6,6.8l0.9,0.9c0,0.1,0,0.3,0,0.4 c0,0.1,0,0.3,0,0.4L1.6,9.2c-0.4,0.3-0.5,0.9-0.2,1.3l1.2,2C2.7,12.8,3,13,3.4,13c0.1,0,0.2,0,0.3-0.1l1.2-0.4 c0.2,0.1,0.4,0.3,0.7,0.4l0.3,1.3c0.1,0.5,0.5,0.8,1,0.8h2.4c0.5,0,0.9-0.3,1-0.8l0.3-1.3c0.2-0.1,0.4-0.2,0.7-0.4l1.2,0.4 c0.1,0,0.2,0.1,0.3,0.1c0.4,0,0.7-0.2,0.9-0.5l1.1-2c0.2-0.4,0.2-0.9-0.2-1.3L13.5,8.4z M12.6,12l-1.7-0.6c-0.4,0.3-0.9,0.6-1.4,0.8 L9.2,14H6.8l-0.4-1.8c-0.5-0.2-0.9-0.5-1.4-0.8L3.4,12l-1.2-2l1.4-1.2c-0.1-0.5-0.1-1.1,0-1.6L2.2,6l1.2-2l1.7,0.6 C5.5,4.2,6,4,6.5,3.8L6.8,2h2.4l0.4,1.8c0.5,0.2,0.9,0.5,1.4,0.8L12.6,4l1.2,2l-1.4,1.2c0.1,0.5,0.1,1.1,0,1.6l1.4,1.2L12.6,12z"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M8,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3C11,9.6,9.7,11,8,11C8,11,8,11,8,11z M8,6C6.9,6,6,6.8,6,7.9C6,7.9,6,8,6,8 c0,1.1,0.8,2,1.9,2c0,0,0.1,0,0.1,0c1.1,0,2-0.8,2-1.9c0,0,0-0.1,0-0.1C10,6.9,9.2,6,8,6C8.1,6,8,6,8,6z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open": {
+      "props": {
+        "open": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu--flip",
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open",
+          "cds--toolbar-action__menu"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Toolbar menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": ["cds--overflow-menu-options__option"],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--overflow-menu-options__btn"],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Refresh data"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": ["cds--overflow-menu-options__option"],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--overflow-menu-options__btn"],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Download"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "open-menu-options-class": {
+      "props": {
+        "open": true,
+        "menuOptionsClass": "custom-menu"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "ul",
+        "classes": [
+          "cds--overflow-menu--flip",
+          "cds--overflow-menu-options",
+          "cds--overflow-menu-options--open",
+          "cds--toolbar-action__menu",
+          "custom-menu"
+        ],
+        "attributes": {
+          "tabindex": "-1",
+          "role": "menu",
+          "aria-label": "Toolbar menu",
+          "id": "#2",
+          "data-floating-menu-direction": "bottom"
+        },
+        "style": {
+          "visibility": "hidden",
+          "top": "0px",
+          "position": "absolute",
+          "opacity": "1"
+        },
+        "children": [
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": ["cds--overflow-menu-options__option"],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--overflow-menu-options__btn"],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Refresh data"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "li",
+            "classes": ["cds--overflow-menu-options__option"],
+            "attributes": {
+              "role": "none",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--overflow-menu-options__btn"],
+                "attributes": {
+                  "role": "menuitem",
+                  "tabindex": "-1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Download"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "component": "TableActionList",
+  "generatedAt": "2026-11-05T19:11:35.135Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--action-list"],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Actions"
+          }
+        ]
+      }
+    }
+  }
+}

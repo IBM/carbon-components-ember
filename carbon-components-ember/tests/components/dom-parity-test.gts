@@ -46,6 +46,10 @@ import Modal from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
 import OverflowMenu from '#src/components/overflow-menu.gts';
 import type { OverflowMenuSignature } from '#src/components/overflow-menu.gts';
+import type { TableBatchActionSignature } from '#src/components/table/table-batch-action.gts';
+import type { TableBatchActionsSignature } from '#src/components/table/table-batch-actions.gts';
+import type { TableToolbarMenuSignature } from '#src/components/table/table-toolbar-menu.gts';
+import type { TableToolbarSearchSignature } from '#src/components/table/table-toolbar-search.gts';
 import TextArea from '#src/components/text-area.gts';
 import PasswordInput from '#src/components/password-input.gts';
 import NumberInput from '#src/components/number-input.gts';
@@ -77,11 +81,16 @@ import StructuredListHead from '#src/components/structured-list/structured-list-
 import StructuredListWrapper from '#src/components/structured-list/structured-list-wrapper.gts';
 import Table from '#src/components/table/table.gts';
 import TableBody from '#src/components/table/table-body.gts';
+import TableActionList from '#src/components/table/table-action-list.gts';
+import TableBatchAction from '#src/components/table/table-batch-action.gts';
+import TableBatchActions from '#src/components/table/table-batch-actions.gts';
 import TableCell from '#src/components/table/table-cell.gts';
 import TableContainer from '#src/components/table/table-container.gts';
 import TableHead from '#src/components/table/table-head.gts';
 import TableHeader from '#src/components/table/table-header.gts';
 import TableRow from '#src/components/table/table-row.gts';
+import TableToolbar from '#src/components/table/table-toolbar.gts';
+import TableToolbarMenu from '#src/components/table/table-toolbar-menu.gts';
 import Tabs from '#src/components/tabs.gts';
 import TabContent from '#src/components/tab-content.gts';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
@@ -159,11 +168,19 @@ import shapeIndicatorFixture from '../../../dom-parity/fixtures/ShapeIndicator.j
 import sliderFixture from '../../../dom-parity/fixtures/Slider.json';
 import accordionFixture from '../../../dom-parity/fixtures/Accordion.json';
 import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.json';
+import tableActionListFixture from '../../../dom-parity/fixtures/TableActionList.json';
+import tableBatchActionFixture from '../../../dom-parity/fixtures/TableBatchAction.json';
+import tableBatchActionsFixture from '../../../dom-parity/fixtures/TableBatchActions.json';
 import tableFixture from '../../../dom-parity/fixtures/Table.json';
 import tableCellFixture from '../../../dom-parity/fixtures/TableCell.json';
 import tableContainerFixture from '../../../dom-parity/fixtures/TableContainer.json';
 import tableHeaderFixture from '../../../dom-parity/fixtures/TableHeader.json';
 import tableRowFixture from '../../../dom-parity/fixtures/TableRow.json';
+import tableToolbarActionFixture from '../../../dom-parity/fixtures/TableToolbarAction.json';
+import tableToolbarContentFixture from '../../../dom-parity/fixtures/TableToolbarContent.json';
+import tableToolbarFixture from '../../../dom-parity/fixtures/TableToolbar.json';
+import tableToolbarMenuFixture from '../../../dom-parity/fixtures/TableToolbarMenu.json';
+import tableToolbarSearchFixture from '../../../dom-parity/fixtures/TableToolbarSearch.json';
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
 import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 import EmptyState from '#src/components/ibm-products/empty-state.gts';
@@ -6883,6 +6900,385 @@ module('DOM parity | Carbon React', function (hooks) {
           'col-span',
           'headers',
         ]);
+      });
+    });
+
+    module('TableToolbar', function () {
+      const sizes = ['xs', 'sm', 'lg'] as const;
+
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableToolbar as |Content|><Content /></TableToolbar>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableToolbarFixture,
+          'default',
+          this.element.firstElementChild,
+        );
+      });
+
+      for (const size of sizes) {
+        test(`size-${size}`, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <TableToolbar @size={{size}} as |Content|><Content
+                /></TableToolbar>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableToolbarFixture,
+            `size-${size}`,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('aria-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableToolbar
+              aria-label="Load balancer actions"
+              as |Content|
+            ><Content /></TableToolbar>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableToolbarFixture,
+          'aria-label',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableToolbarFixture, [
+          'default',
+          'size-xs',
+          'size-sm',
+          'size-lg',
+          'aria-label',
+        ]);
+      });
+    });
+
+    module('TableToolbarContent', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableToolbar as |Content|>
+              <Content>
+                <TableActionList />
+              </Content>
+            </TableToolbar>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableToolbarContentFixture,
+          'default',
+          this.element.querySelector('.cds--toolbar-content'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableToolbarContentFixture, ['default']);
+      });
+    });
+
+    module('TableActionList', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableActionList>Actions</TableActionList>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableActionListFixture,
+          'default',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableActionListFixture, ['default']);
+      });
+    });
+
+    module('TableToolbarSearch', function () {
+      const variants: Record<
+        string,
+        TableToolbarSearchSignature['Args'] & { toolbar?: boolean }
+      > = {
+        default: {},
+        persistent: { persistent: true },
+        expanded: { expanded: true },
+        'default-expanded': { defaultExpanded: true },
+        disabled: { disabled: true },
+        'default-value': { defaultValue: 'Load' },
+        'size-sm': { size: 'sm' },
+        'label-text': { labelText: 'Filter balancers' },
+        placeholder: { placeholder: 'Find a balancer' },
+        id: { id: 'filter' },
+        'search-container-class': { searchContainerClass: 'custom-search' },
+        'class-name': { className: 'custom-class' },
+        'in-toolbar-size-sm': { toolbar: true },
+      };
+
+      for (const [variant, props] of Object.entries(variants)) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          const size = props.toolbar ? 'sm' : undefined;
+          await render(
+            <template>
+              <TableToolbar @size={{size}} as |Content|>
+                <Content as |Search|>
+                  <Search
+                    @className={{props.className}}
+                    @defaultExpanded={{props.defaultExpanded}}
+                    @defaultValue={{props.defaultValue}}
+                    @disabled={{props.disabled}}
+                    @expanded={{props.expanded}}
+                    @id={{props.id}}
+                    @labelText={{props.labelText}}
+                    @persistent={{props.persistent}}
+                    @placeholder={{props.placeholder}}
+                    @searchContainerClass={{props.searchContainerClass}}
+                    @size={{props.size}}
+                  />
+                </Content>
+              </TableToolbar>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableToolbarSearchFixture,
+            variant,
+            this.element.querySelector('.cds--search'),
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(
+          assert,
+          tableToolbarSearchFixture,
+          Object.keys(variants),
+        );
+      });
+    });
+
+    module('TableToolbarMenu', function () {
+      const variants: Record<
+        string,
+        TableToolbarMenuSignature['Args'] & {
+          root: 'trigger' | 'menu';
+        }
+      > = {
+        trigger: { root: 'trigger' },
+        'trigger-size-sm': { size: 'sm', root: 'trigger' },
+        'trigger-icon-description': {
+          iconDescription: 'Table settings',
+          root: 'trigger',
+        },
+        'trigger-disabled': { disabled: true, root: 'trigger' },
+        open: { open: true, root: 'menu' },
+        'open-menu-options-class': {
+          open: true,
+          menuOptionsClass: 'custom-menu',
+          root: 'menu',
+        },
+      };
+
+      for (const [variant, props] of Object.entries(variants)) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <TableToolbarMenu
+                @ariaLabel="Toolbar menu"
+                @disabled={{props.disabled}}
+                @iconDescription={{props.iconDescription}}
+                @menuOptionsClass={{props.menuOptionsClass}}
+                @open={{props.open}}
+                @size={{props.size}}
+                as |Action|
+              >
+                <Action>Refresh data</Action>
+                <Action>Download</Action>
+              </TableToolbarMenu>
+            </template>,
+          );
+          const root = {
+            trigger: 'button.cds--overflow-menu',
+            menu: '.cds--overflow-menu-options',
+          };
+          assertDomParity(
+            assert,
+            tableToolbarMenuFixture,
+            variant,
+            document.querySelector(root[props.root]),
+            this.element as Element,
+          );
+        });
+      }
+
+      test('trigger-class-name', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableToolbarMenu class="custom-class" as |Action|>
+              <Action>Refresh data</Action>
+            </TableToolbarMenu>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableToolbarMenuFixture,
+          'trigger-class-name',
+          document.querySelector('button.cds--overflow-menu'),
+          this.element as Element,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableToolbarMenuFixture, [
+          ...Object.keys(variants),
+          'trigger-class-name',
+        ]);
+      });
+    });
+
+    module('TableToolbarAction', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <TableToolbarMenu
+              @ariaLabel="Toolbar menu"
+              @open={{true}}
+              as |Action|
+            >
+              <Action>Refresh data</Action>
+              <Action>Download</Action>
+            </TableToolbarMenu>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableToolbarActionFixture,
+          'default',
+          document.querySelector('.cds--overflow-menu-options li'),
+          this.element as Element,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableToolbarActionFixture, ['default']);
+      });
+    });
+
+    module('TableBatchActions', function () {
+      const variants: Record<
+        string,
+        Omit<
+          TableBatchActionsSignature['Args'],
+          'onCancel' | 'totalSelected'
+        > & {
+          totalSelected?: number;
+          className?: string;
+          selectAll?: boolean;
+        }
+      > = {
+        default: {},
+        active: { shouldShowBatchActions: true, totalSelected: 2 },
+        'one-selected': { shouldShowBatchActions: true, totalSelected: 1 },
+        'select-all': {
+          shouldShowBatchActions: true,
+          totalSelected: 2,
+          totalCount: 8,
+          selectAll: true,
+        },
+        'class-name': {
+          className: 'custom-class',
+          shouldShowBatchActions: true,
+          totalSelected: 2,
+        },
+      };
+
+      for (const [variant, props] of Object.entries(variants)) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          const selectAll = props.selectAll ? noop : undefined;
+          const total = props.totalSelected ?? 0;
+          await render(
+            <template>
+              <TableBatchActions
+                class={{props.className}}
+                @onCancel={{noop}}
+                @onSelectAll={{selectAll}}
+                @shouldShowBatchActions={{props.shouldShowBatchActions}}
+                @totalCount={{props.totalCount}}
+                @totalSelected={{total}}
+              >
+                <TableBatchAction>Add</TableBatchAction>
+              </TableBatchActions>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableBatchActionsFixture,
+            variant,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(
+          assert,
+          tableBatchActionsFixture,
+          Object.keys(variants),
+        );
+      });
+    });
+
+    module('TableBatchAction', function () {
+      const variants: Record<string, TableBatchActionSignature['Args']> = {
+        default: {},
+        'kind-secondary': { kind: 'secondary' },
+        'size-sm': { size: 'sm' },
+        disabled: { disabled: true },
+        'icon-description': { hasIconOnly: true, iconDescription: 'Add item' },
+      };
+
+      for (const [variant, props] of Object.entries(variants)) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <TableBatchAction
+                @disabled={{props.disabled}}
+                @hasIconOnly={{props.hasIconOnly}}
+                @iconDescription={{props.iconDescription}}
+                @kind={{props.kind}}
+                @size={{props.size}}
+              >Add</TableBatchAction>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableBatchActionFixture,
+            variant,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(
+          assert,
+          tableBatchActionFixture,
+          Object.keys(variants),
+        );
       });
     });
   });

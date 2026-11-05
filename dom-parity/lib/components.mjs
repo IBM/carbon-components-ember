@@ -1513,6 +1513,93 @@ const tableCell = (name, props) => ({
   pickRoot: (container) => container.querySelector('tbody td'),
 });
 
+// The toolbar and batch-action parts. The toolbar variants render the part
+// in the toolbar it belongs in; `pickRoot` finds the part's own element.
+const tableToolbar = (name, props, children = () => []) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbar,
+      props,
+      React.createElement(
+        Carbon.TableToolbarContent,
+        null,
+        ...children(React, Carbon),
+      ),
+    ),
+});
+
+const tableToolbarPart = (name, props, root) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbar,
+      props.toolbar ?? null,
+      React.createElement(
+        Carbon.TableToolbarContent,
+        null,
+        React.createElement(Carbon[root.part], root.props ?? {}),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector(root.selector),
+});
+
+const tableToolbarMenu = (name, props, { root = 'trigger' } = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbarMenu,
+      { 'aria-label': 'Toolbar menu', ...props },
+      React.createElement(
+        Carbon.TableToolbarAction,
+        { key: 'a', onClick: () => {} },
+        'Refresh data',
+      ),
+      React.createElement(
+        Carbon.TableToolbarAction,
+        { key: 'b', onClick: () => {} },
+        'Download',
+      ),
+    ),
+  pickRoot: (container) =>
+    container.ownerDocument.querySelector(
+      root === 'trigger'
+        ? 'button.cds--overflow-menu'
+        : root === 'action'
+          ? '.cds--overflow-menu-options li'
+          : '.cds--overflow-menu-options',
+    ),
+  idScope: (container) => container.ownerDocument.body,
+});
+
+const tableBatchActions = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableBatchActions,
+      { onCancel: () => {}, totalSelected: 0, ...props },
+      React.createElement(Carbon.TableBatchAction, { key: 'a' }, 'Add'),
+    ),
+});
+
+const tableBatchAction = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TableBatchAction, props, 'Add'),
+});
+
+const tableActionList = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TableActionList, props, 'Actions'),
+});
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -2776,6 +2863,120 @@ export const COMPONENTS = [
       tableCell('default', {}),
       tableCell('col-span', { colSpan: 2 }),
       tableCell('headers', { headers: 'name' }),
+    ],
+  },
+  {
+    name: 'TableToolbar',
+    variants: [
+      tableToolbar('default', {}),
+      tableToolbar('size-xs', { size: 'xs' }),
+      tableToolbar('size-sm', { size: 'sm' }),
+      tableToolbar('size-lg', { size: 'lg' }),
+      tableToolbar('aria-label', { 'aria-label': 'Load balancer actions' }),
+    ],
+  },
+  {
+    name: 'TableToolbarContent',
+    variants: [
+      tableToolbarPart(
+        'default',
+        {},
+        { part: 'TableActionList', selector: '.cds--toolbar-content' },
+      ),
+    ],
+  },
+  {
+    name: 'TableActionList',
+    variants: [tableActionList('default', {})],
+  },
+  {
+    name: 'TableToolbarSearch',
+    variants: [
+      ...[
+        ['default', {}],
+        ['persistent', { persistent: true }],
+        ['expanded', { expanded: true }],
+        ['default-expanded', { defaultExpanded: true }],
+        ['disabled', { disabled: true }],
+        ['default-value', { defaultValue: 'Load' }],
+        ['size-sm', { size: 'sm' }],
+        ['label-text', { labelText: 'Filter balancers' }],
+        ['placeholder', { placeholder: 'Find a balancer' }],
+        ['id', { id: 'filter' }],
+        ['search-container-class', { searchContainerClass: 'custom-search' }],
+        ['class-name', { className: 'custom-class' }],
+      ].map(([name, props]) =>
+        tableToolbarPart(name, props, {
+          part: 'TableToolbarSearch',
+          props,
+          selector: '.cds--search',
+        }),
+      ),
+      tableToolbarPart(
+        'in-toolbar-size-sm',
+        { toolbar: { size: 'sm' } },
+        { part: 'TableToolbarSearch', selector: '.cds--search' },
+      ),
+    ],
+  },
+  {
+    name: 'TableToolbarMenu',
+    variants: [
+      tableToolbarMenu('trigger', {}),
+      tableToolbarMenu('trigger-size-sm', { size: 'sm' }),
+      tableToolbarMenu('trigger-icon-description', {
+        iconDescription: 'Table settings',
+      }),
+      tableToolbarMenu('trigger-class-name', { className: 'custom-class' }),
+      tableToolbarMenu('trigger-disabled', { disabled: true }),
+      tableToolbarMenu('open', { open: true }, { root: 'menu' }),
+      tableToolbarMenu(
+        'open-menu-options-class',
+        { open: true, menuOptionsClass: 'custom-menu' },
+        { root: 'menu' },
+      ),
+    ],
+  },
+  {
+    name: 'TableToolbarAction',
+    variants: [tableToolbarMenu('default', { open: true }, { root: 'action' })],
+  },
+  {
+    name: 'TableBatchActions',
+    variants: [
+      tableBatchActions('default', {}),
+      tableBatchActions('active', {
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+      }),
+      tableBatchActions('one-selected', {
+        shouldShowBatchActions: true,
+        totalSelected: 1,
+      }),
+      tableBatchActions('select-all', {
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+        totalCount: 8,
+        onSelectAll: () => {},
+      }),
+      tableBatchActions('class-name', {
+        className: 'custom-class',
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+      }),
+    ],
+  },
+  {
+    name: 'TableBatchAction',
+    variants: [
+      tableBatchAction('default', {}),
+      tableBatchAction('kind-secondary', { kind: 'secondary' }),
+      tableBatchAction('size-sm', { size: 'sm' }),
+      tableBatchAction('disabled', { disabled: true }),
+      tableBatchAction('icon-description', {
+        hasIconOnly: true,
+        iconDescription: 'Add item',
+      }),
     ],
   },
   {
