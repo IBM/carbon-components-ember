@@ -126,6 +126,8 @@ export { default as TableContainer } from './components/table/table-container.gt
 export { default as TableHead } from './components/table/table-head.gts'
 export { default as TableHeader, sortStates } from './components/table/table-header.gts'
 export { default as TableRow } from './components/table/table-row.gts'
+export { default as TableSelectAll } from './components/table/table-select-all.gts'
+export { default as TableSelectRow } from './components/table/table-select-row.gts'
 export { default as Table } from './components/table/table.gts'
 export { default as TabsSkeleton } from './components/tabs-skeleton.gts'
 export { default as Tabs } from './components/tabs.gts'

@@ -117,6 +117,50 @@
       "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
     }
   ],
+  "TableSelectAll": [
+    {
+      "path": "th > div[0] > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    }
+  ],
+  "TableSelectRow": [
+    {
+      "path": "td > div[0] > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.checked",
+      "variant": "radio-checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio-checked",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio-aria-label",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > label[1] > span[1]",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton renders its label text only when `labelText` is not empty, and the selection cell passes an empty one without an `aria-label`; this addon's RadioButton always renders the (visually hidden) text span, empty. Applies to the variants with no `aria-label`."
+    },
+    {
+      "path": "td > div[0] > label[1] > span[1]",
+      "variant": "radio-checked",
+      "reason": "Carbon React's RadioButton renders its label text only when `labelText` is not empty, and the selection cell passes an empty one without an `aria-label`; this addon's RadioButton always renders the (visually hidden) text span, empty. Applies to the variants with no `aria-label`."
+    }
+  ],
   "TileGroup": [
     {
       "path": "fieldset > div[1] > div[0] > input[0].attributes.checked",

@@ -1,0 +1,441 @@
+{
+  "component": "TableSelectAll",
+  "generatedAt": "2026-11-05T19:09:37.022Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select all rows in the table"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "checked": {
+      "props": {
+        "checked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "checked": true,
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select all rows in the table"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "indeterminate": {
+      "props": {
+        "indeterminate": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select all rows in the table"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "disabled": true,
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select all rows in the table"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "aria-label": {
+      "props": {
+        "aria-label": "Select every row"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select every row"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "class-name": {
+      "props": {
+        "className": "mine"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-column-checkbox",
+          "mine"
+        ],
+        "attributes": {
+          "aria-live": "off",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-all"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select all rows in the table"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
