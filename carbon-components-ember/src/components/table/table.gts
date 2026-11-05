@@ -86,6 +86,7 @@ export default class Table extends Component<TableSignature> {
   // The table measures after it renders, and the result changes the classes
   // it rendered with.
   align = ({ body, header }: TableAlignment) => {
+    if (body === this.alignTopBody && header === this.alignTopHeader) return;
     afterRender(this, () => {
       this.alignTopBody = body;
       this.alignTopHeader = header;

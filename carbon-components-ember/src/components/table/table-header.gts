@@ -71,8 +71,9 @@ export interface TableHeaderSignature {
      */
     default: [];
     /**
-     * **Experimental:** an AI label, or any other decorator, shown after the
-     * header's label. Yields an `AILabel` already sized for the header.
+     * **Experimental:** the column's AI label, shown after the header's
+     * label. Yields an `AILabel` already sized for the header. The header
+     * takes Carbon's AI column styles, so put only an AI label here.
      */
     decorator: [AILabel: WithBoundArgs<typeof AILabel, 'size'>];
   };

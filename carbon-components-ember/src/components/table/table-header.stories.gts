@@ -42,7 +42,7 @@ const meta = preview.meta({
   parameters: {
     docs: {
       description: {
-        component: `\`TableHeader\` is a column header. With \`@isSortable\` it renders Carbon's sort button and icons; \`@isSortHeader\` and \`@sortDirection\` (\`NONE\`, \`ASC\` or \`DESC\`, as \`sortStates\`) say which header the table is sorted by, and an \`{{on "click"}}\` on the header runs when the button is clicked. The table keeps the sort state. \`@translateWithId\` translates the button's description.
+        component: `\`TableHeader\` is a column header. With \`@isSortable\` it renders Carbon's sort button and icons; \`@isSortHeader\` and \`@sortDirection\` (\`NONE\`, \`ASC\` or \`DESC\`, as \`sortStates\`) say which header the table is sorted by, and an \`{{on "click"}}\` on the header runs when the button is clicked. The table keeps the sort state. \`@translateWithId\` translates the button's description. Put a column's AI label in the \`<:decorator>\` block.
 
 \`\`\`gts
 <TableHeader

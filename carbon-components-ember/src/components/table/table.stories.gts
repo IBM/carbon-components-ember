@@ -67,7 +67,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
   parameters: {
     docs: {
       description: {
-        component: `\`Table\` and its parts build a data table by hand, as Carbon React's \`Table\`, \`TableHead\`, \`TableBody\`, \`TableRow\`, \`TableHeader\` and \`TableCell\`, imported from \`carbon-components-ember/components\`. They render Carbon's markup and take its options (\`@size\`, \`@useZebraStyles\`, \`@stickyHeader\`, \`@useStaticWidth\`); the rows, sorting and selection are yours to keep. Wrap the table in \`TableContainer\` for a title and description.
+        component: `\`Table\` and its parts build a data table by hand, as Carbon React's \`Table\`, \`TableHead\`, \`TableBody\`, \`TableRow\`, \`TableHeader\` and \`TableCell\`, imported from \`carbon-components-ember/components\`. They render Carbon's markup and take its options (\`@size\`, \`@useZebraStyles\`, \`@stickyHeader\`, \`@useStaticWidth\`); the rows, sorting and selection are yours to keep. Wrap the table in \`TableContainer\` for a title and description. \`@experimentalAutoAlign\` top-aligns the cells once a cell's or header's text wraps.
 
 \`\`\`gts
 <Table @size="md">
