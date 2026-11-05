@@ -835,6 +835,18 @@ const checkbox = (name, props) => ({
     }),
 });
 
+const inlineCheckbox = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.InlineCheckbox, {
+      id: 'inline-checkbox-1',
+      name: 'inline-checkbox',
+      'aria-label': 'Select row',
+      ...props,
+    }),
+});
+
 const radioButton = (name, props) => ({
   name,
   props,
@@ -2186,6 +2198,16 @@ export const COMPONENTS = [
       checkbox('checked', { checked: true }),
       checkbox('indeterminate', { indeterminate: true }),
       checkbox('disabled', { disabled: true }),
+    ],
+  },
+  {
+    name: 'InlineCheckbox',
+    variants: [
+      inlineCheckbox('default', {}),
+      inlineCheckbox('checked', { checked: true }),
+      inlineCheckbox('indeterminate', { indeterminate: true }),
+      inlineCheckbox('disabled', { disabled: true }),
+      inlineCheckbox('title', { title: 'Select this row' }),
     ],
   },
   {

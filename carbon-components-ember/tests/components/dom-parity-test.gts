@@ -35,6 +35,7 @@ import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
 import FileUploaderSkeleton from '#src/components/file-uploader/file-uploader-skeleton.gts';
 import Checkbox from '#src/components/checkbox.gts';
+import InlineCheckbox from '#src/components/inline-checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
@@ -124,6 +125,7 @@ import textAreaSkeletonFixture from '../../../dom-parity/fixtures/TextAreaSkelet
 import sliderSkeletonFixture from '../../../dom-parity/fixtures/SliderSkeleton.json';
 import fileUploaderSkeletonFixture from '../../../dom-parity/fixtures/FileUploaderSkeleton.json';
 import checkboxFixture from '../../../dom-parity/fixtures/Checkbox.json';
+import inlineCheckboxFixture from '../../../dom-parity/fixtures/InlineCheckbox.json';
 import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
 import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
 import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
@@ -2656,6 +2658,112 @@ module('DOM parity | Carbon React', function (hooks) {
         'checked',
         'indeterminate',
         'disabled',
+      ]);
+    });
+  });
+
+  module('InlineCheckbox', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('checked', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @checked={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'checked',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('indeterminate', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @indeterminate={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'indeterminate',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @disabled={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('title', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @title="Select this row"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'title',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, inlineCheckboxFixture, [
+        'default',
+        'checked',
+        'indeterminate',
+        'disabled',
+        'title',
       ]);
     });
   });

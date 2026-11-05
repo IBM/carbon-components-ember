@@ -59,6 +59,13 @@
       "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
     }
   ],
+  "InlineCheckbox": [
+    {
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    }
+  ],
   "Link": [
     {
       "path": "button.attributes.id",
