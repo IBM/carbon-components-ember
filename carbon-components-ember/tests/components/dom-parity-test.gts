@@ -6469,6 +6469,423 @@ module('DOM parity | Carbon React', function (hooks) {
       assertFullCoverage(assert, tabContentFixture, ['selected', 'hidden']);
     });
   });
+
+  // The hand-built table parts. Table and TableContainer compare the whole
+  // table; the others compare their own element in a table around it.
+  module('Table parts', function () {
+    const Rows = <template>
+      <TableHead>
+        <TableRow>
+          <TableHeader>Name</TableHeader>
+          <TableHeader>Role</TableHeader>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Ada</TableCell>
+          <TableCell>Engineer</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Grace</TableCell>
+          <TableCell>Admiral</TableCell>
+        </TableRow>
+      </TableBody>
+    </template>;
+
+    module('TableContainer', function () {
+      const cases: Array<
+        [
+          string,
+          {
+            title?: string;
+            description?: string;
+            stickyHeader?: boolean;
+            useStaticWidth?: boolean;
+            aiEnabled?: boolean;
+          },
+        ]
+      > = [
+        ['default', {}],
+        ['title', { title: 'Team' }],
+        ['description', { description: 'Who works here' }],
+        ['title-description', { title: 'Team', description: 'Who works here' }],
+        ['sticky-header', { title: 'Team', stickyHeader: true }],
+        ['static-width', { title: 'Team', useStaticWidth: true }],
+        ['ai-enabled', { title: 'Team', aiEnabled: true }],
+      ];
+
+      for (const [variant, args] of cases) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          const {
+            title,
+            description,
+            stickyHeader,
+            useStaticWidth,
+            aiEnabled,
+          } = args;
+          await render(
+            <template>
+              <TableContainer
+                @title={{title}}
+                @description={{description}}
+                @stickyHeader={{stickyHeader}}
+                @useStaticWidth={{useStaticWidth}}
+                @aiEnabled={{aiEnabled}}
+                as |Table|
+              >
+                <Table @stickyHeader={{stickyHeader}}>
+                  <Rows />
+                </Table>
+              </TableContainer>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableContainerFixture,
+            variant,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(
+          assert,
+          tableContainerFixture,
+          cases.map(([variant]) => variant),
+        );
+      });
+    });
+
+    module('Table', function () {
+      const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'default',
+          this.element.firstElementChild,
+        );
+      });
+
+      for (const size of sizes) {
+        test(`size-${size}`, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <Table @size={{size}}><Rows /></Table>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableFixture,
+            `size-${size}`,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('zebra', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @useZebraStyles={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'zebra',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('sortable', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @isSortable={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'sortable',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('static-width', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @useStaticWidth={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'static-width',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('sticky-header', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @stickyHeader={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'sticky-header',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('overflow-menu-visible', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @overflowMenuOnHover={{false}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'overflow-menu-visible',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableFixture, [
+          'default',
+          ...sizes.map((size) => `size-${size}`),
+          'zebra',
+          'sortable',
+          'static-width',
+          'sticky-header',
+          'overflow-menu-visible',
+        ]);
+      });
+    });
+
+    module('TableHeader', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'default',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('scope-row', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @scope="row"
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'scope-row',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('col-span', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @colSpan={{2}}
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'col-span',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('sortable', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @isSortable={{true}}
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'sortable',
+          this.element.querySelector('th'),
+        );
+      });
+
+      const directions = [
+        ['sortable-none', 'NONE'],
+        ['sortable-ascending', 'ASC'],
+        ['sortable-descending', 'DESC'],
+      ] as const;
+
+      for (const [variant, sortDirection] of directions) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <Table><TableHead><TableRow><TableHeader
+                      @isSortable={{true}}
+                      @isSortHeader={{true}}
+                      @sortDirection={{sortDirection}}
+                    >Name</TableHeader></TableRow></TableHead></Table>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableHeaderFixture,
+            variant,
+            this.element.querySelector('th'),
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableHeaderFixture, [
+          'default',
+          'scope-row',
+          'col-span',
+          'sortable',
+          'sortable-none',
+          'sortable-ascending',
+          'sortable-descending',
+        ]);
+      });
+    });
+
+    module('TableRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell>Ada</TableCell><TableCell
+                  >Engineer</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableRowFixture,
+          'default',
+          this.element.querySelector('tbody > tr'),
+        );
+      });
+
+      test('selected', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow @isSelected={{true}}>
+                  <TableCell>Ada</TableCell>
+                  <TableCell>Engineer</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableRowFixture,
+          'selected',
+          this.element.querySelector('tbody > tr'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableRowFixture, ['default', 'selected']);
+      });
+    });
+
+    module('TableCell', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell>Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'default',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('col-span', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell @colSpan={{2}}>Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'col-span',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('headers', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell @headers="name">Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'headers',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableCellFixture, [
+          'default',
+          'col-span',
+          'headers',
+        ]);
+      });
+    });
+  });
 });
 
 module('DOM parity | Carbon for IBM Products', function (hooks) {
@@ -7173,423 +7590,6 @@ module('DOM parity | Carbon for IBM Products', function (hooks) {
         'breadcrumb-page-actions',
         'tag-overflow',
       ]);
-    });
-  });
-
-  // The hand-built table parts. Table and TableContainer compare the whole
-  // table; the others compare their own element in a table around it.
-  module('Table parts', function () {
-    const Rows = <template>
-      <TableHead>
-        <TableRow>
-          <TableHeader>Name</TableHeader>
-          <TableHeader>Role</TableHeader>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow>
-          <TableCell>Ada</TableCell>
-          <TableCell>Engineer</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>Grace</TableCell>
-          <TableCell>Admiral</TableCell>
-        </TableRow>
-      </TableBody>
-    </template>;
-
-    module('TableContainer', function () {
-      const cases: Array<
-        [
-          string,
-          {
-            title?: string;
-            description?: string;
-            stickyHeader?: boolean;
-            useStaticWidth?: boolean;
-            aiEnabled?: boolean;
-          },
-        ]
-      > = [
-        ['default', {}],
-        ['title', { title: 'Team' }],
-        ['description', { description: 'Who works here' }],
-        ['title-description', { title: 'Team', description: 'Who works here' }],
-        ['sticky-header', { title: 'Team', stickyHeader: true }],
-        ['static-width', { title: 'Team', useStaticWidth: true }],
-        ['ai-enabled', { title: 'Team', aiEnabled: true }],
-      ];
-
-      for (const [variant, args] of cases) {
-        test(variant, async function (this: RenderingTestContext, assert) {
-          const {
-            title,
-            description,
-            stickyHeader,
-            useStaticWidth,
-            aiEnabled,
-          } = args;
-          await render(
-            <template>
-              <TableContainer
-                @title={{title}}
-                @description={{description}}
-                @stickyHeader={{stickyHeader}}
-                @useStaticWidth={{useStaticWidth}}
-                @aiEnabled={{aiEnabled}}
-                as |Table|
-              >
-                <Table @stickyHeader={{stickyHeader}}>
-                  <Rows />
-                </Table>
-              </TableContainer>
-            </template>,
-          );
-          assertDomParity(
-            assert,
-            tableContainerFixture,
-            variant,
-            this.element.firstElementChild,
-          );
-        });
-      }
-
-      test('every fixture variant is covered', function (assert) {
-        assertFullCoverage(
-          assert,
-          tableContainerFixture,
-          cases.map(([variant]) => variant),
-        );
-      });
-    });
-
-    module('Table', function () {
-      const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
-
-      test('default', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'default',
-          this.element.firstElementChild,
-        );
-      });
-
-      for (const size of sizes) {
-        test(`size-${size}`, async function (this: RenderingTestContext, assert) {
-          await render(
-            <template>
-              <Table @size={{size}}><Rows /></Table>
-            </template>,
-          );
-          assertDomParity(
-            assert,
-            tableFixture,
-            `size-${size}`,
-            this.element.firstElementChild,
-          );
-        });
-      }
-
-      test('zebra', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table @useZebraStyles={{true}}><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'zebra',
-          this.element.firstElementChild,
-        );
-      });
-
-      test('sortable', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table @isSortable={{true}}><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'sortable',
-          this.element.firstElementChild,
-        );
-      });
-
-      test('static-width', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table @useStaticWidth={{true}}><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'static-width',
-          this.element.firstElementChild,
-        );
-      });
-
-      test('sticky-header', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table @stickyHeader={{true}}><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'sticky-header',
-          this.element.firstElementChild,
-        );
-      });
-
-      test('overflow-menu-visible', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table @overflowMenuOnHover={{false}}><Rows /></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableFixture,
-          'overflow-menu-visible',
-          this.element.firstElementChild,
-        );
-      });
-
-      test('every fixture variant is covered', function (assert) {
-        assertFullCoverage(assert, tableFixture, [
-          'default',
-          ...sizes.map((size) => `size-${size}`),
-          'zebra',
-          'sortable',
-          'static-width',
-          'sticky-header',
-          'overflow-menu-visible',
-        ]);
-      });
-    });
-
-    module('TableHeader', function () {
-      test('default', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table><TableHead><TableRow><TableHeader
-                  >Name</TableHeader></TableRow></TableHead></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableHeaderFixture,
-          'default',
-          this.element.querySelector('th'),
-        );
-      });
-
-      test('scope-row', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table><TableHead><TableRow><TableHeader
-                    @scope="row"
-                  >Name</TableHeader></TableRow></TableHead></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableHeaderFixture,
-          'scope-row',
-          this.element.querySelector('th'),
-        );
-      });
-
-      test('col-span', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table><TableHead><TableRow><TableHeader
-                    @colSpan={{2}}
-                  >Name</TableHeader></TableRow></TableHead></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableHeaderFixture,
-          'col-span',
-          this.element.querySelector('th'),
-        );
-      });
-
-      test('sortable', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table><TableHead><TableRow><TableHeader
-                    @isSortable={{true}}
-                  >Name</TableHeader></TableRow></TableHead></Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableHeaderFixture,
-          'sortable',
-          this.element.querySelector('th'),
-        );
-      });
-
-      const directions = [
-        ['sortable-none', 'NONE'],
-        ['sortable-ascending', 'ASC'],
-        ['sortable-descending', 'DESC'],
-      ] as const;
-
-      for (const [variant, sortDirection] of directions) {
-        test(variant, async function (this: RenderingTestContext, assert) {
-          await render(
-            <template>
-              <Table><TableHead><TableRow><TableHeader
-                      @isSortable={{true}}
-                      @isSortHeader={{true}}
-                      @sortDirection={{sortDirection}}
-                    >Name</TableHeader></TableRow></TableHead></Table>
-            </template>,
-          );
-          assertDomParity(
-            assert,
-            tableHeaderFixture,
-            variant,
-            this.element.querySelector('th'),
-          );
-        });
-      }
-
-      test('every fixture variant is covered', function (assert) {
-        assertFullCoverage(assert, tableHeaderFixture, [
-          'default',
-          'scope-row',
-          'col-span',
-          'sortable',
-          'sortable-none',
-          'sortable-ascending',
-          'sortable-descending',
-        ]);
-      });
-    });
-
-    module('TableRow', function () {
-      test('default', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableBody>
-                <TableRow><TableCell>Ada</TableCell><TableCell
-                  >Engineer</TableCell></TableRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableRowFixture,
-          'default',
-          this.element.querySelector('tbody > tr'),
-        );
-      });
-
-      test('selected', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableBody>
-                <TableRow @isSelected={{true}}>
-                  <TableCell>Ada</TableCell>
-                  <TableCell>Engineer</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableRowFixture,
-          'selected',
-          this.element.querySelector('tbody > tr'),
-        );
-      });
-
-      test('every fixture variant is covered', function (assert) {
-        assertFullCoverage(assert, tableRowFixture, ['default', 'selected']);
-      });
-    });
-
-    module('TableCell', function () {
-      test('default', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableBody>
-                <TableRow><TableCell>Ada</TableCell></TableRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableCellFixture,
-          'default',
-          this.element.querySelector('td'),
-        );
-      });
-
-      test('col-span', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableBody>
-                <TableRow><TableCell @colSpan={{2}}>Ada</TableCell></TableRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableCellFixture,
-          'col-span',
-          this.element.querySelector('td'),
-        );
-      });
-
-      test('headers', async function (this: RenderingTestContext, assert) {
-        await render(
-          <template>
-            <Table>
-              <TableBody>
-                <TableRow><TableCell @headers="name">Ada</TableCell></TableRow>
-              </TableBody>
-            </Table>
-          </template>,
-        );
-        assertDomParity(
-          assert,
-          tableCellFixture,
-          'headers',
-          this.element.querySelector('td'),
-        );
-      });
-
-      test('every fixture variant is covered', function (assert) {
-        assertFullCoverage(assert, tableCellFixture, [
-          'default',
-          'col-span',
-          'headers',
-        ]);
-      });
     });
   });
 });
