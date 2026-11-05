@@ -48,10 +48,8 @@ export interface ChatHistoryPanelSignature {
  * Ember port of `@carbon/ai-chat-components`'
  * [`cds-aichat-history-panel`](https://github.com/carbon-design-system/carbon-ai-chat/tree/main/packages/ai-chat-components/src/components/chat-history),
  * which itself extends `@carbon/web-components`' `CDSSideNav`. This addon's
- * own `UIShell`/`Sidenav` (`src/components/ui-shell/-sidenav.gts`) is a
- * different, Carbon-React-parity component built around a fixed
- * `menuItems`/`submenus` config for page-level navigation - it has no
- * concept of a dynamic, renamable/deletable item list, so it isn't reused
+ * own `SideNav` (`src/components/ui-shell/side-nav.gts`) is Carbon React's
+ * page navigation, with no renamable or deletable items, so it isn't reused
  * here; this renders the plain `cds--side-nav__*` markup directly instead.
  *
  * `@showActions` propagates down to every `ChatHistoryPanelItem` by

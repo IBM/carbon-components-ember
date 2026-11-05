@@ -81,6 +81,7 @@ const SOURCES = [
       ({
         Notification: 'ToastNotification',
         StructuredList: 'StructuredListWrapper',
+        UIShell: 'Header',
       })[name] ?? name,
   },
   {

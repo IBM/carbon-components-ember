@@ -17,4 +17,5 @@ export { default as PageHeaderTabBar } from './components/ibm-products/page-head
 export { default as PageHeaderTagOverflow } from './components/ibm-products/page-header-tag-overflow.gts'
 export { default as PageHeaderTitleBreadcrumb } from './components/ibm-products/page-header-title-breadcrumb.gts'
 export { default as PageHeader } from './components/ibm-products/page-header.gts'
+export { default as TruncatedText } from './components/ibm-products/truncated-text.gts'
 export { default as UnauthorizedEmptyState } from './components/ibm-products/unauthorized-empty-state.gts'

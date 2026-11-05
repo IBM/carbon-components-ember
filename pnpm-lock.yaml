@@ -216,7 +216,7 @@ overrides:
 packageExtensionsChecksum: sha256-y+rO5oN1sZXT6Avb59m6u6cdf+810X4p3Lqt8NpVv1Y=
 
 patchedDependencies:
-  ember-storybook@0.4.2: 923e4c31b0f238d9e36ceb0176927104d2f9b795e3ae528814aff8d7d249c4f2
+  ember-storybook@0.4.2: f270920d426fff1c1bee146d9ca0d3167cda932879174f6f12d6d7d3c304bb2b
   vite@8.3.4: 5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc
 
 importers:
@@ -454,7 +454,7 @@ importers:
         version: 7.4.0(@glimmer/component@2.2.1)(supports-color@8.1.1)
       ember-storybook:
         specifier: ^0.4.2
-        version: 0.4.2(patch_hash=923e4c31b0f238d9e36ceb0176927104d2f9b795e3ae528814aff8d7d249c4f2)(@babel/core@8.0.9)(@types/react@19.3.0)(react@19.3.1)(storybook@10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@6.0.3)(vite@8.3.4(patch_hash=5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc)(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.6.4)(sass-embedded@1.106.1)(sass@1.106.1)(stylus@0.62.0(supports-color@8.1.1))(terser@5.50.0)(yaml@2.9.1))
+        version: 0.4.2(patch_hash=f270920d426fff1c1bee146d9ca0d3167cda932879174f6f12d6d7d3c304bb2b)(@babel/core@8.0.9)(@types/react@19.3.0)(react@19.3.1)(storybook@10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@6.0.3)(vite@8.3.4(patch_hash=5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc)(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.6.4)(sass-embedded@1.106.1)(sass@1.106.1)(stylus@0.62.0(supports-color@8.1.1))(terser@5.50.0)(yaml@2.9.1))
       eslint:
         specifier: ^10.13.0
         version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -15007,7 +15007,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-storybook@0.4.2(patch_hash=923e4c31b0f238d9e36ceb0176927104d2f9b795e3ae528814aff8d7d249c4f2)(@babel/core@8.0.9)(@types/react@19.3.0)(react@19.3.1)(storybook@10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@6.0.3)(vite@8.3.4(patch_hash=5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc)(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.6.4)(sass-embedded@1.106.1)(sass@1.106.1)(stylus@0.62.0(supports-color@8.1.1))(terser@5.50.0)(yaml@2.9.1)):
+  ember-storybook@0.4.2(patch_hash=f270920d426fff1c1bee146d9ca0d3167cda932879174f6f12d6d7d3c304bb2b)(@babel/core@8.0.9)(@types/react@19.3.0)(react@19.3.1)(storybook@10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@6.0.3)(vite@8.3.4(patch_hash=5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc)(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.6.4)(sass-embedded@1.106.1)(sass@1.106.1)(stylus@0.62.0(supports-color@8.1.1))(terser@5.50.0)(yaml@2.9.1)):
     dependencies:
       '@mdx-js/react': 3.1.1(@types/react@19.3.0)(react@19.3.1)
       '@storybook/builder-vite': 10.6.1(storybook@10.6.5(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(vite@8.3.4(patch_hash=5fd1939dfa161abe6f082bab2359c33d31914146cac560617b13f37e44cd9edc)(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.6.4)(sass-embedded@1.106.1)(sass@1.106.1)(stylus@0.62.0(supports-color@8.1.1))(terser@5.50.0)(yaml@2.9.1))

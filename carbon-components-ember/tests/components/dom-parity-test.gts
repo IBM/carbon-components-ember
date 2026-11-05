@@ -157,6 +157,8 @@ import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 import EmptyState from '#src/components/ibm-products/empty-state.gts';
 import FullPageError from '#src/components/ibm-products/full-page-error.gts';
 import PageHeader from '#src/components/ibm-products/page-header.gts';
+import TruncatedText from '#src/components/ibm-products/truncated-text.gts';
+import truncatedTextFixture from '../../../dom-parity/fixtures/TruncatedText.json';
 import BreadcrumbItem from '#src/components/breadcrumb/breadcrumb-item.gts';
 import pageHeaderFixture from '../../../dom-parity/fixtures/PageHeader.json';
 import ErrorEmptyState from '#src/components/ibm-products/error-empty-state.gts';
@@ -6831,6 +6833,80 @@ module('DOM parity | Carbon for IBM Products', function (hooks) {
         'custom',
         '403',
         '404',
+      ]);
+    });
+  });
+
+  module('TruncatedText', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TruncatedText @value="Virtual machine" /></template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('lines', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText @value="Virtual machine" @lines={{3}} />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'lines',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('expand', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText
+            @value="Virtual machine"
+            @type="expand"
+            @expandLabel="View more"
+            @collapseLabel="View less"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'expand',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('id-and-class', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText
+            @value="Virtual machine"
+            @id="example-id"
+            class="custom-class"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'id-and-class',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, truncatedTextFixture, [
+        'default',
+        'lines',
+        'expand',
+        'id-and-class',
       ]);
     });
   });
