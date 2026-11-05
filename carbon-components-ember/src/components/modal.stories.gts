@@ -8,7 +8,10 @@ import Button from './button.gts';
 import Checkbox from './checkbox.gts';
 import Dropdown from './dropdown.gts';
 import Modal from './modal.gts';
-import StructuredList from './structured-list.gts';
+import StructuredListBody from './structured-list/structured-list-body.gts';
+import StructuredListCell from './structured-list/structured-list-cell.gts';
+import StructuredListHead from './structured-list/structured-list-head.gts';
+import StructuredListWrapper from './structured-list/structured-list-wrapper.gts';
 import TextArea from './text-area.gts';
 import TextInput from './text-input.gts';
 
@@ -182,32 +185,38 @@ export const FullWidth = meta.story({
         @isFullWidth={{args.isFullWidth}}
         @size={{args.size}}
       >
-        <StructuredList class="modal-story__list" as |SL|>
-          <SL.Head>
-            <SL.Row @head={{true}}>
-              <SL.Cell @head={{true}} @noWrap={{true}}>Default size</SL.Cell>
-              <SL.Cell @head={{true}} @noWrap={{true}}>Features</SL.Cell>
-              <SL.Cell @head={{true}} @noWrap={{true}}>Pricing</SL.Cell>
-            </SL.Row>
-          </SL.Head>
-          <SL.Body>
-            <SL.Row>
-              <SL.Cell @noWrap={{true}}>Lite</SL.Cell>
-              <SL.Cell>2 vCPUs | 4GB RAM</SL.Cell>
-              <SL.Cell>$0.12 USD / hourly</SL.Cell>
-            </SL.Row>
-            <SL.Row>
-              <SL.Cell @noWrap={{true}}>Graduated tier</SL.Cell>
-              <SL.Cell>2 vCPUs | 8GB RAM</SL.Cell>
-              <SL.Cell>$0.13 USD / hourly</SL.Cell>
-            </SL.Row>
-            <SL.Row>
-              <SL.Cell @noWrap={{true}}>Premium</SL.Cell>
-              <SL.Cell>4 vCPUs | 10GB RAM</SL.Cell>
-              <SL.Cell>$0.20 USD / hourly</SL.Cell>
-            </SL.Row>
-          </SL.Body>
-        </StructuredList>
+        <StructuredListWrapper class="modal-story__list" as |StructuredListRow|>
+          <StructuredListHead>
+            <StructuredListRow @head={{true}}>
+              <StructuredListCell @head={{true}} @noWrap={{true}}>Default size</StructuredListCell>
+              <StructuredListCell
+                @head={{true}}
+                @noWrap={{true}}
+              >Features</StructuredListCell>
+              <StructuredListCell
+                @head={{true}}
+                @noWrap={{true}}
+              >Pricing</StructuredListCell>
+            </StructuredListRow>
+          </StructuredListHead>
+          <StructuredListBody>
+            <StructuredListRow>
+              <StructuredListCell @noWrap={{true}}>Lite</StructuredListCell>
+              <StructuredListCell>2 vCPUs | 4GB RAM</StructuredListCell>
+              <StructuredListCell>$0.12 USD / hourly</StructuredListCell>
+            </StructuredListRow>
+            <StructuredListRow>
+              <StructuredListCell @noWrap={{true}}>Graduated tier</StructuredListCell>
+              <StructuredListCell>2 vCPUs | 8GB RAM</StructuredListCell>
+              <StructuredListCell>$0.13 USD / hourly</StructuredListCell>
+            </StructuredListRow>
+            <StructuredListRow>
+              <StructuredListCell @noWrap={{true}}>Premium</StructuredListCell>
+              <StructuredListCell>4 vCPUs | 10GB RAM</StructuredListCell>
+              <StructuredListCell>$0.20 USD / hourly</StructuredListCell>
+            </StructuredListRow>
+          </StructuredListBody>
+        </StructuredListWrapper>
       </Modal>
     </template>;
   },

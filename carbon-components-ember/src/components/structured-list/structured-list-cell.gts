@@ -10,7 +10,9 @@ import type { TOC } from '@ember/component/template-only';
 export interface StructuredListCellSignature {
   Element: HTMLDivElement | HTMLSpanElement;
   Args: {
+    /** Makes it a column heading, in the header row. */
     head?: boolean;
+    /** Keeps its content on one line. */
     noWrap?: boolean;
   };
   Blocks: {
@@ -18,6 +20,7 @@ export interface StructuredListCellSignature {
   };
 }
 
+/** A cell of a `StructuredListRow`. */
 const StructuredListCell: TOC<StructuredListCellSignature> = <template>
   {{! Matches @carbon/react, which renders both cells through its Text
     component: a head cell uses Text's default span tag, a body cell passes

@@ -435,7 +435,7 @@
     {
       "path": "div > div[1] > div[1] > input[1].attributes.checked",
       "variant": "selection-initial-row",
-      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry: Glimmer sets a bound `checked={{...}}` as the DOM `checked` property, not a reflected attribute, so `normalizeElement` (which only reads `el.attributes`) can't see it - `structured-list-test.gts`'s `selectedInitialRow pre-selects a row` test already asserts `isChecked()` on this exact input and passes."
+      "reason": "Same harness limitation as RadioTile's `div > input[0].attributes.checked` entry: Glimmer sets a bound `checked={{...}}` as the DOM `checked` property, not a reflected attribute, so `normalizeElement` (which only reads `el.attributes`) can't see it - `structured-list-test.gts`'s `selection rows keep to cells, with a radio icon, and the header names the selection column` test asserts `isChecked()` on the initially selected row's input."
     },
     {
       "path": "div > div[0] > div[0] > span[0] > span[0]",

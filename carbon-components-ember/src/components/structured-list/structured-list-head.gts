@@ -7,17 +7,18 @@
 
 import type { TOC } from '@ember/component/template-only';
 
-export interface StructuredListBodySignature {
+export interface StructuredListHeadSignature {
   Element: HTMLDivElement;
   Blocks: {
     default: [];
   };
 }
 
-const StructuredListBody: TOC<StructuredListBodySignature> = <template>
-  <div role="rowgroup" class="cds--structured-list-tbody" ...attributes>
+/** The header rows' group: a `StructuredListRow` with `@head`. */
+const StructuredListHead: TOC<StructuredListHeadSignature> = <template>
+  <div role="rowgroup" class="cds--structured-list-thead" ...attributes>
     {{yield}}
   </div>
 </template>;
 
-export default StructuredListBody;
+export default StructuredListHead;

@@ -194,5 +194,18 @@
       "rel": "A plain attribute, through `...attributes`, as on a native `<a>`.",
       "target": "A plain attribute, through `...attributes`, as on a native `<a>`."
     }
+  },
+  "StructuredListBody": {
+    "missing": {
+      "head": "Carbon React declares it but never reads it: it reaches the `<div>` with the other props."
+    }
+  },
+  "StructuredListInput": {
+    "missing": {
+      "id": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it. Without one, it gets a generated id.",
+      "name": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it. Without one, the list's inputs share one, so they're one radio group.",
+      "title": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it."
+    },
+    "name": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it. Without one, it gets a generated one."
   }
 }
