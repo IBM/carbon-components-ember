@@ -24,7 +24,8 @@ export interface TableSelectRowSignature {
     name?: string;
     /**
      * Called each time the control changes, with whether it is checked, its
-     * `id` (a radio button's `name`) and the `change` event.
+     * `id` (a radio button's `name`) and the `change` event. A radio button
+     * reports `true`, where Carbon React's reports its empty value's `false`.
      */
     onChange?: (checked: boolean, name: string, event: Event) => void;
     /** Called with the `click` event when a user clicks the control. */
@@ -46,11 +47,12 @@ export default class TableSelectRow extends Component<TableSelectRowSignature> {
   }
 
   handleRadioChange = (
-    value: string | number | undefined,
+    _value: string | number | undefined,
     name: string | undefined,
     event: Event,
   ) => {
-    this.args.onChange?.(!!value, name ?? '', event);
+    const { checked } = event.target as HTMLInputElement;
+    this.args.onChange?.(checked, name ?? '', event);
   };
 
   <template>

@@ -1,5 +1,5 @@
-import { tracked } from '@glimmer/tracking';
-import { expect } from 'storybook/test';
+import { trackedObject } from '@ember/reactive/collections';
+import { expect, fn as spy } from 'storybook/test';
 
 import { ROWS } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
@@ -16,31 +16,10 @@ import TableSelectRow from './table-select-row.gts';
 // which build the table with DataTable's render props. This story builds it
 // by hand, and keeps the selection itself, so it is Ember-only.
 
-class Selection {
-  @tracked selected: string[] = [];
-
-  get all() {
-    return this.selected.length === ROWS.length;
-  }
-
-  get some() {
-    return this.selected.length > 0 && !this.all;
-  }
-
-  toggleAll = () => {
-    this.selected = this.all ? [] : ROWS.map((row) => row.id);
-  };
-
-  toggle = (id: string) => {
-    this.selected = this.selected.includes(id)
-      ? this.selected.filter((selected) => selected !== id)
-      : [...this.selected, id];
-  };
-}
-
 const meta = preview.meta({
   title: 'Components/Table/TableSelectAll',
   component: TableSelectAll,
+  args: { onSelect: spy() },
   parameters: {
     docs: {
       description: {
@@ -63,10 +42,20 @@ const meta = preview.meta({
       },
     },
   },
-  render: () => {
-    const state = new Selection();
+  render: (args) => {
+    const state = trackedObject<{ selected: string[] }>({ selected: [] });
+    const all = () => state.selected.length === ROWS.length;
+    const some = () => state.selected.length > 0 && !all();
     const isSelected = (id: string) => state.selected.includes(id);
-    const toggle = (id: string) => () => state.toggle(id);
+    const toggleAll = (event: MouseEvent) => {
+      state.selected = all() ? [] : ROWS.map((row) => row.id);
+      args.onSelect(event);
+    };
+    const toggle = (id: string) => () => {
+      state.selected = isSelected(id)
+        ? state.selected.filter((selected) => selected !== id)
+        : [...state.selected, id];
+    };
 
     return <template>
       <Table aria-label="Load balancers">
@@ -75,9 +64,9 @@ const meta = preview.meta({
             <TableSelectAll
               @id="select-all"
               @name="select-all"
-              @checked={{state.all}}
-              @indeterminate={{state.some}}
-              @onSelect={{state.toggleAll}}
+              @checked={{(all)}}
+              @indeterminate={{(some)}}
+              @onSelect={{toggleAll}}
             />
             <TableHeader>Name</TableHeader>
             <TableHeader>Status</TableHeader>

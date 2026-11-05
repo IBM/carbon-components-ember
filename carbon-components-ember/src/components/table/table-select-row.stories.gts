@@ -1,5 +1,5 @@
 import { trackedObject } from '@ember/reactive/collections';
-import { expect } from 'storybook/test';
+import { expect, fn as spy } from 'storybook/test';
 
 import { ROWS } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
@@ -19,6 +19,7 @@ import TableSelectRow from './table-select-row.gts';
 const meta = preview.meta({
   title: 'Components/Table/TableSelectRow',
   component: TableSelectRow,
+  args: { onSelect: spy() },
   parameters: {
     docs: {
       description: {
@@ -40,13 +41,14 @@ const meta = preview.meta({
       },
     },
   },
-  render: () => {
+  render: (args) => {
     const state = trackedObject<{ selected: string | null }>({
       selected: null,
     });
     const isSelected = (id: string) => state.selected === id;
-    const select = (id: string) => () => {
+    const select = (id: string) => (event: MouseEvent) => {
       state.selected = id;
+      args.onSelect(event);
     };
 
     return <template>

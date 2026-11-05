@@ -551,7 +551,7 @@ module('Integration | Component | Table', (hooks) => {
 
       await click('#r1');
 
-      assert.deepEqual(calls, ['click', [false, 'rows', 'change']]);
+      assert.deepEqual(calls, ['click', [true, 'rows', 'change']]);
     });
 
     test('checked and disabled reach the control', async function (assert) {
