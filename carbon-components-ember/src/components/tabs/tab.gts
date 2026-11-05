@@ -12,17 +12,33 @@ import type Owner from '@ember/owner';
 import { modifier } from 'ember-modifier';
 import captureElement from '../../modifiers/capture-element.ts';
 import { afterRender } from '../../utils/after-render.ts';
+import RouterLink from '../-private/router-link.gts';
+import type { RouteArgs } from '../-private/router-link.gts';
 import type { IconComponent } from '../icon.gts';
 import type Tabs from '../tabs.gts';
 import type TabList from './tab-list.gts';
+import './tab.scss';
 
 export interface TabSignature {
-  Element: HTMLButtonElement;
-  Args: {
+  /** The `<button>`, or a link tab's `<a>`. */
+  Element: HTMLButtonElement | HTMLAnchorElement;
+  Args: RouteArgs & {
     tabs: Tabs;
     list: TabList;
+    /**
+     * The element to render in place of the `<button>` (or, with `@href`,
+     * the `<a>`). It overrides `@route`.
+     */
+    as?: keyof HTMLElementTagNameMap;
     /** Whether the tab can't be selected. */
     disabled?: boolean;
+    /**
+     * Makes the tab a link to this URL, as Carbon React's `as` given an `<a>`
+     * or a router `Link`; `@route` links it to one of the app's routes.
+     * Clicking it selects the tab and follows the link. A disabled tab stays
+     * a button.
+     */
+    href?: string;
     /** A component used to render an icon, e.g. from `carbon-components-ember/icons`. */
     renderIcon?: IconComponent;
     /** A label under the tab's own. Shown only in a `@contained` `TabList`. */
@@ -60,6 +76,28 @@ export default class Tab extends Component<TabSignature> {
     return this.args.tabs.tabStop === this;
   }
 
+  get isLink() {
+    const { as, href, route, externalRoute, disabled } = this.args;
+    return !as && Boolean(href || route || externalRoute) && !disabled;
+  }
+
+  // Typed as the button or link `@as` stands in for, as Button's `@as`.
+  get tag() {
+    return (this.args.as ?? 'button') as 'a' | 'button';
+  }
+
+  get classes() {
+    return [
+      'cds--tabs__nav-item cds--tabs__nav-link',
+      this.isSelected && 'cds--tabs__nav-item--selected',
+      this.args.disabled && 'cds--tabs__nav-item--disabled',
+      this.ignoreHover && 'cds--tabs__nav-item--hover-off',
+      (this.isLink || this.tag !== 'button') && 'cds--ember-tab',
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
+
   setElement = (element: HTMLElement) => {
     this.element = element;
   };
@@ -88,6 +126,10 @@ export default class Tab extends Component<TabSignature> {
   handleKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Delete' && this.args.tabs.args.dismissable) {
       this.close(event);
+    } else if (event.key === ' ' && this.isLink) {
+      // A link clicks only on Enter; Space selects a tab too.
+      event.preventDefault();
+      this.element?.click();
     }
   };
 
@@ -103,50 +145,100 @@ export default class Tab extends Component<TabSignature> {
   };
 
   <template>
-    <button
-      ...attributes
-      aria-controls="{{@tabs.baseId}}-tabpanel-{{this.index}}"
-      aria-selected="{{if this.isSelected 'true' 'false'}}"
-      aria-disabled={{if @disabled "true"}}
-      disabled={{@disabled}}
-      id="{{@tabs.baseId}}-tab-{{this.index}}"
-      role="tab"
-      class="cds--tabs__nav-item cds--tabs__nav-link
-        {{if this.isSelected 'cds--tabs__nav-item--selected'}}
-        {{if @disabled 'cds--tabs__nav-item--disabled'}}
-        {{if this.ignoreHover 'cds--tabs__nav-item--hover-off'}}"
-      tabindex={{if this.isTabStop "0" "-1"}}
-      type="button"
-      {{captureElement this.setElement}}
-      {{@list.rovingFocus.item disabled=@disabled}}
-      {{on "click" this.select}}
-      {{on "keydown" this.handleKeydown}}
-    >
-      <div class="cds--tabs__nav-item-label-wrapper">
-        {{#if (and @tabs.args.dismissable @renderIcon)}}
-          <div class="cds--tabs__nav-item--icon-left">
-            <@renderIcon @size="16" />
-          </div>
-        {{/if}}
-        <span class="cds--tabs__nav-item-label" dir="auto" {{this.readLabel}}>
-          {{yield}}
-        </span>
-        {{#if (and (not @tabs.args.dismissable) @renderIcon)}}
-          <div class="cds--tabs__nav-item--icon">
-            <@renderIcon @size="16" />
-          </div>
-        {{/if}}
-      </div>
-      {{#if (and @list.hasSecondaryLabelTabs @secondaryLabel)}}
-        <div
-          class="cds--tabs__nav-item-secondary-label"
-          title={{@secondaryLabel}}
-          dir="auto"
-        >
-          {{@secondaryLabel}}
+    {{#if this.isLink}}
+      <RouterLink
+        @href={{@href}}
+        @route={{@route}}
+        @externalRoute={{@externalRoute}}
+        @models={{@models}}
+        @query={{@query}}
+        ...attributes
+        aria-controls="{{@tabs.baseId}}-tabpanel-{{this.index}}"
+        aria-selected="{{if this.isSelected 'true' 'false'}}"
+        id="{{@tabs.baseId}}-tab-{{this.index}}"
+        role="tab"
+        class={{this.classes}}
+        tabindex={{if this.isTabStop "0" "-1"}}
+        {{captureElement this.setElement}}
+        {{@list.rovingFocus.item}}
+        {{on "click" this.select}}
+        {{on "keydown" this.handleKeydown}}
+      >
+        <div class="cds--tabs__nav-item-label-wrapper">
+          {{#if (and @tabs.args.dismissable @renderIcon)}}
+            <div class="cds--tabs__nav-item--icon-left">
+              <@renderIcon @size="16" />
+            </div>
+          {{/if}}
+          <span class="cds--tabs__nav-item-label" dir="auto" {{this.readLabel}}>
+            {{yield}}
+          </span>
+          {{#if (and (not @tabs.args.dismissable) @renderIcon)}}
+            <div class="cds--tabs__nav-item--icon">
+              <@renderIcon @size="16" />
+            </div>
+          {{/if}}
         </div>
-      {{/if}}
-    </button>
+        {{#if (and @list.hasSecondaryLabelTabs @secondaryLabel)}}
+          <div
+            class="cds--tabs__nav-item-secondary-label"
+            title={{@secondaryLabel}}
+            dir="auto"
+          >
+            {{@secondaryLabel}}
+          </div>
+        {{/if}}
+      </RouterLink>
+    {{else}}
+      {{#let (element this.tag) as |Tag|}}
+        <Tag
+          ...attributes
+          aria-controls="{{@tabs.baseId}}-tabpanel-{{this.index}}"
+          aria-selected="{{if this.isSelected 'true' 'false'}}"
+          aria-disabled={{if @disabled "true"}}
+          disabled={{@disabled}}
+          id="{{@tabs.baseId}}-tab-{{this.index}}"
+          role="tab"
+          class={{this.classes}}
+          tabindex={{if this.isTabStop "0" "-1"}}
+          type="button"
+          href={{if @as @href}}
+          {{captureElement this.setElement}}
+          {{@list.rovingFocus.item disabled=@disabled}}
+          {{on "click" this.select}}
+          {{on "keydown" this.handleKeydown}}
+        >
+          <div class="cds--tabs__nav-item-label-wrapper">
+            {{#if (and @tabs.args.dismissable @renderIcon)}}
+              <div class="cds--tabs__nav-item--icon-left">
+                <@renderIcon @size="16" />
+              </div>
+            {{/if}}
+            <span
+              class="cds--tabs__nav-item-label"
+              dir="auto"
+              {{this.readLabel}}
+            >
+              {{yield}}
+            </span>
+            {{#if (and (not @tabs.args.dismissable) @renderIcon)}}
+              <div class="cds--tabs__nav-item--icon">
+                <@renderIcon @size="16" />
+              </div>
+            {{/if}}
+          </div>
+          {{#if (and @list.hasSecondaryLabelTabs @secondaryLabel)}}
+            <div
+              class="cds--tabs__nav-item-secondary-label"
+              title={{@secondaryLabel}}
+              dir="auto"
+            >
+              {{@secondaryLabel}}
+            </div>
+          {{/if}}
+        </Tag>
+      {{/let}}
+    {{/if}}
     {{! A sibling of the tab, not inside it: a button in a tab would be invalid. Rendered for every tab even when not dismissable, visually hidden, as Carbon React does: Carbon's tab CSS selects it (the contained selected tab's separator). }}
     <div
       class={{if

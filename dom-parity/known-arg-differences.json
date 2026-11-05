@@ -305,12 +305,6 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "Tab": {
-    "missing": [
-      "as",
-      "renderButton"
-    ]
-  },
   "TabList": {
     "missing": [
       "iconSize"
