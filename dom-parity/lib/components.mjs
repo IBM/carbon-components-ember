@@ -1473,7 +1473,7 @@ const tableContainer = (name, props) => ({
 });
 
 // A header's own element: the `<th>` in a table around it.
-const tableHeader = (name, props) => ({
+const tableHeader = (name, props, { decorator = false } = {}) => ({
   name,
   props,
   createElement: (React, Carbon) =>
@@ -1486,7 +1486,13 @@ const tableHeader = (name, props) => ({
         React.createElement(
           Carbon.TableRow,
           null,
-          React.createElement(Carbon.TableHeader, props, 'Name'),
+          React.createElement(
+            Carbon.TableHeader,
+            decorator
+              ? { ...props, decorator: React.createElement(Carbon.AILabel) }
+              : props,
+            'Name',
+          ),
         ),
       ),
     ),
@@ -2737,6 +2743,7 @@ export const COMPONENTS = [
       table('static-width', { useStaticWidth: true }),
       table('sticky-header', { stickyHeader: true }),
       table('overflow-menu-visible', { overflowMenuOnHover: false }),
+      table('auto-align', { experimentalAutoAlign: true }),
     ],
   },
   {
@@ -2761,6 +2768,12 @@ export const COMPONENTS = [
         isSortHeader: true,
         sortDirection: 'DESC',
       }),
+      tableHeader('decorator', {}, { decorator: true }),
+      tableHeader(
+        'sortable-decorator',
+        { isSortable: true },
+        { decorator: true },
+      ),
     ],
   },
   {

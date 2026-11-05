@@ -1,8 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click, render, settled, waitUntil } from '@ember/test-helpers';
+import style from 'ember-style-modifier';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
+import { trackedObject } from '@ember/reactive/collections';
 import Table from '#src/components/table/table.gts';
 import TableBody from '#src/components/table/table-body.gts';
 import TableCell from '#src/components/table/table-cell.gts';
@@ -270,6 +272,169 @@ module('Integration | Component | Table', (hooks) => {
       assert.dom('button').hasClass('name-column');
       assert.dom('button').hasClass('name-button');
       assert.dom('th:last-child').hasClass('role-column');
+    });
+  });
+
+  module('experimentalAutoAlign', () => {
+    const LONG = 'A load balancer whose name wraps in a narrow column';
+
+    test('a body cell that wraps top-aligns the body, and a header label that wraps the header', async function (assert) {
+      await render(
+        <template>
+          <div {{style width="160px"}}>
+            <Table @experimentalAutoAlign={{true}} data-test-wrapping-body>
+              <TableHead>
+                <TableRow><TableHeader>Name</TableHeader></TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow><TableCell>{{LONG}}</TableCell></TableRow>
+              </TableBody>
+            </Table>
+            <Table @experimentalAutoAlign={{true}} data-test-wrapping-header>
+              <TableHead>
+                <TableRow><TableHeader
+                    @isSortable={{true}}
+                  >{{LONG}}</TableHeader></TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow><TableCell>Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </template>,
+      );
+      await waitUntil(
+        () =>
+          document.querySelector(
+            '[data-test-wrapping-body].cds--data-table--top-aligned-body',
+          ) &&
+          document.querySelector(
+            '[data-test-wrapping-header].cds--data-table--top-aligned-header',
+          ),
+      );
+
+      assert
+        .dom('[data-test-wrapping-body]')
+        .hasClass('cds--data-table--top-aligned-body')
+        .doesNotHaveClass('cds--data-table--top-aligned-header');
+      assert
+        .dom('[data-test-wrapping-header]')
+        .hasClass('cds--data-table--top-aligned-header')
+        .doesNotHaveClass('cds--data-table--top-aligned-body');
+    });
+
+    test('a table whose cells fit, or without the argument, is not top-aligned', async function (assert) {
+      await render(
+        <template>
+          <Table @experimentalAutoAlign={{true}} data-test-fits>
+            <TableHead>
+              <TableRow><TableHeader>Name</TableHeader></TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow><TableCell>Ada</TableCell></TableRow>
+            </TableBody>
+          </Table>
+          <div {{style width="160px"}}>
+            <Table data-test-off>
+              <TableBody>
+                <TableRow><TableCell>{{LONG}}</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </template>,
+      );
+
+      assert
+        .dom('[data-test-fits]')
+        .doesNotHaveClass('cds--data-table--top-aligned-body')
+        .doesNotHaveClass('cds--data-table--top-aligned-header');
+      assert
+        .dom('[data-test-off]')
+        .doesNotHaveClass('cds--data-table--top-aligned-body');
+    });
+
+    test('it measures again when the table resizes, and when the argument is turned off', async function (assert) {
+      const state = trackedObject({ width: '600px', enabled: true });
+      await render(
+        <template>
+          <div {{style width=state.width}}>
+            <Table @experimentalAutoAlign={{state.enabled}} data-test-table>
+              <TableBody>
+                <TableRow><TableCell>{{LONG}}</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </template>,
+      );
+
+      assert
+        .dom('[data-test-table]')
+        .doesNotHaveClass('cds--data-table--top-aligned-body');
+
+      state.width = '160px';
+      await waitUntil(() =>
+        document
+          .querySelector('[data-test-table]')
+          ?.classList.contains('cds--data-table--top-aligned-body'),
+      );
+      assert
+        .dom('[data-test-table]')
+        .hasClass('cds--data-table--top-aligned-body');
+
+      state.enabled = false;
+      await settled();
+      assert
+        .dom('[data-test-table]')
+        .doesNotHaveClass('cds--data-table--top-aligned-body');
+    });
+  });
+
+  module('TableHeader decorator', () => {
+    test('the decorator block yields a mini AI label and adds the decorator classes', async function (assert) {
+      await render(
+        <template>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeader data-test-plain>
+                  <:default>Name</:default>
+                  <:decorator as |AILabel|><AILabel /></:decorator>
+                </TableHeader>
+                <TableHeader @isSortable={{true}}>
+                  <:default>Role</:default>
+                  <:decorator as |AILabel|><AILabel /></:decorator>
+                </TableHeader>
+                <TableHeader>Plain</TableHeader>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </template>,
+      );
+
+      assert
+        .dom('th:nth-child(1) .cds--table-header-label')
+        .hasClass('cds--table-header-label--decorator')
+        .hasClass('cds--table-header-label--ai-label');
+      assert
+        .dom(
+          'th:nth-child(1) .cds--table-header-label--decorator-inner .cds--ai-label__button--mini',
+        )
+        .exists();
+      assert
+        .dom('th:nth-child(2)')
+        .hasClass('cds--table-sort__header--decorator')
+        .hasClass('cds--table-sort__header--ai-label');
+      assert
+        .dom(
+          'th:nth-child(2) > .cds--table-header-label--decorator-inner .cds--ai-label__button--mini',
+        )
+        .exists();
+      assert
+        .dom('th:nth-child(2) .cds--table-sort')
+        .hasText('Role', 'the label is not read from the decorator');
+      assert
+        .dom('th:nth-child(3) .cds--table-header-label')
+        .doesNotHaveClass('cds--table-header-label--decorator');
     });
   });
 

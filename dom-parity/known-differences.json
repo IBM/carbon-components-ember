@@ -734,5 +734,27 @@
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
     }
+  ],
+  "TableHeader": [
+    {
+      "path": "th > div[0] > div[1] > div[0] > span[0]",
+      "variant": "decorator",
+      "reason": "The AI label's popover classes: Carbon React's AILabel opens to the bottom and auto-aligns by default, the addon's to the top. The label is AILabel's to align, not the header's."
+    },
+    {
+      "path": "th > div[0] > div[1] > div[0] > span[0] > button[0].attributes.aria-controls",
+      "variant": "decorator",
+      "reason": "The AI label's own toggletip id, which differs per render."
+    },
+    {
+      "path": "th > div[2] > div[0] > span[0]",
+      "variant": "sortable-decorator",
+      "reason": "The AI label's popover classes: Carbon React's AILabel opens to the bottom and auto-aligns by default, the addon's to the top. The label is AILabel's to align, not the header's."
+    },
+    {
+      "path": "th > div[2] > div[0] > span[0] > button[0].attributes.aria-controls",
+      "variant": "sortable-decorator",
+      "reason": "The AI label's own toggletip id, which differs per render."
+    }
   ]
 }

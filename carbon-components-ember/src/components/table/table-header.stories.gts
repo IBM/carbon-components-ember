@@ -1,6 +1,8 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { expect, userEvent } from 'storybook/test';
 
+import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
+
 import { ROWS } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
 import Table from './table.gts';
@@ -16,7 +18,8 @@ import type { SortState } from './table-header.gts';
 // by hand: the table keeps the sort and the rows, as an app that builds its
 // own does.
 //
-// Parity gaps: `decorator` (an AI label in the header) is not ported.
+// React's `Column AI Label Sort` (DataTable/WithAILabel) puts an AI label in
+// a sortable DataTable's headers; `ColumnAILabelSort` does it by hand.
 
 const COLUMNS = [
   { key: 'name', label: 'Name' },
@@ -116,5 +119,46 @@ Sorting.test(
     await expect(header).toHaveAttribute('aria-sort', 'descending');
     await userEvent.click(canvas.getByRole('button', { name: /Name/ }));
     await expect(header).toHaveAttribute('aria-sort', 'none');
+  },
+);
+
+// **Experimental:** the `<:decorator>` block yields an `AILabel` already
+// sized for the header (`mini`); the header's text goes in `<:default>`.
+export const ColumnAILabelSort = meta.story({
+  render: () => <template>
+    <Table @isSortable={{true}} aria-label="Load balancers">
+      <TableHead>
+        <TableRow>
+          <TableHeader @isSortable={{true}}>
+            <:default>Name</:default>
+            <:decorator as |AILabel|>
+              <AILabel @align="bottom-start" as |label|>
+                <label.Content><AIExplanation /></label.Content>
+              </AILabel>
+            </:decorator>
+          </TableHeader>
+          <TableHeader @isSortable={{true}}>Protocol</TableHeader>
+          <TableHeader @isSortable={{true}}>Port</TableHeader>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {{#each ROWS as |row|}}
+          <TableRow>
+            <TableCell @hasAILabelHeader={{true}}>{{row.name}}</TableCell>
+            <TableCell>{{row.protocol}}</TableCell>
+            <TableCell>{{row.port}}</TableCell>
+          </TableRow>
+        {{/each}}
+      </TableBody>
+    </Table>
+  </template>,
+});
+
+ColumnAILabelSort.test(
+  'shows the AI label beside the sortable label',
+  async ({ canvas }) => {
+    await expect(
+      canvas.getByRole('button', { name: /Show information/ }),
+    ).toBeVisible();
   },
 );
