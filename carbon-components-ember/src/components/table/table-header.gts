@@ -33,6 +33,11 @@ export interface TableHeaderTranslateArgs {
 export interface TableHeaderSignature {
   Element: HTMLTableCellElement | HTMLButtonElement;
   Args: {
+    /**
+     * Classes for the `<th>`, and for a sortable header's button, as Carbon
+     * React's `className`. `class` goes where the attributes go.
+     */
+    className?: string;
     /** How many columns the header spans. */
     colSpan?: number;
     /** The `id` of the `<th>`. */
@@ -58,7 +63,10 @@ export interface TableHeaderSignature {
     ) => string;
   };
   Blocks: {
-    /** The header's label. */
+    /**
+     * The header's label. A sortable header reads its text for the sort
+     * description once, when it renders.
+     */
     default: [];
   };
 }
@@ -95,10 +103,11 @@ export default class TableHeader extends Component<TableHeaderSignature> {
 
   descriptionId = `table-sort-${guidFor(this)}`;
 
-  // The label is the block's text, read once it renders.
+  // The label is the block's text, read once it renders: a label that
+  // changes later keeps the sort description it had.
   setLabel = (element: HTMLElement) => {
     afterRender(this, () => {
-      this.label = element.textContent ?? '';
+      this.label = (element.textContent ?? '').replace(/\s+/g, ' ').trim();
     });
   };
 
@@ -138,7 +147,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
       <th
         id={{@id}}
         aria-sort={{this.ariaSort}}
-        class="cds--table-sort__header"
+        class="{{@className}} cds--table-sort__header"
         colspan={{@colSpan}}
         scope={{this.scope}}
       >
@@ -149,7 +158,8 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         <button
           type="button"
           aria-describedby={{this.descriptionId}}
-          class="cds--table-sort
+          class="{{@className}}
+            cds--table-sort
             {{if this.isActive 'cds--table-sort--active'}}
             {{if this.isDescending 'cds--table-sort--descending'}}"
           ...attributes
@@ -170,7 +180,13 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         </button>
       </th>
     {{else}}
-      <th id={{@id}} colspan={{@colSpan}} scope={{this.scope}} ...attributes>
+      <th
+        id={{@id}}
+        class={{@className}}
+        colspan={{@colSpan}}
+        scope={{this.scope}}
+        ...attributes
+      >
         {{#if (has-block)}}
           <div class="cds--table-header-label">
             {{yield}}

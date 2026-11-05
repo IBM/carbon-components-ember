@@ -6846,7 +6846,7 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableBody>
-                <TableRow><TableCell @colSpan={{2}}>Ada</TableCell></TableRow>
+                <TableRow><TableCell colspan="2">Ada</TableCell></TableRow>
               </TableBody>
             </Table>
           </template>,
@@ -6864,7 +6864,7 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableBody>
-                <TableRow><TableCell @headers="name">Ada</TableCell></TableRow>
+                <TableRow><TableCell headers="name">Ada</TableCell></TableRow>
               </TableBody>
             </Table>
           </template>,

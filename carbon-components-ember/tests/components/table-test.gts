@@ -74,19 +74,13 @@ module('Integration | Component | Table', (hooks) => {
       .hasClass('cds--data-table--sticky-header');
   });
 
-  test('a selected row has its class, and a cell takes colSpan, headers and the AI column class', async function (assert) {
+  test('a selected row has its class, and a cell the AI column class', async function (assert) {
     await render(
       <template>
         <table>
           <tbody>
             <TableRow @isSelected={{true}} data-test-row>
-              <TableCell
-                @colSpan={{2}}
-                @headers="name"
-                @hasAILabelHeader={{true}}
-              >
-                Ada
-              </TableCell>
+              <TableCell @hasAILabelHeader={{true}}>Ada</TableCell>
             </TableRow>
           </tbody>
         </table>
@@ -94,11 +88,7 @@ module('Integration | Component | Table', (hooks) => {
     );
 
     assert.dom('[data-test-row]').hasClass('cds--data-table--selected');
-    assert
-      .dom('td')
-      .hasAttribute('colspan', '2')
-      .hasAttribute('headers', 'name')
-      .hasClass('cds--table-cell--column-slug');
+    assert.dom('td').hasClass('cds--table-cell--column-slug');
   });
 
   test('a header takes scope and colSpan, and renders nothing for an empty label', async function (assert) {
@@ -225,10 +215,14 @@ module('Integration | Component | Table', (hooks) => {
     });
 
     test('translateWithId translates the description', async function (assert) {
+      const headers: string[] = [];
       const translate = (
         messageId: string,
         { header, sortDirection }: { header: string; sortDirection?: string },
-      ) => `${messageId}: ${header} ${sortDirection ?? 'unsorted'}`;
+      ) => {
+        headers.push(header);
+        return `${messageId}: ${header} ${sortDirection ?? 'unsorted'}`;
+      };
       await render(
         <template>
           <table>
@@ -238,7 +232,9 @@ module('Integration | Component | Table', (hooks) => {
                   @isSortable={{true}}
                   @sortDirection="ASC"
                   @translateWithId={{translate}}
-                >Name</TableHeader>
+                >
+                  Name
+                </TableHeader>
               </tr>
             </thead>
           </table>
@@ -248,6 +244,32 @@ module('Integration | Component | Table', (hooks) => {
       assert
         .dom('.cds--table-sort__description')
         .hasText('carbon.table.header.icon.description: Name ASC');
+      assert.strictEqual(headers.at(-1), 'Name', 'the label is trimmed');
+    });
+
+    test('@className styles the cell and the button', async function (assert) {
+      await render(
+        <template>
+          <table>
+            <thead>
+              <tr>
+                <TableHeader
+                  @className="name-column"
+                  @isSortable={{true}}
+                  class="name-button"
+                >Name</TableHeader>
+                <TableHeader @className="role-column">Role</TableHeader>
+              </tr>
+            </thead>
+          </table>
+        </template>,
+      );
+
+      assert.dom('th:first-child').hasClass('name-column');
+      assert.dom('th:first-child').doesNotHaveClass('name-button');
+      assert.dom('button').hasClass('name-column');
+      assert.dom('button').hasClass('name-button');
+      assert.dom('th:last-child').hasClass('role-column');
     });
   });
 

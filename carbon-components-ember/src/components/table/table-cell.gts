@@ -10,10 +10,6 @@ import type { TOC } from '@ember/component/template-only';
 export interface TableCellSignature {
   Element: HTMLTableCellElement;
   Args: {
-    /** How many columns the cell spans. */
-    colSpan?: number;
-    /** The `id` of the matching `TableHeader`. */
-    headers?: string;
     /** Marks the cell as in an AI column. */
     hasAILabelHeader?: boolean;
   };
@@ -26,8 +22,6 @@ export interface TableCellSignature {
 const TableCell: TOC<TableCellSignature> = <template>
   <td
     class={{if @hasAILabelHeader "cds--table-cell--column-slug"}}
-    colspan={{@colSpan}}
-    headers={{@headers}}
     ...attributes
   >{{yield}}</td>
 </template>;

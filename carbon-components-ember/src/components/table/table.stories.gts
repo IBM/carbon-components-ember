@@ -13,8 +13,8 @@ import type { TOC } from '@ember/component/template-only';
 
 // Carbon React has no standalone stories for the table parts: its DataTable
 // stories render them through DataTable's render prop. These build the tables
-// of its `Basic` page by hand (`Default`, `ExtraSmall`, `XLWithTwoLines`),
-// plus `Zebra`, `StickyHeader` and `StaticWidth`. `TableHeader` has its own
+// of its `Basic` page by hand (`Default`, `XLWithTwoLines`), plus the
+// Ember-only `ExtraSmall`, `Zebra`, `StickyHeader` and `StaticWidth`. `TableHeader` has its own
 // sorting stories.
 //
 // A sticky header scrolls the rows, so the table takes `tabindex="0"` to be
