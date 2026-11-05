@@ -1,0 +1,64 @@
+{
+  "component": "TableCell",
+  "generatedAt": "2026-11-05T12:02:59.002Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Ada"
+          }
+        ]
+      }
+    },
+    "col-span": {
+      "props": {
+        "colSpan": 2
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [],
+        "attributes": {
+          "colspan": "2"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Ada"
+          }
+        ]
+      }
+    },
+    "headers": {
+      "props": {
+        "headers": "name"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [],
+        "attributes": {
+          "headers": "name"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Ada"
+          }
+        ]
+      }
+    }
+  }
+}

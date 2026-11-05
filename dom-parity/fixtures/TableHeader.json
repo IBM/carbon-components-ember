@@ -1,0 +1,723 @@
+{
+  "component": "TableHeader",
+  "generatedAt": "2026-11-05T12:02:58.997Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [],
+        "attributes": {
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-header-label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Name"
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--table-header-label--decorator-inner"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "scope-row": {
+      "props": {
+        "scope": "row"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [],
+        "attributes": {
+          "scope": "row"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-header-label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Name"
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--table-header-label--decorator-inner"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "col-span": {
+      "props": {
+        "colSpan": 2
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [],
+        "attributes": {
+          "scope": "col",
+          "colspan": "2"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-header-label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Name"
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--table-header-label--decorator-inner"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sortable": {
+      "props": {
+        "isSortable": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-sort__header"
+        ],
+        "attributes": {
+          "aria-sort": "none",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-sort__description"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Click to sort rows by Name header in ascending order"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-sort"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--table-sort__flex"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--table-header-label"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Name"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon-unsorted"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sortable-none": {
+      "props": {
+        "isSortable": true,
+        "isSortHeader": true,
+        "sortDirection": "NONE"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-sort__header"
+        ],
+        "attributes": {
+          "aria-sort": "none",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-sort__description"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Click to sort rows by Name header in ascending order"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-sort"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--table-sort__flex"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--table-header-label"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Name"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon-unsorted"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sortable-ascending": {
+      "props": {
+        "isSortable": true,
+        "isSortHeader": true,
+        "sortDirection": "ASC"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-sort__header"
+        ],
+        "attributes": {
+          "aria-sort": "ascending",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-sort__description"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Click to sort rows by Name header in descending order"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-sort",
+              "cds--table-sort--active"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--table-sort__flex"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--table-header-label"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Name"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon-unsorted"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sortable-descending": {
+      "props": {
+        "isSortable": true,
+        "isSortHeader": true,
+        "sortDirection": "DESC"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-sort__header"
+        ],
+        "attributes": {
+          "aria-sort": "descending",
+          "scope": "col"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--table-sort__description"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Click to unsort rows by Name header"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-sort",
+              "cds--table-sort--active",
+              "cds--table-sort--descending"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-describedby": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--table-sort__flex"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--table-header-label"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Name"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-sort__icon-unsorted"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "20",
+                      "height": "20",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

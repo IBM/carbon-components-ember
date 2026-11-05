@@ -1,0 +1,88 @@
+{
+  "component": "TableRow",
+  "generatedAt": "2026-11-05T12:02:59.000Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Engineer"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selected": {
+      "props": {
+        "isSelected": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--data-table--selected"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Engineer"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
