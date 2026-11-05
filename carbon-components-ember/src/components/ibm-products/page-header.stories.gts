@@ -20,6 +20,7 @@ import Button from '../button.gts';
 import Grid from '../grid.gts';
 import Tag from '../tag.gts';
 import PageHeader from './page-header.gts';
+import TruncatedText from './truncated-text.gts';
 
 import type { PageHeaderStoryArgs } from '#storybook/fixtures/page-header.gts';
 import '#storybook/styles/ibm-products/page-header.css';
@@ -31,8 +32,6 @@ import '#storybook/styles/ibm-products/page-header.css';
 // - `TabBarWithTabsAndTags` has no UI Shell header above it, as React's does.
 // - The tag overflow trigger is a Button: there is no OperationalTag yet.
 // - The images are gradients: React's are photographs.
-// - `TruncatedText` isn't ported, so the TitleBreadcrumb in `TabBarWithTabsAndTags`
-//   and `Compact` is plain text, which the breadcrumb truncates itself.
 // - The page actions' `pageActionButtonItems` are this file's own buttons.
 
 type StoryArgs = PageHeaderStoryArgs & {
@@ -285,7 +284,11 @@ export const TabBarWithTabsAndTags = meta.story({
               <BreadcrumbItem @href="/#">Breadcrumb 2</BreadcrumbItem>
               <BreadcrumbItem @href="/#">Breadcrumb 3</BreadcrumbItem>
               <TitleBreadcrumb data-fixed="true">
-                Virtual-Machine-DAL-really-long-title-example
+                <TruncatedText
+                  @value="Virtual-Machine-DAL-really-long-title-example"
+                  @align="bottom"
+                  @lines={{1}}
+                />
               </TitleBreadcrumb>
             </PageHeader.BreadcrumbOverflow>
           </:default>
@@ -369,7 +372,11 @@ export const Compact = meta.story({
             <BreadcrumbItem @href="/#">Breadcrumb 2</BreadcrumbItem>
             <BreadcrumbItem @href="/#">Breadcrumb 3</BreadcrumbItem>
             <TitleBreadcrumb data-fixed="true">
-              Virtual-Machine-DAL-really-long-title-example
+              <TruncatedText
+                @value="Virtual-Machine-DAL-really-long-title-example"
+                @align="bottom"
+                @lines={{1}}
+              />
             </TitleBreadcrumb>
           </PageHeader.BreadcrumbOverflow>
         </:default>
