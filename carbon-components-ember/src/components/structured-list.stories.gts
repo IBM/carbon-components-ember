@@ -1,20 +1,19 @@
 import { concat } from '@ember/helper';
-import { expect, fn } from 'storybook/test';
+import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Layer from './layer.gts';
-import StructuredList from './structured-list.gts';
+import StructuredListBody from './structured-list/structured-list-body.gts';
+import StructuredListCell from './structured-list/structured-list-cell.gts';
+import StructuredListHead from './structured-list/structured-list-head.gts';
+import StructuredListWrapper from './structured-list/structured-list-wrapper.gts';
 import StructuredListSkeleton from './structured-list-skeleton.gts';
+import CheckmarkFilled from './icons/checkmark-filled.ts';
 
 import type { TOC } from '@ember/component/template-only';
 import '#storybook/styles/structured-list.css';
 
-// Carbon React parity gaps:
-// - React's `StructuredListInput` + checkmark cell are composed by hand in its
-//   selection stories; Ember renders the selection icon cell itself, and the
-//   input is the component yielded by `SL.Row`.
-// Ember-only additions (from the docs-app page): `MultiSelection`,
-// `Condensed`, `Flush`.
+// Ember-only stories: `Condensed` and `Flush`.
 
 const SELECTION_ROWS = [
   {
@@ -60,189 +59,170 @@ const WithLayer: TOC<{ Blocks: { default: [number] } }> = <template>
 
 interface SelectionListSignature {
   Args: {
-    ariaLabel?: string;
+    ariaLabel: string;
     isCondensed?: boolean;
-    multiSelection?: boolean;
     selectedInitialRow?: string;
-    selectedInitialRows?: string[];
-    onSelectionChange?: (id: string) => void;
-    onMultiSelectionChange?: (ids: string[]) => void;
     /** Prefix for row ids and the input group name. */
     prefix: string;
   };
 }
 
-// Carbon React's `structuredListBodyRowGenerator(4)` under a header row.
+// Carbon React's `structuredListBodyRowGenerator(4)` under a header row: each
+// row has an input and a checkmark cell, which Carbon shows while it's
+// selected.
 const SelectionList: TOC<SelectionListSignature> = <template>
-  <StructuredList
+  <StructuredListWrapper
     @selection={{true}}
-    @multiSelection={{@multiSelection}}
-    @ariaLabel={{@ariaLabel}}
     @isCondensed={{@isCondensed}}
     @selectedInitialRow={{@selectedInitialRow}}
-    @selectedInitialRows={{@selectedInitialRows}}
-    @onSelectionChange={{@onSelectionChange}}
-    @onMultiSelectionChange={{@onMultiSelectionChange}}
-    as |SL|
+    aria-label={{@ariaLabel}}
+    as |StructuredListRow|
   >
-    <SL.Head>
-      <SL.Row @head={{true}}>
-        <SL.Cell @head={{true}}>Environment</SL.Cell>
-        <SL.Cell @head={{true}}>Region</SL.Cell>
-        <SL.Cell @head={{true}}>Purpose</SL.Cell>
-      </SL.Row>
-    </SL.Head>
-    <SL.Body>
+    <StructuredListHead>
+      <StructuredListRow @head={{true}}>
+        <StructuredListCell @head={{true}}>Environment</StructuredListCell>
+        <StructuredListCell @head={{true}}>Region</StructuredListCell>
+        <StructuredListCell @head={{true}}>Purpose</StructuredListCell>
+      </StructuredListRow>
+    </StructuredListHead>
+    <StructuredListBody>
       {{#each SELECTION_ROWS as |row index|}}
-        <SL.Row @id={{concat @prefix "row-" index}} as |Input|>
-          <Input
-            @name={{concat @prefix "row"}}
-            @title={{row.environment}}
+        <StructuredListRow
+          @id={{concat @prefix "row-" index}}
+          as |StructuredListInput|
+        >
+          <StructuredListCell>{{row.environment}}</StructuredListCell>
+          <StructuredListCell>{{row.region}}</StructuredListCell>
+          <StructuredListCell>{{row.purpose}}</StructuredListCell>
+          <StructuredListInput
+            title={{row.environment}}
+            name={{concat @prefix "row-0"}}
             aria-label={{row.environment}}
           />
-          <SL.Cell>{{row.environment}}</SL.Cell>
-          <SL.Cell>{{row.region}}</SL.Cell>
-          <SL.Cell>{{row.purpose}}</SL.Cell>
-        </SL.Row>
+          <StructuredListCell>
+            <CheckmarkFilled
+              @svgClass="cds--structured-list-svg"
+              @ariaLabel="select an option"
+            />
+          </StructuredListCell>
+        </StructuredListRow>
       {{/each}}
-    </SL.Body>
-  </StructuredList>
+    </StructuredListBody>
+  </StructuredListWrapper>
 </template>;
 
-const meta = preview.meta({
+type StoryArgs = {
+  'aria-label': string;
+  isCondensed: boolean;
+  isFlush: boolean;
+  selectedInitialRow?: string;
+  rowCount?: number;
+};
+
+const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/StructuredList',
-  component: StructuredList,
+  component: StructuredListWrapper,
   parameters: {
     docs: {
       description: {
-        component: `Structured Lists group content that is similar or related, such as terms or definitions. Compose a list from \`SL.Head\`, \`SL.Body\`, \`SL.Row\`, and \`SL.Cell\` yielded by \`StructuredList\`:
+        component: `Structured lists group related content, such as terms and their definitions, in rows and columns. Build one from Carbon React's parts, imported from \`carbon-components-ember/components\`: \`StructuredListWrapper\` yields the \`StructuredListRow\`, which goes in a \`StructuredListHead\` (with \`@head\`) or \`StructuredListBody\` and holds \`StructuredListCell\`s.
 
-\`\`\`hbs
-<StructuredList as |SL|>
-  <SL.Head>
-    <SL.Row @head={{true}}>
-      <SL.Cell @head={{true}}>Column A</SL.Cell>
-    </SL.Row>
-  </SL.Head>
-  <SL.Body>
-    <SL.Row>
-      <SL.Cell>Row 1</SL.Cell>
-    </SL.Row>
-  </SL.Body>
-</StructuredList>
+For a list the user picks one row from, give the wrapper \`@selection\`, each body row an \`@id\`, and each row the \`StructuredListInput\` it yields: a visually hidden radio for the keyboard, whose \`{{on "change"}}\` tells you the chosen row's \`@id\` (its \`value\`). A click on the row selects it too. \`@selectedInitialRow\` selects a row at first. Give a row \`@selection\` to show a radio icon in it.
+
+\`\`\`gts
+<StructuredListWrapper @selection={{true}} aria-label="Environments" as |StructuredListRow|>
+  <StructuredListBody>
+    <StructuredListRow @id="production" as |StructuredListInput|>
+      <StructuredListCell>Production</StructuredListCell>
+      <StructuredListInput aria-label="Production" {{on "change" this.choose}} />
+    </StructuredListRow>
+  </StructuredListBody>
+</StructuredListWrapper>
 \`\`\``,
       },
     },
   },
   args: {
-    ariaLabel: 'Service status',
+    'aria-label': 'Service status',
     isCondensed: false,
     isFlush: false,
   },
-  argTypes: {
-    selection: { table: { readonly: true } },
-  },
-  render: (args) => <template>
-    <StructuredList
-      @ariaLabel={{args.ariaLabel}}
+  render: (args: StoryArgs) => <template>
+    <StructuredListWrapper
       @isCondensed={{args.isCondensed}}
       @isFlush={{args.isFlush}}
-      as |SL|
+      aria-label={{args.aria-label}}
+      as |StructuredListRow|
     >
-      <SL.Head>
-        <SL.Row @head={{true}}>
-          <SL.Cell @head={{true}}>Service</SL.Cell>
-          <SL.Cell @head={{true}}>Status</SL.Cell>
-          <SL.Cell @head={{true}}>Description</SL.Cell>
-        </SL.Row>
-      </SL.Head>
-      <SL.Body>
-        <SL.Row>
-          <SL.Cell @noWrap={{true}}>API gateway</SL.Cell>
-          <SL.Cell>Online</SL.Cell>
-          <SL.Cell>
+      <StructuredListHead>
+        <StructuredListRow @head={{true}}>
+          <StructuredListCell @head={{true}}>Service</StructuredListCell>
+          <StructuredListCell @head={{true}}>Status</StructuredListCell>
+          <StructuredListCell @head={{true}}>Description</StructuredListCell>
+        </StructuredListRow>
+      </StructuredListHead>
+      <StructuredListBody>
+        <StructuredListRow>
+          <StructuredListCell @noWrap={{true}}>API gateway</StructuredListCell>
+          <StructuredListCell>Online</StructuredListCell>
+          <StructuredListCell>
             Routes and secures application traffic across environments.
-          </SL.Cell>
-        </SL.Row>
-        <SL.Row>
-          <SL.Cell @noWrap={{true}}>Data warehouse</SL.Cell>
-          <SL.Cell>Maintenance</SL.Cell>
-          <SL.Cell>
+          </StructuredListCell>
+        </StructuredListRow>
+        <StructuredListRow>
+          <StructuredListCell @noWrap={{true}}>Data warehouse</StructuredListCell>
+          <StructuredListCell>Maintenance</StructuredListCell>
+          <StructuredListCell>
             Scheduled maintenance begins Friday at 22:00 UTC.
-          </SL.Cell>
-        </SL.Row>
-      </SL.Body>
-    </StructuredList>
+          </StructuredListCell>
+        </StructuredListRow>
+      </StructuredListBody>
+    </StructuredListWrapper>
   </template>,
 });
 
 export const Default = meta.story({
   parameters: {
-    controls: { include: ['ariaLabel', 'isCondensed', 'isFlush'] },
+    controls: { include: ['aria-label', 'isCondensed', 'isFlush'] },
   },
 });
 
-const selectionDescription = `Passing \`@selection={{true}}\` turns each row into a radio-style selectable item. Give each \`SL.Row\` a stable \`@id\` and render the row-bound input component (yielded from \`SL.Row\`) to make it selectable; clicking anywhere in the row, or the input itself, selects it.
-
-By default selection state is managed internally, optionally seeded with \`@selectedInitialRow\`. Pass \`@onSelectionChange\` to be notified whenever the selected row changes, and/or \`@selectedRow\` to fully control the selection from outside the component (for example to drive it from route or query param state):
-
-\`\`\`hbs
-<StructuredList
-  @selection={{true}}
-  @selectedRow={{this.selectedRow}}
-  @onSelectionChange={{this.handleSelectionChange}}
-  as |SL|
->
-  <SL.Row @id="row-1" as |Input|>
-    <Input @name="environments" />
-    ...
-  </SL.Row>
-</StructuredList>
-\`\`\``;
-
 export const Selection = meta.story({
   args: {
-    ariaLabel: 'Deployment environments',
-    selection: true,
-    onSelectionChange: fn(),
+    'aria-label': 'Deployment environments',
   },
   parameters: {
-    controls: { include: ['ariaLabel', 'isCondensed'] },
-    docs: { description: { story: selectionDescription } },
+    controls: { include: ['aria-label', 'isCondensed'] },
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <SelectionList
       @prefix=""
-      @ariaLabel={{args.ariaLabel}}
+      @ariaLabel={{args.aria-label}}
       @isCondensed={{args.isCondensed}}
-      @onSelectionChange={{args.onSelectionChange}}
     />
   </template>,
 });
 
-Selection.test(
-  'selects the clicked row',
-  async ({ canvas, userEvent, args }) => {
-    const staging = canvas.getByRole('radio', { name: 'Staging' });
-    await expect(staging).not.toBeChecked();
+Selection.test('selects the clicked row', async ({ canvas, userEvent }) => {
+  const staging = canvas.getByRole('radio', { name: 'Staging' });
+  await expect(staging).not.toBeChecked();
 
-    await userEvent.click(canvas.getByText('Dallas'));
-    await expect(staging).toBeChecked();
-    await expect(args.onSelectionChange).toHaveBeenLastCalledWith('row-1');
+  await userEvent.click(canvas.getByText('Dallas'));
+  await expect(staging).toBeChecked();
+  await expect(staging.closest('[role="row"]')).toHaveClass(
+    'cds--structured-list-row--selected',
+  );
 
-    await userEvent.click(canvas.getByText('London'));
-    await expect(staging).not.toBeChecked();
-    await expect(
-      canvas.getByRole('radio', { name: 'Development' }),
-    ).toBeChecked();
-    await expect(args.onSelectionChange).toHaveBeenLastCalledWith('row-2');
-  },
-);
+  await userEvent.click(canvas.getByText('London'));
+  await expect(staging).not.toBeChecked();
+  await expect(
+    canvas.getByRole('radio', { name: 'Development' }),
+  ).toBeChecked();
+});
 
 export const InitialSelection = meta.story({
   args: {
-    ariaLabel: 'Deployment environments',
-    selection: true,
+    'aria-label': 'Deployment environments',
     selectedInitialRow: 'row-2',
   },
   argTypes: {
@@ -252,12 +232,14 @@ export const InitialSelection = meta.story({
     },
   },
   parameters: {
-    controls: { include: ['ariaLabel', 'isCondensed', 'selectedInitialRow'] },
+    controls: {
+      include: ['aria-label', 'isCondensed', 'selectedInitialRow'],
+    },
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <SelectionList
       @prefix=""
-      @ariaLabel={{args.ariaLabel}}
+      @ariaLabel={{args.aria-label}}
       @isCondensed={{args.isCondensed}}
       @selectedInitialRow={{args.selectedInitialRow}}
     />
@@ -272,74 +254,21 @@ InitialSelection.test('seeds the selected row', async ({ canvas }) => {
 
 export const WithBackgroundLayer = meta.story({
   args: {
-    ariaLabel: 'Deployment environments',
-    selection: true,
+    'aria-label': 'Deployment environments',
   },
   parameters: {
-    controls: { include: ['ariaLabel', 'isCondensed'] },
+    controls: { include: ['aria-label', 'isCondensed'] },
   },
-  render: (args) => <template>
+  render: (args: StoryArgs) => <template>
     <WithLayer as |layer|>
       <SelectionList
         @prefix={{concat "layer-" layer "-"}}
-        @ariaLabel={{args.ariaLabel}}
+        @ariaLabel={{args.aria-label}}
         @isCondensed={{args.isCondensed}}
       />
     </WithLayer>
   </template>,
 });
-
-export const MultiSelection = meta.story({
-  args: {
-    ariaLabel: 'Deployment environments',
-    selection: true,
-    multiSelection: true,
-    onMultiSelectionChange: fn(),
-  },
-  parameters: {
-    controls: { include: ['ariaLabel', 'isCondensed'] },
-    docs: {
-      description: {
-        story: `Carbon React's \`StructuredListWrapper\` only ever supports single (radio-style) selection. As an Ember-specific addition, passing \`@multiSelection={{true}}\` alongside \`@selection={{true}}\` turns each row into a checkbox-style selectable item instead, allowing more than one row to be selected at once.
-
-The API mirrors the single-selection one: \`@selectedInitialRows\` seeds the internal state, \`@onMultiSelectionChange\` is called with the full array of selected row ids whenever it changes, and \`@selectedRows\` lets you fully control selection from outside the component.`,
-      },
-    },
-  },
-  render: (args) => <template>
-    <SelectionList
-      @prefix=""
-      @multiSelection={{true}}
-      @ariaLabel={{args.ariaLabel}}
-      @isCondensed={{args.isCondensed}}
-      @selectedInitialRows={{array "row-0"}}
-      @onMultiSelectionChange={{args.onMultiSelectionChange}}
-    />
-  </template>,
-});
-
-MultiSelection.test(
-  'toggles several rows',
-  async ({ canvas, userEvent, args }) => {
-    const production = canvas.getByRole('checkbox', { name: 'Production' });
-    await expect(production).toBeChecked();
-
-    await userEvent.click(canvas.getByText('Dallas'));
-    await expect(
-      canvas.getByRole('checkbox', { name: 'Staging' }),
-    ).toBeChecked();
-    await expect(args.onMultiSelectionChange).toHaveBeenLastCalledWith([
-      'row-0',
-      'row-1',
-    ]);
-
-    await userEvent.click(canvas.getByText('Frankfurt'));
-    await expect(production).not.toBeChecked();
-    await expect(args.onMultiSelectionChange).toHaveBeenLastCalledWith([
-      'row-1',
-    ]);
-  },
-);
 
 export const Condensed = Default.extend({
   args: {
@@ -355,25 +284,28 @@ export const Flush = Default.extend({
     docs: {
       description: {
         story:
-          '`@isFlush` removes the left/right padding on the outer columns. It has no effect when `@selection` is enabled.',
+          "`@isFlush` removes the outer columns' side padding. It has no effect with `@selection`.",
       },
     },
   },
 });
 
 export const Skeleton = meta.story({
+  args: {
+    rowCount: 5,
+  },
   parameters: {
-    controls: { disable: true },
+    controls: { include: ['rowCount'] },
     docs: {
       description: {
         story:
-          '`StructuredListSkeleton` stands in for the component while its content loads. Its own page has controls for its arguments.',
+          '`StructuredListSkeleton` stands in for the list while its content loads.',
       },
     },
   },
-  render: () => <template>
+  render: (args: StoryArgs) => <template>
     <div class="structured-list-story__skeleton">
-      <StructuredListSkeleton />
+      <StructuredListSkeleton @rowCount={{args.rowCount}} />
     </div>
   </template>,
 });

@@ -268,6 +268,18 @@
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
   },
+  "StructuredListBody": {
+    "missing": {
+      "head": "Carbon React declares it but never reads it: it reaches the `<div>` with the other props."
+    }
+  },
+  "StructuredListInput": {
+    "missing": {
+      "id": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it. Without one, it gets a generated id.",
+      "name": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it. Without one, it gets a generated one.",
+      "title": "A plain attribute on the `<input>`, through `...attributes`, where Carbon React puts it."
+    }
+  },
   "SwitcherItem": {
     "missing": {
       "expanded": "Switcher yields the item bound to it (@switcher), whose @expanded it follows; Carbon React clones these props into its children.",

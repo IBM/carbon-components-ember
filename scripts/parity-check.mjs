@@ -78,7 +78,11 @@ const SOURCES = [
     // the Ember export names 1:1, except a directory of several components,
     // tracked through one of them.
     nameToEmberExport: (name) =>
-      ({ Notification: 'ToastNotification', UIShell: 'Header' })[name] ?? name,
+      ({
+        Notification: 'ToastNotification',
+        StructuredList: 'StructuredListWrapper',
+        UIShell: 'Header',
+      })[name] ?? name,
   },
   {
     id: 'carbon-ai-chat',

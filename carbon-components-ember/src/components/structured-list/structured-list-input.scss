@@ -1,0 +1,7 @@
+// Carbon fills a row's checkmark when the checked input comes right before
+// its cell; here the input sits in a cell of its own.
+.cds--ember-structured-list-input:has(> .cds--structured-list-input:checked)
+  + .cds--structured-list-td
+  .cds--structured-list-svg {
+  fill: var(--cds-icon-primary, #161616);
+}

@@ -15,7 +15,7 @@ export interface StructuredListSkeletonSignature {
   };
 }
 
-/** A loading placeholder for a `StructuredList`. */
+/** A loading placeholder for a `StructuredListWrapper` and its rows. */
 export default class StructuredListSkeleton extends Component<StructuredListSkeletonSignature> {
   get rows() {
     return Array.from({ length: this.args.rowCount ?? 5 });

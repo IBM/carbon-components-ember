@@ -71,7 +71,10 @@ import IconIndicator from '#src/components/icon-indicator.gts';
 import ShapeIndicator from '#src/components/shape-indicator.gts';
 import Slider from '#src/components/slider.gts';
 import Accordion from '#src/components/accordion.gts';
-import StructuredList from '#src/components/structured-list.gts';
+import StructuredListBody from '#src/components/structured-list/structured-list-body.gts';
+import StructuredListCell from '#src/components/structured-list/structured-list-cell.gts';
+import StructuredListHead from '#src/components/structured-list/structured-list-head.gts';
+import StructuredListWrapper from '#src/components/structured-list/structured-list-wrapper.gts';
 import Tabs from '#src/components/tabs.gts';
 import TabContent from '#src/components/tab-content.gts';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
@@ -5867,24 +5870,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5898,24 +5901,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('condensed', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @isCondensed={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper @isCondensed={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5929,24 +5932,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('flush', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @isFlush={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper @isFlush={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5960,34 +5963,42 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selection', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @selection={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1" as |Input|>
-                <Input
-                  @id="row-1-input"
-                  @name="structured-list-input"
-                  @title="Row 1"
+          <StructuredListWrapper @selection={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}} @selection={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow
+                @id="row-1"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-1-input"
+                  name="structured-list-input"
+                  title="Row 1"
                 />
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2" as |Input|>
-                <Input
-                  @id="row-2-input"
-                  @name="structured-list-input"
-                  @title="Row 2"
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow
+                @id="row-2"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-2-input"
+                  name="structured-list-input"
+                  title="Row 2"
                 />
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -6001,38 +6012,46 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selection-initial-row', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList
+          <StructuredListWrapper
             @selection={{true}}
             @selectedInitialRow="row-2"
-            as |SL|
+            as |StructuredListRow|
           >
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1" as |Input|>
-                <Input
-                  @id="row-1-input"
-                  @name="structured-list-input"
-                  @title="Row 1"
+            <StructuredListHead>
+              <StructuredListRow @head={{true}} @selection={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow
+                @id="row-1"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-1-input"
+                  name="structured-list-input"
+                  title="Row 1"
                 />
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2" as |Input|>
-                <Input
-                  @id="row-2-input"
-                  @name="structured-list-input"
-                  @title="Row 2"
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow
+                @id="row-2"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-2-input"
+                  name="structured-list-input"
+                  title="Row 2"
                 />
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
