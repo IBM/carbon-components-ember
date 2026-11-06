@@ -135,6 +135,18 @@
       "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
     }
   },
+  "Tab": {
+    "missing": {
+      "renderButton": "Carbon React's Tab declares it but never calls it; @href and @route link a tab."
+    },
+    "extra": {
+      "href": "Carbon React's Tab takes `as` (a router Link, or `a` with `href`), which Ember can't take for a component; @href links the tab, as Button's does.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
   "TabList": {
     "missing": {
       "leftOverflowButtonProps": "Attributes for the scroll buttons: Glimmer can't spread an object of attributes onto an element, and `...attributes` goes to the tablist, where React spreads its rest props.",
