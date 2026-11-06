@@ -302,12 +302,12 @@
   },
   "OperationalTag": {
     "missing": {
-      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state or click."
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its click."
     }
   },
   "SelectableTag": {
     "missing": {
-      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state or click."
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state."
     }
   }
 }

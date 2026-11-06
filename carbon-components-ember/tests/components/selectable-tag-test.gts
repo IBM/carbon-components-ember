@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find, render, settled, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
+import { Add } from '#src/icons.ts';
 import SelectableTag from '#src/components/selectable-tag.gts';
 
 module('Integration | Component | SelectableTag', (hooks) => {
@@ -99,6 +100,31 @@ module('Integration | Component | SelectableTag', (hooks) => {
 
     assert.strictEqual(clicks, 1);
     assert.dom('.cds--tag').hasAria('pressed', 'true');
+  });
+
+  test('its icon shows, except at the small size', async function (assert) {
+    await render(
+      <template>
+        <SelectableTag @renderIcon={{Add}} @text="Tag content" />
+      </template>,
+    );
+    assert.dom('.cds--tag__custom-icon svg').exists();
+
+    await render(
+      <template>
+        <SelectableTag @renderIcon={{Add}} @size="sm" @text="Tag content" />
+      </template>,
+    );
+    assert.dom('.cds--tag__custom-icon').doesNotExist();
+    assert.dom('.cds--tag').hasClass('cds--tag--sm');
+  });
+
+  test('@id is its id', async function (assert) {
+    await render(
+      <template><SelectableTag @id="my-tag" @text="Tag content" /></template>,
+    );
+
+    assert.dom('.cds--tag').hasAttribute('id', 'my-tag');
   });
 
   test('@disabled disables it', async function (assert) {

@@ -279,6 +279,24 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--open');
   });
 
+  test('@closeOnActivation closes the tooltip even when the trigger stops the click', async function (assert) {
+    const stop = (event: MouseEvent) => event.stopPropagation();
+
+    await render(
+      <template>
+        <Tooltip @label="Close" @closeOnActivation={{true}}>
+          <button type="button" {{on "click" stop}}>Trigger</button>
+        </Tooltip>
+      </template>,
+    );
+
+    await focus('button');
+    assert.dom('.cds--tooltip').hasClass('cds--popover--open');
+
+    await click('button');
+    assert.dom('.cds--tooltip').doesNotHaveClass('cds--popover--open');
+  });
+
   test('renders custom content via the content block', async function (assert) {
     await render(
       <template>

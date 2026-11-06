@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find, render, waitUntil } from '@ember/test-helpers';
+import { Add } from '#src/icons.ts';
 import OperationalTag from '#src/components/operational-tag.gts';
 
 module('Integration | Component | OperationalTag', (hooks) => {
@@ -44,6 +45,31 @@ module('Integration | Component | OperationalTag', (hooks) => {
     await click('.cds--tag');
 
     assert.strictEqual(clicks, 1);
+  });
+
+  test('its icon shows, except at the small size', async function (assert) {
+    await render(
+      <template>
+        <OperationalTag @renderIcon={{Add}} @text="Tag content" />
+      </template>,
+    );
+    assert.dom('.cds--tag__custom-icon svg').exists();
+
+    await render(
+      <template>
+        <OperationalTag @renderIcon={{Add}} @size="sm" @text="Tag content" />
+      </template>,
+    );
+    assert.dom('.cds--tag__custom-icon').doesNotExist();
+    assert.dom('.cds--tag').hasClass('cds--tag--sm');
+  });
+
+  test('@id is its id', async function (assert) {
+    await render(
+      <template><OperationalTag @id="my-tag" @text="Tag content" /></template>,
+    );
+
+    assert.dom('.cds--tag').hasAttribute('id', 'my-tag');
   });
 
   test('@disabled disables it', async function (assert) {

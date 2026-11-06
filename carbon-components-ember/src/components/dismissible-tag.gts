@@ -156,7 +156,6 @@ export default class DismissibleTag extends Component<DismissibleTagSignature> {
               disabled={{@disabled}}
               type="button"
               {{on "click" this.close}}
-            ><Close /></button></Tooltip></div></span>
-    </div>
+            ><Close /></button></Tooltip></div></span></div>
   </template>
 }

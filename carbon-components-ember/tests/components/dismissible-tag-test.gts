@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find, render, waitUntil } from '@ember/test-helpers';
+import { click, find, focus, render, waitUntil } from '@ember/test-helpers';
 import DismissibleTag from '#src/components/dismissible-tag.gts';
 import { Add } from '#src/icons.ts';
 
@@ -68,6 +68,42 @@ module('Integration | Component | DismissibleTag', (hooks) => {
     assert.strictEqual(closes.length, 1);
     assert.ok(closes[0] instanceof MouseEvent);
     assert.strictEqual(bubbled, 0, 'as Carbon React, it stops propagation');
+  });
+
+  test('a press closes the dismiss tooltip, even while the tag stays', async function (assert) {
+    const onClose = () => {};
+
+    await render(
+      <template>
+        <DismissibleTag @onClose={{onClose}} @text="Tag content" @type="gray" />
+      </template>,
+    );
+    await focus('.cds--tag__close-icon');
+    assert.dom('.cds--tag-label-tooltip').hasClass('cds--popover--open');
+
+    await click('.cds--tag__close-icon');
+
+    assert
+      .dom('.cds--tag-label-tooltip')
+      .doesNotHaveClass('cds--popover--open');
+  });
+
+  test('@dismissTooltipAlignment places the dismiss tooltip', async function (assert) {
+    await render(
+      <template>
+        <DismissibleTag
+          @dismissTooltipAlignment="top-start"
+          @text="Tag content"
+          @type="gray"
+        />
+      </template>,
+    );
+    assert.dom('.cds--tag-label-tooltip').hasClass('cds--popover--top-start');
+
+    await render(
+      <template><DismissibleTag @text="Tag content" @type="gray" /></template>,
+    );
+    assert.dom('.cds--tag-label-tooltip').hasClass('cds--popover--bottom');
   });
 
   test('without @onClose, the click goes on up', async function (assert) {

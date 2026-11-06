@@ -189,23 +189,63 @@ export const WithIcon = meta.story({
   },
 });
 
-// **Experimental:** the `<:decorator>` block yields an `AILabel` already
-// sized for the tag (small and inline); the tag's text then goes in
-// `<:default>`.
+// **Experimental:** Tag's and DismissibleTag's `<:decorator>` block yields an
+// `AILabel` already sized for the tag (small and inline); a Tag's text then
+// goes in `<:default>`.
 export const WithAILabel = meta.story({
   args: {
-    type: 'red',
-    label: 'With AI label',
+    label: 'Tag content',
   },
+  argTypes: { type: { control: false } },
   render: (args: StoryArgs) => <template>
-    <Tag @type={{args.type}} @size={{args.size}}>
-      <:default>{{args.label}}</:default>
-      <:decorator as |AILabel|>
-        <AILabel @align="bottom-start" as |label|>
-          <label.Content><AIExplanation /></label.Content>
-        </AILabel>
-      </:decorator>
-    </Tag>
+    <div class="tag-story__group tag-story__ai-label">
+      <Tag @size={{args.size}} @title="Clear Filter" @type="red">
+        <:default>{{args.label}}</:default>
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Tag>
+      <DismissibleTag
+        @size={{args.size}}
+        @text={{args.label}}
+        @title="Clear Filter"
+        @type="purple"
+      >
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </DismissibleTag>
+      <Tag
+        @renderIcon={{Asleep}}
+        @size={{args.size}}
+        @title="Clear Filter"
+        @type="blue"
+      >
+        <:default>{{args.label}}</:default>
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </Tag>
+      <DismissibleTag
+        @renderIcon={{Asleep}}
+        @size={{args.size}}
+        @text={{args.label}}
+        @title="Clear Filter"
+        @type="green"
+      >
+        <:decorator as |AILabel|>
+          <AILabel @align="bottom-start" as |label|>
+            <label.Content><AIExplanation /></label.Content>
+          </AILabel>
+        </:decorator>
+      </DismissibleTag>
+    </div>
   </template>,
 });
 

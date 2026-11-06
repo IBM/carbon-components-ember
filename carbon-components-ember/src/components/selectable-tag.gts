@@ -113,7 +113,6 @@ export default class SelectableTag extends Component<SelectableTagSignature> {
             title={{@text}}
             dir="auto"
             {{this.watchTruncation}}
-          >{{@text}}</span></span>
-      </button></TagLabelTooltip>
+          >{{@text}}</span></span></button></TagLabelTooltip>
   </template>
 }

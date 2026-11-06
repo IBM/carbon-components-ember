@@ -13,6 +13,10 @@
   margin-block-end: 1rem;
 }
 
+.tag-story__ai-label {
+  margin-block-end: 4rem;
+}
+
 .tag-story__popovers {
   margin-block-start: 1rem;
 }
