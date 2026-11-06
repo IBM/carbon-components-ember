@@ -1,9 +1,27 @@
 {
   "component": "Theme",
-  "generatedAt": "2026-10-28T11:06:02.739Z",
+  "generatedAt": "2026-11-06T22:15:12.524Z",
   "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layer-one"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "text",
+            "text": "Theme content"
+          }
+        ]
+      }
+    },
     "white": {
       "props": {
         "theme": "white"

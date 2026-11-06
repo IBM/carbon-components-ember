@@ -177,7 +177,8 @@
     "app-js": {
       "./services/carbon/ai-chat-session.js": "./dist/_app_/services/carbon/ai-chat-session.js",
       "./services/carbon/layers.js": "./dist/_app_/services/carbon/layers.js",
-      "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
+      "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js",
+      "./services/carbon/theme.js": "./dist/_app_/services/carbon/theme.js"
     }
   }
 }

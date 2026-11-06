@@ -1187,21 +1187,11 @@ const layer = (name, props) => ({
     React.createElement(Carbon.Layer, props, 'Layer content'),
 });
 
-// Upstream's `theme` prop has no default of its own - a theme-less render
-// only ever applies `cds--layer-one` (none of the `cds--white`/`g10`/`g90`/
-// `g100` branches match `undefined`). Ember's `Theme` always defaults
-// `@theme` to `'white'`, so every variant here passes an explicit `theme`
-// (matching what Ember always effectively renders) rather than comparing
-// against upstream's genuinely different theme-less shape.
 const theme = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(
-      Carbon.Theme,
-      { theme: 'white', ...props },
-      'Theme content',
-    ),
+    React.createElement(Carbon.Theme, props, 'Theme content'),
 });
 
 // Rendered standalone, with no ambient `TextDirectionContext` - matching
@@ -2409,6 +2399,8 @@ export const COMPONENTS = [
   {
     name: 'Theme',
     variants: [
+      // Without a theme it keeps the one around it: only `cds--layer-one`.
+      theme('default', {}),
       theme('white', { theme: 'white' }),
       theme('g10', { theme: 'g10' }),
       theme('g90', { theme: 'g90' }),

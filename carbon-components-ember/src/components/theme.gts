@@ -1,6 +1,11 @@
 import Component from '@glimmer/component';
+import { service } from '@ember/service';
+import { isDarkTheme, themeClass } from '../utils/theme.ts';
 
-export type CarbonTheme = 'white' | 'g10' | 'g90' | 'g100';
+import type ThemeService from '../services/theme.ts';
+import type { CarbonTheme } from '../utils/theme.ts';
+
+export type { CarbonTheme } from '../utils/theme.ts';
 
 export interface ThemeSignature {
   Element: HTMLElement;
@@ -19,26 +24,31 @@ export interface ThemeSignature {
  * Applies one of the Carbon themes (`white`, `g10`, `g90`, `g100`) to a
  * section of the page. Carbon emits the theme's CSS custom properties for
  * the `cds--<theme>` zone classes, so everything rendered inside picks up
- * the selected theme's tokens.
+ * the selected theme's tokens. Without `@theme` it keeps the theme around it.
  *
  * The block receives `theme` and `isDark`, the Ember analog of React's
- * `useTheme` hook.
+ * `useTheme` hook; without `@theme`, they are the app's, from the
+ * `carbon.theme` service.
  */
 export default class Theme extends Component<ThemeSignature> {
+  @service('carbon.theme') declare globalTheme: ThemeService;
+
   get tag(): keyof HTMLElementTagNameMap {
     return this.args.as ?? 'div';
   }
 
   get theme(): CarbonTheme {
-    return this.args.theme ?? 'white';
+    return this.args.theme ?? this.globalTheme.theme;
   }
 
   get isDark() {
-    return this.theme === 'g90' || this.theme === 'g100';
+    return isDarkTheme(this.theme);
   }
 
   get classes() {
-    return `cds--${this.theme} cds--layer-one`;
+    return this.args.theme
+      ? `${themeClass(this.args.theme)} cds--layer-one`
+      : 'cds--layer-one';
   }
 
   <template>
