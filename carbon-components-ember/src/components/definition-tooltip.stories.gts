@@ -1,13 +1,15 @@
+import { RenderStory } from 'ember-storybook';
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import DefinitionTooltip from './definition-tooltip.gts';
-import { NewPopoverAlignments } from './popover.gts';
+import { PopoverAlignments } from './popover.gts';
 
 import type { DefinitionTooltipSignature } from './definition-tooltip.gts';
+import '#storybook/styles/definition-tooltip.css';
 
-// Parity gap with Carbon React's DefinitionTooltip stories: the deprecated
-// `alignDeprecated` values aren't accepted.
+// Parity gap with Carbon React's DefinitionTooltip stories: one `align`
+// control lists the deprecated values too, where React has a second one.
 
 const meta = preview.type<{ args: DefinitionTooltipSignature['Args'] }>().meta({
   title: 'Components/DefinitionTooltip',
@@ -29,14 +31,21 @@ const meta = preview.type<{ args: DefinitionTooltipSignature['Args'] }>().meta({
     openOnHover: true,
   },
   argTypes: {
-    align: { control: 'select', options: NewPopoverAlignments },
+    align: { control: 'select', options: PopoverAlignments },
     autoAlign: { control: 'boolean' },
   },
+  decorators: [
+    (Story, context) => <template>
+      <div class="definition-tooltip-story__frame">
+        <RenderStory @story={{Story}} @args={{context.args}} />
+      </div>
+    </template>,
+  ],
 });
 
 export const Default = meta.story({
   render: (args) => <template>
-    <p>
+    <p class="definition-tooltip-story__text">
       Custom domains direct requests for your apps in this Cloud Foundry
       organization to a
       <DefinitionTooltip
@@ -69,7 +78,7 @@ Default.test(
 
 export const WithLargeText = meta.story({
   render: (args) => <template>
-    <p>
+    <p class="definition-tooltip-story__text">
       Custom domains direct requests for your apps in this Cloud Foundry
       organization to a
       <DefinitionTooltip
