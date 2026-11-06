@@ -41,6 +41,8 @@ import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
+import Pagination from '#src/components/pagination.gts';
+import type { PaginationSignature } from '#src/components/pagination.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
@@ -123,6 +125,7 @@ import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
 import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
+import paginationFixture from '../../../dom-parity/fixtures/Pagination.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
 import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
@@ -3320,6 +3323,87 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, selectFixture, Object.keys(variants));
+    });
+  });
+
+  module('Pagination', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with.
+    const sizes = [10, 20, 30];
+    const variants: Record<string, PaginationSignature['Args']> = {
+      default: { totalItems: 103, pageSizes: sizes },
+      'no-page-sizes': { totalItems: 103 },
+      'page-2': { totalItems: 103, pageSizes: sizes, page: 2 },
+      'last-page': { totalItems: 103, pageSizes: sizes, page: 11 },
+      'page-size-20': { totalItems: 103, pageSizes: sizes, pageSize: 20 },
+      'custom-page-sizes': {
+        totalItems: 103,
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      },
+      'pages-unknown': { pageSizes: sizes, pagesUnknown: true, page: 2 },
+      'is-last-page': {
+        pageSizes: sizes,
+        pagesUnknown: true,
+        isLastPage: true,
+      },
+      'no-items': { totalItems: 0 },
+      disabled: { totalItems: 103, pageSizes: sizes, disabled: true },
+      'page-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageInputDisabled: true,
+      },
+      'page-size-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageSizeInputDisabled: true,
+      },
+      'size-sm': { totalItems: 103, pageSizes: sizes, size: 'sm' },
+      'size-lg': { totalItems: 103, pageSizes: sizes, size: 'lg' },
+      'custom-texts': {
+        totalItems: 103,
+        pageSizes: sizes,
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Pagination
+              @id="pagination-1"
+              @totalItems={{props.totalItems}}
+              @pageSizes={{props.pageSizes}}
+              @page={{props.page}}
+              @pageSize={{props.pageSize}}
+              @pagesUnknown={{props.pagesUnknown}}
+              @isLastPage={{props.isLastPage}}
+              @disabled={{props.disabled}}
+              @pageInputDisabled={{props.pageInputDisabled}}
+              @pageSizeInputDisabled={{props.pageSizeInputDisabled}}
+              @size={{props.size}}
+              @backwardText={{props.backwardText}}
+              @forwardText={{props.forwardText}}
+              @itemsPerPageText={{props.itemsPerPageText}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          paginationFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, paginationFixture, Object.keys(variants));
     });
   });
 

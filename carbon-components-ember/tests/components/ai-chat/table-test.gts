@@ -152,9 +152,11 @@ module('Integration | Component | ai-chat/AiChatTable', (hooks) => {
     );
 
     assert
-      .dom('[data-page-backward]')
+      .dom('.cds--pagination__button--backward')
       .hasAttribute('aria-label', 'Previous page');
-    assert.dom('[data-page-forward]').hasAttribute('aria-label', 'Next page');
+    assert
+      .dom('.cds--pagination__button--forward')
+      .hasAttribute('aria-label', 'Next page');
   });
 
   test('it keeps the default page size after pagination unmounts and remounts due to filtering', async function (assert) {

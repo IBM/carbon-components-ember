@@ -969,6 +969,17 @@ const select = (name, props) => ({
     ),
 });
 
+const pagination = (name, props) => ({
+  name,
+  props: { id: 'pagination-1', totalItems: 103, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Pagination, {
+      id: 'pagination-1',
+      totalItems: 103,
+      ...props,
+    }),
+});
+
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
 // overlay is the <dialog> itself, so compare from the container in.
 const modal = (name, props) => ({
@@ -2150,6 +2161,52 @@ export const COMPONENTS = [
       ),
       breadcrumb('custom-link', {}, { link: '#b' }),
       breadcrumb('overflow-menu', {}, { overflowMenu: true }),
+    ],
+  },
+  {
+    name: 'Pagination',
+    variants: [
+      pagination('default', { pageSizes: [10, 20, 30] }),
+      pagination('no-page-sizes', {}),
+      pagination('page-2', { pageSizes: [10, 20, 30], page: 2 }),
+      pagination('last-page', { pageSizes: [10, 20, 30], page: 11 }),
+      pagination('page-size-20', { pageSizes: [10, 20, 30], pageSize: 20 }),
+      pagination('custom-page-sizes', {
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      }),
+      pagination('pages-unknown', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        totalItems: undefined,
+        page: 2,
+      }),
+      pagination('is-last-page', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        isLastPage: true,
+        totalItems: undefined,
+      }),
+      pagination('no-items', { totalItems: 0 }),
+      pagination('disabled', { pageSizes: [10, 20, 30], disabled: true }),
+      pagination('page-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageInputDisabled: true,
+      }),
+      pagination('page-size-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageSizeInputDisabled: true,
+      }),
+      pagination('size-sm', { pageSizes: [10, 20, 30], size: 'sm' }),
+      pagination('size-lg', { pageSizes: [10, 20, 30], size: 'lg' }),
+      pagination('custom-texts', {
+        pageSizes: [10, 20, 30],
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      }),
     ],
   },
   {
