@@ -7,6 +7,7 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
+import DefinitionTooltip from '#src/components/definition-tooltip.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import CodeSnippet from '#src/components/code-snippet.gts';
 import Copy from '#src/components/copy.gts';
@@ -86,6 +87,7 @@ import {
 import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
+import definitionTooltipFixture from '../../../dom-parity/fixtures/DefinitionTooltip.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
@@ -712,6 +714,121 @@ module('DOM parity | Carbon React', function (hooks) {
         'disabled',
         'size-sm',
         'size-lg',
+      ]);
+    });
+  });
+
+  module('DefinitionTooltip', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('default-open', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @defaultOpen={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default-open',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('align-top', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @align="top"
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'align-top',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('auto-align', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @autoAlign={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'auto-align',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('class-names', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @className="custom-popover"
+            @definition="Uniform Resource Locator"
+            @triggerClassName="custom-trigger"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'class-names',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('id', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+            @id="url-definition"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'id',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, definitionTooltipFixture, [
+        'default',
+        'default-open',
+        'align-top',
+        'auto-align',
+        'class-names',
+        'id',
       ]);
     });
   });
