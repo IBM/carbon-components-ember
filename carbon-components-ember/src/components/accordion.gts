@@ -28,7 +28,10 @@ export interface AccordionItemSignature {
     accordion: Accordion;
     isOpen?: boolean;
     isDisabled?: boolean;
-    /** The item's title, as text. Markup goes in the `<:title>` block. */
+    /**
+     * The item's title, as text. Markup goes in the `<:title>` block.
+     * Defaults to `title`, as in Carbon React.
+     */
     title?: string;
   };
   Blocks: {
@@ -96,7 +99,7 @@ class AccordionItem extends Component<AccordionItemSignature> {
           {{~#if (has-block "title")~}}
             {{yield to="title"}}
           {{~else~}}
-            {{@title}}
+            {{or @title "title"}}
           {{~/if~}}
         </div>
       </button>

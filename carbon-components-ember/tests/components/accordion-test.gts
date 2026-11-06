@@ -225,6 +225,16 @@ module('Integration | Component | Accordion', (hooks) => {
     );
   });
 
+  test('without a title, it is "title", as in Carbon React', async function (assert) {
+    await render(
+      <template>
+        <Accordion as |Item|><Item>Content</Item></Accordion>
+      </template>,
+    );
+
+    assert.strictEqual(find('.cds--accordion__title')?.textContent, 'title');
+  });
+
   test('the title block takes markup, with the content in the default block', async function (assert) {
     await render(
       <template>
