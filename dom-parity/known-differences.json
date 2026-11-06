@@ -734,5 +734,25 @@
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
     }
+  ],
+  "DismissibleTag": [
+    {
+      "path": "div > span[0] > div[0] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the dismiss button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside matches."
+    },
+    {
+      "path": "div > span[0] > div[0] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > span[1] > div[0] > span[1] > div[0]",
+      "variant": "with-icon",
+      "reason": "The `div > span[0] > div[0] > span[1] > div[0]` entry, after the icon."
+    },
+    {
+      "path": "div > span[1] > div[0] > span[1] > span[1]",
+      "variant": "with-icon",
+      "reason": "The `div > span[0] > div[0] > span[1] > span[1]` entry, after the icon."
+    }
   ]
 }
