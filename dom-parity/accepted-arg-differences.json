@@ -294,5 +294,20 @@
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
     }
+  },
+  "DismissibleTag": {
+    "missing": {
+      "as": "Holds its dismiss button, so it stays a `<div>`: React's `as`, which it passes on to Tag, would put the button inside a link or another element."
+    }
+  },
+  "OperationalTag": {
+    "missing": {
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state or click."
+    }
+  },
+  "SelectableTag": {
+    "missing": {
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state or click."
+    }
   }
 }

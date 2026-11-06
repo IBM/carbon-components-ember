@@ -1,14 +1,23 @@
+import { trackedObject } from '@ember/reactive/collections';
+import { expect, fn as spy } from 'storybook/test';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
+import Button from './button.gts';
+import DismissibleTag from './dismissible-tag.gts';
+import OperationalTag from './operational-tag.gts';
+import Popover from './popover.gts';
+import SelectableTag from './selectable-tag.gts';
 import Tag from './tag.gts';
 import TagSkeleton from './tag-skeleton.gts';
 import Asleep from './icons/asleep.ts';
 
+import type { DismissibleTagSignature } from './dismissible-tag.gts';
+import type { OperationalTagSignature } from './operational-tag.gts';
 import type { TagSignature } from './tag.gts';
+import '#storybook/styles/tag.css';
 
 // Parity gaps with Carbon React's Tag stories:
-// - No `filter` arg, and no DismissibleTag, OperationalTag or
-//   SelectableTag components (React's separate Tag story files).
+// - No `filter` arg: Carbon React deprecates it for DismissibleTag.
 // - React moves `tabIndex` to the tooltip's trigger while the label is cut
 //   off; a `tabindex` attribute here stays on the tag.
 
@@ -30,16 +39,35 @@ const TYPES: TagSignature['Args']['type'][] = [
 // `label` isn't one of Tag's args: it's the text the story yields into the
 // tag's block. `preview.type()` replaces the inferred args rather than adding
 // to them, so spell out Tag's own args too.
-type StoryArgs = TagSignature['Args'] & { label: string };
+type StoryArgs = TagSignature['Args'] & {
+  label: string;
+  dismissTooltipAlignment?: DismissibleTagSignature['Args']['dismissTooltipAlignment'];
+  onChange?: (selected: boolean) => void;
+  onClose?: (event: MouseEvent) => void;
+};
+
+const OPERATIONAL_TYPES: OperationalTagSignature['Args']['type'][] = [
+  'red',
+  'magenta',
+  'purple',
+  'blue',
+  'cyan',
+  'teal',
+  'green',
+  'gray',
+  'cool-gray',
+  'warm-gray',
+];
 
 const meta = preview.type<{ args: StoryArgs }>().meta({
   title: 'Components/Tag',
   component: Tag,
+  subcomponents: { DismissibleTag, OperationalTag, SelectableTag },
   parameters: {
     docs: {
       description: {
         component:
-          "Tags label, categorize or organize items with a keyword or two. `@type` picks the color, `@size` the size (`sm`, `md` or `lg`), and `@renderIcon` adds an icon. A label too long for the tag is cut off and shows in a tooltip on a press or focus, as in Carbon React. With `@href`, or `@route` (plus `@models` and `@query`) for one of the app's routes, the tag's icon and label are a link, and a cut-off label gets no tooltip. Its `<:decorator>` block takes an AI label.",
+          "Tags label, categorize or organize items with a keyword or two. `@type` picks the color, `@size` the size (`sm`, `md` or `lg`), and `@renderIcon` adds an icon. A label too long for the tag is cut off and shows in a tooltip on a press or focus, as in Carbon React. With `@href`, or `@route` (plus `@models` and `@query`) for one of the app's routes, the tag's icon and label are a link, and a cut-off label gets no tooltip. Its `<:decorator>` block takes an AI label.\n\nThree interactive tags take their text as `@text`: `DismissibleTag` has a button that calls `@onClose`, for applied filters; `OperationalTag` is a button, with its handler in `{{on \"click\"}}`; and `SelectableTag` toggles, calling `@onChange` with whether it's selected (`@selected` wins over its own state, which `@defaultSelected` starts).",
       },
     },
   },
@@ -193,3 +221,260 @@ export const Skeleton = meta.story({
   },
   render: () => <template><TagSkeleton /></template>,
 });
+
+const SELECTABLE = [
+  { id: 1, text: 'Tag content with a long text description' },
+  { id: 2, text: 'Tag content 1' },
+  { id: 3, text: 'Tag content 2' },
+  { id: 4, text: 'Tag content 3' },
+];
+
+export const Selectable = meta.story({
+  args: { disabled: false, onChange: spy() },
+  argTypes: { type: { control: false }, label: { control: false } },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`SelectableTag` toggles on a press and calls `@onChange` with whether it is selected. Here the story keeps the selection, passing it back as `@selected`.',
+      },
+    },
+  },
+  render: (args: StoryArgs) => {
+    const state = trackedObject({ selected: [2] as number[] });
+    const isSelected = (id: number) => state.selected.includes(id);
+    const change = (id: number, selected: boolean) => {
+      state.selected = selected
+        ? [...state.selected, id]
+        : state.selected.filter((other) => other !== id);
+      args.onChange?.(selected);
+    };
+
+    return <template>
+      <div class="tag-story__group" aria-label="Selectable tags" role="group">
+        {{#each SELECTABLE as |tag|}}
+          <SelectableTag
+            @disabled={{args.disabled}}
+            @onChange={{fn change tag.id}}
+            @renderIcon={{Asleep}}
+            @selected={{isSelected tag.id}}
+            @size={{args.size}}
+            @text={{tag.text}}
+          />
+        {{/each}}
+      </div>
+    </template>;
+  },
+});
+
+Selectable.test(
+  'a press selects a tag and calls onChange',
+  async ({ canvas, userEvent, args }) => {
+    const tag = canvas.getByRole('button', { name: 'Tag content 2' });
+    await expect(tag).toHaveAttribute('aria-pressed', 'false');
+
+    await userEvent.click(tag);
+
+    await expect(tag).toHaveAttribute('aria-pressed', 'true');
+    await expect(args.onChange).toHaveBeenCalledWith(true);
+  },
+);
+
+export const Operational = meta.story({
+  args: { disabled: false, size: 'md' },
+  argTypes: { type: { control: false }, label: { control: false } },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`OperationalTag` is a button, so a tag can open more, such as a popover listing other tags. Its handler goes on it with `{{on "click"}}`, and a `Popover`\'s `trigger` modifier too.',
+      },
+    },
+  },
+  render: (args: StoryArgs) => {
+    const state = trackedObject({ open: false, openHighContrast: false });
+    const toggle = () => {
+      state.openHighContrast = false;
+      state.open = !state.open;
+    };
+    const toggleHighContrast = () => {
+      state.open = false;
+      state.openHighContrast = !state.openHighContrast;
+    };
+    const close = () => (state.open = false);
+    const closeHighContrast = () => (state.openHighContrast = false);
+
+    return <template>
+      <div
+        class="tag-story__group tag-story__operational"
+        aria-label="Operational tags"
+        role="group"
+      >
+        {{#each OPERATIONAL_TYPES as |type index|}}
+          <OperationalTag
+            @disabled={{args.disabled}}
+            @renderIcon={{Asleep}}
+            @size={{args.size}}
+            @text={{if
+              index
+              "Tag content"
+              "Tag content with a long text description"
+            }}
+            @type={{type}}
+          />
+        {{/each}}
+      </div>
+
+      <h4>Interactive examples</h4>
+      <div
+        class="tag-story__group tag-story__popovers"
+        aria-label="Operational tags with Popover"
+        role="group"
+      >
+        <Popover
+          @highContrast={{true}}
+          @onRequestClose={{closeHighContrast}}
+          @open={{state.openHighContrast}}
+          as |PopoverContent trigger|
+        >
+          <OperationalTag
+            @disabled={{args.disabled}}
+            @renderIcon={{Asleep}}
+            @size={{args.size}}
+            @text="Tag content"
+            aria-expanded={{if state.openHighContrast "true" "false"}}
+            {{on "click" toggleHighContrast}}
+            {{trigger}}
+          />
+          <PopoverContent class="tag-story__popover-content">
+            <p>Tag 1 name</p>
+            <p>Tag 2 name</p>
+            <p>Tag 3 name</p>
+            <p>Tag 4 name</p>
+            <p>Tag 5 name</p>
+          </PopoverContent>
+        </Popover>
+        <Popover
+          @onRequestClose={{close}}
+          @open={{state.open}}
+          as |PopoverContent trigger|
+        >
+          <OperationalTag
+            @disabled={{args.disabled}}
+            @renderIcon={{Asleep}}
+            @size={{args.size}}
+            @text="Tag content"
+            aria-expanded={{if state.open "true" "false"}}
+            {{on "click" toggle}}
+            {{trigger}}
+          />
+          <PopoverContent>
+            <div class="tag-story__group tag-story__group--column">
+              <Tag @size={{args.size}} @type="blue">Tag 1 name</Tag>
+              <Tag @size={{args.size}} @type="blue">Tag 2 name</Tag>
+              <Tag @size={{args.size}} @type="blue">Tag 3 name</Tag>
+              <Tag @size={{args.size}} @type="blue">Tag 4 name</Tag>
+              <Tag @size={{args.size}} @type="blue">Tag 5 name</Tag>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </template>;
+  },
+});
+
+const DISMISSIBLE: {
+  type: TagSignature['Args']['type'];
+  text: string;
+  tagTitle?: string;
+}[] = [
+  {
+    type: 'red',
+    text: 'Tag content with a long text description',
+    tagTitle: 'Provide a custom title to the tag',
+  },
+  ...TYPES.slice(1).map((type, index) => ({
+    type,
+    text: `Tag content ${index + 1}`,
+  })),
+];
+
+export const Dismissible = meta.story({
+  args: {
+    disabled: false,
+    size: 'md',
+    dismissTooltipAlignment: 'bottom',
+    onClose: spy(),
+  },
+  argTypes: {
+    type: { control: false },
+    label: { control: false },
+    dismissTooltipAlignment: {
+      control: 'select',
+      options: [
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'left-start',
+        'left-end',
+        'right',
+        'right-start',
+        'right-end',
+      ],
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "`DismissibleTag`'s button calls `@onClose`; the tag stays until the caller removes it, as this story does. Reset brings them all back.",
+      },
+    },
+  },
+  render: (args: StoryArgs) => {
+    const state = trackedObject({ tags: DISMISSIBLE });
+    const dismiss = (tag: (typeof DISMISSIBLE)[number], event: MouseEvent) => {
+      state.tags = state.tags.filter((other) => other !== tag);
+      args.onClose?.(event);
+    };
+    const reset = () => (state.tags = DISMISSIBLE);
+
+    return <template>
+      <Button class="tag-story__reset" {{on "click" reset}}>Reset</Button>
+      <div class="tag-story__group" aria-label="Dismissible tags" role="group">
+        {{#each state.tags as |tag|}}
+          <DismissibleTag
+            @disabled={{args.disabled}}
+            @dismissTooltipAlignment={{args.dismissTooltipAlignment}}
+            @onClose={{fn dismiss tag}}
+            @renderIcon={{Asleep}}
+            @size={{args.size}}
+            @tagTitle={{tag.tagTitle}}
+            @text={{tag.text}}
+            @title="Dismiss"
+            @type={{tag.type}}
+          />
+        {{/each}}
+      </div>
+    </template>;
+  },
+});
+
+Dismissible.test(
+  'a dismiss button calls onClose and the story removes its tag',
+  async ({ canvas, canvasElement, userEvent, args }) => {
+    const tags = () => canvasElement.querySelectorAll('.cds--tag--filter');
+    await expect(tags()).toHaveLength(12);
+
+    const tag = canvas.getByText('Tag content 1').closest('.cds--tag')!;
+    await userEvent.click(tag.querySelector('.cds--tag__close-icon')!);
+
+    await expect(args.onClose).toHaveBeenCalledOnce();
+    await expect(tags()).toHaveLength(11);
+    await expect(canvas.queryByText('Tag content 1')).toBeNull();
+  },
+);

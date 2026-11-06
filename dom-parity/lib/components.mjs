@@ -609,6 +609,21 @@ const tag = (name, props) => ({
     React.createElement(Carbon.Tag, props, 'Tag content'),
 });
 
+// DismissibleTag, OperationalTag and SelectableTag take their text as `text`.
+const interactiveTag = (component) => (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon[component], {
+      text: 'Tag content',
+      ...props,
+      ...(props.renderIcon && { renderIcon: Add }),
+    }),
+});
+const dismissibleTag = interactiveTag('DismissibleTag');
+const operationalTag = interactiveTag('OperationalTag');
+const selectableTag = interactiveTag('SelectableTag');
+
 const link = (name, props) => ({
   name,
   props,
@@ -1583,6 +1598,40 @@ export const COMPONENTS = [
       tag('disabled', { type: 'gray', disabled: true }),
       tag('size-sm', { type: 'gray', size: 'sm' }),
       tag('size-lg', { type: 'gray', size: 'lg' }),
+    ],
+  },
+  {
+    name: 'DismissibleTag',
+    variants: [
+      dismissibleTag('default', { type: 'red' }),
+      dismissibleTag('disabled', { type: 'gray', disabled: true }),
+      dismissibleTag('size-sm', { type: 'gray', size: 'sm' }),
+      dismissibleTag('with-icon', { type: 'blue', renderIcon: 'Add' }),
+      dismissibleTag('custom-title', {
+        type: 'gray',
+        title: 'Remove filter',
+        tagTitle: 'Full tag title',
+      }),
+    ],
+  },
+  {
+    name: 'OperationalTag',
+    variants: [
+      operationalTag('default', {}),
+      operationalTag('red', { type: 'red' }),
+      operationalTag('disabled', { disabled: true }),
+      operationalTag('size-sm', { size: 'sm' }),
+      operationalTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'SelectableTag',
+    variants: [
+      selectableTag('default', {}),
+      selectableTag('selected', { selected: true }),
+      selectableTag('disabled', { disabled: true }),
+      selectableTag('size-sm', { size: 'sm' }),
+      selectableTag('with-icon', { renderIcon: 'Add' }),
     ],
   },
   {

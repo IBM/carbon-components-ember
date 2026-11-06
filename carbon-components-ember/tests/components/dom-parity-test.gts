@@ -7,6 +7,9 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
+import DismissibleTag from '#src/components/dismissible-tag.gts';
+import OperationalTag from '#src/components/operational-tag.gts';
+import SelectableTag from '#src/components/selectable-tag.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import CodeSnippet from '#src/components/code-snippet.gts';
 import Copy from '#src/components/copy.gts';
@@ -86,6 +89,9 @@ import {
 import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
+import dismissibleTagFixture from '../../../dom-parity/fixtures/DismissibleTag.json';
+import operationalTagFixture from '../../../dom-parity/fixtures/OperationalTag.json';
+import selectableTagFixture from '../../../dom-parity/fixtures/SelectableTag.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
@@ -712,6 +718,245 @@ module('DOM parity | Carbon React', function (hooks) {
         'disabled',
         'size-sm',
         'size-lg',
+      ]);
+    });
+  });
+
+  module('DismissibleTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><DismissibleTag @text="Tag content" @type="red" /></template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag @disabled={{true}} @text="Tag content" @type="gray" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag @size="sm" @text="Tag content" @type="gray" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag
+            @renderIcon={{Add}}
+            @text="Tag content"
+            @type="blue"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('custom-title', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag
+            @tagTitle="Full tag title"
+            @text="Tag content"
+            @title="Remove filter"
+            @type="gray"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'custom-title',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, dismissibleTagFixture, [
+        'default',
+        'disabled',
+        'size-sm',
+        'with-icon',
+        'custom-title',
+      ]);
+    });
+  });
+
+  module('OperationalTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><OperationalTag @text="Tag content" /></template>);
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('red', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><OperationalTag @text="Tag content" @type="red" /></template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'red',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OperationalTag @disabled={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><OperationalTag @size="sm" @text="Tag content" /></template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OperationalTag @renderIcon={{Add}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, operationalTagFixture, [
+        'default',
+        'red',
+        'disabled',
+        'size-sm',
+        'with-icon',
+      ]);
+    });
+  });
+
+  module('SelectableTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SelectableTag @text="Tag content" /></template>);
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('selected', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @selected={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'selected',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @disabled={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><SelectableTag @size="sm" @text="Tag content" /></template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @renderIcon={{Add}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, selectableTagFixture, [
+        'default',
+        'selected',
+        'disabled',
+        'size-sm',
+        'with-icon',
       ]);
     });
   });
