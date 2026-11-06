@@ -13,6 +13,12 @@ pre-effect markup) and normalizes the result (tag, sorted classes,
 attributes, inline style, text) into a JSON fixture per component - see
 `lib/normalize-dom.mjs`.
 
+Text compares with its whitespace collapsed, but whitespace at the edges of
+text, whitespace that is an element's whole content and whitespace beside the
+root are differences: JSX trims them, and templates keep them unless they use
+`~` (see AGENTS.md). Whitespace between two elements isn't compared. A
+no-break space is text, not whitespace.
+
 Each component is covered by multiple **variants** - one per distinct value
 of each arg it takes (and a handful of realistic combinations), not just a
 single default render - so a regression in a specific `size`/`kind`/`type`
@@ -183,7 +189,8 @@ chat-components` renders into shadow DOM and styles itself with plain,
    references, disabled/hidden/inert, ...), text, and SVG geometry
    instead. A regression in the Ember port's own class names is covered by
    that component's own rendering/style-snapshot tests, not by this
-   harness.
+   harness. Lit keeps a template's whitespace, as Glimmer does, so only
+   whitespace the Ember port adds is a difference.
 
 This path still reuses `normalize-dom.mjs` and `diff-normalized.mjs`
 completely unmodified, and the same `dom-parity/known-differences.json`

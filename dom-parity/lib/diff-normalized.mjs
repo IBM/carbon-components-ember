@@ -93,6 +93,16 @@ function diffNode(react, ember, path, out) {
         detail: { react: react.text, ember: ember.text },
       });
     }
+    if (react.whitespace !== ember.whitespace) {
+      out.push({
+        path: `${path}.whitespace`,
+        kind: 'whitespace',
+        detail: {
+          react: react.whitespace ?? 'none',
+          ember: ember.whitespace ?? 'none',
+        },
+      });
+    }
     return;
   }
 
@@ -103,6 +113,17 @@ function diffNode(react, ember, path, out) {
       detail: { react: react.tag, ember: ember.tag },
     });
     return;
+  }
+
+  if (react.whitespaceAround !== ember.whitespaceAround) {
+    out.push({
+      path: `${path}.whitespaceAround`,
+      kind: 'whitespace',
+      detail: {
+        react: react.whitespaceAround ?? 'none',
+        ember: ember.whitespaceAround ?? 'none',
+      },
+    });
   }
 
   diffArray(path, 'classes', react.classes, ember.classes, out);
