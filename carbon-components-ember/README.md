@@ -39,9 +39,9 @@ export default class ApplicationRoute extends Route {
 }
 ```
 
-Those are the defaults: it follows the system's light or dark mode until the user picks one. A theme switcher sets `preference` to `'light'`, `'dark'` or `'system'`, and the service saves it in local storage. An app with only one theme sets `theme` instead (`this.carbonTheme.theme = 'g10'`) and puts its class on `<html>` in `index.html`.
+Those are the defaults: it follows the system's light or dark mode until the user picks one. A theme switcher sets `preference` to `'light'`, `'dark'` or `'system'`, and the service saves it in local storage. An app with only one theme puts its class on `<html>` in `index.html` and sets `theme` (`this.carbonTheme.theme = 'g10'`) instead of configuring it.
 
-So a dark theme doesn't flash light while the app loads, put this in `index.html`'s `<head>`. It applies the saved theme, or the defaults on a first visit, before the page first paints. Under a strict CSP it needs the page's nonce, which Vite adds when you set `html.cspNonce`.
+So a dark theme doesn't flash light while the app loads, an app that configures the service puts this in `index.html`'s `<head>`. Before the page first paints, it applies the saved theme, or on a first visit the defaults on its second line, which have to match the app's `configure()`. Under a strict CSP, allow it by its `'sha256-…'` hash in `script-src`, or give it the page's nonce: Vite adds a placeholder for one when you set `html.cspNonce`, which your server fills in for each response.
 
 ```html
 <script>
@@ -50,9 +50,12 @@ try {
     JSON.parse(localStorage.getItem('cds-theme')) ?? {};
   const isDark = preference === 'dark' ||
     (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-  const { classList } = document.documentElement;
-  classList.remove('cds--white', 'cds--g10', 'cds--g90', 'cds--g100');
-  classList.add('cds--' + (isDark ? dark : light));
+  const theme = isDark ? dark : light;
+  if (['white', 'g10', 'g90', 'g100'].includes(theme)) {
+    const { classList } = document.documentElement;
+    classList.remove('cds--white', 'cds--g10', 'cds--g90', 'cds--g100');
+    classList.add('cds--' + theme);
+  }
 } catch {}
 </script>
 ```

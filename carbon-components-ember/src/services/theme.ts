@@ -42,6 +42,12 @@ interface Preferences {
 const PREFERENCES: readonly ThemePreference[] = ['light', 'dark', 'system'];
 const THEME_CLASSES = THEMES.map(themeClass);
 
+// The services that have set the class on `<html>`, the latest last, which
+// owns it; and the page's own theme classes, from before the first. Several
+// live at once in tests and on a Storybook docs page.
+const services: ThemeService[] = [];
+let pageClasses: string[] = [];
+
 function saved(): Partial<Preferences> | undefined {
   try {
     const value = JSON.parse(
@@ -62,16 +68,18 @@ function saved(): Partial<Preferences> | undefined {
  */
 export default class ThemeService extends Service {
   #preferences = tracked<Preferences | undefined>(undefined);
-  #chosen = tracked<CarbonTheme | undefined>(undefined);
+  // A theme set over the preference, or instead of one.
+  #override = tracked<CarbonTheme | undefined>(undefined);
   #pageTheme: CarbonTheme | undefined;
-  // What was on `<html>` before the service first set its class, and the
-  // class it set, so it puts back only its own.
-  #pageClasses: string[] = [];
-  #applied: string | undefined;
 
   #darkScheme = mediaQuery(this, '(prefers-color-scheme: dark)', {
     onChange: () => {
-      if (this.#preferences.value?.preference === 'system') this.#apply();
+      if (
+        !this.#override.value &&
+        this.#preferences.value?.preference === 'system'
+      ) {
+        this.#apply();
+      }
     },
   });
 
@@ -84,18 +92,26 @@ export default class ThemeService extends Service {
       classList.contains(themeClass(theme)),
     );
     registerDestructor(this, () => {
-      const applied = this.#applied;
-      if (!applied || !classList.contains(applied)) return;
-      classList.remove(applied);
-      classList.add(...this.#pageClasses);
+      const index = services.indexOf(this);
+      if (index === -1) return;
+      services.splice(index, 1);
+      const owner = services.at(-1);
+      if (owner) {
+        owner.#apply();
+      } else {
+        classList.remove(...THEME_CLASSES);
+        classList.add(...pageClasses);
+      }
     });
   }
 
   /**
-   * The app's theme: the one for its preference, else the one set, else
+   * The app's theme: the one set, else the one for its preference, else
    * the page's (`index.html`'s, or the head script's), else `white`.
    */
   get theme(): CarbonTheme {
+    const override = this.#override.value;
+    if (override) return override;
     const preferences = this.#preferences.value;
     if (preferences) {
       const { light, dark, preference } = preferences;
@@ -104,13 +120,15 @@ export default class ThemeService extends Service {
         (preference === 'system' && this.prefersDarkScheme);
       return isDark ? dark : light;
     }
-    return this.#chosen.value ?? this.#pageTheme ?? 'white';
+    return this.#pageTheme ?? 'white';
   }
 
-  /** Sets one theme, which the service doesn't save, instead of a preference. */
+  /**
+   * Sets one theme, for an app with only one, or over the preference until
+   * a preference is set. The service doesn't save it.
+   */
   set theme(theme: CarbonTheme) {
-    this.#preferences.value = undefined;
-    this.#chosen.value = theme;
+    this.#override.value = theme;
     this.#apply();
   }
 
@@ -130,6 +148,7 @@ export default class ThemeService extends Service {
 
   /** The user's pick, from a theme switcher. The service saves it. */
   set preference(preference: ThemePreference) {
+    this.#override.value = undefined;
     this.#preferences.value = {
       ...THEME_DEFAULTS,
       ...this.#preferences.value,
@@ -156,6 +175,7 @@ export default class ThemeService extends Service {
       PREFERENCES.includes(previous.preference)
         ? previous.preference
         : undefined;
+    this.#override.value = undefined;
     this.#preferences.value = {
       light,
       dark,
@@ -180,13 +200,13 @@ export default class ThemeService extends Service {
   #apply() {
     if (typeof document === 'undefined') return;
     const { classList } = document.documentElement;
-    if (this.#applied === undefined) {
-      this.#pageClasses = THEME_CLASSES.filter((name) =>
-        classList.contains(name),
-      );
+    if (services.length === 0) {
+      pageClasses = THEME_CLASSES.filter((name) => classList.contains(name));
     }
-    this.#applied = themeClass(this.theme);
+    const index = services.indexOf(this);
+    if (index !== -1) services.splice(index, 1);
+    services.push(this);
     classList.remove(...THEME_CLASSES);
-    classList.add(this.#applied);
+    classList.add(themeClass(this.theme));
   }
 }
