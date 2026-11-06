@@ -2,19 +2,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { destroy } from '@ember/destroyable';
 import { settled } from '@ember/test-helpers';
+import { THEME_STORAGE_KEY, themeScript } from '#src/utils/theme.ts';
+import { setupMatchMedia } from '../helpers/index.ts';
+import readme from '../../README.md?raw';
 
 import type ThemeService from '#src/services/theme.ts';
-
-// A MediaQueryList whose changes the test fires itself.
-class FakeMediaQueryList extends EventTarget {
-  matches = false;
-  media = '';
-
-  change(matches: boolean) {
-    this.matches = matches;
-    this.dispatchEvent(Object.assign(new Event('change'), { matches }));
-  }
-}
 
 const THEME_CLASSES = ['cds--white', 'cds--g10', 'cds--g90', 'cds--g100'];
 
@@ -23,20 +15,15 @@ const pageThemes = () =>
     document.documentElement.classList.contains(name),
   );
 
+const save = (value: object) =>
+  localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(value));
+
+const savedValue = () =>
+  JSON.parse(localStorage.getItem(THEME_STORAGE_KEY) ?? 'null') as unknown;
+
 module('Unit | Service | theme', function (hooks) {
   setupTest(hooks);
-
-  let scheme: FakeMediaQueryList;
-  // eslint-disable-next-line @typescript-eslint/unbound-method -- restored below
-  const { matchMedia } = window;
-
-  hooks.beforeEach(function () {
-    scheme = new FakeMediaQueryList();
-    window.matchMedia = (query: string) => {
-      scheme.media = query;
-      return scheme as unknown as MediaQueryList;
-    };
-  });
+  const media = setupMatchMedia(hooks);
 
   const lookup = (owner: { lookup(name: string): unknown }) =>
     owner.lookup('service:carbon.theme') as ThemeService;
@@ -46,8 +33,8 @@ module('Unit | Service | theme', function (hooks) {
   hooks.afterEach(async function () {
     destroy(lookup(this.owner));
     await settled();
-    window.matchMedia = matchMedia;
     document.documentElement.classList.remove(...THEME_CLASSES);
+    localStorage.removeItem(THEME_STORAGE_KEY);
   });
 
   test('starts as white, and leaves the page alone until a theme is set', function (assert) {
@@ -55,7 +42,9 @@ module('Unit | Service | theme', function (hooks) {
 
     assert.strictEqual(service.theme, 'white');
     assert.false(service.isDark);
+    assert.strictEqual(service.preference, undefined);
     assert.deepEqual(pageThemes(), []);
+    assert.strictEqual(savedValue(), null);
   });
 
   test("starts with the page's own theme class", function (assert) {
@@ -66,7 +55,7 @@ module('Unit | Service | theme', function (hooks) {
     assert.true(service.isDark);
   });
 
-  test('setting the theme moves its class on the page', function (assert) {
+  test('setting the theme moves its class on the page, unsaved', function (assert) {
     const service = lookup(this.owner);
 
     service.theme = 'g100';
@@ -76,31 +65,85 @@ module('Unit | Service | theme', function (hooks) {
     service.theme = 'g10';
     assert.deepEqual(pageThemes(), ['cds--g10']);
     assert.false(service.isDark);
+    assert.strictEqual(savedValue(), null);
   });
 
   test('prefersDarkScheme follows the system colour scheme', function (assert) {
     const service = lookup(this.owner);
-    assert.strictEqual(scheme.media, '(prefers-color-scheme: dark)');
+    assert.strictEqual(media().media, '(prefers-color-scheme: dark)');
     assert.false(service.prefersDarkScheme);
 
-    scheme.change(true);
+    media().change(true);
     assert.true(service.prefersDarkScheme);
   });
 
-  test('followSystemScheme switches with the system until a theme is set', function (assert) {
+  test("configure follows the system's colour scheme by default, and saves it", function (assert) {
     const service = lookup(this.owner);
 
-    service.followSystemScheme({ light: 'white', dark: 'g100' });
-    assert.strictEqual(service.theme, 'white');
+    service.configure();
+    assert.strictEqual(service.preference, 'system');
     assert.deepEqual(pageThemes(), ['cds--white']);
+    assert.deepEqual(savedValue(), {
+      light: 'white',
+      dark: 'g100',
+      preference: 'system',
+      chosen: false,
+    });
 
-    scheme.change(true);
+    media().change(true);
     assert.strictEqual(service.theme, 'g100');
     assert.deepEqual(pageThemes(), ['cds--g100']);
+  });
+
+  test("configure takes the app's themes and preference", function (assert) {
+    const service = lookup(this.owner);
+
+    service.configure({ light: 'g10', dark: 'g90', preference: 'dark' });
+    assert.strictEqual(service.theme, 'g90');
+    assert.deepEqual(pageThemes(), ['cds--g90']);
+  });
+
+  test("the user's preference is saved, and configure restores it", function (assert) {
+    const service = lookup(this.owner);
+    service.configure();
+
+    service.preference = 'dark';
+    assert.deepEqual(pageThemes(), ['cds--g100']);
+    assert.deepEqual(savedValue(), {
+      light: 'white',
+      dark: 'g100',
+      preference: 'dark',
+      chosen: true,
+    });
+
+    // As on the next visit, with the app's preference changed meanwhile.
+    service.configure({ preference: 'light' });
+    assert.strictEqual(service.preference, 'dark', "the user's pick wins");
+  });
+
+  test("configure uses the app's preference when the user picked none", function (assert) {
+    save({ light: 'white', dark: 'g100', preference: 'system', chosen: false });
+    const service = lookup(this.owner);
+
+    service.configure({ preference: 'light' });
+    assert.strictEqual(service.preference, 'light');
+  });
+
+  test('configure ignores a saved value it can’t read', function (assert) {
+    localStorage.setItem(THEME_STORAGE_KEY, '{nope');
+    const service = lookup(this.owner);
+
+    service.configure({ preference: 'dark' });
+    assert.strictEqual(service.preference, 'dark');
+  });
+
+  test('setting a theme stops following the preference', function (assert) {
+    const service = lookup(this.owner);
+    service.configure();
 
     service.theme = 'g10';
-    scheme.change(false);
-    assert.strictEqual(service.theme, 'g10');
+    media().change(true);
+    assert.strictEqual(service.preference, undefined);
     assert.deepEqual(pageThemes(), ['cds--g10']);
   });
 
@@ -115,7 +158,58 @@ module('Unit | Service | theme', function (hooks) {
     await settled();
     assert.deepEqual(pageThemes(), ['cds--g10']);
 
-    scheme.change(true);
+    media().change(true);
     assert.deepEqual(pageThemes(), ['cds--g10'], 'no longer listening');
+  });
+
+  test('leaves a class another app set since', async function (assert) {
+    const service = lookup(this.owner);
+    service.theme = 'g100';
+
+    // Another app on the page, as on a Storybook docs page.
+    document.documentElement.classList.replace('cds--g100', 'cds--g90');
+
+    destroy(service);
+    await settled();
+    assert.deepEqual(pageThemes(), ['cds--g90']);
+  });
+});
+
+module('Unit | Utility | theme script', function (hooks) {
+  const media = setupMatchMedia(hooks);
+
+  hooks.afterEach(function () {
+    document.documentElement.classList.remove(...THEME_CLASSES);
+    localStorage.removeItem(THEME_STORAGE_KEY);
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-implied-eval -- runs the script as a page would
+  const run = () => new Function(themeScript)() as void;
+
+  test('applies the saved preference', function (assert) {
+    document.documentElement.classList.add('cds--white');
+    save({ light: 'g10', dark: 'g90', preference: 'dark', chosen: true });
+
+    run();
+    assert.deepEqual(pageThemes(), ['cds--g90']);
+  });
+
+  test("follows the system's colour scheme by default", function (assert) {
+    media().matches = true;
+
+    run();
+    assert.deepEqual(pageThemes(), ['cds--g100']);
+  });
+
+  test('does nothing with a saved value it can’t read', function (assert) {
+    document.documentElement.classList.add('cds--g10');
+    localStorage.setItem(THEME_STORAGE_KEY, '{nope');
+
+    run();
+    assert.deepEqual(pageThemes(), ['cds--g10']);
+  });
+
+  test('the README shows it as it is', function (assert) {
+    assert.true(readme.includes(`<script>\n${themeScript}\n</script>`));
   });
 });
