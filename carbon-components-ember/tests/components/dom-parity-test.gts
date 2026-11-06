@@ -6781,10 +6781,8 @@ module('DOM parity | Carbon React', function (hooks) {
         await render(
           <template>
             <Table>
-              <TableBody>
-                <TableRow><TableCell>Ada</TableCell><TableCell
-                  >Engineer</TableCell></TableRow>
-              </TableBody>
+              <TableBody><TableRow><TableCell>Ada</TableCell><TableCell
+                  >Engineer</TableCell></TableRow></TableBody>
             </Table>
           </template>,
         );
@@ -6800,12 +6798,10 @@ module('DOM parity | Carbon React', function (hooks) {
         await render(
           <template>
             <Table>
-              <TableBody>
-                <TableRow @isSelected={{true}}>
+              <TableBody><TableRow @isSelected={{true}}>
                   <TableCell>Ada</TableCell>
                   <TableCell>Engineer</TableCell>
-                </TableRow>
-              </TableBody>
+                </TableRow></TableBody>
             </Table>
           </template>,
         );

@@ -61,7 +61,7 @@ const Content: TOC<ContentSignature> = <template>
  * the container's title and description name the table.
  */
 const Table: TOC<TableSignature> = <template>
-  {{#let
+  {{~#let
     (classes
       @size
       @useZebraStyles
@@ -71,19 +71,21 @@ const Table: TOC<TableSignature> = <template>
       @overflowMenuOnHover
     )
     as |classes|
-  }}
-    {{#if @stickyHeader}}
-      <section class="cds--data-table_inner-container">
-        <Content @container={{@container}} @classes={{classes}} ...attributes>
-          {{yield}}
-        </Content>
-      </section>
-    {{else}}
-      <Content @container={{@container}} @classes={{classes}} ...attributes>
-        {{yield}}
-      </Content>
-    {{/if}}
-  {{/let}}
+  ~}}
+    {{~#if @stickyHeader~}}
+      <section class="cds--data-table_inner-container"><Content
+          @container={{@container}}
+          @classes={{classes}}
+          ...attributes
+        >{{yield}}</Content></section>
+    {{~else~}}
+      <Content
+        @container={{@container}}
+        @classes={{classes}}
+        ...attributes
+      >{{yield}}</Content>
+    {{~/if~}}
+  {{~/let}}
 </template>;
 
 function classes(
