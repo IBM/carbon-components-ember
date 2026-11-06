@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 import type { TOC } from '@ember/component/template-only';
-import DefinitionTooltip from './-private/definition-tooltip.gts';
+import DefinitionTooltip from './definition-tooltip.gts';
 import style from 'ember-style-modifier';
 import type { PopoverAlignment } from './popover.gts';
 import Critical from './icons/critical.ts';

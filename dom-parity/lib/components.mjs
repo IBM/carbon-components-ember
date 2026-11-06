@@ -420,8 +420,8 @@
  *    root drops the non-upstream `cds--form-item--invalid` class, and the
  *    thumb icons gained upstream's invisible hit-box path; and both
  *    IconIndicator's and ShapeIndicator's `compact` mode now render
- *    through a private port of `DefinitionTooltip`
- *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    through `DefinitionTooltip`
+ *    (`components/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
@@ -607,6 +607,17 @@ const tag = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Tag, props, 'Tag content'),
+});
+
+const definitionTooltip = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.DefinitionTooltip,
+      { definition: 'Uniform Resource Locator', ...props },
+      'URL',
+    ),
 });
 
 const link = (name, props) => ({
@@ -1583,6 +1594,20 @@ export const COMPONENTS = [
       tag('disabled', { type: 'gray', disabled: true }),
       tag('size-sm', { type: 'gray', size: 'sm' }),
       tag('size-lg', { type: 'gray', size: 'lg' }),
+    ],
+  },
+  {
+    name: 'DefinitionTooltip',
+    variants: [
+      definitionTooltip('default', {}),
+      definitionTooltip('default-open', { defaultOpen: true }),
+      definitionTooltip('align-top', { align: 'top' }),
+      definitionTooltip('auto-align', { autoAlign: true }),
+      definitionTooltip('class-names', {
+        className: 'custom-popover',
+        triggerClassName: 'custom-trigger',
+      }),
+      definitionTooltip('id', { id: 'url-definition' }),
     ],
   },
   {

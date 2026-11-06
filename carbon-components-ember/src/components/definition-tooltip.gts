@@ -8,16 +8,16 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
-import Popover from '../popover.gts';
-import type { PopoverAlignment } from '../popover.gts';
-import type { PopoverSignature } from '../popover.gts';
-import { isActivationKey } from '../../utils/keyboard.ts';
+import Popover from './popover.gts';
+import type { PopoverAlignment } from './popover.gts';
+import { isActivationKey } from '../utils/keyboard.ts';
 
 export interface DefinitionTooltipSignature {
-  Element: PopoverSignature['Element'];
+  Element: HTMLButtonElement;
   Args: {
     /**
-     * How the tooltip is aligned relative to its trigger.
+     * How the tooltip is aligned relative to its trigger. Defaults to
+     * `bottom`.
      */
     align?: PopoverAlignment;
     /**
@@ -26,19 +26,32 @@ export interface DefinitionTooltipSignature {
      */
     autoAlign?: boolean;
     /**
+     * A class for the popover around the term and its tooltip.
+     */
+    className?: string;
+    /**
+     * Whether the tooltip starts open.
+     */
+    defaultOpen?: boolean;
+    /**
      * The text shown in the tooltip, unless the `definition` block is given.
      */
     definition?: string;
+    /**
+     * The tooltip's id, which the term points at. Generated when left out.
+     */
+    id?: string;
     /**
      * Open the tooltip on hover, not only on focus/click.
      */
     openOnHover?: boolean;
     /**
-     * Extra class for the trigger `<button>`.
+     * Extra class for the term's `<button>`.
      */
     triggerClassName?: string;
   };
   Blocks: {
+    /** The term, underlined. */
     default: [];
     /** What the tooltip shows, in place of `@definition`. */
     definition: [];
@@ -46,8 +59,9 @@ export interface DefinitionTooltipSignature {
 }
 
 /**
- * Port of `@carbon/react`'s `DefinitionTooltip`, used by `IconIndicator` and
- * `ShapeIndicator` in compact mode, and by `Tag` for a cut-off label.
+ * A term with a dotted underline that shows its definition in a tooltip, on a
+ * click, focus or, with `@openOnHover`, hover. Attributes go on the term's
+ * button, as in Carbon React.
  *
  * The panel spans are written out here instead of using `PopoverContent`.
  * Upstream's `PopoverContent` puts `id` (and every other prop) on the outer
@@ -57,9 +71,11 @@ export interface DefinitionTooltipSignature {
  * `class` landing there, so changing it isn't an option.
  */
 export default class DefinitionTooltip extends Component<DefinitionTooltipSignature> {
-  @tracked isOpen = false;
+  @tracked isOpen = this.args.defaultOpen ?? false;
 
-  tooltipId = `${guidFor(this)}-definition-tooltip`;
+  get tooltipId() {
+    return this.args.id ?? `${guidFor(this)}-definition-tooltip`;
+  }
 
   get align() {
     return this.args.align ?? 'bottom';
@@ -102,13 +118,16 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
       @dropShadow={{false}}
       @highContrast={{true}}
       @open={{this.isOpen}}
+      class={{@className}}
       {{on "mouseenter" this.onMouseEnter}}
       {{on "mouseleave" this.close}}
       {{on "focusin" this.open}}
-      ...attributes
       as |_PopoverContent trigger|
     >
+      {{! As in Carbon React, the caller's attributes come first: the term's own
+        win. }}
       <button
+        ...attributes
         type="button"
         class="cds--definition-term {{@triggerClassName}}"
         {{trigger}}
@@ -120,18 +139,18 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
         {{on "mousedown" this.onMouseDown}}
         {{on "keydown" this.onKeyDown}}
       >
-        {{yield}}
+        {{~yield~}}
       </button>
       <span class="cds--popover" id={{this.tooltipId}}>
         <span class="cds--popover-content cds--definition-tooltip">
-          {{#if (has-block "definition")}}
+          {{~#if (has-block "definition")~}}
             {{yield to="definition"}}
-          {{else}}
+          {{~else~}}
             {{@definition}}
-          {{/if}}
-          {{#if @autoAlign}}
+          {{~/if~}}
+          {{#if @autoAlign~}}
             <span class="cds--popover-caret cds--popover--auto-align"></span>
-          {{/if}}
+          {{~/if~}}
         </span>
         {{#unless @autoAlign}}
           <span class="cds--popover-caret"></span>

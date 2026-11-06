@@ -734,5 +734,32 @@
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
     }
+  ],
+  "DefinitionTooltip": [
+    {
+      "path": "span > span[1] > span[0].style.position",
+      "variant": "auto-align",
+      "reason": "Popover positions floating content (`@autoAlign`) only while it is open. Carbon React's `useFloating` also writes its initial styles on a closed one, which Carbon's CSS hides either way."
+    },
+    {
+      "path": "span > span[1] > span[0].style.left",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.top",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.visibility",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.transform",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    }
   ]
 }
