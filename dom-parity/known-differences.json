@@ -105,10 +105,6 @@
   ],
   "Pagination": [
     {
-      "path": "div.classes[cds--ember-pagination]",
-      "reason": "Ember-only class that makes the bar fill its container, where Carbon's own `calc(100% - 1px)` leaves a 1px gap (pagination.scss). Dropping it moves the bar's right edge by 1px in the Pagination, DataTable and List stories."
-    },
-    {
       "path": "div > div[1] > div[2] > span[0] > div[0]",
       "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
     },

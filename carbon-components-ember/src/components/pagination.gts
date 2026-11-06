@@ -15,7 +15,6 @@ import { afterRender } from '../utils/after-render.ts';
 import captureElement from '../modifiers/capture-element.ts';
 import CaretLeft from './icons/caret-left.ts';
 import CaretRight from './icons/caret-right.ts';
-import './pagination.scss';
 import type { ComponentLike } from '@glint/template';
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
@@ -415,8 +414,7 @@ export default class Pagination extends Component<PaginationSignature> {
   <template>
     <div
       class="cds--pagination cds--pagination--{{or @size 'md'}}
-        cds--layout--size-{{or @size 'md'}}
-        cds--ember-pagination"
+        cds--layout--size-{{or @size 'md'}}"
       {{this.syncArgs @page @pageSize this.pageSizes}}
       ...attributes
     >
