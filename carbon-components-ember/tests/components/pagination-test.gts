@@ -109,6 +109,27 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.deepEqual(names, ['Items per page:', 'Page of 3 pages']);
   });
 
+  test('puts no whitespace around its texts, as Carbon React', async function (assert) {
+    await render(
+      <template>
+        <Pagination @totalItems={{100}} @pageSizes={{array 10 20}} />
+        <Pagination @pagesUnknown={{true}} @pageSizes={{array 10 20}} />
+      </template>,
+    );
+
+    const text = (selector: string) =>
+      [...document.querySelectorAll(selector)].map((e) => e.textContent);
+    assert.deepEqual(text('.cds--pagination__left > label'), [
+      'Items per page:',
+      'Items per page:',
+    ]);
+    assert.deepEqual(text('.cds--pagination__items-count'), [
+      '1–10 of 100 items',
+      '1–10 items',
+    ]);
+    assert.deepEqual(text('.cds--pagination__unknown-pages-text'), ['page 1']);
+  });
+
   test('pageSizes take numbers or { text, value }', async function (assert) {
     const sizes = [5, { text: 'Ten', value: 10 }];
     await render(

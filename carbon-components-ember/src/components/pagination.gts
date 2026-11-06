@@ -435,7 +435,7 @@ export default class Pagination extends Component<PaginationSignature> {
             class="cds--pagination__text"
             for="cds-pagination-select-{{this.guid}}"
           >
-            {{or @itemsPerPageText "Items per page:"}}
+            {{~or @itemsPerPageText "Items per page:"~}}
           </label>
           <Select
             @id="cds-pagination-select-{{this.guid}}"
@@ -455,7 +455,7 @@ export default class Pagination extends Component<PaginationSignature> {
           </Select>
         {{/if}}
         <span class="cds--pagination__text cds--pagination__items-count">
-          {{this.itemsText}}
+          {{~this.itemsText~}}
         </span>
       </div>
       <div
@@ -477,7 +477,7 @@ export default class Pagination extends Component<PaginationSignature> {
           <span
             class="cds--pagination__text cds--pagination__page-text cds--pagination__unknown-pages-text"
           >
-            {{this.pageText}}
+            {{~this.pageText~}}
           </span>
         {{else}}
           {{#if @renderPageSelect}}
@@ -509,7 +509,7 @@ export default class Pagination extends Component<PaginationSignature> {
             class="cds--pagination__text"
             {{captureElement this.captureRange}}
           >
-            {{this.pageRangeText}}
+            {{~this.pageRangeText~}}
           </span>
         {{/if}}
         <div class="cds--pagination__control-buttons">
