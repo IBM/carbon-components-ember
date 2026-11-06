@@ -734,5 +734,67 @@
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
     }
+  ],
+  "TableBatchActions": [
+    {
+      "path": "div > div[1] > button[0] > svg[1].attributes.aria-label",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "div > div[1] > button[0] > svg[1].attributes.role",
+      "reason": "The other half of the `aria-label` entry above."
+    }
+  ],
+  "TableBatchAction": [
+    {
+      "path": "button > svg[1].attributes.aria-label",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "button > svg[1].attributes.role",
+      "reason": "The other half of the `aria-label` entry above."
+    },
+    {
+      "path": "span > div[0]",
+      "variant": "icon-description",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps an icon-only button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "span > span[1]",
+      "variant": "icon-description",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    }
+  ],
+  "TableToolbarSearch": [
+    {
+      "path": "div.classes[cds--toolbar-search-container-persistent]",
+      "reason": "Ember-only class (search.gts always renders either `--expandable` or `--persistent` depending on `@expandable`) with no counterpart in @carbon/react's plain `Search` - that behavior belongs entirely to a separate upstream component, `ExpandableSearch`, not exercised by this fixture. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.data-search",
+      "reason": "Ember-only marker attribute (see search.gts's `data-search`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every variant."
+    },
+    {
+      "path": "div > div[0].attributes.tabindex",
+      "reason": "@carbon/react's Search always sets `tabIndex={isExpandableCollapsed ? 0 : -1}` on the magnifier div (resolving to `-1` here, since this fixture never sets `onExpand`); Ember's `<div class='cds--search-magnifier'>` in search.gts has no `tabindex` at all. Both are equally correct for the non-expandable case (a `-1` value contributes nothing to the tab order either), but the attribute's mere presence differs. Applies to every variant."
+    },
+    {
+      "path": "div > input[2].attributes.value",
+      "reason": "Harness limitation, not a functional gap: Carbon React's TableToolbarSearch always controls the input's value, which renders as an attribute there, where Glimmer's bound `value` sets the property (as for TextInput's `input[0].attributes.value`). Applies to every variant."
+    },
+    {
+      "path": "div > button[3]",
+      "reason": "@carbon/react's Search always renders the clear `<button>`, toggling a `cds--search-close--hidden` modifier class when there's no content to clear; Ember's `{{#if this.hasInput}}` in search.gts omits the element from the DOM entirely instead. Visually equivalent (both hide the button when there's nothing to clear), but a real structural difference. Applies to every variant without a value (default, disabled, light, size-sm, size-lg)."
+    }
+  ],
+  "TableToolbarMenu": [
+    {
+      "path": "ul.attributes.popover",
+      "reason": "Deliberate: the menu shows in the top layer (popover=\"manual\"), positioned by Floating UI, rather than as FloatingMenu's absolutely positioned portal."
+    },
+    {
+      "path": "ul.style",
+      "reason": "Same as the `ul.attributes.popover` entry: Floating UI writes a fixed position with left and top, where FloatingMenu writes absolute offsets (hidden in jsdom, which it can't measure)."
+    }
   ]
 }

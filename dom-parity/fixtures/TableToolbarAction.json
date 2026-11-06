@@ -1,0 +1,50 @@
+{
+  "component": "TableToolbarAction",
+  "generatedAt": "2026-11-05T19:11:35.169Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "open": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "li",
+        "classes": ["cds--overflow-menu-options__option"],
+        "attributes": {
+          "role": "none",
+          "dir": "auto"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": ["cds--overflow-menu-options__btn"],
+            "attributes": {
+              "role": "menuitem",
+              "tabindex": "-1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": ["cds--overflow-menu-options__option-content"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Refresh data"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

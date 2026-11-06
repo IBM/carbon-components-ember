@@ -1,0 +1,143 @@
+{
+  "component": "TableToolbar",
+  "generatedAt": "2026-11-05T19:11:35.134Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": ["cds--table-toolbar"],
+        "attributes": {
+          "role": "group",
+          "aria-label": "data table toolbar"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--toolbar-content"],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "size-xs": {
+      "props": {
+        "size": "xs"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--layout--size-xs",
+          "cds--table-toolbar",
+          "cds--table-toolbar--xs"
+        ],
+        "attributes": {
+          "role": "group",
+          "aria-label": "data table toolbar"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--toolbar-content"],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--table-toolbar",
+          "cds--table-toolbar--sm"
+        ],
+        "attributes": {
+          "role": "group",
+          "aria-label": "data table toolbar"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--toolbar-content"],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "size-lg": {
+      "props": {
+        "size": "lg"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--layout--size-lg",
+          "cds--table-toolbar",
+          "cds--table-toolbar--lg"
+        ],
+        "attributes": {
+          "role": "group",
+          "aria-label": "data table toolbar"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--toolbar-content"],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "aria-label": {
+      "props": {
+        "aria-label": "Load balancer actions"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": ["cds--table-toolbar"],
+        "attributes": {
+          "role": "group",
+          "aria-label": "Load balancer actions"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--toolbar-content"],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}
