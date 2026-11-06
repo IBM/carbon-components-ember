@@ -12,8 +12,6 @@ import { tracked } from '@glimmer/tracking';
 import DataTable from '#src/components/data-table.gts';
 import Pagination from '#src/components/pagination.gts';
 
-const noop = () => undefined;
-
 module('Integration | Component | DataTable', (hooks) => {
   setupRenderingTest(hooks);
 
@@ -529,20 +527,14 @@ module('Integration | Component | Pagination', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should default to the md size', async function (assert) {
-    await render(
-      <template>
-        <Pagination @length={{10}} @onPageChanged={{noop}} />
-      </template>,
-    );
+    await render(<template><Pagination @totalItems={{10}} /></template>);
 
     assert.dom('.cds--pagination').hasClass('cds--pagination--md');
   });
 
   test('should support an xs size', async function (assert) {
     await render(
-      <template>
-        <Pagination @length={{10}} @size="xs" @onPageChanged={{noop}} />
-      </template>,
+      <template><Pagination @totalItems={{10}} @size="xs" /></template>,
     );
 
     assert.dom('.cds--pagination').hasClass('cds--pagination--xs');

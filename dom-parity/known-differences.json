@@ -103,6 +103,28 @@
       "reason": "Same as the div[0] > div[1] inert entry above, for the second step."
     }
   ],
+  "Pagination": [
+    {
+      "path": "div.classes[cds--ember-pagination]",
+      "reason": "Ember-only class that keeps the bar the full width of its container, from pagination.scss."
+    },
+    {
+      "path": "div > div[1] > div[2] > span[0]",
+      "reason": "The navigation buttons' tooltip is this addon's Tooltip, whose markup differs from Carbon React's IconButton tooltip (a <span> trigger wrapper, no .cds--icon-tooltip class, and the id, role and aria-hidden on the content rather than the .cds--popover)."
+    },
+    {
+      "path": "div > div[1] > div[2] > span[1]",
+      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[0]",
+      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry. (no page select: pagesUnknown)"
+    },
+    {
+      "path": "div > div[1] > div[1] > span[1]",
+      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry. (no page select: pagesUnknown)"
+    }
+  ],
   "RadioTile": [
     {
       "path": "div > input[0].attributes.checked",

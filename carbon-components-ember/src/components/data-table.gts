@@ -3,7 +3,7 @@ import ListHeader from './data-table/-header.gts';
 import ListBody from './data-table/-body.gts';
 import Toolbar from './data-table/-toolbar.gts';
 import Table from './data-table/-table.gts';
-import Pagination from './pagination.gts';
+import ItemsPagination from './-private/items-pagination.gts';
 import SearchInput from './data-table/-search-input.gts';
 import Menu from './data-table/-menu.gts';
 import { modifier } from 'ember-modifier';
@@ -14,7 +14,7 @@ import type { NativeArray } from '@ember/array';
 import { task } from 'ember-concurrency';
 import type TableToolbarComponent from '../components/data-table/-toolbar.gts';
 import type TableSearchComponent from '../components/data-table/-search-input.gts';
-import type CarbonPagination from '../components/pagination.gts';
+import type { ItemsSlice } from './-private/items-pagination.gts';
 import type TableComponent from '../components/data-table/-table.gts';
 import type DataTableBody from '../components/data-table/-body.gts';
 import type TableMenuComponent from '../components/data-table/-menu.gts';
@@ -71,15 +71,8 @@ class TrackedSet<T> extends Set<T> {
   }
 }
 
-type Slice = {
-  start: number;
-  end?: number;
-  itemsPerPage: number;
-  page: number;
-};
-
 class State<T> {
-  @tracked currentItemsSlice?: Slice = undefined;
+  @tracked currentItemsSlice?: ItemsSlice = undefined;
   @tracked currentSearchTerm?: string = undefined;
   @tracked currentSearch?: NativeArray<T> = undefined;
   @tracked selectedItems = new TrackedSet<T>();
@@ -111,8 +104,8 @@ export interface DataTableSignature<T> {
           'isLoading' | 'value' | 'onChange'
         >;
         Pagination: WithBoundArgs<
-          typeof CarbonPagination,
-          'isLoading' | 'length' | 'state' | 'onPageChanged'
+          typeof ItemsPagination,
+          'isLoading' | 'totalItems' | 'slice' | 'onSliceChange'
         >;
         Table: WithBoundArgs<typeof TableComponent, 'isLoading'>;
         EachBodyRows: WithBoundArgs<
@@ -270,7 +263,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
     this.args.onSelectionChange?.(this.state.selectedItems.toArray());
   };
 
-  changePage = (slice: Slice) => {
+  changePage = (slice: ItemsSlice) => {
     this.state.currentItemsSlice = slice;
   };
 
@@ -304,11 +297,11 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
             onChange=this.search
           )
           Pagination=(component
-            Pagination
+            ItemsPagination
             isLoading=@isLoading
-            length=this.items.length
-            state=this.state.currentItemsSlice
-            onPageChanged=this.changePage
+            totalItems=this.items.length
+            slice=this.state.currentItemsSlice
+            onSliceChange=this.changePage
           )
           Menu=(component Menu isLoading=@isLoading)
           Table=(component Table isLoading=@isLoading)
