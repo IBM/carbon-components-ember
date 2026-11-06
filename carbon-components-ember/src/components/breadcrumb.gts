@@ -34,7 +34,7 @@ const Breadcrumb: TOC<BreadcrumbSignature> = <template>
         {{if @noTrailingSlash 'cds--breadcrumb--no-trailing-slash'}}
         {{if (eq @size 'sm') 'cds--breadcrumb--sm'}}"
     >
-      {{yield BreadcrumbItem}}
+      {{~yield BreadcrumbItem~}}
     </ol>
   </nav>
 </template>;

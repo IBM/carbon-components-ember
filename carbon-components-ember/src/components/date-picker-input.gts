@@ -179,7 +179,7 @@ export default class DatePickerInput extends Component<DatePickerInputSignature>
           />
           {{#if (has-block "decorator")}}
             <div class="cds--date-picker-input-inner-wrapper--decorator">
-              {{yield (component AILabel size="mini") to="decorator"}}
+              {{~yield (component AILabel size="mini") to="decorator"~}}
             </div>
           {{/if}}
           {{#if this.showCalendarIcon}}

@@ -40,7 +40,7 @@ export default class Portal extends Component<PortalSignature> {
   // eslint-disable-next-line ember/template-require-splattributes -- renders its block elsewhere; no element of its own
   <template>
     {{#in-element this.destination insertBefore=null}}
-      {{yield}}
+      {{~yield~}}
     {{/in-element}}
   </template>
 }

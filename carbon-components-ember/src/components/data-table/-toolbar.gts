@@ -30,12 +30,12 @@ const TableToolbar: TOC<TableToolbarSignature> = <template>
     aria-label={{or @ariaLabel "data table toolbar"}}
     ...attributes
   >
-    {{yield
+    {{~yield
       (hash
         Content=TableToolbarContentComponent
         Actions=(component TableActionsComponent table=@table)
       )
-    }}
+    ~}}
   </section>
 </template>;
 

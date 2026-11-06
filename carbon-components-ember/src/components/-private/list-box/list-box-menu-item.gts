@@ -53,7 +53,7 @@ export default class ListBoxMenuItem extends Component<ListBoxMenuItemSignature>
       {{disabledAttribute @disabled}}
     >
       <div class="cds--list-box__menu-item__option" {{this.measure @title}}>
-        {{yield}}
+        {{~yield~}}
       </div>
     </li>
   </template>

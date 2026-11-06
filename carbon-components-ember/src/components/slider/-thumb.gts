@@ -74,7 +74,7 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
         {{captureElement @registerElement}}
         {{on "focus" @onFocus}}
       >
-        {{#if @twoHandles}}
+        {{~#if @twoHandles}}
           {{#if (eq @position "lower")}}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ export default class SliderThumb extends Component<SliderThumbSignature> {
               <path d="M16 23.08V24H0v-.92zM16 0v.92H0V0z" />
             </svg>
           {{/if}}
-        {{/if}}
+        {{/if~}}
       </div>
     </div>
   </template>

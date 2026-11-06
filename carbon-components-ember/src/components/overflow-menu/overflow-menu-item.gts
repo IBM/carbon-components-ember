@@ -97,11 +97,11 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
             {{yield}}
           {{else}}
             <div class="cds--overflow-menu-options__option-content">
-              {{@itemText}}
+              {{~@itemText~}}
             </div>
             {{#if this.hasDangerDescription}}
               <span id={{this.assistiveId}} class="cds--visually-hidden">
-                {{@dangerDescription}}
+                {{~@dangerDescription~}}
               </span>
             {{/if}}
           {{/if}}
@@ -123,11 +123,11 @@ export default class OverflowMenuItem extends Component<OverflowMenuItemSignatur
               {{yield}}
             {{else}}
               <div class="cds--overflow-menu-options__option-content">
-                {{@itemText}}
+                {{~@itemText~}}
               </div>
               {{#if this.hasDangerDescription}}
                 <span id={{this.assistiveId}} class="cds--visually-hidden">
-                  {{@dangerDescription}}
+                  {{~@dangerDescription~}}
                 </span>
               {{/if}}
             {{/if}}

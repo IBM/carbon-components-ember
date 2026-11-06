@@ -43,7 +43,7 @@ const CopyTrigger: TOC<CopyTriggerSignature> = <template>
       class="cds--copy"
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </ButtonBase>
   </Tooltip>
 </template>;

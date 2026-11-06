@@ -187,14 +187,14 @@ export default class Feedback extends Component<FeedbackSignature> {
         </div>
         <div class="cds-aichat-feedback__title-row">
           <div class="cds-aichat-feedback__title">
-            {{if @title @title "Provide additional feedback"}}
+            {{~if @title @title "Provide additional feedback"~}}
           </div>
         </div>
         <div class="cds-aichat-feedback__body-content">
           <div class="cds-aichat-feedback__prompt-categories">
             {{#if @showBody}}
               <div class="cds-aichat-feedback__prompt">
-                {{if @body @body "What do you think of this response?"}}
+                {{~if @body @body "What do you think of this response?"~}}
               </div>
             {{/if}}
             {{#if @categories.length}}
@@ -218,7 +218,7 @@ export default class Feedback extends Component<FeedbackSignature> {
                     disabled={{@isReadonly}}
                     {{on "click" (fn this.toggleCategory category)}}
                   >
-                    {{category}}
+                    {{~category~}}
                   </button>
                 {{/each}}
               </div>
@@ -267,7 +267,7 @@ export default class Feedback extends Component<FeedbackSignature> {
               @disabled={{this.isSubmitDisabled}}
               {{on "click" this.handleSubmit}}
             >
-              {{if @primaryLabel @primaryLabel "Submit"}}
+              {{~if @primaryLabel @primaryLabel "Submit"~}}
             </Button>
           </div>
         </div>

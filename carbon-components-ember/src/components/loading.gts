@@ -133,7 +133,7 @@ export default class Loading extends Component<LoadingSignature> {
   }
 
   <template>
-    {{#if this.withOverlay}}
+    {{#if this.withOverlay~}}
       <div
         class="cds--loading-overlay
           {{unless this.active 'cds--loading-overlay--stop'}}"
@@ -178,7 +178,7 @@ export default class Loading extends Component<LoadingSignature> {
           </div>
         </div>
       </div>
-    {{else}}
+    {{~else~}}
       <div
         aria-atomic="true"
         aria-live={{if this.active "assertive" "off"}}
@@ -205,6 +205,6 @@ export default class Loading extends Component<LoadingSignature> {
           />
         </svg>
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

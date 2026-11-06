@@ -197,15 +197,15 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
               {{this.observeContent}}
               {{this.remeasure this.lines @value}}
             >
-              {{#if (has-block)}}
+              {{~#if (has-block)~}}
                 {{yield}}
-              {{else}}
+              {{~else~}}
                 {{@value}}
-              {{/if}}
+              {{~/if~}}
             </div>
           </:default>
           <:content>
-            {{@value}}
+            {{~@value~}}
           </:content>
         </Tooltip>
       {{else}}
@@ -220,11 +220,11 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
           {{this.observeContent}}
           {{this.remeasure this.lines @value}}
         >
-          {{#if (has-block)}}
+          {{~#if (has-block)~}}
             {{yield}}
-          {{else}}
+          {{~else~}}
             {{@value}}
-          {{/if}}
+          {{~/if~}}
         </div>
         {{#if this.showToggleButton}}
           <span
@@ -242,7 +242,7 @@ export default class TruncatedText extends Component<TruncatedTextSignature> {
             {{on "click" this.toggleExpansion}}
             {{on "keydown" this.handleKeydown}}
           >
-            {{if this.isExpanded @collapseLabel @expandLabel}}
+            {{~if this.isExpanded @collapseLabel @expandLabel~}}
           </span>
         {{/if}}
       {{/if}}

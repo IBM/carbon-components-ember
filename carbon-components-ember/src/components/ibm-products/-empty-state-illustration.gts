@@ -36,7 +36,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
   }
 
   <template>
-    {{#if (eq @kind "error")}}
+    {{#if (eq @kind "error")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -196,7 +196,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{else if (eq @kind "noData")}}
+    {{~else if (eq @kind "noData")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -347,7 +347,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{else if (eq @kind "noTags")}}
+    {{else if (eq @kind "noTags")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -674,7 +674,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{else if (eq @kind "notFound")}}
+    {{else if (eq @kind "notFound")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -930,7 +930,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{else if (eq @kind "notifications")}}
+    {{~else if (eq @kind "notifications")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -1183,7 +1183,7 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{else if (eq @kind "unauthorized")}}
+    {{~else if (eq @kind "unauthorized")~}}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -1417,6 +1417,6 @@ export default class EmptyStateIllustration extends Component<EmptyStateIllustra
           />
         {{/if}}
       </svg>
-    {{/if}}
+    {{~/if}}
   </template>
 }

@@ -80,7 +80,7 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
   };
 
   <template>
-    {{#if @head}}
+    {{#if @head~}}
       <div
         role="row"
         ...attributes
@@ -94,8 +94,8 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
         {{/if}}
         {{yield (component StructuredListInput row=this)}}
       </div>
-    {{else}}
-      {{! As in Carbon React, the row isn't focusable: its StructuredListInput takes the keyboard, and the click is for the pointer. }}
+    {{~else}}
+      {{! As in Carbon React, the row isn't focusable: its StructuredListInput takes the keyboard, and the click is for the pointer. ~}}
       <div
         ...attributes
         role="row"
@@ -118,6 +118,6 @@ export default class StructuredListRow extends Component<StructuredListRowSignat
         {{/if}}
         {{yield (component StructuredListInput row=this)}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

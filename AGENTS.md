@@ -261,6 +261,10 @@ A Modal's `<dialog>` is in the top layer, out of everything around it, but Float
 
 A function modifier tracks only what its body reads before returning. An argument it ignores, or reads only after an `await` or in a callback, never re-runs it, so destructure each one (lint flags a signature's arguments the callback doesn't take). Tracked state it reads on the way, even inside a method it calls, re-runs it on every change. Where something else already handles that state, compare the arguments with the last run's and read the state only when they changed, as `PromptLineAutocomplete`'s `watchConfigs` does.
 
+### ❌ Pitfall 10: Whitespace a Template Renders
+
+Glimmer keeps the newlines and indentation JSX trims. A `{{yield}}` or `{{@label}}` on a line of its own renders whitespace around the text, which shows as a space in inline content (underlined in a link) and stops an empty element matching `:empty`, and a root inside `{{#if}}` or `{{#let}}` renders whitespace beside it. Strip the template's own whitespace with `~` (`{{~yield~}}`, `{{#let (element this.tag) as |Tag|~}}` … `{{~/let}}`), or put adjacent tags together (`</ButtonBase></Tooltip>`). Never trim what a block yields: a caller's spaces are theirs. DOM parity flags whitespace Carbon React doesn't render; elsewhere, test `textContent` exactly, since `hasText` normalizes whitespace.
+
 ---
 
 ## Tests
@@ -365,4 +369,4 @@ To maintain the high quality of this guide and prevent future bloat, adhere to t
 
 ---
 
-Last Updated: 2026-10-20
+Last Updated: 2026-11-05

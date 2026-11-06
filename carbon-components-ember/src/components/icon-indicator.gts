@@ -128,7 +128,7 @@ export default class IconIndicator extends Component<IconIndicatorSignature> {
   }
 
   <template>
-    {{#if this.icon}}
+    {{#if this.icon~}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
           <DefinitionTooltip
@@ -151,9 +151,9 @@ export default class IconIndicator extends Component<IconIndicatorSignature> {
             @svgClass={{this.iconClass}}
             @fill="currentColor"
           />
-          {{@label}}
-        {{/if}}
+          {{~@label~}}
+        {{/if~}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

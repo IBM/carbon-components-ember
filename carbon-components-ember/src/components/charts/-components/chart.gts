@@ -154,7 +154,7 @@ export default class Chart extends Component<ChartSignature> {
     >
     </div>
 
-    {{yield
+    {{~yield
       (hash
         TabularData=(component TabularData chart=this)
         Axis=(component Axis chart=this)

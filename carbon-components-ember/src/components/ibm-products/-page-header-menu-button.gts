@@ -94,7 +94,7 @@ export default class PageHeaderMenuButton extends Component<PageHeaderMenuButton
         @y={{this.y}}
         as |MenuItem MenuItemSelectable MenuItemRadioGroup|
       >
-        {{yield MenuItem MenuItemSelectable MenuItemRadioGroup}}
+        {{~yield MenuItem MenuItemSelectable MenuItemRadioGroup~}}
       </Menu>
     </div>
   </template>

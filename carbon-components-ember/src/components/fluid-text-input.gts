@@ -81,13 +81,13 @@ const FluidTextInput: TOC<FluidTextInputSignature> = <template>
       as |Input|
     }}
       {{! As Carbon React's FluidPasswordInput: the fluid class on the input. }}
-      {{#if (has-block "labelText")}}
+      {{#if (has-block "labelText")~}}
         <Input class="cds--text-input--fluid {{@className}}" ...attributes>
           <:labelText>{{yield to="labelText"}}</:labelText>
         </Input>
-      {{else}}
+      {{~else~}}
         <Input class="cds--text-input--fluid {{@className}}" ...attributes />
-      {{/if}}
+      {{~/if}}
     {{/let}}
   {{else}}
     {{#let
@@ -112,13 +112,13 @@ const FluidTextInput: TOC<FluidTextInputSignature> = <template>
       )
       as |Input|
     }}
-      {{#if (has-block "labelText")}}
+      {{#if (has-block "labelText")~}}
         <Input ...attributes>
           <:labelText>{{yield to="labelText"}}</:labelText>
         </Input>
-      {{else}}
+      {{~else~}}
         <Input ...attributes />
-      {{/if}}
+      {{~/if}}
     {{/let}}
   {{/if}}
 </template>;

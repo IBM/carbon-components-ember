@@ -17,7 +17,7 @@ export interface StructuredListHeadSignature {
 /** The header rows' group: a `StructuredListRow` with `@head`. */
 const StructuredListHead: TOC<StructuredListHeadSignature> = <template>
   <div role="rowgroup" class="cds--structured-list-thead" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

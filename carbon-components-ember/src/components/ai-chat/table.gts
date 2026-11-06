@@ -242,7 +242,7 @@ export default class Table extends Component<TableSignature> {
               <h4 class="cds--data-table-header__title">{{@tableTitle}}</h4>
               {{#if @tableDescription}}
                 <p class="cds--data-table-header__description">
-                  {{@tableDescription}}
+                  {{~@tableDescription~}}
                 </p>
               {{/if}}
             </div>

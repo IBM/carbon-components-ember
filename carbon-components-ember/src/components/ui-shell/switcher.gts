@@ -59,7 +59,7 @@ export default class Switcher extends Component<SwitcherSignature> {
 
   <template>
     <ul ...attributes class="cds--switcher">
-      {{yield (component SwitcherItem switcher=this)}}
+      {{~yield (component SwitcherItem switcher=this)~}}
     </ul>
   </template>
 }

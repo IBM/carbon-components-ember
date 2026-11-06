@@ -48,10 +48,10 @@ export interface ChatHistoryPanelItemsSignature {
  */
 const ChatHistoryPanelItems: TOC<ChatHistoryPanelItemsSignature> = <template>
   <div role="list" class="cds-aichat-history-panel-items" ...attributes>
-    {{yield
+    {{~yield
       (component ChatHistoryPanelItem showActions=@showActions)
       (component ChatHistoryPanelMenu showActions=@showActions)
-    }}
+    ~}}
   </div>
 </template>;
 

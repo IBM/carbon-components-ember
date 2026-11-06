@@ -115,10 +115,10 @@ export default class WorkspaceShell extends Component<WorkspaceShellSignature> {
       {{this.observeCollapse}}
     >
       <div class="cds-aichat-workspace-shell__toolbar">
-        {{yield to="toolbar"}}
+        {{~yield to="toolbar"~}}
       </div>
       <div class="cds-aichat-workspace-shell__notification">
-        {{yield to="notification"}}
+        {{~yield to="notification"~}}
       </div>
       {{yield
         (component
@@ -128,9 +128,9 @@ export default class WorkspaceShell extends Component<WorkspaceShellSignature> {
         to="header"
       }}
       <div class="cds-aichat-workspace-shell__body-wrapper">
-        {{yield to="body"}}
+        {{~yield to="body"~}}
       </div>
-      {{yield to="footer"}}
+      {{~yield to="footer"~}}
     </div>
   </template>
 }

@@ -30,11 +30,11 @@ export default class FormInput extends Component<FormInputSignature> {
       ...attributes
     >
       <div class="cds--text-input__label-wrapper">
-        {{#if @label}}
+        {{~#if @label~}}
           <label for="text-input-{{this.guid}}" class="cds--label">
-            {{@label}}
+            {{~@label~}}
           </label>
-        {{/if}}
+        {{~/if~}}
       </div>
       <div class="cds--text-input__field-outer-wrapper">
         <div
@@ -67,7 +67,7 @@ export default class FormInput extends Component<FormInputSignature> {
           {{/if}}
         </div>
         <div class="cds--form__helper-text">
-          {{@help}}
+          {{~@help~}}
         </div>
         {{#if @errors}}
           <span
@@ -77,7 +77,7 @@ export default class FormInput extends Component<FormInputSignature> {
             aria-atomic="true"
           ></span>
           <div class="cds--form-requirement">
-            {{@errors}}
+            {{~@errors~}}
           </div>
         {{/if}}
       </div>

@@ -61,7 +61,7 @@ const PageHeaderTabBar: TOC<PageHeaderTabBarSignature> = <template>
     </Grid>
     {{#if (has-block "scroller")}}
       <div class="c4p--page-header--scroller-button-container">
-        {{yield to="scroller"}}
+        {{~yield to="scroller"~}}
       </div>
     {{/if}}
   </div>

@@ -310,7 +310,7 @@ export default class Resizer extends Component<ResizerSignature> {
         Use arrow keys to resize, hold Shift for larger steps. Double-click to
         reset.
       </span>
-      {{yield}}
+      {{~yield~}}
     </div>
   </template>
 }

@@ -72,7 +72,7 @@ export default class SwitcherItem extends Component<SwitcherItemSignature> {
         {{captureElement this.setElement}}
         {{on "keydown" this.moveFocus}}
       >
-        {{yield}}
+        {{~yield~}}
       </Link>
     </li>
   </template>

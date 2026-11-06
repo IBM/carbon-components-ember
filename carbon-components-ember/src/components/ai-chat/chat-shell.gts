@@ -243,7 +243,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
               class="cds-aichat-shell__header has-content"
               data-panel-slot="header"
             >
-              {{yield to="header"}}
+              {{~yield to="header"~}}
             </div>
           {{/if}}
           {{#if (has-block "headerAfter")}}
@@ -251,7 +251,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
               class="cds-aichat-shell__header-after has-content"
               data-panel-slot="header-after"
             >
-              {{yield to="headerAfter"}}
+              {{~yield to="headerAfter"~}}
             </div>
           {{/if}}
         </div>
@@ -275,7 +275,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
                 aria-label={{this.workspaceAriaLabel}}
               >
                 <div class="cds-aichat-shell__workspace-content">
-                  {{yield to="workspace"}}
+                  {{~yield to="workspace"~}}
                 </div>
               </div>
             {{/if}}
@@ -289,7 +289,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
                 class="cds-aichat-shell__messages has-content"
                 data-panel-slot="messages"
               >
-                {{yield to="messages"}}
+                {{~yield to="messages"~}}
               </div>
               {{#if (has-block "inputBefore")}}
                 <div
@@ -299,7 +299,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
                   }}
                   data-panel-slot="input-before"
                 >
-                  {{yield to="inputBefore"}}
+                  {{~yield to="inputBefore"~}}
                 </div>
               {{/if}}
               {{#if (has-block "input")}}
@@ -310,7 +310,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
                   }}
                   data-panel-slot="input"
                 >
-                  {{yield to="input"}}
+                  {{~yield to="input"~}}
                 </div>
               {{/if}}
               {{#if (has-block "inputAfter")}}
@@ -321,7 +321,7 @@ export default class ChatShell extends Component<ChatShellSignature> {
                   }}
                   data-panel-slot="input-after"
                 >
-                  {{yield to="inputAfter"}}
+                  {{~yield to="inputAfter"~}}
                 </div>
               {{/if}}
             </div>
@@ -332,14 +332,14 @@ export default class ChatShell extends Component<ChatShellSignature> {
               class="cds-aichat-shell__footer has-content"
               data-panel-slot="footer"
             >
-              {{yield to="footer"}}
+              {{~yield to="footer"~}}
             </div>
           {{/if}}
         </div>
       </div>
 
       <div class="cds-aichat-shell__panels" data-panel-slot="panels">
-        {{yield to="panels"}}
+        {{~yield to="panels"~}}
       </div>
     </div>
   </template>

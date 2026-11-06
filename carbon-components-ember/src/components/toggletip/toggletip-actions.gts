@@ -13,7 +13,7 @@ export interface ToggletipActionsSignature {
  */
 const ToggletipActions: TOC<ToggletipActionsSignature> = <template>
   <div class="cds--toggletip-actions" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

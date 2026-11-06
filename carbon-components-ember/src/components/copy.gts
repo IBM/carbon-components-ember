@@ -73,7 +73,7 @@ export default class Copy extends Component<CopySignature> {
       ...attributes
       {{on "click" this.showFeedback}}
     >
-      {{yield}}
+      {{~yield~}}
     </CopyTrigger>
   </template>
 }

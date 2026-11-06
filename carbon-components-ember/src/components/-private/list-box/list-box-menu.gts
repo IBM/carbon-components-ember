@@ -19,7 +19,7 @@ export interface ListBoxMenuSignature {
 
 const ListBoxMenu: TOC<ListBoxMenuSignature> = <template>
   <ul id={{@id}} class="cds--list-box__menu" role="listbox" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </ul>
 </template>;
 

@@ -28,7 +28,7 @@ export interface MenuItemGroupSignature {
 const MenuItemGroup: TOC<MenuItemGroupSignature> = <template>
   <li class="cds--menu-item-group {{@className}}" role="none">
     <ul ...attributes role="group" aria-label={{@label}}>
-      {{yield}}
+      {{~yield~}}
     </ul>
   </li>
 </template>;

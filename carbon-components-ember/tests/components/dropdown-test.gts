@@ -1057,4 +1057,20 @@ module('Integration | Component | Dropdown', (hooks) => {
 
     assert.strictEqual(clicks, 1, 'an open Popover elsewhere can still close');
   });
+
+  test('puts no whitespace in its closed menu or around an option', async function (assert) {
+    const items = ['Option 1', 'Option 2'];
+    await render(
+      <template>
+        <Dropdown @titleText="Choose" @label="Select" @items={{items}} />
+      </template>,
+    );
+
+    assert.true(find('.cds--list-box__menu')!.matches(':empty'));
+    await click('.cds--list-box__field');
+    assert.strictEqual(
+      find('.cds--list-box__menu-item__option')!.textContent,
+      'Option 1',
+    );
+  });
 });

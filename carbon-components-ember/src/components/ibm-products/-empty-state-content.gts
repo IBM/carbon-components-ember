@@ -38,11 +38,11 @@ const EmptyStateContent: TOC<EmptyStateContentSignature> = <template>
         class="c4p--empty-state__subtitle
           {{if (eq @size 'sm') 'c4p--empty-state__subtitle--small'}}"
       >
-        {{#if @hasSubtitleBlock}}
+        {{~#if @hasSubtitleBlock~}}
           {{yield to="subtitle"}}
-        {{else}}
+        {{~else~}}
           {{@subtitle}}
-        {{/if}}
+        {{~/if~}}
       </div>
     {{/if}}
     {{#if

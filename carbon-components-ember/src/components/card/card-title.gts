@@ -109,15 +109,15 @@ export default class CardTitle extends Component<CardTitleSignature> {
           }}"
         {{style this.titleStyles}}
       >
-        {{#if (has-block "titleStart")}}
+        {{~#if (has-block "titleStart")~}}
           <span class="cds--card__title-start-icon">{{yield
               to="titleStart"
             }}</span>
-        {{/if}}
+        {{~/if~}}
         {{yield}}
-        {{#if (has-block "titleEnd")}}
+        {{~#if (has-block "titleEnd")~}}
           <span class="cds--card__title-end-icon">{{yield to="titleEnd"}}</span>
-        {{/if}}
+        {{~/if~}}
       </span>
       {{#if @description}}
         <div

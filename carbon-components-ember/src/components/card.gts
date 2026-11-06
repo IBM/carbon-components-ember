@@ -163,7 +163,7 @@ export default class Card extends Component<CardSignature> {
       )
       as |parts|
     }}
-      {{#if this.isLink}}
+      {{#if this.isLink~}}
         <RouterLink
           @href={{@href}}
           @route={{@route}}
@@ -178,7 +178,7 @@ export default class Card extends Component<CardSignature> {
             <this.footerIcon />
           </div>
         </RouterLink>
-      {{else}}
+      {{~else~}}
         <div
           class={{this.classes}}
           ...attributes
@@ -196,7 +196,7 @@ export default class Card extends Component<CardSignature> {
             </div>
           {{/if}}
         </div>
-      {{/if}}
+      {{~/if}}
     {{/let}}
   </template>
 }

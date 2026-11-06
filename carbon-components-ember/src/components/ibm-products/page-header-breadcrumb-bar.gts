@@ -73,15 +73,15 @@ const PageHeaderBreadcrumbBar: TOC<PageHeaderBreadcrumbBarSignature> =
         <grid.Column @lg={{16}} @md={{8}} @sm={{4}}>
           <div class="c4p--page-header__breadcrumb-container">
             <div class="c4p--page-header__breadcrumb-wrapper">
-              {{#if @renderIcon}}
+              {{~#if @renderIcon~}}
                 <div
                   class="c4p--page-header__breadcrumb__icon"
                   aria-hidden="true"
                 >
                   <@renderIcon />
                 </div>
-              {{/if}}
-              {{yield}}
+              {{~/if~}}
+              {{yield~}}
             </div>
             {{#if (or (has-block "contentActions") (has-block "pageActions"))}}
               <div
@@ -103,7 +103,7 @@ const PageHeaderBreadcrumbBar: TOC<PageHeaderBreadcrumbBarSignature> =
                       'c4p--page-header__breadcrumb__content-actions-with-global-actions--show'
                     }}"
                 >
-                  {{yield
+                  {{~yield
                     @pageHeader.observerState
                     (component
                       PageHeaderContentPageActions
@@ -111,9 +111,9 @@ const PageHeaderBreadcrumbBar: TOC<PageHeaderBreadcrumbBarSignature> =
                       inBreadcrumbBar=true
                     )
                     to="contentActions"
-                  }}
+                  ~}}
                 </div>
-                {{yield
+                {{~yield
                   @pageHeader.observerState
                   (component
                     PageHeaderContentPageActions
@@ -121,7 +121,7 @@ const PageHeaderBreadcrumbBar: TOC<PageHeaderBreadcrumbBarSignature> =
                     inBreadcrumbBar=true
                   )
                   to="pageActions"
-                }}
+                ~}}
               </div>
             {{/if}}
           </div>

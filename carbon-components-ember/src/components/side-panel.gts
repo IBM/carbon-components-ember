@@ -208,7 +208,7 @@ const IconButton: TOC<{
       ...attributes
       {{on "click" @onClick}}
     >
-      {{yield}}
+      {{~yield~}}
     </ButtonBase>
   </Tooltip>
 </template>;
@@ -750,7 +750,7 @@ export default class SidePanel extends Component<SidePanelSignature> {
 
   <template>
     {{#if this.shouldRender}}
-      {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the keydown only keeps Tab inside the panel }}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the keydown only keeps Tab inside the panel ~}}
       <aside
         class="cds--side-panel cds--side-panel--{{this.size}}
           cds--side-panel--{{this.placement}}-placement
@@ -878,11 +878,11 @@ export default class SidePanel extends Component<SidePanelSignature> {
                   'cds--side-panel__subtitle-text-no-animation-no-action-toolbar'
                 }}"
             >
-              {{#if (has-block "subtitle")}}
+              {{~#if (has-block "subtitle")~}}
                 {{yield to="subtitle"}}
-              {{else}}
+              {{~else~}}
                 {{@subtitle}}
-              {{/if}}
+              {{~/if~}}
             </p>
           {{/if}}
           {{#if this.hasToolbar}}
@@ -932,15 +932,15 @@ export default class SidePanel extends Component<SidePanelSignature> {
             }}"
         />
       </aside>
-      {{#if @includeOverlay}}
-        {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the overlay is a click target to close the panel; Escape and the close button are the keyboard's }}
+      {{~#if @includeOverlay}}
+        {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the overlay is a click target to close the panel; Escape and the close button are the keyboard's ~}}
         <div
           class="cds--side-panel__overlay
             {{unless @open 'cds--side-panel__overlay--closing'}}"
           {{on "click" this.handleOverlayClick}}
           {{this.lockScroll @open}}
         ></div>
-      {{/if}}
+      {{~/if}}
     {{/if}}
   </template>
 

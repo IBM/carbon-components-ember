@@ -21,7 +21,7 @@ export interface ButtonSkeletonSignature {
 const ButtonSkeleton: TOC<ButtonSkeletonSignature> = <template>
   {{#if @href}}
     {{! An empty placeholder where the link will be, as in Carbon React. }}
-    {{! eslint-disable-next-line ember/template-no-invalid-link-text }}
+    {{! eslint-disable-next-line ember/template-no-invalid-link-text ~}}
     <a
       class="cds--skeleton cds--btn cds--btn--{{if @size @size 'lg'}}
         cds--layout--size-{{if @size @size 'lg'}}"
@@ -29,13 +29,13 @@ const ButtonSkeleton: TOC<ButtonSkeletonSignature> = <template>
       role="button"
       ...attributes
     ></a>
-  {{else}}
+  {{~else~}}
     <div
       class="cds--skeleton cds--btn cds--btn--{{if @size @size 'lg'}}
         cds--layout--size-{{if @size @size 'lg'}}"
       ...attributes
     ></div>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default ButtonSkeleton;

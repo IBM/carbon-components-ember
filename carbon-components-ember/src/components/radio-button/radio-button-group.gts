@@ -80,18 +80,18 @@ export default class RadioButtonGroup extends Component<RadioButtonGroupSignatur
       ...attributes
     >
       <legend class="cds--label" dir="auto">
-        {{#if (has-block "heading")}}
+        {{~#if (has-block "heading")~}}
           {{yield to="heading"}}
-        {{else}}
+        {{~else~}}
           {{@legendText}}
-        {{/if}}
+        {{~/if~}}
       </legend>
       {{#if (has-block "decorator")}}
         <div class="cds--radio-button-group-inner--decorator">
-          {{yield
+          {{~yield
             (component AILabel size="mini" kind="default")
             to="decorator"
-          }}
+          ~}}
         </div>
       {{/if}}
       {{yield (component RadioButton group=this onChange=this.setCurrent)}}

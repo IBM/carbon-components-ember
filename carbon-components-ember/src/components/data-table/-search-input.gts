@@ -67,8 +67,8 @@ export default class TableToolbarSearch extends Component<TableToolbarSearchSign
         {{@className}}"
       ...attributes
     />
-    {{#if this.isSearching}}
+    {{~#if this.isSearching~}}
       <InlineLoading class="cds--ember-table-search__loading" />
-    {{/if}}
+    {{~/if}}
   </template>
 }

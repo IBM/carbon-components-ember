@@ -685,10 +685,10 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
           {{if @disabled 'cds--label--disabled'}}
           {{if @hideLabel 'cds--visually-hidden'}}"
       >
-        {{@titleText}}
-        {{#if this.selectedItems.length}}
+        {{~@titleText~}}
+        {{~#if this.selectedItems.length~}}
           <span class="cds--visually-hidden">{{this.selectionSummary}}</span>
-        {{/if}}
+        {{~/if~}}
       </label>
       <ListBox
         id={{this.id}}
@@ -752,7 +752,7 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
           </button>
           {{#if (has-block "decorator")}}
             <div class="cds--list-box__inner-wrapper--decorator">
-              {{yield (component AILabel size="mini") to="decorator"}}
+              {{~yield (component AILabel size="mini") to="decorator"~}}
             </div>
           {{/if}}
         </div>
@@ -765,7 +765,7 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
           {{scrollToHighlighted this.highlightedIndex}}
           {{(if this.floatsMenu positionMenu) placement=this.direction}}
         >
-          {{#if this.isOpen}}
+          {{~#if this.isOpen~}}
             {{#each this.sortedItems as |item index|}}
               <ListBoxMenuItem
                 id={{this.itemId index}}
@@ -792,15 +792,15 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
                   @disabled={{@disabled}}
                   @title={{if @useTitleInItem (this.itemToString item)}}
                 >
-                  {{#if (has-block)}}
+                  {{~#if (has-block)~}}
                     {{yield item}}
-                  {{else}}
+                  {{~else~}}
                     {{this.itemToString item}}
-                  {{/if}}
+                  {{~/if~}}
                 </ListBoxCheckbox>
               </ListBoxMenuItem>
             {{/each}}
-          {{/if}}
+          {{~/if~}}
         </ListBoxMenu>
         {{! Carbon React labels an empty live region, which isn't read out;
           its text is announced instead. }}

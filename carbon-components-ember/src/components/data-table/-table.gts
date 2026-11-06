@@ -23,7 +23,7 @@ const Table: TOC<TableSignature> = <template>
       {{if @isLoading 'cds--skeleton'}}"
     ...attributes
   >
-    {{yield}}
+    {{~yield~}}
   </table>
 </template>;
 

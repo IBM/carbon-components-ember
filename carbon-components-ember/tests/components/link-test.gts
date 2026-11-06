@@ -157,6 +157,19 @@ module('Integration | Component | Link', (hooks) => {
 
     assert.dom('span.cds--link').exists();
   });
+
+  test('puts no whitespace beside the link either', async function (assert) {
+    await render(
+      <template>
+        <p id="sentence">See <Link @href="/docs">the docs</Link>.</p>
+      </template>,
+    );
+
+    assert.strictEqual(
+      document.querySelector('#sentence')!.textContent,
+      'See the docs.',
+    );
+  });
 });
 
 module('Integration | Component | Link > with @route', function (hooks) {

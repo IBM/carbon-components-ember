@@ -50,4 +50,17 @@ module('Integration | Component | Text', (hooks) => {
     assert.dom('#my-text').exists();
     assert.dom('span').hasClass('custom-class');
   });
+
+  test('puts no whitespace around its text', async function (assert) {
+    await render(
+      <template>
+        <p id="sentence">See <Text>this</Text>.</p>
+      </template>,
+    );
+
+    assert.strictEqual(
+      document.querySelector('#sentence')!.textContent,
+      'See this.',
+    );
+  });
 });

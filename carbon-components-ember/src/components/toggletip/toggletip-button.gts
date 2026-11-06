@@ -40,7 +40,7 @@ export default class ToggletipButton extends Component<ToggletipButtonSignature>
       {{@trigger}}
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </button>
   </template>
 }

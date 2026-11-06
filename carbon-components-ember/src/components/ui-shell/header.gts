@@ -21,7 +21,7 @@ export interface HeaderSignature {
  */
 const Header: TOC<HeaderSignature> = <template>
   <header ...attributes class="cds--header">
-    {{yield}}
+    {{~yield~}}
   </header>
 </template>;
 

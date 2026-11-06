@@ -50,7 +50,7 @@ export default class TileGroup extends Component<TileGroupSignature> {
         <legend class="cds--label">{{@legend}}</legend>
       {{/if}}
       <div>
-        {{yield (component RadioTile group=this onChange=this.setCurrent)}}
+        {{~yield (component RadioTile group=this onChange=this.setCurrent)~}}
       </div>
     </fieldset>
   </template>

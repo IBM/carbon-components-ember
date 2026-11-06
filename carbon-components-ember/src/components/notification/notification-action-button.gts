@@ -36,7 +36,7 @@ const NotificationActionButton: TOC<NotificationActionButtonSignature> =
       class="cds--actionable-notification__action-button"
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </Button>
   </template>;
 

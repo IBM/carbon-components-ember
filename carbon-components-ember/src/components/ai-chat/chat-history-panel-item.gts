@@ -222,7 +222,7 @@ export default class ChatHistoryPanelItem extends Component<ChatHistoryPanelItem
                 {{on "click" (fn this.handleMenuAction menuAction.text)}}
               >
                 <div class="cds--overflow-menu-options__option-content">
-                  {{menuAction.text}}
+                  {{~menuAction.text~}}
                 </div>
                 {{#if menuAction.icon}}
                   <span class="cds--overflow-menu-options__option-icon">

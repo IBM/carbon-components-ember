@@ -152,7 +152,7 @@ export default class MenuButton extends Component<MenuButtonSignature> {
         {{this.position}}
         as |MenuItem MenuItemSelectable MenuItemRadioGroup|
       >
-        {{yield MenuItem MenuItemSelectable MenuItemRadioGroup}}
+        {{~yield MenuItem MenuItemSelectable MenuItemRadioGroup~}}
       </Menu>
     </div>
   </template>

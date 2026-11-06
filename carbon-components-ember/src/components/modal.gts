@@ -457,7 +457,7 @@ export default class Modal extends Component<ModalSignature> {
   );
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- a modal dialog's cancel, close and backdrop clicks are its own }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- a modal dialog's cancel, close and backdrop clicks are its own ~}}
     <dialog
       id={{@id}}
       class="cds--modal cds--ember-modal cds--layer-one
@@ -477,8 +477,7 @@ export default class Modal extends Component<ModalSignature> {
       {{on "click" this.handleClick}}
       {{on "keydown" this.noteEscape capture=true}}
       {{on "keydown" this.handleKeyDown}}
-    >
-      <div
+    ><div
         class="cds--modal-container
           {{if @size (concat 'cds--modal-container--' @size)}}
           {{if @isFullWidth 'cds--modal-container--full-width'}}"
@@ -506,7 +505,7 @@ export default class Modal extends Component<ModalSignature> {
           >{{@modalHeading}}</h2>
           {{#if (has-block "decorator")}}
             <div class="cds--modal--inner__decorator">
-              {{yield (component AILabel size="sm") to="decorator"}}
+              {{~yield (component AILabel size="sm") to="decorator"~}}
             </div>
           {{/if}}
           {{#unless @passiveModal}}
@@ -533,7 +532,7 @@ export default class Modal extends Component<ModalSignature> {
           }}
           {{this.measureContent}}
         >
-          {{yield}}
+          {{~yield~}}
         </div>
         {{#unless @passiveModal}}
           <div
@@ -569,13 +568,13 @@ export default class Modal extends Component<ModalSignature> {
               }}
               {{on "click" this.handlePrimaryClick}}
             >
-              {{#if (and @danger @dangerDescription)}}
+              {{~#if (and @danger @dangerDescription)~}}
                 <span
                   id="{{this.guid}}-danger-description"
                   class="cds--visually-hidden"
                 >{{@dangerDescription}}</span>
-              {{/if}}
-              {{#if this.loading}}
+              {{~/if~}}
+              {{~#if this.loading~}}
                 <InlineLoading
                   @status={{@loadingStatus}}
                   @description={{@loadingDescription}}
@@ -583,13 +582,12 @@ export default class Modal extends Component<ModalSignature> {
                   @onSuccess={{@onLoadingSuccess}}
                   class="cds--inline-loading--btn"
                 />
-              {{else}}
+              {{~else~}}
                 {{@primaryButtonText}}
-              {{/if}}
+              {{~/if~}}
             </button>
           </div>
         {{/unless}}
-      </div>
-    </dialog>
+      </div></dialog>
   </template>
 }

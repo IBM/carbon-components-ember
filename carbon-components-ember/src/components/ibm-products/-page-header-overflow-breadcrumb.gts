@@ -18,7 +18,7 @@ interface OverflowBreadcrumbSignature {
 // clones to give it `data-fixed` and its classes.
 // eslint-disable-next-line ember/template-require-splattributes -- renders the app's component, which takes the attributes
 const OverflowBreadcrumb: TOC<OverflowBreadcrumbSignature> = <template>
-  {{#if @overflow.args.renderOverflowBreadcrumb}}
+  {{#if @overflow.args.renderOverflowBreadcrumb~}}
     <@overflow.args.renderOverflowBreadcrumb
       @hiddenBreadcrumbs={{@overflow.hiddenBreadcrumbs}}
       data-fixed="true"
@@ -28,7 +28,7 @@ const OverflowBreadcrumb: TOC<OverflowBreadcrumbSignature> = <template>
           'c4p--page-header-overflow-breadcrumb-item-with-items'
         }}"
     />
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default OverflowBreadcrumb;

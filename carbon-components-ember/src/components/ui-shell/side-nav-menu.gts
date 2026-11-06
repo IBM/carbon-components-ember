@@ -90,7 +90,7 @@ export default class SideNavMenu extends Component<SideNavMenuSignature> {
   };
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, Escape anywhere in the menu closes it }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, Escape anywhere in the menu closes it ~}}
     <li
       ...attributes
       class="cds--side-nav__item
@@ -118,7 +118,7 @@ export default class SideNavMenu extends Component<SideNavMenuSignature> {
         </SideNavIcon>
       </button>
       <ul class="cds--side-nav__menu">
-        {{yield (component SideNavMenuItem menu=this)}}
+        {{~yield (component SideNavMenuItem menu=this)~}}
       </ul>
     </li>
   </template>

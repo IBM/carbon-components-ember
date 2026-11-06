@@ -95,7 +95,7 @@ export default class TimePickerSelect extends Component<TimePickerSelectSignatur
         {{this.syncValue this.value}}
         {{on "change" this.handleChange}}
       >
-        {{yield}}
+        {{~yield~}}
       </select>
       <ChevronDown @size="16" @svgClass="cds--select__arrow" />
     </div>

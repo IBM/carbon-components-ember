@@ -57,7 +57,7 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
   };
 
   <template>
-    {{#if @collapsible}}
+    {{#if @collapsible~}}
       <details
         class="cds-aichat-workspace-shell__header-details cds-aichat-workspace-shell__header-content"
         ...attributes
@@ -87,7 +87,7 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
           {{yield to="headerAction"}}
         </div>
       </details>
-    {{else}}
+    {{~else~}}
       <div class="cds-aichat-workspace-shell__header" ...attributes>
         <div class="cds-aichat-workspace-shell__header-content">
           {{#if @titleText}}
@@ -106,8 +106,8 @@ export default class WorkspaceShellHeader extends Component<WorkspaceShellHeader
           {{/if}}
           {{yield to="headerDescription"}}
         </div>
-        {{yield to="headerAction"}}
+        {{~yield to="headerAction"~}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }
