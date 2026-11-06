@@ -523,7 +523,7 @@ module('Integration | Component | DataTable', (hooks) => {
   });
 });
 
-module('Integration | Component | Pagination', (hooks) => {
+module('Integration | Component | DataTable > Pagination', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should default to the md size', async function (assert) {

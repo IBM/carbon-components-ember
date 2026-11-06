@@ -349,7 +349,11 @@ export default class Pagination extends Component<PaginationSignature> {
     previous: PaginationPageSize[] | undefined,
     sizes: PaginationPageSize[] | undefined,
   ) {
-    if (!sizes) return;
+    // As in Carbon React, no sizes means `@pageSize` or 10 again.
+    if (!sizes) {
+      this.pageSizeChoice = undefined;
+      return;
+    }
     const { pageSize: argPageSize } = this.args;
     const before = resolvePageSize(
       previous,
@@ -374,14 +378,17 @@ export default class Pagination extends Component<PaginationSignature> {
   watchCustomSelect = modifier(
     (
       container: HTMLElement,
-      [custom, pagesUnknown, page, totalPages]: [
+      [custom, pagesUnknown, page, totalPages, pageSize, labelText]: [
         unknown,
         boolean | undefined,
         number,
         number,
+        number,
+        string,
       ],
     ) => {
-      void [page, totalPages];
+      // Everything the custom select is given can change what it renders.
+      void [page, totalPages, pageSize, labelText];
       afterRender(this, () => {
         const range = this.rangeElement;
         let empty = !!custom && !pagesUnknown && !!range;
@@ -462,6 +469,8 @@ export default class Pagination extends Component<PaginationSignature> {
           @pagesUnknown
           this.page
           this.totalPages
+          this.pageSize
+          this.pageSelectLabelText
         }}
       >
         {{#if @pagesUnknown}}

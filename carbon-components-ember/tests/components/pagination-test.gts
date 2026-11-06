@@ -588,6 +588,32 @@ module('Integration | Component | Pagination', (hooks) => {
       assert.dom('.cds--pagination__unknown-pages-text').hasText('page 1');
     });
 
+    test('it checks again when what it renders depends on the page size', async function (assert) {
+      const big = (size: number) => size > 10;
+      const BySize: TOC<{ Args: { currentPageSize: number } }> = <template>
+        {{#if (big @currentPageSize)}}<span
+            data-by-size
+          >{{@currentPageSize}}</span>{{/if}}
+      </template>;
+      const pageSize = tracked(10);
+      await render(
+        <template>
+          <Pagination
+            @pageSize={{pageSize.value}}
+            @renderPageSelect={{BySize}}
+          />
+        </template>,
+      );
+
+      const range = '.cds--pagination__right > .cds--pagination__text';
+      assert.dom(range).hasText('1 of 1 page');
+
+      pageSize.value = 20;
+      await settled();
+      assert.dom('[data-by-size]').hasText('20');
+      assert.dom(range).hasText('of 1 page');
+    });
+
     test('one that renders nothing leaves the range naming the page', async function (assert) {
       await render(
         <template>
@@ -654,6 +680,31 @@ module('Integration | Component | Pagination', (hooks) => {
       sizes.value = [10, 50];
       await settled();
       assert.dom(items).hasText('21–30 of 200 items');
+      assert.deepEqual(changes, []);
+    });
+
+    test('pageSizes going away drop the chosen size, without reporting it', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      const sizes = tracked([10, 20] as number[] | undefined);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{200}}
+            @pageSizes={{sizes.value}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      await select('.cds--select__item-count select', '20');
+      assert.dom(items).hasText('1–20 of 200 items');
+      changes.length = 0;
+
+      // As in Carbon React, the size goes back to 10.
+      sizes.value = undefined;
+      await settled();
+      assert.dom(items).hasText('1–10 of 200 items');
       assert.deepEqual(changes, []);
     });
 
