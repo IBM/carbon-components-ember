@@ -1,17 +1,23 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click, render, triggerEvent } from '@ember/test-helpers';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
 import Table from '#src/components/table/table.gts';
 import TableBody from '#src/components/table/table-body.gts';
 import TableCell from '#src/components/table/table-cell.gts';
 import TableContainer from '#src/components/table/table-container.gts';
+import TableDecoratorRow from '#src/components/table/table-decorator-row.gts';
+import TableExpandHeader from '#src/components/table/table-expand-header.gts';
+import TableExpandRow from '#src/components/table/table-expand-row.gts';
+import TableExpandedRow from '#src/components/table/table-expanded-row.gts';
 import TableHead from '#src/components/table/table-head.gts';
 import TableHeader, {
   sortStates,
 } from '#src/components/table/table-header.gts';
 import TableRow from '#src/components/table/table-row.gts';
+
+const noop = () => {};
 
 module('Integration | Component | Table', (hooks) => {
   setupRenderingTest(hooks);
@@ -363,5 +369,197 @@ module('Integration | Component | Table', (hooks) => {
         .dom('[data-test-standalone] .cds--data-table-header__content')
         .doesNotExist();
     });
+  });
+});
+
+module('Integration | Component | Table expansion', (hooks) => {
+  setupRenderingTest(hooks);
+
+  test('an expand row renders its button, and reports clicks', async function (assert) {
+    const events: Event[] = [];
+    const onExpand = (event: Event) => events.push(event);
+    await render(
+      <template>
+        <Table>
+          <TableBody>
+            <TableExpandRow
+              @onExpand={{onExpand}}
+              @isExpanded={{true}}
+              @isSelected={{true}}
+              @ariaLabel="Expand Ada"
+              @ariaControls="details"
+              @expandIconDescription="Expand"
+              data-test-row
+            >
+              <TableCell>Ada</TableCell>
+            </TableExpandRow>
+          </TableBody>
+        </Table>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-row]')
+      .hasClass('cds--parent-row')
+      .hasClass('cds--expandable-row')
+      .hasClass('cds--data-table--selected')
+      .hasAttribute('data-parent-row', 'true');
+    assert
+      .dom('td.cds--table-expand')
+      .hasAttribute('headers', 'expand')
+      .hasAttribute('data-previous-value', 'collapsed');
+    assert
+      .dom('button.cds--table-expand__button')
+      .hasAttribute('title', 'Expand')
+      .hasAttribute('aria-label', 'Expand Ada')
+      .hasAttribute('aria-controls', 'details')
+      .hasAttribute('aria-expanded', 'true');
+
+    await click('button');
+    assert.strictEqual(events.length, 1);
+  });
+
+  test('a collapsed row says so, and an unset one leaves aria-expanded off', async function (assert) {
+    await render(
+      <template>
+        <Table>
+          <TableBody>
+            <TableExpandRow @onExpand={{noop}} @isExpanded={{false}} />
+            <TableExpandRow @onExpand={{noop}} @expandHeader="toggle" />
+          </TableBody>
+        </Table>
+      </template>,
+    );
+
+    assert.dom('tr:first-child button').hasAttribute('aria-expanded', 'false');
+    assert.dom('tr:first-child').doesNotHaveClass('cds--expandable-row');
+    assert.dom('tr:last-child button').doesNotHaveAttribute('aria-expanded');
+    assert.dom('tr:last-child td').hasAttribute('headers', 'toggle');
+  });
+
+  test('an expand row with a decorator block renders the AI label cell first', async function (assert) {
+    await render(
+      <template>
+        <Table>
+          <TableBody>
+            <TableExpandRow @onExpand={{noop}} data-test-row>
+              <:decorator as |AILabel|><AILabel @ariaLabel="AI" /></:decorator>
+              <:default><TableCell>Ada</TableCell></:default>
+            </TableExpandRow>
+          </TableBody>
+        </Table>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-row]')
+      .hasClass('cds--data-table--slug-row')
+      .hasClass('cds--data-table--ai-label-row');
+    assert
+      .dom('[data-test-row] > :first-child')
+      .hasClass('cds--table-column-decorator')
+      .hasClass('cds--table-column-decorator--active');
+    assert
+      .dom(
+        '[data-test-row] .cds--table-column-decorator .cds--ai-label__button--mini',
+      )
+      .exists();
+  });
+
+  test('a decorator row is active only with a decorator', async function (assert) {
+    await render(
+      <template>
+        <table><tbody><tr>
+              <TableDecoratorRow data-test-empty />
+              <TableDecoratorRow data-test-full>
+                <:decorator as |AILabel|><AILabel
+                    @ariaLabel="AI"
+                  /></:decorator>
+              </TableDecoratorRow>
+            </tr></tbody></table>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-empty]')
+      .hasClass('cds--table-column-decorator')
+      .doesNotHaveClass('cds--table-column-decorator--active');
+    assert
+      .dom('[data-test-full]')
+      .hasClass('cds--table-column-decorator--active');
+    assert.dom('[data-test-full] .cds--ai-label').exists();
+  });
+
+  test('the expand header has its id, and a button only when enabled', async function (assert) {
+    const events: Event[] = [];
+    const onExpand = (event: Event) => events.push(event);
+    await render(
+      <template>
+        <table>
+          <thead><tr>
+              <TableExpandHeader data-test-plain />
+              <TableExpandHeader
+                @enableToggle={{true}}
+                @isExpanded={{true}}
+                @onExpand={{onExpand}}
+                @ariaLabel="Collapse all"
+                @id="all"
+                data-test-toggle
+              />
+            </tr></thead>
+        </table>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-plain]')
+      .hasClass('cds--table-expand')
+      .hasAttribute('scope', 'col')
+      .hasAttribute('id', 'expand')
+      .doesNotHaveAttribute('data-previous-value');
+    assert.dom('[data-test-plain] button').doesNotExist();
+    assert
+      .dom('[data-test-toggle]')
+      .hasAttribute('id', 'all')
+      .hasAttribute('data-previous-value', 'collapsed');
+    assert
+      .dom('[data-test-toggle] button')
+      .hasAttribute('aria-label', 'Collapse all')
+      .hasAttribute('aria-expanded', 'true');
+
+    await click('[data-test-toggle] button');
+    assert.strictEqual(events.length, 1);
+  });
+
+  test('an expanded row spans its columns, and hovering it marks the row above', async function (assert) {
+    await render(
+      <template>
+        <Table>
+          <TableBody>
+            <TableExpandRow @onExpand={{noop}} data-test-parent />
+            <TableExpandedRow @colSpan={{3}} data-test-child class="mine">
+              Details
+            </TableExpandedRow>
+          </TableBody>
+        </Table>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-child]')
+      .hasClass('cds--expandable-row')
+      .hasClass('mine')
+      .hasAttribute('data-child-row', 'true');
+    assert.dom('[data-test-child] td').hasAttribute('colspan', '3');
+    assert
+      .dom('[data-test-child] .cds--child-row-inner-container')
+      .hasText('Details');
+
+    await triggerEvent('[data-test-child]', 'mouseenter');
+    assert.dom('[data-test-parent]').hasClass('cds--expandable-row--hover');
+    await triggerEvent('[data-test-child]', 'mouseleave');
+    assert
+      .dom('[data-test-parent]')
+      .doesNotHaveClass('cds--expandable-row--hover');
   });
 });

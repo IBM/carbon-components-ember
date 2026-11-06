@@ -110,6 +110,13 @@
       "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
     }
   ],
+  "TableDecoratorRow": [
+    {
+      "path": "td > div[0]",
+      "reason": "The cell's AI label is this addon's AILabel, whose popover markup and button label differ from Carbon React's (auto-align classes, the generated id and the label's wording). The comparison stops at that tag; ai-label-test checks the label.",
+      "variant": "ai-label"
+    }
+  ],
   "TileGroup": [
     {
       "path": "fieldset > div[1] > div[0] > input[0].attributes.checked",

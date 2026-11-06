@@ -1,0 +1,99 @@
+{
+  "component": "TableExpandedRow",
+  "generatedAt": "2026-11-05T19:10:25.339Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "expanded": {}
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--expandable-row"
+        ],
+        "attributes": {
+          "data-child-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {
+              "colspan": "3"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--child-row-inner-container"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Details"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "class-name": {
+      "props": {
+        "expanded": {
+          "className": "mine"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--expandable-row",
+          "mine"
+        ],
+        "attributes": {
+          "data-child-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {
+              "colspan": "3"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--child-row-inner-container"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Details"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

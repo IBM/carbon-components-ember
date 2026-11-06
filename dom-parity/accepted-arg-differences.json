@@ -147,6 +147,16 @@
       "headers": "A plain attribute, through `...attributes`, as on a native `<td>`."
     }
   },
+  "TableExpandHeader": {
+    "extra": {
+      "ariaControls": "Carbon React's aria-controls labels the expand button; an aria-controls attribute would go to the <th>, with the other attributes."
+    }
+  },
+  "TableExpandRow": {
+    "extra": {
+      "ariaControls": "Carbon React's aria-controls labels the expand button; an aria-controls attribute would go to the <tr>, with the other attributes."
+    }
+  },
   "TableRow": {
     "missing": {
       "expandHeader": "React's TableRow strips it and doesn't use it; it belongs to the expandable row.",

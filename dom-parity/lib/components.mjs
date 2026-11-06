@@ -1513,6 +1513,61 @@ const tableCell = (name, props) => ({
   pickRoot: (container) => container.querySelector('tbody td'),
 });
 
+// The expansion parts, each in a table with an expand header, an expandable
+// row and the row it expands; the fixture's root is the part under test.
+const tableExpansion = (name, pick, { header, row, expanded, decorator }) => ({
+  name,
+  props: { header, row, expanded, decorator },
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableExpandHeader, header ?? null),
+          React.createElement(Carbon.TableHeader, null, 'Name'),
+        ),
+      ),
+      React.createElement(
+        Carbon.TableBody,
+        null,
+        React.createElement(
+          Carbon.TableExpandRow,
+          { onExpand: () => {}, ...row },
+          decorator
+            ? React.createElement(Carbon.TableDecoratorRow, {
+                decorator: React.createElement(Carbon.AILabel, {
+                  'aria-label': 'AI',
+                }),
+              })
+            : null,
+          React.createElement(Carbon.TableCell, null, 'Ada'),
+        ),
+        React.createElement(
+          Carbon.TableExpandedRow,
+          { colSpan: 3, ...expanded },
+          'Details',
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector(pick),
+});
+
+const tableExpandHeader = (name, header) =>
+  tableExpansion(name, 'thead th.cds--table-expand', { header });
+const tableExpandRow = (name, row, decorator) =>
+  tableExpansion(name, 'tbody tr[data-parent-row]', { row, decorator });
+const tableExpandedRow = (name, expanded) =>
+  tableExpansion(name, 'tbody tr[data-child-row]', { expanded });
+const tableDecoratorRow = (name) =>
+  tableExpansion(name, 'tbody td.cds--table-column-decorator', {
+    decorator: true,
+  });
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -2777,6 +2832,52 @@ export const COMPONENTS = [
       tableCell('col-span', { colSpan: 2 }),
       tableCell('headers', { headers: 'name' }),
     ],
+  },
+  {
+    name: 'TableExpandHeader',
+    variants: [
+      tableExpandHeader('default', {}),
+      tableExpandHeader('enable-toggle', {
+        enableToggle: true,
+        isExpanded: false,
+        onExpand: () => {},
+        'aria-label': 'Expand all rows',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandHeader('expanded', {
+        enableToggle: true,
+        isExpanded: true,
+        onExpand: () => {},
+        'aria-label': 'Collapse all rows',
+      }),
+      tableExpandHeader('id', { id: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandRow',
+    variants: [
+      tableExpandRow('default', {}),
+      tableExpandRow('expanded', { isExpanded: true }),
+      tableExpandRow('selected', { isSelected: true }),
+      tableExpandRow('labelled', {
+        'aria-label': 'Expand Ada',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandRow('expand-header', { expandHeader: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandedRow',
+    variants: [
+      tableExpandedRow('default', {}),
+      tableExpandedRow('class-name', { className: 'mine' }),
+    ],
+  },
+  {
+    name: 'TableDecoratorRow',
+    variants: [tableDecoratorRow('ai-label')],
   },
   {
     name: 'Tabs',

@@ -79,6 +79,9 @@ import Table from '#src/components/table/table.gts';
 import TableBody from '#src/components/table/table-body.gts';
 import TableCell from '#src/components/table/table-cell.gts';
 import TableContainer from '#src/components/table/table-container.gts';
+import TableExpandHeader from '#src/components/table/table-expand-header.gts';
+import TableExpandRow from '#src/components/table/table-expand-row.gts';
+import TableExpandedRow from '#src/components/table/table-expanded-row.gts';
 import TableHead from '#src/components/table/table-head.gts';
 import TableHeader from '#src/components/table/table-header.gts';
 import TableRow from '#src/components/table/table-row.gts';
@@ -162,6 +165,10 @@ import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.j
 import tableFixture from '../../../dom-parity/fixtures/Table.json';
 import tableCellFixture from '../../../dom-parity/fixtures/TableCell.json';
 import tableContainerFixture from '../../../dom-parity/fixtures/TableContainer.json';
+import tableDecoratorRowFixture from '../../../dom-parity/fixtures/TableDecoratorRow.json';
+import tableExpandHeaderFixture from '../../../dom-parity/fixtures/TableExpandHeader.json';
+import tableExpandRowFixture from '../../../dom-parity/fixtures/TableExpandRow.json';
+import tableExpandedRowFixture from '../../../dom-parity/fixtures/TableExpandedRow.json';
 import tableHeaderFixture from '../../../dom-parity/fixtures/TableHeader.json';
 import tableRowFixture from '../../../dom-parity/fixtures/TableRow.json';
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
@@ -6879,6 +6886,382 @@ module('DOM parity | Carbon React', function (hooks) {
           'col-span',
           'headers',
         ]);
+      });
+    });
+
+    module('TableExpandHeader', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'default',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('enable-toggle', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader
+                    @enableToggle={{true}}
+                    @isExpanded={{false}}
+                    @onExpand={{noop}}
+                    @ariaLabel="Expand all rows"
+                    @ariaControls="details"
+                    @expandIconDescription="Expand"
+                  />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'enable-toggle',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('expanded', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader
+                    @enableToggle={{true}}
+                    @isExpanded={{true}}
+                    @onExpand={{noop}}
+                    @ariaLabel="Collapse all rows"
+                  />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'expanded',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('id', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader @id="toggle" />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'id',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandHeaderFixture, [
+          'default',
+          'enable-toggle',
+          'expanded',
+          'id',
+        ]);
+      });
+    });
+    module('TableExpandRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'default',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('expanded', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @isExpanded={{true}}
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'expanded',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('selected', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @isSelected={{true}}
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'selected',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('labelled', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @ariaLabel="Expand Ada"
+                  @ariaControls="details"
+                  @expandIconDescription="Expand"
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'labelled',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('expand-header', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @expandHeader="toggle"
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'expand-header',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandRowFixture, [
+          'default',
+          'expanded',
+          'selected',
+          'labelled',
+          'expand-header',
+        ]);
+      });
+    });
+    module('TableExpandedRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandedRowFixture,
+          'default',
+          this.element.querySelector('tbody tr[data-child-row]'),
+        );
+      });
+
+      test('class-name', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow
+                  @colSpan={{3}}
+                  class="mine"
+                >Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandedRowFixture,
+          'class-name',
+          this.element.querySelector('tbody tr[data-child-row]'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandedRowFixture, [
+          'default',
+          'class-name',
+        ]);
+      });
+    });
+    module('TableDecoratorRow', function () {
+      test('ai-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}>
+                  <:decorator as |AILabel|><AILabel
+                      @ariaLabel="AI"
+                    /></:decorator>
+                  <:default><TableCell>Ada</TableCell></:default>
+                </TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableDecoratorRowFixture,
+          'ai-label',
+          this.element.querySelector('tbody td.cds--table-column-decorator'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableDecoratorRowFixture, ['ai-label']);
       });
     });
   });
