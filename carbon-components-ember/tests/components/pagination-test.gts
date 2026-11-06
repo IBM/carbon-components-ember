@@ -412,4 +412,272 @@ module('Integration | Component | Pagination', (hooks) => {
     assert.dom('[data-custom-page-select]').hasText('3/10');
     assert.deepEqual(changes, [{ page: 3, pageSize: 10 }]);
   });
+
+  test("the navigation buttons carry the classes and attributes of Carbon React's IconButton", async function (assert) {
+    await render(
+      <template>
+        <Pagination @totalItems={{100}} @isLastPage={{true}} @page={{5}} />
+      </template>,
+    );
+
+    const classes = (selector: string) =>
+      Array.from(document.querySelector(selector)?.classList ?? []).sort();
+    assert.deepEqual(classes(back), [
+      'cds--btn',
+      'cds--btn--ghost',
+      'cds--btn--icon-only',
+      'cds--pagination__button',
+      'cds--pagination__button--backward',
+    ]);
+    assert.dom(back).doesNotHaveAttribute('tabindex');
+    assert.dom(back).hasAttribute('type', 'button');
+    assert.dom(forward).isDisabled();
+    assert.deepEqual(
+      classes(forward),
+      [
+        'cds--btn',
+        'cds--btn--disabled',
+        'cds--btn--ghost',
+        'cds--btn--icon-only',
+        'cds--pagination__button',
+        'cds--pagination__button--forward',
+      ],
+      'isLastPage disables the button without the no-index class',
+    );
+    assert
+      .dom('.cds--pagination__control-buttons .cds--tooltip')
+      .hasClass('cds--icon-tooltip');
+  });
+
+  test('a disabled button has the disabled classes, and the no-index class', async function (assert) {
+    await render(<template><Pagination @totalItems={{100}} /></template>);
+
+    assert.dom(back).hasClass('cds--btn--disabled');
+    assert.dom(back).hasClass('cds--pagination__button--no-index');
+    assert.dom(forward).doesNotHaveClass('cds--pagination__button--no-index');
+    assert
+      .dom('.cds--pagination__control-buttons .cds--tooltip')
+      .hasClass('cds--icon-tooltip--disabled');
+  });
+
+  test('focus moves to the other button on reaching the last or first page', async function (assert) {
+    await render(<template><Pagination @totalItems={{25}} /></template>);
+
+    await click(forward);
+    assert.dom(back).isNotFocused();
+    await click(forward);
+    assert
+      .dom(back)
+      .isFocused('the forward button is disabled on the last page');
+    await click(back);
+    assert.dom(forward).isNotFocused();
+    await click(back);
+    assert.dom(forward).isFocused('the backward button is disabled on page 1');
+  });
+
+  module('renderPageSelect', function () {
+    const Custom: TOC<{
+      Args: {
+        currentPage: number;
+        totalPages: number;
+        onSetPage: (page: number | string) => void;
+      };
+    }> = <template>
+      <span data-custom>{{@currentPage}}/{{@totalPages}}</span>
+      <button
+        type="button"
+        data-set="3"
+        {{on "click" (fn @onSetPage 3)}}
+      >3</button>
+      <button
+        type="button"
+        data-set="999"
+        {{on "click" (fn @onSetPage 999)}}
+      >999</button>
+      <button
+        type="button"
+        data-set="-4"
+        {{on "click" (fn @onSetPage -4)}}
+      >-4</button>
+      <button
+        type="button"
+        data-set="1.5"
+        {{on "click" (fn @onSetPage 1.5)}}
+      >1.5</button>
+      <button
+        type="button"
+        data-set="abc"
+        {{on "click" (fn @onSetPage "abc")}}
+      >abc</button>
+      <button
+        type="button"
+        data-set="str"
+        {{on "click" (fn @onSetPage "2")}}
+      >str</button>
+    </template>;
+    const Nothing: TOC<{ Args: { currentPage: number } }> = <template>
+
+    </template>;
+
+    test('onSetPage clamps the page into range and ignores non-integers', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{100}}
+            @renderPageSelect={{Custom}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      await click('[data-set="1.5"]');
+      await click('[data-set="abc"]');
+      assert.deepEqual(changes, [], 'non-integers are ignored');
+      await click('[data-set="-4"]');
+      assert.deepEqual(changes, [], 'page 1 is already shown');
+      await click('[data-set="999"]');
+      assert.dom('[data-custom]').hasText('10/10');
+      await click('[data-set="str"]');
+      assert.dom('[data-custom]').hasText('2/10');
+      await click('[data-set="-4"]');
+      assert.deepEqual(changes, [
+        { page: 10, pageSize: 10 },
+        { page: 2, pageSize: 10 },
+        { page: 1, pageSize: 10 },
+      ]);
+    });
+
+    test('onSetPage does nothing while disabled or with pageInputDisabled', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{100}}
+            @renderPageSelect={{Custom}}
+            @disabled={{true}}
+            @onChange={{onChange}}
+          />
+          <Pagination
+            @totalItems={{100}}
+            @renderPageSelect={{Custom}}
+            @pageInputDisabled={{true}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      for (const button of document.querySelectorAll('[data-set="3"]')) {
+        await click(button);
+      }
+      assert.deepEqual(changes, []);
+      assert.dom('[data-custom]').exists({ count: 2 });
+      assert.dom('[data-custom]').hasText('1/10');
+    });
+
+    test('pagesUnknown hides it', async function (assert) {
+      await render(
+        <template>
+          <Pagination @pagesUnknown={{true}} @renderPageSelect={{Custom}} />
+        </template>,
+      );
+
+      assert.dom('[data-custom]').doesNotExist();
+      assert.dom('.cds--pagination__unknown-pages-text').hasText('page 1');
+    });
+
+    test('one that renders nothing leaves the range naming the page', async function (assert) {
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{103}}
+            @page={{2}}
+            @renderPageSelect={{Nothing}}
+          />
+          <Pagination
+            @totalItems={{103}}
+            @page={{2}}
+            @renderPageSelect={{Custom}}
+          />
+        </template>,
+      );
+
+      const ranges = document.querySelectorAll(
+        '.cds--pagination__right > .cds--pagination__text',
+      );
+      assert.dom(ranges[0]).hasText('2 of 11 pages');
+      assert.dom(ranges[1]).hasText('of 11 pages');
+    });
+  });
+
+  module('pageSizes', function () {
+    test('new pageSizes without the current size go back to page 1 and report it', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      const sizes = tracked([10, 20, 30]);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{200}}
+            @page={{3}}
+            @pageSizes={{sizes.value}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      assert.dom(items).hasText('21–30 of 200 items');
+      sizes.value = [5, 15];
+      await settled();
+      assert.dom('.cds--select__item-count select').hasValue('5');
+      assert.dom(items).hasText('1–5 of 200 items');
+      assert.deepEqual(changes, [{ page: 1, pageSize: 5 }]);
+    });
+
+    test('new pageSizes that keep the current size leave the page alone', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      const sizes = tracked([10, 20, 30]);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{200}}
+            @page={{3}}
+            @pageSizes={{sizes.value}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      sizes.value = [10, 50];
+      await settled();
+      assert.dom(items).hasText('21–30 of 200 items');
+      assert.deepEqual(changes, []);
+    });
+
+    test('a valid @pageSize wins over the reset and is not reported', async function (assert) {
+      const changes: PaginationChange[] = [];
+      const onChange = (change: PaginationChange) => changes.push(change);
+      const sizes = tracked([10, 20]);
+      const pageSize = tracked(10);
+      await render(
+        <template>
+          <Pagination
+            @totalItems={{200}}
+            @pageSizes={{sizes.value}}
+            @pageSize={{pageSize.value}}
+            @onChange={{onChange}}
+          />
+        </template>,
+      );
+
+      sizes.value = [5, 15];
+      pageSize.value = 15;
+      await settled();
+      assert.dom('.cds--select__item-count select').hasValue('15');
+      assert.deepEqual(changes, []);
+    });
+  });
 });

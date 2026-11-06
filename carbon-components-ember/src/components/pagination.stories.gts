@@ -113,16 +113,40 @@ export const MultiplePaginationComponents = meta.story({
   render: (args: PaginationSignature['Args']) => <template>
     <div>
       <Pagination
+        @backwardText={{args.backwardText}}
+        @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
+        @disabled={{args.disabled}}
+        @forwardText={{args.forwardText}}
+        @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
+        @isLastPage={{args.isLastPage}}
+        @itemsPerPageText={{args.itemsPerPageText}}
         @page={{args.page}}
+        @pageInputDisabled={{args.pageInputDisabled}}
+        @pageNumberText={{args.pageNumberText}}
         @pageSize={{args.pageSize}}
+        @pageSizeInputDisabled={{args.pageSizeInputDisabled}}
         @pageSizes={{args.pageSizes}}
+        @pagesUnknown={{args.pagesUnknown}}
+        @size={{args.size}}
         @totalItems={{args.totalItems}}
         @onChange={{args.onChange}}
       />
       <Pagination
+        @backwardText={{args.backwardText}}
+        @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
+        @disabled={{args.disabled}}
+        @forwardText={{args.forwardText}}
+        @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
+        @isLastPage={{args.isLastPage}}
+        @itemsPerPageText={{args.itemsPerPageText}}
         @page={{args.page}}
+        @pageInputDisabled={{args.pageInputDisabled}}
+        @pageNumberText={{args.pageNumberText}}
         @pageSize={{args.pageSize}}
+        @pageSizeInputDisabled={{args.pageSizeInputDisabled}}
         @pageSizes={{args.pageSizes}}
+        @pagesUnknown={{args.pagesUnknown}}
+        @size={{args.size}}
         @totalItems={{args.totalItems}}
         @onChange={{args.onChange}}
       />
@@ -143,9 +167,21 @@ export const PaginationWithCustomPageSizesLabel = meta.story({
   parameters: { controls: { exclude: ['pageSizes'] } },
   render: (args: PaginationSignature['Args']) => <template>
     <Pagination
+      @backwardText={{args.backwardText}}
+      @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
+      @disabled={{args.disabled}}
+      @forwardText={{args.forwardText}}
+      @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
+      @isLastPage={{args.isLastPage}}
+      @itemsPerPageText={{args.itemsPerPageText}}
       @page={{args.page}}
+      @pageInputDisabled={{args.pageInputDisabled}}
+      @pageNumberText={{args.pageNumberText}}
       @pageSize={{args.pageSize}}
+      @pageSizeInputDisabled={{args.pageSizeInputDisabled}}
       @pageSizes={{CUSTOM_PAGE_SIZES}}
+      @pagesUnknown={{args.pagesUnknown}}
+      @size={{args.size}}
       @totalItems={{args.totalItems}}
       @onChange={{args.onChange}}
     />
@@ -159,11 +195,22 @@ export const PaginationUnknownPages = meta.story({
   },
   render: (args: PaginationSignature['Args']) => <template>
     <Pagination
-      @page={{args.page}}
-      @pageSize={{args.pageSize}}
-      @pageSizes={{args.pageSizes}}
+      @backwardText={{args.backwardText}}
+      @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
+      @disabled={{args.disabled}}
+      @forwardText={{args.forwardText}}
+      @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
       @isLastPage={{args.isLastPage}}
+      @itemsPerPageText={{args.itemsPerPageText}}
+      @page={{args.page}}
+      @pageInputDisabled={{undefined}}
+      @pageNumberText={{args.pageNumberText}}
+      @pageSize={{args.pageSize}}
+      @pageSizeInputDisabled={{args.pageSizeInputDisabled}}
+      @pageSizes={{args.pageSizes}}
       @pagesUnknown={{true}}
+      @size={{args.size}}
+      @totalItems={{undefined}}
       @onChange={{args.onChange}}
     />
   </template>,
@@ -176,7 +223,7 @@ PaginationUnknownPages.test(
       canvasElement.querySelector('.cds--pagination__items-count'),
     ).toHaveTextContent('1–10 items');
     await expect(canvas.getByText('page 1')).toBeVisible();
-    await userEvent.click(canvas.getByRole('button', { name: 'Next page' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Next' }));
     await waitFor(() => expect(canvas.getByText('page 2')).toBeVisible());
   },
 );
@@ -194,12 +241,24 @@ export const WithoutPageSizes = meta.story({
   },
   render: (args: PaginationSignature['Args']) => <template>
     <Pagination
-      @pageSize={{10}}
-      @totalItems={{103}}
-      @renderPageSelect={{NoPageSelect}}
-      @size={{args.size}}
+      @backwardText={{args.backwardText}}
+      @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
       @disabled={{args.disabled}}
+      @forwardText={{args.forwardText}}
+      @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
+      @isLastPage={{args.isLastPage}}
+      @itemsPerPageText={{undefined}}
+      @page={{args.page}}
+      @pageInputDisabled={{args.pageInputDisabled}}
+      @pageNumberText={{args.pageNumberText}}
+      @pageSize={{args.pageSize}}
+      @pageSizeInputDisabled={{undefined}}
+      @pageSizes={{undefined}}
+      @pagesUnknown={{args.pagesUnknown}}
+      @size={{args.size}}
+      @totalItems={{args.totalItems}}
       @onChange={{args.onChange}}
+      @renderPageSelect={{NoPageSelect}}
     />
   </template>,
 });
@@ -259,11 +318,24 @@ export const WithRenderPageSelect = meta.story({
   },
   render: (args: PaginationSignature['Args']) => <template>
     <Pagination
-      @totalItems={{350}}
+      @backwardText={{args.backwardText}}
+      @backwardTextTooltipPosition={{args.backwardTextTooltipPosition}}
+      @disabled={{args.disabled}}
+      @forwardText={{args.forwardText}}
+      @forwardTextTooltipPosition={{args.forwardTextTooltipPosition}}
+      @isLastPage={{args.isLastPage}}
+      @itemsPerPageText={{args.itemsPerPageText}}
+      @page={{args.page}}
+      @pageInputDisabled={{args.pageInputDisabled}}
+      @pageNumberText={{args.pageNumberText}}
+      @pageSize={{args.pageSize}}
+      @pageSizeInputDisabled={{args.pageSizeInputDisabled}}
       @pageSizes={{args.pageSizes}}
+      @pagesUnknown={{args.pagesUnknown}}
       @size={{args.size}}
-      @renderPageSelect={{CustomPageSelect}}
+      @totalItems={{args.totalItems}}
       @onChange={{args.onChange}}
+      @renderPageSelect={{CustomPageSelect}}
     />
   </template>,
 });

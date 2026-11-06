@@ -23,7 +23,7 @@ export interface ItemsSlice {
 }
 
 export interface ItemsPaginationSignature {
-  Element: HTMLDivElement;
+  Element: PaginationSignature['Element'];
   Args: Omit<
     PaginationSignature['Args'],
     'page' | 'pageSize' | 'onChange' | 'totalItems'

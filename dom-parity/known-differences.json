@@ -106,23 +106,39 @@
   "Pagination": [
     {
       "path": "div.classes[cds--ember-pagination]",
-      "reason": "Ember-only class that keeps the bar the full width of its container, from pagination.scss."
+      "reason": "Ember-only class that makes the bar fill its container, where Carbon's own `calc(100% - 1px)` leaves a 1px gap (pagination.scss). Dropping it moves the bar's right edge by 1px in the Pagination, DataTable and List stories."
     },
     {
-      "path": "div > div[1] > div[2] > span[0]",
-      "reason": "The navigation buttons' tooltip is this addon's Tooltip, whose markup differs from Carbon React's IconButton tooltip (a <span> trigger wrapper, no .cds--icon-tooltip class, and the id, role and aria-hidden on the content rather than the .cds--popover)."
+      "path": "div > div[1] > div[2] > span[0] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
     },
     {
-      "path": "div > div[1] > div[2] > span[1]",
-      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry."
+      "path": "div > div[1] > div[2] > span[0] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
     },
     {
-      "path": "div > div[1] > div[1] > span[0]",
-      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry. (no page select: pagesUnknown)"
+      "path": "div > div[1] > div[2] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
     },
     {
-      "path": "div > div[1] > div[1] > span[1]",
-      "reason": "Same Tooltip markup difference as the `div > div[1] > div[2] > span[0]` entry. (no page select: pagesUnknown)"
+      "path": "div > div[1] > div[2] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[0] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[0] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
     }
   ],
   "RadioTile": [

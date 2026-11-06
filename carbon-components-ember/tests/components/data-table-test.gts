@@ -539,4 +539,128 @@ module('Integration | Component | Pagination', (hooks) => {
 
     assert.dom('.cds--pagination').hasClass('cds--pagination--xs');
   });
+
+  const rows = Array.from({ length: 25 }, (_, i) => ({ name: `Row ${i + 1}` }));
+  const none: { name: string }[] = [];
+
+  test('table.Pagination reports the first slice once it renders', async function (assert) {
+    await render(
+      <template>
+        <DataTable @items={{rows}} as |table|>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+          <table.Pagination />
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('tbody tr').exists({ count: 10 });
+    assert.dom('tbody tr:first-child').hasText('Row 1');
+    assert.dom('.cds--pagination__items-count').hasText('1–10 of 25 items');
+
+    await click('.cds--pagination__button--forward');
+    assert.dom('tbody tr:first-child').hasText('Row 11');
+  });
+
+  test('table.Pagination takes the first of its @pageSizes as the page size', async function (assert) {
+    const pageSizes = [5, 10];
+    await render(
+      <template>
+        <DataTable @items={{rows}} as |table|>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+          <table.Pagination @pageSizes={{pageSizes}} />
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('tbody tr').exists({ count: 5 });
+  });
+
+  test('table.Pagination brings the page back into range when the search leaves fewer items', async function (assert) {
+    await render(
+      <template>
+        <DataTable @items={{rows}} as |table|>
+          <table.Toolbar as |toolbar|>
+            <toolbar.Content>
+              <table.SearchInput />
+            </toolbar.Content>
+          </table.Toolbar>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+          <table.Pagination />
+        </DataTable>
+      </template>,
+    );
+
+    await click('.cds--pagination__button--forward');
+    await click('.cds--pagination__button--forward');
+    assert.dom('.cds--pagination__items-count').hasText('21–25 of 25 items');
+
+    // Row 1 and Rows 10 to 19: 11 items, 2 pages.
+    await fillIn('input.cds--search-input', 'Row 1');
+    assert.dom('.cds--pagination__items-count').hasText('11–11 of 11 items');
+    assert.dom('tbody tr').exists({ count: 1 });
+    assert.dom('tbody tr').hasText('Row 19');
+    assert
+      .dom('.cds--pagination__button--forward')
+      .isDisabled('on the last page');
+  });
+
+  test('table.Pagination with no items shows an empty range', async function (assert) {
+    await render(
+      <template>
+        <DataTable @items={{none}} as |table|>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+          <table.Pagination />
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('tbody tr').doesNotExist();
+    assert.dom('.cds--pagination__items-count').hasText('0–0 of 0 items');
+    assert.dom('.cds--pagination__button--forward').isDisabled();
+  });
+
+  test('table.Pagination renders its skeleton while loading', async function (assert) {
+    await render(
+      <template>
+        <DataTable @items={{rows}} @isLoading={{true}} as |table|>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+          <table.Pagination />
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('.cds--pagination.cds--skeleton').exists();
+    assert.dom('.cds--pagination select').doesNotExist();
+    assert.dom('.cds--pagination button').doesNotExist();
+  });
 });

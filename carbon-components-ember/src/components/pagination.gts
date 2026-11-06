@@ -6,7 +6,7 @@
  */
 
 import Select from './select.gts';
-import Tooltip from './tooltip.gts';
+import Button from './button.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
@@ -15,8 +15,8 @@ import { afterRender } from '../utils/after-render.ts';
 import captureElement from '../modifiers/capture-element.ts';
 import CaretLeft from './icons/caret-left.ts';
 import CaretRight from './icons/caret-right.ts';
-import type { ComponentLike } from '@glint/template';
 import './pagination.scss';
+import type { ComponentLike } from '@glint/template';
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -92,7 +92,8 @@ export interface PaginationSignature {
      */
     pageSelectLabelText?: (total: number) => string;
     /**
-     * Replaces the page select. Receives `@currentPage`, `@totalPages`,
+     * Replaces the page select. A component that renders nothing hides it,
+     * and the range then names the page ("1 of 11 pages"). Receives `@currentPage`, `@totalPages`,
      * `@currentPageSize`, `@pageSelectLabelText` and `@onSetPage`.
      */
     renderPageSelect?: ComponentLike<{
@@ -153,7 +154,16 @@ export default class Pagination extends Component<PaginationSignature> {
   @tracked pageChoice?: number;
   @tracked pageSizeChoice?: number;
 
-  seen?: { page: number | undefined; pageSize: number | undefined };
+  seen?: {
+    page: number | undefined;
+    pageSize: number | undefined;
+    sizes: PaginationPageSize[] | undefined;
+    sizesKey: string;
+  };
+
+  @tracked customSelectEmpty = false;
+
+  rangeElement?: HTMLElement;
 
   backwardButton?: HTMLElement;
   forwardButton?: HTMLElement;
@@ -195,12 +205,16 @@ export default class Pagination extends Component<PaginationSignature> {
     return !!this.args.disabled || this.page === 1;
   }
 
-  get forwardDisabled() {
+  // React's class follows this, which leaves `isLastPage` out.
+  get forwardNoIndex() {
     return (
       !!this.args.disabled ||
-      (this.page === this.totalPages && !this.args.pagesUnknown) ||
-      !!this.args.isLastPage
+      (this.page === this.totalPages && !this.args.pagesUnknown)
     );
+  }
+
+  get forwardDisabled() {
+    return this.forwardNoIndex || !!this.args.isLastPage;
   }
 
   get pageSelectLabelText() {
@@ -239,11 +253,16 @@ export default class Pagination extends Component<PaginationSignature> {
   }
 
   get pageRangeText() {
-    return (
+    const text = (
       this.args.pageRangeText ??
       ((_current: number, total: number) =>
         `of ${total} ${total === 1 ? 'page' : 'pages'}`)
     )(this.page, this.totalPages);
+    // As in React, a custom page select that renders nothing leaves the
+    // range to say which page it is.
+    return this.args.renderPageSelect && this.customSelectEmpty
+      ? `${this.page} ${text}`
+      : text;
   }
 
   setPage(page: number) {
@@ -303,21 +322,87 @@ export default class Pagination extends Component<PaginationSignature> {
     this.args.onChange?.({ page, pageSize: this.pageSize });
   };
 
-  // Drops the user's choice once its argument changes.
+  // Drops the user's choice once its argument changes, and, as React does,
+  // goes back to page 1 and reports it when new `pageSizes` drop the current
+  // page size.
   syncArgs = modifier(
     (
       _element: HTMLElement,
-      [page, pageSize]: [number | undefined, number | undefined],
+      [page, pageSize, sizes]: [
+        number | undefined,
+        number | undefined,
+        PaginationPageSize[] | undefined,
+      ],
     ) => {
       const seen = this.seen;
-      this.seen = { page, pageSize };
+      const sizesKey = JSON.stringify(sizes ?? null);
+      this.seen = { page, pageSize, sizes, sizesKey };
       if (!seen) return;
       afterRender(this, () => {
         if (seen.page !== page) this.pageChoice = undefined;
         if (seen.pageSize !== pageSize) this.pageSizeChoice = undefined;
+        if (seen.sizesKey !== sizesKey) this.sizesChanged(seen.sizes, sizes);
       });
     },
   );
+
+  sizesChanged(
+    previous: PaginationPageSize[] | undefined,
+    sizes: PaginationPageSize[] | undefined,
+  ) {
+    if (!sizes) return;
+    const { pageSize: argPageSize } = this.args;
+    const before = resolvePageSize(
+      previous,
+      this.pageSizeChoice ?? argPageSize,
+    );
+    const page = this.page;
+    const hadSize = sizes.some((size) => size.value === before);
+    const nextPage = hadSize ? page : 1;
+    const nextPageSize = resolvePageSize(sizes, argPageSize ?? before);
+    if (!hadSize) this.setPage(nextPage);
+    if (nextPageSize !== before) this.setPageSize(nextPageSize);
+    const controlled =
+      argPageSize !== undefined &&
+      sizes.some((size) => size.value === argPageSize);
+    if (!controlled && (nextPage !== page || nextPageSize !== before)) {
+      this.args.onChange?.({ page: nextPage, pageSize: nextPageSize });
+    }
+  }
+
+  // Whether `@renderPageSelect` rendered nothing, which React knows from its
+  // function returning null.
+  watchCustomSelect = modifier(
+    (
+      container: HTMLElement,
+      [custom, pagesUnknown, page, totalPages]: [
+        unknown,
+        boolean | undefined,
+        number,
+        number,
+      ],
+    ) => {
+      void [page, totalPages];
+      afterRender(this, () => {
+        const range = this.rangeElement;
+        let empty = !!custom && !pagesUnknown && !!range;
+        for (
+          let node = container.firstChild;
+          empty && node && node !== range;
+          node = node.nextSibling
+        ) {
+          if (node.nodeType === Node.ELEMENT_NODE) empty = false;
+          else if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim())
+            empty = false;
+        }
+        this.customSelectEmpty = empty;
+      });
+    },
+  );
+
+  captureRange = (element: HTMLElement) => {
+    this.rangeElement = element;
+  };
 
   captureBackward = (element: HTMLElement) => {
     this.backwardButton = element;
@@ -332,7 +417,7 @@ export default class Pagination extends Component<PaginationSignature> {
       class="cds--pagination cds--pagination--{{or @size 'md'}}
         cds--layout--size-{{or @size 'md'}}
         cds--ember-pagination"
-      {{this.syncArgs @page @pageSize}}
+      {{this.syncArgs @page @pageSize this.pageSizes}}
       ...attributes
     >
       <div
@@ -374,6 +459,12 @@ export default class Pagination extends Component<PaginationSignature> {
             (if @pagesUnknown false @renderPageSelect)
             'cds--pagination__right--no-content'
           }}"
+        {{this.watchCustomSelect
+          @renderPageSelect
+          @pagesUnknown
+          this.page
+          this.totalPages
+        }}
       >
         {{#if @pagesUnknown}}
           <span
@@ -407,47 +498,40 @@ export default class Pagination extends Component<PaginationSignature> {
               {{/each}}
             </Select>
           {{/if}}
-          <span class="cds--pagination__text">
+          <span
+            class="cds--pagination__text"
+            {{captureElement this.captureRange}}
+          >
             {{this.pageRangeText}}
           </span>
         {{/if}}
         <div class="cds--pagination__control-buttons">
-          <Tooltip
-            @align={{or @backwardTextTooltipPosition "top"}}
-            @label={{or @backwardText "Previous page"}}
-          >
-            <button
-              disabled={{this.backDisabled}}
-              class="cds--btn--icon-only cds--pagination__button cds--pagination__button--backward
-                {{if this.backDisabled 'cds--pagination__button--no-index'}}
-                cds--btn cds--btn--md cds--btn--ghost"
-              tabindex="0"
-              aria-label={{or @backwardText "Previous page"}}
-              type="button"
-              {{captureElement this.captureBackward}}
-              {{on "click" this.pageBack}}
-            >
-              <CaretLeft />
-            </button>
-          </Tooltip>
-          <Tooltip
-            @align={{or @forwardTextTooltipPosition "top"}}
-            @label={{or @forwardText "Next page"}}
-          >
-            <button
-              disabled={{this.forwardDisabled}}
-              class="cds--btn--icon-only cds--pagination__button cds--pagination__button--forward
-                {{if this.forwardDisabled 'cds--pagination__button--no-index'}}
-                cds--btn cds--btn--md cds--btn--ghost"
-              tabindex="0"
-              aria-label={{or @forwardText "Next page"}}
-              type="button"
-              {{captureElement this.captureForward}}
-              {{on "click" this.pageForward}}
-            >
-              <CaretRight />
-            </button>
-          </Tooltip>
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @backwardText "Previous page"}}
+            @tooltipPosition={{or @backwardTextTooltipPosition "top"}}
+            @disabled={{this.backDisabled}}
+            @renderIcon={{CaretLeft}}
+            class="cds--pagination__button cds--pagination__button--backward
+              {{if this.backDisabled 'cds--pagination__button--no-index'}}"
+            aria-label={{or @backwardText "Previous page"}}
+            {{captureElement this.captureBackward}}
+            {{on "click" this.pageBack}}
+          />
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @forwardText "Next page"}}
+            @tooltipPosition={{or @forwardTextTooltipPosition "top"}}
+            @disabled={{this.forwardDisabled}}
+            @renderIcon={{CaretRight}}
+            class="cds--pagination__button cds--pagination__button--forward
+              {{if this.forwardNoIndex 'cds--pagination__button--no-index'}}"
+            aria-label={{or @forwardText "Next page"}}
+            {{captureElement this.captureForward}}
+            {{on "click" this.pageForward}}
+          />
         </div>
       </div>
     </div>
