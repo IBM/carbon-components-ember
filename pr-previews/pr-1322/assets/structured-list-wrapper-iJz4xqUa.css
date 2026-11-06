@@ -1,0 +1,1 @@
+.cds--ember-structured-list-input:has(>.cds--structured-list-input:checked)+.cds--structured-list-td .cds--structured-list-svg{fill:var(--cds-icon-primary,#161616)}

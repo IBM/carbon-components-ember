@@ -1,0 +1,1 @@
+.cds--ember-modal{max-block-size:none;max-inline-size:none;color:inherit;border:0;margin:0;padding:0;overflow:visible}.cds--ember-modal::backdrop{background:0 0}:root:has(.cds--ember-modal[open]){overflow:hidden}

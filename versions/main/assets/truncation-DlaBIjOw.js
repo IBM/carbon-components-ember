@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";import{n as t,t as n}from"./resize-observer-D-slYkGr.js";function o(r){return r.offsetWidth<r.scrollWidth}function s(r,n){return t(r,()=>n(o(r)))}function e(){return(e=r(()=>{n()}))()}export{o as n,s as r,e as t};
