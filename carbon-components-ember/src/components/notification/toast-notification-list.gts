@@ -48,13 +48,12 @@ export default class ToastNotificationList extends Component<ToastNotificationLi
   };
 
   <template>
-    <div class="cds--ember-toast-notification-list__home">
-      <div
+    <div class="cds--ember-toast-notification-list__home"><div
         class="cds--ember-toast-notification-list"
         ...attributes
         {{this.moveIntoModal this.layers.modal}}
       >
-        {{#each this.notifications.toasts as |toast|}}
+        {{~#each this.notifications.toasts as |toast|}}
           {{#if toast.actionButtonLabel}}
             <ActionableNotification
               @actionButtonLabel={{toast.actionButtonLabel}}
@@ -86,8 +85,7 @@ export default class ToastNotificationList extends Component<ToastNotificationLi
               role={{or toast.role "status"}}
             />
           {{/if}}
-        {{/each}}
-      </div>
-    </div>
+        {{/each~}}
+      </div></div>
   </template>
 }

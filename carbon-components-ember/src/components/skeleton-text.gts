@@ -89,7 +89,7 @@ export default class SkeletonText extends Component<SkeletonTextSignature> {
   }
 
   <template>
-    {{#if this.isMultiLine}}
+    {{#if this.isMultiLine~}}
       <div>
         {{#each this.lineWidths as |width|}}
           <p
@@ -99,12 +99,12 @@ export default class SkeletonText extends Component<SkeletonTextSignature> {
           ></p>
         {{/each}}
       </div>
-    {{else}}
+    {{~else~}}
       <p
         class={{this.skeletonTextClass}}
         {{style width=this.singleLineWidth}}
         ...attributes
       ></p>
-    {{/if}}
+    {{~/if}}
   </template>
 }

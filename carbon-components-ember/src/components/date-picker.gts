@@ -510,13 +510,13 @@ export default class DatePicker extends Component<DatePickerSignature> {
         }}
         {{this.syncValue @value}}
       >
-        {{yield
+        {{~yield
           (component
             DatePickerInput
             datePickerType=this.datePickerType
             readOnly=this.readOnly
           )
-        }}
+        ~}}
       </div>
     </div>
   </template>

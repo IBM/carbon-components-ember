@@ -223,7 +223,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
     <div data-rounded="top" class="cds-aichat-toolbar" ...attributes>
       <div data-fixed class="cds-aichat-toolbar__start">
         <div data-fixed class="cds-aichat-toolbar__navigation">
-          {{yield to="navigation"}}
+          {{~yield to="navigation"~}}
         </div>
 
         <div data-fixed class="cds-aichat-toolbar__title">
@@ -252,7 +252,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
       >
         <div class="cds-aichat-toolbar__actions-container">
           <div class="cds-aichat-toolbar__decorator-container">
-            {{yield to="decorator"}}
+            {{~yield to="decorator"~}}
           </div>
 
           {{#each this.displayedVisibleActions as |toolbarAction|}}
@@ -280,7 +280,7 @@ export default class Toolbar extends Component<ToolbarSignature> {
           {{/if}}
 
           <div data-fixed class="cds-aichat-toolbar__fixed-actions">
-            {{yield to="fixedActions"}}
+            {{~yield to="fixedActions"~}}
           </div>
         </div>
 

@@ -221,7 +221,7 @@ export default class FileUploader extends Component<FileUploaderSignature> {
         aria-describedby={{this.helperTextId}}
       />
       <div class="cds--file-container">
-        {{#each this.fileItems key="uuid" as |item index|}}
+        {{~#each this.fileItems key="uuid" as |item index|}}
           <span class={{this.selectedFileClasses}}>
             <p
               class="cds--file-filename"
@@ -237,9 +237,9 @@ export default class FileUploader extends Component<FileUploaderSignature> {
               />
             </span>
           </span>
-        {{/each}}
+        {{/each~}}
       </div>
-      {{yield this.clear}}
+      {{~yield this.clear~}}
     </div>
   </template>
 }

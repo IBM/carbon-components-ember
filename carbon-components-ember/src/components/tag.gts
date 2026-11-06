@@ -169,7 +169,7 @@ export default class Tag extends Component<TagSignature> {
             dir="auto"
             {{this.syncLabelTitle @title}}
           >
-            {{yield}}
+            {{~yield~}}
           </span>
         </RouterLink>
       {{else}}
@@ -192,7 +192,7 @@ export default class Tag extends Component<TagSignature> {
                 {{this.syncLabelTitle @title}}
                 {{this.watchTruncation}}
               >
-                {{yield}}
+                {{~yield~}}
               </span>
             </:default>
             <:definition>{{yield}}</:definition>
@@ -204,13 +204,13 @@ export default class Tag extends Component<TagSignature> {
             {{this.syncLabelTitle @title}}
             {{this.watchTruncation}}
           >
-            {{yield}}
+            {{~yield~}}
           </span>
         {{/if}}
       {{/if}}
       {{#if (has-block "decorator")}}
         <div class="cds--tag__decorator">
-          {{yield (component AILabel size="sm" kind="inline") to="decorator"}}
+          {{~yield (component AILabel size="sm" kind="inline") to="decorator"~}}
         </div>
       {{/if}}
     </div>

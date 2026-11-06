@@ -143,7 +143,7 @@ export default class TextArea extends Component<TextAreaSignature> {
               {{if @disabled 'cds--label--disabled'}}"
             dir="auto"
           >
-            {{@labelText}}
+            {{~@labelText~}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
@@ -193,7 +193,7 @@ export default class TextArea extends Component<TextAreaSignature> {
         >{{this.value}}</textarea>
         {{#if (has-block "decorator")}}
           <div class="cds--text-area__inner-wrapper--decorator">
-            {{yield (component AILabel size="mini") to="decorator"}}
+            {{~yield (component AILabel size="mini") to="decorator"~}}
           </div>
         {{/if}}
         <span
@@ -202,7 +202,7 @@ export default class TextArea extends Component<TextAreaSignature> {
           aria-live="assertive"
           aria-atomic="true"
         >
-          {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
+          {{~#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if~}}
         </span>
       </div>
       <FieldMessage

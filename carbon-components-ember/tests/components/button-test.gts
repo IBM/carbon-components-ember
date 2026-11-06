@@ -308,6 +308,24 @@ module('Integration | Component | Button', (hooks) => {
         'class names should include cds--btn--disabled',
       );
   });
+
+  test('puts no whitespace around its text, or around an icon-only button in its tooltip', async function (assert) {
+    await render(
+      <template>
+        <Button id="text">Save</Button>
+        <Button
+          id="icon"
+          @hasIconOnly={{true}}
+          @renderIcon={{Add}}
+          @iconDescription="Add"
+        />
+      </template>,
+    );
+
+    assert.strictEqual(find('#text')!.textContent, 'Save');
+    assert.strictEqual(find('.cds--tooltip-trigger__wrapper')!.textContent, '');
+    assert.strictEqual(find('.cds--tooltip-content')!.textContent, 'Add');
+  });
 });
 
 module('Integration | Component | Button > with @route', function (hooks) {

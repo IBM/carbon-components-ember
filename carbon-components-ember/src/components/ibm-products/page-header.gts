@@ -231,7 +231,7 @@ export default class PageHeader extends Component<PageHeaderSignature> {
       {{this.observeVisibility}}
       ...attributes
     >
-      {{yield
+      {{~yield
         (hash
           BreadcrumbBar=(component PageHeaderBreadcrumbBar pageHeader=this)
           BreadcrumbOverflow=(component
@@ -249,7 +249,7 @@ export default class PageHeader extends Component<PageHeaderSignature> {
           TagOverflow=PageHeaderTagOverflow
           TitleBreadcrumb=(component PageHeaderTitleBreadcrumb pageHeader=this)
         )
-      }}
+      ~}}
     </div>
   </template>
 }

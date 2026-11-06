@@ -25,10 +25,10 @@ export interface PageHeaderOverflowBreadcrumbItemSignature {
 // when it's the last one.
 export default class PageHeaderOverflowBreadcrumbItem extends PageHeaderBreadcrumbPart<PageHeaderOverflowBreadcrumbItemSignature> {
   <template>
-    {{#if this.showsOverflowBreadcrumb}}
+    {{#if this.showsOverflowBreadcrumb~}}
       <PageHeaderOverflowBreadcrumb @overflow={{@overflow}} />
-    {{/if}}
-    {{#if (has-block-params)}}
+    {{~/if}}
+    {{#if (has-block-params)~}}
       <BreadcrumbItem
         @ariaCurrent={{@ariaCurrent}}
         @href={{@href}}
@@ -40,7 +40,7 @@ export default class PageHeaderOverflowBreadcrumbItem extends PageHeaderBreadcru
         ...attributes
         as |item|
       >{{yield item}}</BreadcrumbItem>
-    {{else}}
+    {{~else~}}
       <BreadcrumbItem
         @ariaCurrent={{@ariaCurrent}}
         @href={{@href}}
@@ -51,6 +51,6 @@ export default class PageHeaderOverflowBreadcrumbItem extends PageHeaderBreadcru
         {{this.captureElement}}
         ...attributes
       >{{yield}}</BreadcrumbItem>
-    {{/if}}
+    {{~/if}}
   </template>
 }

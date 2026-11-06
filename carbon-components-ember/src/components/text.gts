@@ -23,10 +23,10 @@ export default class Text extends Component<TextSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag dir={{this.dir}} ...attributes>
-        {{yield}}
+        {{~yield~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

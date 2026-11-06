@@ -230,10 +230,10 @@ export default class Column extends Component<ColumnSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag class={{this.classes}} ...attributes>
-        {{yield}}
+        {{~yield~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

@@ -53,7 +53,7 @@ export default class AccordionSkeleton extends Component<AccordionSkeletonSignat
   }
 
   <template>
-    {{#let (element (if @ordered "ol" "ul")) as |List|}}
+    {{#let (element (if @ordered "ol" "ul")) as |List|~}}
       <List class={{this.classes}} ...attributes>
         {{#if this.open}}
           <li class="cds--accordion__item cds--accordion__item--active">
@@ -77,6 +77,6 @@ export default class AccordionSkeleton extends Component<AccordionSkeletonSignat
           </li>
         {{/each}}
       </List>
-    {{/let}}
+    {{~/let}}
   </template>
 }

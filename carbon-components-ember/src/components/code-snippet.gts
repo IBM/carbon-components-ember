@@ -191,11 +191,11 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
 
   <template>
     {{#if (eq this.type "inline")}}
-      {{#if @hideCopyButton}}
+      {{#if @hideCopyButton~}}
         <span class={{this.classes}} ...attributes>
           <code id={{this.codeId}}>{{yield}}</code>
         </span>
-      {{else}}
+      {{~else~}}
         <CopyButton
           @inline={{true}}
           @align={{@align}}
@@ -211,8 +211,8 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
         >
           {{~yield~}}
         </CopyButton>
-      {{/if}}
-    {{else}}
+      {{~/if}}
+    {{else~}}
       <div class={{this.classes}} ...attributes>
         {{! What scrolls is the focusable textbox, so a keyboard can scroll the
           code: a multi-line snippet's <pre>, as in Carbon React. }}
@@ -268,6 +268,6 @@ export default class CodeSnippet extends Component<CodeSnippetSignature> {
           </Button>
         {{/if}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

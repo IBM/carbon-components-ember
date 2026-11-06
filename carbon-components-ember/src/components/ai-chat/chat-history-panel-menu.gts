@@ -101,13 +101,13 @@ export default class ChatHistoryPanelMenu extends Component<ChatHistoryPanelMenu
         </div>
       </button>
       <ul id={{this.menuId}} class="cds--side-nav__menu">
-        {{yield
+        {{~yield
           (component
             ChatHistoryPanelItem
             showActions=@showActions
             parentMenuExpanded=this.expanded
           )
-        }}
+        ~}}
       </ul>
     </div>
   </template>

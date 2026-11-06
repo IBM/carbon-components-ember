@@ -100,26 +100,26 @@ export interface FieldMessageSignature {
  */
 // eslint-disable-next-line ember/template-require-splattributes -- one of three texts; the control takes the attributes
 export const FieldMessage: TOC<FieldMessageSignature> = <template>
-  {{#if @field.invalid}}
+  {{#if @field.invalid~}}
     <div
       class="cds--form-requirement"
       id={{@field.invalidId}}
       role={{@role}}
       dir="auto"
     >{{@invalidText}}</div>
-  {{else if @field.warn}}
+  {{~else if @field.warn~}}
     <div
       class="cds--form-requirement"
       id={{@field.warnId}}
       role={{@role}}
       dir="auto"
     >{{@warnText}}</div>
-  {{else if @helperText}}
+  {{else if @helperText~}}
     <div
       id={{@field.helperId}}
       class="cds--form__helper-text
         {{if @disabled 'cds--form__helper-text--disabled'}}"
       dir={{unless @plainHelper "auto"}}
     >{{@helperText}}</div>
-  {{/if}}
+  {{~/if}}
 </template>;

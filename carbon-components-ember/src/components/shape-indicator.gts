@@ -120,7 +120,7 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
   }
 
   <template>
-    {{#if this.isValidKind}}
+    {{#if this.isValidKind~}}
       <div class={{this.classes}} ...attributes>
         {{#if @compact}}
           <DefinitionTooltip
@@ -142,18 +142,18 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
             <span class="cds--visually-hidden">{{this.accessibleLabel}}</span>
           </DefinitionTooltip>
         {{else}}
-          {{#if this.shapeIcon}}
+          {{#if this.shapeIcon~}}
             <this.shapeIcon
               @size={{16}}
               @svgClass={{this.iconClass}}
               @fill="currentColor"
             />
-          {{else}}
+          {{~else~}}
             <IncompleteIcon class={{this.iconClass}} />
-          {{/if}}
-          {{@label}}
-        {{/if}}
+          {{~/if~}}
+          {{@label~}}
+        {{/if~}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

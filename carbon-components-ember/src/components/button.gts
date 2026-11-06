@@ -96,8 +96,8 @@ export default class Button extends Component<ButtonSignature> {
   }
 
   <template>
-    {{#if @hasIconOnly}}
-      {{! Carbon React's IconButton: the button in a tooltip naming it. }}
+    {{#if @hasIconOnly~}}
+      {{! Carbon React's IconButton: the button in a tooltip naming it. ~}}
       <Tooltip
         class="cds--icon-tooltip {{if @disabled 'cds--icon-tooltip--disabled'}}"
         @align={{this.tooltipAlign}}
@@ -107,8 +107,7 @@ export default class Button extends Component<ButtonSignature> {
         @dropShadow={{@tooltipDropShadow}}
         @closeOnActivation={{true}}
         @leaveDelayMs={{100}}
-      >
-        <ButtonBase
+      ><ButtonBase
           @as={{@as}}
           @dangerDescription={{@dangerDescription}}
           @disabled={{@disabled}}
@@ -124,14 +123,13 @@ export default class Button extends Component<ButtonSignature> {
           @size={{@size}}
           ...attributes
         >
-          {{#if @renderIcon}}
+          {{~#if @renderIcon~}}
             <@renderIcon @size={{16}} />
-          {{else}}
-            {{yield}}
-          {{/if}}
-        </ButtonBase>
-      </Tooltip>
-    {{else}}
+          {{~else~}}
+            {{~yield~}}
+          {{~/if~}}
+        </ButtonBase></Tooltip>
+    {{~else~}}
       <ButtonBase
         @as={{@as}}
         @dangerDescription={{@dangerDescription}}
@@ -148,8 +146,8 @@ export default class Button extends Component<ButtonSignature> {
         @size={{@size}}
         ...attributes
       >
-        {{yield}}
+        {{~yield~}}
       </ButtonBase>
-    {{/if}}
+    {{~/if}}
   </template>
 }

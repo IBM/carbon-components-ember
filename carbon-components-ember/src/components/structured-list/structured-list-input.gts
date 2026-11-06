@@ -33,7 +33,7 @@ export default class StructuredListInput extends Component<StructuredListInputSi
   };
 
   <template>
-    {{! A row may only own cells, so the hidden input sits in one; out of flow, it adds no column. }}
+    {{! A row may only own cells, so the hidden input sits in one; out of flow, it adds no column. ~}}
     <div
       role="cell"
       class="cds--visually-hidden cds--ember-structured-list-input"

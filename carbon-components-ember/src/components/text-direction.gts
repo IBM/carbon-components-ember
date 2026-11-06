@@ -22,10 +22,10 @@ export default class TextDirection extends Component<TextDirectionSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag dir={{this.dir}} ...attributes>
-        {{yield}}
+        {{~yield~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

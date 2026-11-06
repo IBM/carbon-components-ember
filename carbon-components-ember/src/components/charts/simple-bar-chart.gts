@@ -37,7 +37,7 @@ export default class SimpleBarChart extends Component<SimpleBarChartSignature> {
       ...attributes
       as |chart|
     >
-      {{yield chart}}
+      {{~yield chart~}}
     </Chart>
   </template>
 }

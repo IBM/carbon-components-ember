@@ -24,10 +24,10 @@ export interface CardContentSignature {
  * has no wrapper, so this renders only its block there.
  */
 const CardContent: TOC<CardContentSignature> = <template>
-  {{#if @horizontal}}
+  {{#if @horizontal~}}
     <div class="cds--card__content" ...attributes>{{yield}}</div>
-  {{else}}
-    {{yield}}
+  {{~else}}
+    {{~yield~}}
   {{/if}}
 </template>;
 

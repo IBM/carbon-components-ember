@@ -329,7 +329,7 @@ export default class TabList extends Component<TabListSignature> {
         {{this.rovingFocus.container}}
         {{on "scroll" this.handleScroll}}
       >
-        {{yield (component Tab tabs=@tabs list=this)}}
+        {{~yield (component Tab tabs=@tabs list=this)~}}
       </div>
       <button
         aria-hidden="true"

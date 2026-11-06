@@ -223,7 +223,7 @@ export default class TimePicker extends Component<TimePickerSignature> {
             </div>
           {{/if}}
         </div>
-        {{yield}}
+        {{~yield~}}
       </div>
       {{#if this.isInvalid}}
         <div class="cds--form-requirement">{{@invalidText}}</div>

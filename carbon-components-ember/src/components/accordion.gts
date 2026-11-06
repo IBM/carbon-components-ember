@@ -85,7 +85,7 @@ class AccordionItem extends Component<AccordionItemSignature> {
           <path d="M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
         </svg>
         <div class="cds--accordion__title" dir="auto">
-          {{@title}}
+          {{~@title~}}
         </div>
       </button>
       <div class="cds--accordion__wrapper">
@@ -93,7 +93,7 @@ class AccordionItem extends Component<AccordionItemSignature> {
           id="accordion-item-{{this.itemId}}"
           class="cds--accordion__content"
         >
-          {{yield}}
+          {{~yield~}}
         </div>
       </div>
     </li>
@@ -121,7 +121,7 @@ export default class Accordion extends Component<AccordionSignature> {
         {{if @size (concat 'cds--accordion--' @size)}}"
       ...attributes
     >
-      {{yield (component AccordionItem accordion=this)}}
+      {{~yield (component AccordionItem accordion=this)~}}
     </ul>
   </template>
 }

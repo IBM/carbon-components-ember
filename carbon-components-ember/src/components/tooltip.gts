@@ -191,7 +191,7 @@ export default class Tooltip extends Component<TooltipSignature> {
         {{trigger}}
         {{describeTrigger this.triggerAttribute this.id}}
       >
-        {{yield}}
+        {{~yield~}}
       </span>
       <PopoverContent
         class="cds--tooltip-content"
@@ -199,13 +199,13 @@ export default class Tooltip extends Component<TooltipSignature> {
         role="tooltip"
         aria-hidden={{if this.open "false" "true"}}
       >
-        {{#if (has-block "content")}}
+        {{~#if (has-block "content")~}}
           {{yield to="content"}}
-        {{else if @label}}
+        {{~else if @label~}}
           {{@label}}
-        {{else}}
+        {{~else~}}
           {{@description}}
-        {{/if}}
+        {{~/if~}}
       </PopoverContent>
     </Popover>
   </template>

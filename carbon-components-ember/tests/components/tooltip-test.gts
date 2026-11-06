@@ -398,4 +398,32 @@ module('Integration | Component | Tooltip', (hooks) => {
     assert.dom('#my-tooltip').exists();
     assert.dom('.cds--tooltip').hasClass('custom-class');
   });
+
+  test('puts no whitespace around its trigger or its label', async function (assert) {
+    await render(
+      <template>
+        <Tooltip @label="Close"><button type="button">x</button></Tooltip>
+        <Tooltip @label="Open" @autoAlign={{true}}><button
+            type="button"
+          >y</button></Tooltip>
+      </template>,
+    );
+
+    const [plain, autoAligned] = Array.from(
+      document.querySelectorAll('.cds--tooltip'),
+    );
+    assert.strictEqual(
+      plain!.querySelector('.cds--tooltip-trigger__wrapper')!.textContent,
+      'x',
+    );
+    assert.strictEqual(
+      plain!.querySelector('.cds--tooltip-content')!.textContent,
+      'Close',
+    );
+    // The auto-align caret follows the label inside the content.
+    assert.strictEqual(
+      autoAligned!.querySelector('.cds--tooltip-content')!.textContent,
+      'Open',
+    );
+  });
 });

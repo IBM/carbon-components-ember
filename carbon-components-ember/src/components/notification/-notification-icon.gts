@@ -42,14 +42,14 @@ export interface NotificationIconSignature {
 // eslint-disable-next-line ember/template-require-splattributes -- renders an icon component, which takes no attributes
 const NotificationIcon: TOC<NotificationIconSignature> = <template>
   {{#let (iconFor @kind) as |KindIcon|}}
-    {{#if KindIcon}}
+    {{#if KindIcon~}}
       <KindIcon
         @size={{20}}
         @svgClass="cds--{{@notificationType}}-notification__icon"
         @title={{describe @kind @iconDescription}}
         @ariaLabel={{describe @kind @iconDescription}}
       />
-    {{/if}}
+    {{~/if}}
   {{/let}}
 </template>;
 

@@ -27,9 +27,9 @@ export interface CardFooterSignature {
  * footer instead, and none of this one.
  */
 const CardFooter: TOC<CardFooterSignature> = <template>
-  {{#unless @clickable}}
+  {{#unless @clickable~}}
     <div class="cds--card__footer" ...attributes>{{yield}}</div>
-  {{/unless}}
+  {{~/unless}}
 </template>;
 
 export default CardFooter;

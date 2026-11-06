@@ -287,10 +287,10 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
           <div class="cds--data-table-header__description"></div>
         {{else}}
           <h4 class="cds--data-table-header__title">
-            {{@title}}
+            {{~@title~}}
           </h4>
           <p class="cds--data-table-header__description">
-            {{@description}}
+            {{~@description~}}
           </p>
         {{/if}}
       </div>

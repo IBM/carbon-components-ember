@@ -910,4 +910,28 @@ module('Integration | Component | Menu', (hooks) => {
       .dom('ul[data-test-radio-group]', target)
       .hasAttribute('aria-label', 'Size');
   });
+
+  test("an item's icon slots stay empty without an icon, as in Carbon React", async function (this: {
+    container: HTMLElement;
+  }, assert) {
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Cut" />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    for (const slot of ['__selection-icon', '__icon']) {
+      const element = target.querySelector(`.cds--menu-item${slot}`)!;
+      assert.true(element.matches(':empty'), slot);
+    }
+  });
 });

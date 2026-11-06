@@ -33,7 +33,7 @@ export interface ListItemSignature {
  */
 const ListItem: TOC<ListItemSignature> = <template>
   <li class="cds--list__item" dir="auto" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </li>
 </template>;
 

@@ -53,7 +53,7 @@ export default class ChatHistoryContent extends Component<ChatHistoryContentSign
           >{{this.displayText}}</span>
         {{/if}}
       </div>
-      {{yield}}
+      {{~yield~}}
     </div>
   </template>
 }

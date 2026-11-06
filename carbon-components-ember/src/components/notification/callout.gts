@@ -63,7 +63,7 @@ const noop = () => {};
  * relates to. Screen readers don't announce it, and it can't be closed.
  */
 const Callout: TOC<CalloutSignature> = <template>
-  {{#let (or @kind "info") as |kind|}}
+  {{#let (or @kind "info") as |kind|~}}
     <div
       class="cds--actionable-notification cds--actionable-notification--callout cds--actionable-notification--{{kind}}
         cds--actionable-notification--hide-close-button
@@ -83,30 +83,30 @@ const Callout: TOC<CalloutSignature> = <template>
               class="cds--actionable-notification__title"
               id={{@titleId}}
             >
-              {{@title}}
+              {{~@title~}}
             </Text>
           {{/if}}
           {{#if @subtitle}}
             <Text @as="div" class="cds--actionable-notification__subtitle">
-              {{@subtitle}}
+              {{~@subtitle~}}
             </Text>
           {{/if}}
           {{yield}}
         </div>
       </div>
       <div class="cds--actionable-notification__button-wrapper">
-        {{#if @actionButtonLabel}}
+        {{~#if @actionButtonLabel~}}
           <NotificationActionButton
             @inline={{true}}
             aria-describedby={{@titleId}}
             {{on "click" (or @onActionButtonClick noop)}}
           >
-            {{@actionButtonLabel}}
+            {{~@actionButtonLabel~}}
           </NotificationActionButton>
-        {{/if}}
+        {{~/if~}}
       </div>
     </div>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default Callout;

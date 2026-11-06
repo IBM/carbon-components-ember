@@ -19,7 +19,7 @@ export interface HeaderNavigationSignature {
 const HeaderNavigation: TOC<HeaderNavigationSignature> = <template>
   <nav ...attributes class="cds--header__nav">
     <ul class="cds--header__menu-bar">
-      {{yield}}
+      {{~yield~}}
     </ul>
   </nav>
 </template>;

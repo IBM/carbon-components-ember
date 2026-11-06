@@ -20,7 +20,7 @@ export interface ToggletipContentSignature {
 const ToggletipContent: TOC<ToggletipContentSignature> = <template>
   <@PopoverContent id={{@id}} ...attributes>
     <div class="cds--toggletip-content">
-      {{yield}}
+      {{~yield~}}
     </div>
   </@PopoverContent>
 </template>;

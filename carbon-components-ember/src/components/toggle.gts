@@ -47,7 +47,7 @@ export default class Toggle extends Component<ToggleSignature> {
       ></button>
       <label class="cds--toggle__label" for="toggle-{{this.guid}}">
         <span class="cds--toggle__label-text">
-          {{@name}}
+          {{~@name~}}
         </span>
         <div
           class="cds--toggle__appearance
@@ -58,7 +58,7 @@ export default class Toggle extends Component<ToggleSignature> {
               {{if @value 'cds--toggle__switch--checked'}}"
           ></div>
           <span class="cds--toggle__text" aria-hidden="true">
-            {{if @value "On" "Off"}}
+            {{~if @value "On" "Off"~}}
           </span>
         </div>
       </label>

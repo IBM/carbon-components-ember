@@ -19,7 +19,7 @@ export interface FormItemSignature {
 
 const FormItem: TOC<FormItemSignature> = <template>
   <div class="cds--form-item" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

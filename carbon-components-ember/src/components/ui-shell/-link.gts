@@ -35,10 +35,10 @@ const tagOf = (as: keyof HTMLElementTagNameMap) => as as 'a' | 'button';
 // themselves, so it never takes LinkTo's `active` class.
 const Link: TOC<LinkSignature> = <template>
   {{#if @as}}
-    {{#let (element (tagOf @as)) as |Tag|}}
+    {{#let (element (tagOf @as)) as |Tag|~}}
       <Tag href={{@href}} ...attributes>{{yield}}</Tag>
-    {{/let}}
-  {{else}}
+    {{~/let}}
+  {{else~}}
     <RouterLink
       @href={{@href}}
       @route={{@route}}
@@ -48,7 +48,7 @@ const Link: TOC<LinkSignature> = <template>
       @activeClass=""
       ...attributes
     >{{yield}}</RouterLink>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default Link;

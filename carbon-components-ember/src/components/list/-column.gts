@@ -16,7 +16,7 @@ const ListColumn: TOC<ListColumnSignature> = <template>
       {{if @nowrap 'cds--structured-list-content--nowrap'}}"
     ...attributes
   >
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

@@ -34,7 +34,7 @@ const descriptionFor = (selectionCount: number | undefined) =>
 /** The button that clears a list box field, as Carbon React's `ListBoxSelection`. */
 const ListBoxSelection: TOC<ListBoxSelectionSignature> = <template>
   {{#let (descriptionFor @selectionCount) as |description|}}
-    {{#if @selectionCount}}
+    {{#if @selectionCount~}}
       <div
         class="cds--tag cds--tag--filter cds--tag--high-contrast
           {{if @disabled 'cds--tag--disabled'}}"
@@ -57,7 +57,7 @@ const ListBoxSelection: TOC<ListBoxSelectionSignature> = <template>
           <Close @size="16" />
         </button>
       </div>
-    {{else}}
+    {{~else~}}
       <button
         ...attributes
         type="button"
@@ -71,7 +71,7 @@ const ListBoxSelection: TOC<ListBoxSelectionSignature> = <template>
       >
         <Close @size="16" />
       </button>
-    {{/if}}
+    {{~/if}}
   {{/let}}
 </template>;
 

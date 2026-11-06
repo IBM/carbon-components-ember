@@ -53,10 +53,10 @@ export default class SideNavItems
 
   <template>
     <ul ...attributes class="cds--side-nav__items">
-      {{yield
+      {{~yield
         (component SideNavLink sideNav=this)
         (component SideNavMenu sideNav=this)
-      }}
+      ~}}
     </ul>
   </template>
 }

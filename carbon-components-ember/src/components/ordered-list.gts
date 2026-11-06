@@ -25,7 +25,7 @@ export default class OrderedList extends Component<OrderedListSignature> {
 
   <template>
     <ol class={{this.classes}} ...attributes>
-      {{yield ListItem}}
+      {{~yield ListItem~}}
     </ol>
   </template>
 }

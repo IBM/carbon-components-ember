@@ -57,7 +57,7 @@ const FlexGrid: TOC<FlexGridSignature> = <template>
     ...attributes
     as |grid|
   >
-    {{yield grid}}
+    {{~yield grid~}}
   </Grid>
 </template>;
 

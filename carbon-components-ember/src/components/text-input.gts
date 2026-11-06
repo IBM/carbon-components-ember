@@ -141,11 +141,11 @@ export default class TextInput extends Component<TextInputSignature> {
               {{if this.field.disabled 'cds--label--disabled'}}"
             dir="auto"
           >
-            {{#if (has-block "labelText")}}
+            {{~#if (has-block "labelText")~}}
               {{yield to="labelText"}}
-            {{else}}
+            {{~else~}}
               {{@labelText}}
-            {{/if}}
+            {{~/if~}}
           </label>
         {{/if}}
         {{#if this.showCounter}}
@@ -199,7 +199,7 @@ export default class TextInput extends Component<TextInputSignature> {
           {{/if}}
           {{#if (has-block "decorator")}}
             <div class="cds--text-input__field-inner-wrapper--decorator">
-              {{yield (component AILabel size="mini") to="decorator"}}
+              {{~yield (component AILabel size="mini") to="decorator"~}}
             </div>
           {{/if}}
           <span
@@ -208,7 +208,7 @@ export default class TextInput extends Component<TextInputSignature> {
             aria-live="assertive"
             aria-atomic="true"
           >
-            {{#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if}}
+            {{~#if this.isOverCountLimit}}{{this.count}}/{{@maxCount}}{{/if~}}
           </span>
           {{#if @isFluid}}
             <hr class="cds--text-input__divider" />

@@ -238,6 +238,17 @@ module('Integration | Component | ai-chat/Toolbar', (hooks) => {
       .dom('.cds-aichat-toolbar__actions-container [data-testid="pinned-2"]')
       .exists();
   });
+
+  test('hides the decorator container without a decorator', async function (assert) {
+    await render(
+      <template><Toolbar @titleText="My" @nameText="Toolbar" /></template>,
+    );
+
+    // Its CSS hides it while it's :empty.
+    const element = find('.cds-aichat-toolbar__decorator-container')!;
+    assert.true(element.matches(':empty'));
+    assert.strictEqual(getComputedStyle(element).display, 'none');
+  });
 });
 
 module(

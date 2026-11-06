@@ -29,7 +29,7 @@ export default class TabContent extends Component<TabContentSignature> {
       hidden={{this.isHidden}}
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </div>
   </template>
 }

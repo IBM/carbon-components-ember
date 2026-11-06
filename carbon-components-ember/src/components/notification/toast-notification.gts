@@ -127,7 +127,7 @@ export default class ToastNotification extends Component<ToastNotificationSignat
   });
 
   <template>
-    {{#if this.isOpen}}
+    {{#if this.isOpen~}}
       <div
         role="status"
         class="cds--toast-notification cds--toast-notification--{{this.kind}}
@@ -143,17 +143,17 @@ export default class ToastNotification extends Component<ToastNotificationSignat
         <div class="cds--toast-notification__details">
           {{#if @title}}
             <Text @as="div" class="cds--toast-notification__title">
-              {{@title}}
+              {{~@title~}}
             </Text>
           {{/if}}
           {{#if @subtitle}}
             <Text @as="div" class="cds--toast-notification__subtitle">
-              {{@subtitle}}
+              {{~@subtitle~}}
             </Text>
           {{/if}}
           {{#if @caption}}
             <Text @as="div" class="cds--toast-notification__caption">
-              {{@caption}}
+              {{~@caption~}}
             </Text>
           {{/if}}
           {{yield}}
@@ -166,6 +166,6 @@ export default class ToastNotification extends Component<ToastNotificationSignat
           />
         {{/unless}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

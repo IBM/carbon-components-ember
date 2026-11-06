@@ -43,7 +43,7 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
   };
 
   <template>
-    {{#if (or @action.href @action.route @action.externalRoute)}}
+    {{#if (or @action.href @action.route @action.externalRoute)~}}
       <Tooltip @label={{@action.text}} @align="bottom" ...attributes>
         {{! Disabled, it's a link to nowhere. }}
         <RouterLink
@@ -66,7 +66,7 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
           <@action.icon @size={{16}} />
         </RouterLink>
       </Tooltip>
-    {{else}}
+    {{~else~}}
       <Button
         @kind="ghost"
         @hasIconOnly={{true}}
@@ -80,6 +80,6 @@ export default class ToolbarActionButton extends Component<ToolbarActionButtonSi
       >
         <@action.icon @size={{16}} />
       </Button>
-    {{/if}}
+    {{~/if}}
   </template>
 }

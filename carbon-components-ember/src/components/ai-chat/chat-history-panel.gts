@@ -74,7 +74,7 @@ export default class ChatHistoryPanel extends Component<ChatHistoryPanelSignatur
         }}"
       ...attributes
     >
-      {{yield (component ChatHistoryPanelItems showActions=@showActions)}}
+      {{~yield (component ChatHistoryPanelItems showActions=@showActions)~}}
     </nav>
   </template>
 }

@@ -77,7 +77,7 @@ export default class CardFooter extends Component<CardFooterSignature> {
 
   <template>
     {{#if this.actions.length}}
-      {{#if this.isIconButton}}
+      {{#if this.isIconButton~}}
         <div
           class="cds-aichat-card-footer__icon-actions"
           data-rounded="bottom-right"
@@ -102,7 +102,7 @@ export default class CardFooter extends Component<CardFooterSignature> {
             </Button>
           {{/each}}
         </div>
-      {{else}}
+      {{~else~}}
         <div
           class="cds-aichat-card-footer__actions
             {{if this.isStacked 'cds-aichat-card-footer__actions--stacked'}}"
@@ -138,7 +138,7 @@ export default class CardFooter extends Component<CardFooterSignature> {
             </Button>
           {{/each}}
         </div>
-      {{/if}}
+      {{~/if}}
     {{/if}}
   </template>
 }

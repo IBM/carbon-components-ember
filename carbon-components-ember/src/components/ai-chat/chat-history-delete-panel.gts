@@ -59,18 +59,18 @@ export default class ChatHistoryDeletePanel extends Component<ChatHistoryDeleteP
     <div class="cds-aichat-history-delete-panel" ...attributes>
       <div aria-live="polite" class="cds-aichat-history-delete-panel__content">
         <h1>
-          {{#if (has-block "title")}}
+          {{~#if (has-block "title")~}}
             {{yield to="title"}}
-          {{else}}
+          {{~else~}}
             Confirm Delete
-          {{/if}}
+          {{~/if~}}
         </h1>
         <span>
-          {{#if (has-block "description")}}
+          {{~#if (has-block "description")~}}
             {{yield to="description"}}
-          {{else}}
+          {{~else~}}
             This conversation will be permanently deleted.
-          {{/if}}
+          {{~/if~}}
         </span>
         <div class="cds-aichat-history-delete-panel__actions">
           <ChatButton
@@ -78,7 +78,7 @@ export default class ChatHistoryDeletePanel extends Component<ChatHistoryDeleteP
             @size="sm"
             @onClick={{this.handleCancel}}
           >
-            {{or @cancelText "Cancel"}}
+            {{~or @cancelText "Cancel"~}}
           </ChatButton>
           <ChatButton
             @kind="danger"

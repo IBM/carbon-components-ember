@@ -20,7 +20,7 @@ const TableMenu: TOC<TableMenuSignature> = <template>
       <span></span>
     {{else}}
       <OverflowMenu @flipped={{true}} as |Item|>
-        {{yield Item}}
+        {{~yield Item~}}
       </OverflowMenu>
     {{/if}}
   </td>

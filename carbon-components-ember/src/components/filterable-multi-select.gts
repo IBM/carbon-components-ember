@@ -742,7 +742,7 @@ export default class FilterableMultiSelect<T> extends Component<
             {{if @disabled 'cds--label--disabled'}}
             {{if @hideLabel 'cds--visually-hidden'}}"
         >
-          {{@titleText}}
+          {{~@titleText~}}
           <span class="cds--visually-hidden">{{this.selectionSummary}}</span>
         </label>
       {{/if}}
@@ -823,7 +823,7 @@ export default class FilterableMultiSelect<T> extends Component<
         </div>
         {{#if (has-block "decorator")}}
           <div class="cds--list-box__inner-wrapper--decorator">
-            {{yield (component AILabel size="mini") to="decorator"}}
+            {{~yield (component AILabel size="mini") to="decorator"~}}
           </div>
         {{/if}}
         <ListBoxMenu
@@ -835,7 +835,7 @@ export default class FilterableMultiSelect<T> extends Component<
           {{scrollToHighlighted this.highlightedIndex}}
           {{(if this.floatsMenu positionMenu) placement=this.direction}}
         >
-          {{#if this.isOpen}}
+          {{~#if this.isOpen~}}
             {{#each this.sortedItems as |item index|}}
               <ListBoxMenuItem
                 id={{this.itemId index}}
@@ -861,15 +861,15 @@ export default class FilterableMultiSelect<T> extends Component<
                   @disabled={{or @disabled (isItemDisabled item)}}
                   @title={{if @useTitleInItem (this.itemToString item)}}
                 >
-                  {{#if (has-block)}}
+                  {{~#if (has-block)~}}
                     {{yield item}}
-                  {{else}}
+                  {{~else~}}
                     {{this.itemToString item}}
-                  {{/if}}
+                  {{~/if~}}
                 </ListBoxCheckbox>
               </ListBoxMenuItem>
             {{/each}}
-          {{/if}}
+          {{~/if~}}
         </ListBoxMenu>
       </ListBox>
       {{#if this.showHelperText}}

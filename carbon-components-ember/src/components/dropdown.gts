@@ -488,7 +488,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
         </button>
         {{#if (has-block "decorator")}}
           <div class="cds--list-box__inner-wrapper--decorator">
-            {{yield (component AILabel size="mini") to="decorator"}}
+            {{~yield (component AILabel size="mini") to="decorator"~}}
           </div>
         {{/if}}
         <ListBoxMenu
@@ -497,7 +497,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- keeps focus on the field, see preventMenuMouseDown }}
           {{on "mousedown" this.preventMenuMouseDown}}
         >
-          {{#if this.isOpen}}
+          {{~#if this.isOpen~}}
             {{#each @items as |item index|}}
               <ListBoxMenuItem
                 id={{this.itemId index}}
@@ -510,20 +510,20 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
                 {{on "click" (fn this.handleItemClick item)}}
                 {{on "mouseenter" (fn this.setHighlighted index)}}
               >
-                {{#if (has-block)}}
+                {{~#if (has-block)~}}
                   {{yield item}}
-                {{else}}
+                {{~else~}}
                   {{this.itemToString item}}
-                {{/if}}
-                {{#if (eq item this.selectedItem)}}
+                {{~/if~}}
+                {{~#if (eq item this.selectedItem)~}}
                   <Checkmark
                     @size="16"
                     @svgClass="cds--list-box__menu-item__selected-icon"
                   />
-                {{/if}}
+                {{~/if~}}
               </ListBoxMenuItem>
             {{/each}}
-          {{/if}}
+          {{~/if~}}
         </ListBoxMenu>
       </ListBox>
       {{#if this.showHelperText}}

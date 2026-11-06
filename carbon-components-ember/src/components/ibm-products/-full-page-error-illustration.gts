@@ -18,7 +18,7 @@ export interface FullPageErrorIllustrationSignature {
 // Carbon for IBM Products' FullPageError illustrations, from its assets.
 const FullPageErrorIllustration: TOC<FullPageErrorIllustrationSignature> =
   <template>
-    {{#if (eq @kind "403")}}
+    {{#if (eq @kind "403")~}}
       <svg
         viewBox="0 0 750 570"
         fill="none"
@@ -829,7 +829,7 @@ const FullPageErrorIllustration: TOC<FullPageErrorIllustrationSignature> =
             /></clipPath>
         </defs>
       </svg>
-    {{else if (eq @kind "404")}}
+    {{~else if (eq @kind "404")~}}
       <svg
         viewBox="0 0 751 549"
         fill="none"
@@ -1542,7 +1542,7 @@ const FullPageErrorIllustration: TOC<FullPageErrorIllustrationSignature> =
           </clipPath>
         </defs>
       </svg>
-    {{else}}
+    {{else~}}
       <svg
         viewBox="0 0 750 506"
         fill="none"
@@ -2352,7 +2352,7 @@ const FullPageErrorIllustration: TOC<FullPageErrorIllustrationSignature> =
             /></clipPath>
         </defs>
       </svg>
-    {{/if}}
+    {{~/if}}
   </template>;
 
 export default FullPageErrorIllustration;

@@ -22,7 +22,7 @@ export default class UnorderedList extends Component<UnorderedListSignature> {
 
   <template>
     <ul class={{this.classes}} ...attributes>
-      {{yield ListItem}}
+      {{~yield ListItem~}}
     </ul>
   </template>
 }

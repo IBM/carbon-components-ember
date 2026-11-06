@@ -41,10 +41,10 @@ export default class LayoutDirection extends Component<LayoutDirectionSignature>
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag dir={{@dir}} ...attributes>
-        {{yield (hash dir=@dir isRTL=this.isRTL)}}
+        {{~yield (hash dir=@dir isRTL=this.isRTL)~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

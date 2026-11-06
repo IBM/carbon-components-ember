@@ -441,7 +441,7 @@ export default class Popover extends Component<PopoverSignature> {
   };
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag
         class={{this.classes}}
         {{this.manage}}
@@ -452,9 +452,9 @@ export default class Popover extends Component<PopoverSignature> {
         }}
         ...attributes
       >
-        {{yield (component PopoverContent popover=this) this.trigger}}
+        {{~yield (component PopoverContent popover=this) this.trigger~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }
 
@@ -505,13 +505,13 @@ export class PopoverContent extends Component<PopoverContentSignature> {
       {{! Not on the .cds--popover, as React: a tooltip's id there leaves its
         trigger unnamed in testing-library, which skips the hidden content. }}
       <span class="cds--popover-content" {{this.register}} ...attributes>
-        {{yield}}
-        {{#if this.floating}}
+        {{~yield~}}
+        {{#if this.floating~}}
           <span
             class="cds--popover-caret cds--popover--auto-align"
             {{this.registerCaret}}
           ></span>
-        {{/if}}
+        {{~/if~}}
       </span>
       {{#unless this.floating}}
         <span class="cds--popover-caret"></span>

@@ -19,7 +19,7 @@ interface BreadcrumbOverflowIconSignature {
 // As Carbon React's BreadcrumbItem renders it: the icon ignores the classes
 // OverflowMenu gives a custom icon, so it keeps only the overflow menu's.
 const BreadcrumbOverflowIcon: TOC<BreadcrumbOverflowIconSignature> = <template>
-  {{! eslint-disable-next-line ember/template-require-splattributes -- an icon takes no attributes }}
+  {{! eslint-disable-next-line ember/template-require-splattributes -- an icon takes no attributes ~}}
   <OverflowMenuHorizontal @svgClass="cds--overflow-menu__icon" />
 </template>;
 

@@ -330,8 +330,7 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
         @highContrast={{this.tooltip.highContrast}}
         @label={{this.iconDescription}}
         @leaveDelayMs={{this.tooltip.leaveDelayMs}}
-      >
-        <button
+      ><button
           type="button"
           class={{this.triggerClasses}}
           aria-haspopup="true"
@@ -347,9 +346,8 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
             @svgClass="cds--overflow-menu__icon cds--btn__icon {{@iconClass}}"
             @ariaLabel={{this.iconDescription}}
           />
-        </button>
-      </Tooltip>
-      {{#if this.isOpen}}
+        </button></Tooltip>
+      {{~#if this.isOpen~}}
         <ul
           id={{this.menuId}}
           class={{this.menuClasses}}
@@ -361,9 +359,9 @@ export default class OverflowMenu extends Component<OverflowMenuSignature> {
           {{this.rovingFocus.container}}
           {{this.position}}
         >
-          {{yield (component OverflowMenuItem menu=this)}}
+          {{~yield (component OverflowMenuItem menu=this)~}}
         </ul>
-      {{/if}}
+      {{~/if~}}
     </span>
   </template>
 }

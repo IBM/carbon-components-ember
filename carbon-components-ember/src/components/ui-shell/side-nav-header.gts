@@ -30,7 +30,7 @@ const SideNavHeader: TOC<SideNavHeaderSignature> = <template>
     <SideNavIcon>
       <@renderIcon />
     </SideNavIcon>
-    {{yield}}
+    {{~yield~}}
   </header>
 </template>;
 
