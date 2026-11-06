@@ -23,6 +23,24 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
+Carbon defines its colours only under a theme's class, so set the app's theme when it starts, in the application route. The `carbon.theme` service, Carbon React's `GlobalTheme`, puts the theme's class on `<html>` and moves it when the theme changes:
+
+```ts
+import Route from '@ember/routing/route';
+import { service } from '@ember/service';
+import type ThemeService from 'carbon-components-ember/services/theme';
+
+export default class ApplicationRoute extends Route {
+  @service('carbon.theme') declare carbonTheme: ThemeService;
+
+  beforeModel() {
+    this.carbonTheme.theme = 'white';
+  }
+}
+```
+
+To follow the system's light or dark mode instead, call `followSystemScheme({ light: 'white', dark: 'g100' })`. A theme class already on `<html>` in `index.html` themes the page before the app starts, and the service starts with it.
+
 ## Use
 
 Import components into your `.gts` templates, from the package or from each component's own module. In a classic ember-cli build, use the modules (`carbon-components-ember/components/button`): ember-auto-import bundles everything `carbon-components-ember/components` exports, whichever components you use.

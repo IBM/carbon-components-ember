@@ -1,3 +1,5 @@
+import Component from '@glimmer/component';
+import { service } from '@ember/service';
 import { expect } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
@@ -6,15 +8,9 @@ import Stack from './stack.gts';
 import Theme from './theme.gts';
 
 import type { TOC } from '@ember/component/template-only';
+import type ThemeService from '../services/theme.ts';
+import type { CarbonTheme } from '../utils/theme.ts';
 import '#storybook/styles/theme.css';
-
-// Carbon React parity gaps:
-// - `usePrefersDarkScheme`: Ember has no `usePrefersDarkScheme()` hook.
-// - `useTheme` outside of a `<Theme>`: Ember has no ambient theme context
-//   (the global theme comes from Carbon's theme classes, here the toolbar's
-//   theme switcher), so only content inside a `<Theme>` can read its theme.
-//   The story's first section uses a `<Theme>` with the `theme` arg instead.
-// - React's `GlobalTheme` subcomponent has no Ember equivalent.
 
 const THEMES = ['white', 'g10', 'g90', 'g100'] as const;
 
@@ -30,15 +26,93 @@ const WithLayerTemplate: TOC<{ Blocks: { default: [] } }> = <template>
   </Layer>
 </template>;
 
+// Carbon React's `ThemeText`, given what `useTheme` returns.
+const ThemeText: TOC<{
+  Args: { theme: CarbonTheme; isDark: boolean };
+  Blocks: { default: [] };
+}> = <template>
+  <p>{{yield}}
+    useTheme reveals... { theme: '{{@theme}}', isDark: '{{@isDark}}'}</p>
+</template>;
+
+// `useTheme` outside a `Theme`: the app's theme, from the service.
+class GlobalThemeText extends Component {
+  @service('carbon.theme') declare globalTheme: ThemeService;
+
+  <template>
+    <ThemeText
+      @isDark={{this.globalTheme.isDark}}
+      @theme={{this.globalTheme.theme}}
+    />
+  </template>
+}
+
+// Carbon React's `usePrefersDarkScheme` story: four themes, chosen by the
+// system's colour scheme.
+class PrefersDarkSchemeThemes extends Component {
+  @service('carbon.theme') declare globalTheme: ThemeService;
+
+  get prefersDark() {
+    return this.globalTheme.prefersDarkScheme;
+  }
+
+  get themes(): Record<'theme1' | 'theme2' | 'theme3' | 'theme4', CarbonTheme> {
+    const dark = this.prefersDark;
+    return {
+      theme1: dark ? 'g100' : 'white',
+      theme2: dark ? 'white' : 'g100',
+      theme3: dark ? 'g90' : 'g10',
+      theme4: dark ? 'g10' : 'g90',
+    };
+  }
+
+  <template>
+    {{#let this.themes as |themes|}}
+      <Theme @theme={{themes.theme1}} as |t|>
+        <section class="theme-story__section">
+          <ThemeText @isDark={{t.isDark}} @theme={{t.theme}}>
+            usePrefersDarkScheme() is '{{this.prefersDark}}'. Theme set to '{{t.theme}}'.
+          </ThemeText>
+        </section>
+        <Theme @theme={{themes.theme2}} as |t|>
+          <section class="theme-story__section">
+            <ThemeText @isDark={{t.isDark}} @theme={{t.theme}}>
+              usePrefersDarkScheme() is '{{this.prefersDark}}'. An alternative
+              theme set of '{{t.theme}}'.
+            </ThemeText>
+          </section>
+        </Theme>
+        <Theme @theme={{themes.theme3}} as |t|>
+          <section class="theme-story__section">
+            <ThemeText @isDark={{t.isDark}} @theme={{t.theme}}>
+              usePrefersDarkScheme() is '{{this.prefersDark}}'. Theme set to '{{t.theme}}'.
+            </ThemeText>
+          </section>
+        </Theme>
+        <Theme @theme={{themes.theme4}} as |t|>
+          <section class="theme-story__section">
+            <ThemeText @isDark={{t.isDark}} @theme={{t.theme}}>
+              usePrefersDarkScheme() is '{{this.prefersDark}}'. An alternative
+              theme set of '{{t.theme}}'.
+            </ThemeText>
+          </section>
+        </Theme>
+      </Theme>
+    {{/let}}
+  </template>
+}
+
 const meta = preview.meta({
   title: 'Components/Theme',
   component: Theme,
   parameters: {
     docs: {
       description: {
-        component: `The Theme component applies one of the Carbon themes (\`white\`, \`g10\`, \`g90\`, \`g100\`) to a section of your page. It renders a wrapper element with the corresponding Carbon zone class, which re-emits the theme's CSS custom properties scoped to that element — everything inside picks up the selected theme's tokens.
+        component: `The Theme component applies one of the Carbon themes (\`white\`, \`g10\`, \`g90\`, \`g100\`) to a section of your page. It renders a wrapper element with the corresponding Carbon zone class, which re-emits the theme's CSS custom properties scoped to that element — everything inside picks up the selected theme's tokens. Without \`@theme\` it keeps the theme around it.
 
-The block receives \`theme\` and \`isDark\` so nested content can react to the active theme, mirroring React's \`useTheme\` hook. (The page-wide theme of these stories comes from the toolbar's theme switcher.)`,
+The app's own theme, Carbon React's \`GlobalTheme\`, is the \`carbon.theme\` service. Carbon defines its tokens only under a theme's class, so set the service's \`theme\` when the app starts, in the application route: it puts that class on \`<html>\`, and moves it when the theme changes. \`followSystemScheme({ light: 'white', dark: 'g100' })\` follows the system's colour scheme until a theme is set, and \`prefersDarkScheme\` is React's \`usePrefersDarkScheme\`.
+
+The block receives \`theme\` and \`isDark\`, like React's \`useTheme\` hook; outside a \`Theme\`, the service has them. (These stories' app theme is the toolbar's.)`,
       },
     },
   },
@@ -70,38 +144,58 @@ export const UseTheme = meta.story({
     docs: {
       description: {
         story:
-          "The block's `theme` and `isDark` reveal the active theme, like React's `useTheme` hook.",
+          "A `Theme`'s block receives its `theme` and `isDark`, like React's `useTheme` hook; outside a `Theme`, the `carbon.theme` service has the app's.",
       },
     },
   },
-  render: (args) => <template>
+  render: () => <template>
     <div>
-      <Theme @theme={{args.theme}} as |ctx|>
+      <section class="theme-story__section">
+        <GlobalThemeText />
+      </section>
+      <Theme @theme="g100" as |t|>
         <section class="theme-story__section">
-          <p>
-            useTheme reveals... { theme: '{{ctx.theme}}', isDark: '{{ctx.isDark}}'}
-          </p>
-        </section>
-      </Theme>
-      <Theme @theme="g100" as |ctx|>
-        <section class="theme-story__section">
-          <p>
-            useTheme reveals... { theme: '{{ctx.theme}}', isDark: '{{ctx.isDark}}'}
-          </p>
+          <ThemeText @isDark={{t.isDark}} @theme={{t.theme}} />
         </section>
       </Theme>
     </div>
   </template>,
 });
 
-UseTheme.test('yields the active theme', async ({ canvas }) => {
+UseTheme.test("reveals the app's theme and a zone's", async ({ canvas }) => {
   await expect(
-    canvas.getByText("useTheme reveals... { theme: 'g10', isDark: 'false'}"),
+    canvas.getByText("useTheme reveals... { theme: 'white', isDark: 'false'}"),
   ).toBeInTheDocument();
   await expect(
     canvas.getByText("useTheme reveals... { theme: 'g100', isDark: 'true'}"),
   ).toBeInTheDocument();
 });
+
+export const UsePrefersDarkScheme = meta.story({
+  name: 'usePrefersDarkScheme',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The `carbon.theme` service's `prefersDarkScheme` follows the system's colour scheme, like React's `usePrefersDarkScheme` hook; these themes follow it.",
+      },
+    },
+  },
+  render: () => <template><PrefersDarkSchemeThemes /></template>,
+});
+
+UsePrefersDarkScheme.test(
+  "picks the themes from the system's colour scheme",
+  async ({ canvas }) => {
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    await expect(
+      canvas.getByText(
+        `usePrefersDarkScheme() is '${dark}'. Theme set to '${dark ? 'g100' : 'white'}'.`,
+        { exact: false },
+      ),
+    ).toBeInTheDocument();
+  },
+);
 
 export const WithLayer = meta.story({
   render: () => <template>
