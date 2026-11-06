@@ -124,9 +124,10 @@ export default class TableBatchActions extends Component<TableBatchActionsSignat
         <p class="cds--batch-summary__para"><Text>{{this.summary}}</Text></p>
         {{#if @onSelectAll}}
           <span class="cds--batch-summary__divider">|</span>
-          <Button tabindex={{this.tabindex}} {{on "click" @onSelectAll}}>
-            {{this.selectAll}}
-          </Button>
+          <Button
+            tabindex={{this.tabindex}}
+            {{on "click" @onSelectAll}}
+          >{{this.selectAll}}</Button>
         {{/if}}
       </div>
       <TableActionList>
@@ -135,9 +136,7 @@ export default class TableBatchActions extends Component<TableBatchActionsSignat
           class="cds--batch-summary__cancel"
           tabindex={{this.tabindex}}
           {{on "click" @onCancel}}
-        >
-          {{this.cancel}}
-        </Button>
+        >{{this.cancel}}</Button>
       </TableActionList>
     </div>
   </template>

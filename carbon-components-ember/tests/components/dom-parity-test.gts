@@ -6969,11 +6969,9 @@ module('DOM parity | Carbon React', function (hooks) {
       test('default', async function (this: RenderingTestContext, assert) {
         await render(
           <template>
-            <TableToolbar as |Content|>
-              <Content>
+            <TableToolbar as |Content|><Content>
                 <TableActionList />
-              </Content>
-            </TableToolbar>
+              </Content></TableToolbar>
           </template>,
         );
         assertDomParity(
@@ -7035,8 +7033,7 @@ module('DOM parity | Carbon React', function (hooks) {
           await render(
             <template>
               <TableToolbar @size={{size}} as |Content|>
-                <Content as |Search|>
-                  <Search
+                <Content as |Search|><Search
                     @className={{props.className}}
                     @defaultExpanded={{props.defaultExpanded}}
                     @defaultValue={{props.defaultValue}}
@@ -7048,8 +7045,7 @@ module('DOM parity | Carbon React', function (hooks) {
                     @placeholder={{props.placeholder}}
                     @searchContainerClass={{props.searchContainerClass}}
                     @size={{props.size}}
-                  />
-                </Content>
+                  /></Content>
               </TableToolbar>
             </template>,
           );
@@ -7158,10 +7154,8 @@ module('DOM parity | Carbon React', function (hooks) {
               @ariaLabel="Toolbar menu"
               @open={{true}}
               as |Action|
-            >
-              <Action>Refresh data</Action>
-              <Action>Download</Action>
-            </TableToolbarMenu>
+            ><Action>Refresh data</Action><Action
+              >Download</Action></TableToolbarMenu>
           </template>,
         );
         assertDomParity(

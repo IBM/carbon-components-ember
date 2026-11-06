@@ -80,7 +80,7 @@ export default class TableToolbarMenu extends Component<TableToolbarMenuSignatur
       ...attributes
       as |Item|
     >
-      {{yield (component TableToolbarAction item=Item)}}
+      {{~yield (component TableToolbarAction item=Item)~}}
     </OverflowMenu>
   </template>
 }
