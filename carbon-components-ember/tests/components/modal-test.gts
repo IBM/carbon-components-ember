@@ -341,7 +341,7 @@ module('Integration | Component | Modal', function (hooks) {
       );
     });
 
-    test('focuses the primary button when it opens', async function (assert) {
+    test('focuses its close button when it opens, as Carbon React', async function (assert) {
       await render(
         <template>
           <Modal
@@ -352,7 +352,7 @@ module('Integration | Component | Modal', function (hooks) {
         </template>,
       );
 
-      assert.dom('.cds--modal-footer .cds--btn--primary').isFocused();
+      assert.dom('.cds--modal-close').isFocused();
     });
 
     test('focuses [data-modal-primary-focus] when there is one', async function (assert) {
@@ -403,7 +403,7 @@ module('Integration | Component | Modal', function (hooks) {
       );
 
       await click('[data-test-launch]');
-      assert.dom('.cds--modal-footer .cds--btn--primary').isFocused();
+      assert.dom('.cds--modal-close').isFocused();
       open.value = false;
       await settled();
       assert.dom('[data-test-launch]').isFocused();
@@ -424,7 +424,7 @@ module('Integration | Component | Modal', function (hooks) {
       );
 
       await click('[data-test-launch]');
-      assert.dom('.cds--modal-footer .cds--btn--primary').isFocused();
+      assert.dom('.cds--modal-close').isFocused();
       shown.value = false;
       await settled();
       assert.dom(DIALOG).doesNotExist();
