@@ -1,0 +1,569 @@
+{
+  "component": "TableSelectRow",
+  "generatedAt": "2026-11-05T19:09:37.027Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "checked": {
+      "props": {
+        "checked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "checked": true,
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "disabled": true,
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "aria-label": {
+      "props": {
+        "aria-label": "Select Ada"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select Ada"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "class-name": {
+      "props": {
+        "className": "mine"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox",
+          "mine"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox--inline"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "radio": {
+      "props": {
+        "radio": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox",
+          "cds--table-column-radio"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "radio-checked": {
+      "props": {
+        "radio": true,
+        "checked": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox",
+          "cds--table-column-radio"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "",
+                  "checked": true,
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "radio-aria-label": {
+      "props": {
+        "radio": true,
+        "aria-label": "Select Ada"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "td",
+        "classes": [
+          "cds--table-column-checkbox",
+          "cds--table-column-radio"
+        ],
+        "attributes": {
+          "aria-live": "off"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--radio-button-wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--radio-button"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "radio",
+                  "value": "",
+                  "name": "select-row"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--radio-button__label"
+                ],
+                "attributes": {
+                  "for": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__appearance"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--radio-button__label-text",
+                      "cds--visually-hidden"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Select Ada"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

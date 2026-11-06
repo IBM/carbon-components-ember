@@ -35,6 +35,7 @@ import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
 import FileUploaderSkeleton from '#src/components/file-uploader/file-uploader-skeleton.gts';
 import Checkbox from '#src/components/checkbox.gts';
+import InlineCheckbox from '#src/components/inline-checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
@@ -82,6 +83,8 @@ import TableContainer from '#src/components/table/table-container.gts';
 import TableHead from '#src/components/table/table-head.gts';
 import TableHeader from '#src/components/table/table-header.gts';
 import TableRow from '#src/components/table/table-row.gts';
+import TableSelectAll from '#src/components/table/table-select-all.gts';
+import TableSelectRow from '#src/components/table/table-select-row.gts';
 import Tabs from '#src/components/tabs.gts';
 import TabContent from '#src/components/tab-content.gts';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
@@ -124,6 +127,7 @@ import textAreaSkeletonFixture from '../../../dom-parity/fixtures/TextAreaSkelet
 import sliderSkeletonFixture from '../../../dom-parity/fixtures/SliderSkeleton.json';
 import fileUploaderSkeletonFixture from '../../../dom-parity/fixtures/FileUploaderSkeleton.json';
 import checkboxFixture from '../../../dom-parity/fixtures/Checkbox.json';
+import inlineCheckboxFixture from '../../../dom-parity/fixtures/InlineCheckbox.json';
 import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
 import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
 import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
@@ -164,6 +168,8 @@ import tableCellFixture from '../../../dom-parity/fixtures/TableCell.json';
 import tableContainerFixture from '../../../dom-parity/fixtures/TableContainer.json';
 import tableHeaderFixture from '../../../dom-parity/fixtures/TableHeader.json';
 import tableRowFixture from '../../../dom-parity/fixtures/TableRow.json';
+import tableSelectAllFixture from '../../../dom-parity/fixtures/TableSelectAll.json';
+import tableSelectRowFixture from '../../../dom-parity/fixtures/TableSelectRow.json';
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
 import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 import EmptyState from '#src/components/ibm-products/empty-state.gts';
@@ -2656,6 +2662,112 @@ module('DOM parity | Carbon React', function (hooks) {
         'checked',
         'indeterminate',
         'disabled',
+      ]);
+    });
+  });
+
+  module('InlineCheckbox', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('checked', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @checked={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'checked',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('indeterminate', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @indeterminate={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'indeterminate',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @disabled={{true}}
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('title', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <InlineCheckbox
+            @id="inline-checkbox-1"
+            @name="inline-checkbox"
+            @ariaLabel="Select row"
+            @title="Select this row"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        inlineCheckboxFixture,
+        'title',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, inlineCheckboxFixture, [
+        'default',
+        'checked',
+        'indeterminate',
+        'disabled',
+        'title',
       ]);
     });
   });
@@ -6878,6 +6990,306 @@ module('DOM parity | Carbon React', function (hooks) {
           'default',
           'col-span',
           'headers',
+        ]);
+      });
+    });
+
+    module('TableSelectAll', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'default',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('checked', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                    @checked={{true}}
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'checked',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('indeterminate', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                    @indeterminate={{true}}
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'indeterminate',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('disabled', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                    @disabled={{true}}
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'disabled',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('aria-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                    @ariaLabel="Select every row"
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'aria-label',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('class-name', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableSelectAll
+                    @id="select-all"
+                    @name="select-all"
+                    @onSelect={{noop}}
+                    class="mine"
+                  /><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectAllFixture,
+          'class-name',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableSelectAllFixture, [
+          'default',
+          'checked',
+          'indeterminate',
+          'disabled',
+          'aria-label',
+          'class-name',
+        ]);
+      });
+    });
+
+    module('TableSelectRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'default',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('checked', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @checked={{true}}
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'checked',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('disabled', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @disabled={{true}}
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'disabled',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('aria-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @ariaLabel="Select Ada"
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'aria-label',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('class-name', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    class="mine"
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'class-name',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('radio', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @radio={{true}}
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'radio',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('radio-checked', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @radio={{true}}
+                    @checked={{true}}
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'radio-checked',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('radio-aria-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableBody><TableRow><TableSelectRow
+                    @id="select-row"
+                    @name="select-row"
+                    @onSelect={{noop}}
+                    @radio={{true}}
+                    @ariaLabel="Select Ada"
+                  /><TableCell>Ada</TableCell></TableRow></TableBody></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableSelectRowFixture,
+          'radio-aria-label',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableSelectRowFixture, [
+          'default',
+          'checked',
+          'disabled',
+          'aria-label',
+          'class-name',
+          'radio',
+          'radio-checked',
+          'radio-aria-label',
         ]);
       });
     });

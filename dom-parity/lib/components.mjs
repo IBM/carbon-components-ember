@@ -835,6 +835,18 @@ const checkbox = (name, props) => ({
     }),
 });
 
+const inlineCheckbox = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.InlineCheckbox, {
+      id: 'inline-checkbox-1',
+      name: 'inline-checkbox',
+      'aria-label': 'Select row',
+      ...props,
+    }),
+});
+
 const radioButton = (name, props) => ({
   name,
   props,
@@ -1513,6 +1525,60 @@ const tableCell = (name, props) => ({
   pickRoot: (container) => container.querySelector('tbody td'),
 });
 
+// The selection cells, each in the table around it: the `<th>` of a header
+// row, and the first `<td>` of a body row.
+const tableSelectAll = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableSelectAll, {
+            id: 'select-all',
+            name: 'select-all',
+            onSelect: () => {},
+            ...props,
+          }),
+          React.createElement(Carbon.TableHeader, null, 'Name'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('th'),
+});
+
+const tableSelectRow = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableBody,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableSelectRow, {
+            id: 'select-row',
+            name: 'select-row',
+            onSelect: () => {},
+            ...props,
+          }),
+          React.createElement(Carbon.TableCell, null, 'Ada'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('td'),
+});
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -2189,6 +2255,16 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'InlineCheckbox',
+    variants: [
+      inlineCheckbox('default', {}),
+      inlineCheckbox('checked', { checked: true }),
+      inlineCheckbox('indeterminate', { indeterminate: true }),
+      inlineCheckbox('disabled', { disabled: true }),
+      inlineCheckbox('title', { title: 'Select this row' }),
+    ],
+  },
+  {
     name: 'RadioButton',
     variants: [
       radioButton('default', {}),
@@ -2776,6 +2852,33 @@ export const COMPONENTS = [
       tableCell('default', {}),
       tableCell('col-span', { colSpan: 2 }),
       tableCell('headers', { headers: 'name' }),
+    ],
+  },
+  {
+    name: 'TableSelectAll',
+    variants: [
+      tableSelectAll('default', {}),
+      tableSelectAll('checked', { checked: true }),
+      tableSelectAll('indeterminate', { indeterminate: true }),
+      tableSelectAll('disabled', { disabled: true }),
+      tableSelectAll('aria-label', { 'aria-label': 'Select every row' }),
+      tableSelectAll('class-name', { className: 'mine' }),
+    ],
+  },
+  {
+    name: 'TableSelectRow',
+    variants: [
+      tableSelectRow('default', {}),
+      tableSelectRow('checked', { checked: true }),
+      tableSelectRow('disabled', { disabled: true }),
+      tableSelectRow('aria-label', { 'aria-label': 'Select Ada' }),
+      tableSelectRow('class-name', { className: 'mine' }),
+      tableSelectRow('radio', { radio: true }),
+      tableSelectRow('radio-checked', { radio: true, checked: true }),
+      tableSelectRow('radio-aria-label', {
+        radio: true,
+        'aria-label': 'Select Ada',
+      }),
     ],
   },
   {
