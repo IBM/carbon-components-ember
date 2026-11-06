@@ -146,10 +146,10 @@ export default class DataTableRow<T> extends Component<
       {{/if}}
       {{yield}}
     </tr>
-    {{! Always rendered, as in Carbon React, except while loading, as in
+    {{~! Always rendered, as in Carbon React, except while loading, as in
       DataTableSkeleton: Carbon's CSS collapses it to zero height unless the
       parent row has cds--expandable-row. }}
-    {{#if (and @isExpandable (not @table.isLoading))}}
+    {{#if (and @isExpandable (not @table.isLoading))~}}
       <tr
         id={{this.expandedRowId}}
         class="cds--expandable-row"
@@ -157,10 +157,10 @@ export default class DataTableRow<T> extends Component<
       >
         <td colspan={{this.expandedRowColspan}}>
           <div class="cds--child-row-inner-container">
-            {{yield to="expanded"}}
+            {{~yield to="expanded"~}}
           </div>
         </td>
       </tr>
-    {{/if}}
+    {{~/if}}
   </template>
 }

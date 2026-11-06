@@ -18,7 +18,7 @@ export interface HeaderGlobalBarSignature {
 /** The `Header`'s actions, at its end. */
 const HeaderGlobalBar: TOC<HeaderGlobalBarSignature> = <template>
   <div ...attributes class="cds--header__global">
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

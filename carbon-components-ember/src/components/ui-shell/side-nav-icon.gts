@@ -25,7 +25,7 @@ const SideNavIcon: TOC<SideNavIconSignature> = <template>
     ...attributes
     class="cds--side-nav__icon {{if @small 'cds--side-nav__icon--small'}}"
   >
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

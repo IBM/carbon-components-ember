@@ -22,7 +22,7 @@ export interface AILabelContentSignature {
 
 const AILabelContent: TOC<AILabelContentSignature> = <template>
   <@Content class="cds--ai-label-content" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </@Content>
 </template>;
 

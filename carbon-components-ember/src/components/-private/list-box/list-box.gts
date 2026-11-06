@@ -46,7 +46,7 @@ const stopEscape = (event: KeyboardEvent) => {
 };
 
 const ListBox: TOC<ListBoxSignature> = <template>
-  {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the handler only stops Escape, as Carbon React's ListBox does }}
+  {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the handler only stops Escape, as Carbon React's ListBox does ~}}
   <div
     class="cds--list-box
       {{if @size (concat 'cds--list-box--' @size ' cds--layout--size-' @size)}}
@@ -59,16 +59,16 @@ const ListBox: TOC<ListBoxSignature> = <template>
     ...attributes
     {{on "keydown" stopEscape}}
   >
-    {{yield}}
+    {{~yield~}}
   </div>
-  {{#if @invalid}}
+  {{~#if @invalid~}}
     <div
       id={{@invalidTextId}}
       class="cds--form-requirement"
     >{{@invalidText}}</div>
-  {{else if @warn}}
+  {{~else if @warn~}}
     <div id={{@warnTextId}} class="cds--form-requirement">{{@warnText}}</div>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default ListBox;

@@ -56,7 +56,7 @@ export default class TabPanel extends Component<TabPanelSignature> {
       hidden={{unless this.isSelected true}}
       {{captureElement this.setElement}}
     >
-      {{yield}}
+      {{~yield~}}
     </div>
   </template>
 }

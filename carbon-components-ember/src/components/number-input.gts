@@ -244,7 +244,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
               {{if @hideLabel 'cds--visually-hidden'}}"
             dir="auto"
           >
-            {{@label}}
+            {{~@label~}}
           </label>
         {{/if}}
         <div
@@ -275,7 +275,7 @@ export default class NumberInput extends Component<NumberInputSignature> {
           />
           {{#if (has-block "decorator")}}
             <div class="cds--number__input-inner-wrapper--decorator">
-              {{yield (component AILabel size="mini") to="decorator"}}
+              {{~yield (component AILabel size="mini") to="decorator"~}}
             </div>
           {{/if}}
           {{#if this.isInvalid}}

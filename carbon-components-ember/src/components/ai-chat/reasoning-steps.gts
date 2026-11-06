@@ -84,7 +84,7 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
             <ChevronRight @size="16" />
           </span>
           <div class="cds-aichat-reasoning-step__title">
-            {{@title}}
+            {{~@title~}}
           </div>
         </button>
       {{else}}
@@ -94,7 +94,7 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
             aria-hidden="true"
           >&mdash;</span>
           <div class="cds-aichat-reasoning-step__title">
-            {{@title}}
+            {{~@title~}}
           </div>
         </div>
       {{/if}}
@@ -112,9 +112,9 @@ class ReasoningStep extends Component<ReasoningStepSignature> {
           class="cds-aichat-reasoning-step__panel-body"
           data-visible={{if (and this.isOpen (has-block)) "true" "false"}}
         >
-          {{#if (has-block)}}
+          {{~#if (has-block)~}}
             {{yield}}
-          {{/if}}
+          {{~/if~}}
         </div>
       </div>
     </div>
@@ -174,7 +174,7 @@ export default class ReasoningSteps extends Component<ReasoningStepsSignature> {
         inert={{unless this.open true}}
       >
         <div class="cds-aichat-reasoning-steps__body" role="list">
-          {{yield (component ReasoningStep controlled=@controlled)}}
+          {{~yield (component ReasoningStep controlled=@controlled)~}}
         </div>
       </div>
     </div>

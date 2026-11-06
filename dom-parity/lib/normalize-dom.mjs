@@ -158,10 +158,58 @@ function normalizeAttributes(el, idMap) {
   return attributes;
 }
 
+// HTML's whitespace, which CSS collapses; not a no-break space.
+const SPACES = /[ \t\n\r\f]+/g;
+const LEADING_SPACE = /^[ \t\n\r\f]/;
+const TRAILING_SPACE = /[ \t\n\r\f]$/;
+
+/**
+ * A run of adjacent text nodes as one. Templates keep the whitespace JSX
+ * trims, so its edges are recorded: it shows as a space and defeats `:empty`.
+ */
+function normalizeText(data) {
+  const text = data.replace(SPACES, ' ').replace(/^ | $/g, '');
+  if (!text) return { type: 'text', text, whitespace: 'only' };
+  const whitespace = edges(LEADING_SPACE.test(data), TRAILING_SPACE.test(data));
+  return { type: 'text', text, ...(whitespace && { whitespace }) };
+}
+
+function edges(leading, trailing) {
+  if (leading && trailing) return 'both';
+  if (leading) return 'leading';
+  if (trailing) return 'trailing';
+  return undefined;
+}
+
+function normalizeChildren(node, idMap) {
+  const children = [];
+  let run = null;
+  const endRun = () => {
+    if (run !== null && run !== '') children.push(normalizeText(run));
+    run = null;
+  };
+  for (const child of node.childNodes) {
+    if (isText(child)) {
+      run = (run ?? '') + child.data;
+    } else if (isElement(child)) {
+      endRun();
+      children.push(normalizeNode(child, idMap));
+    }
+    // A comment, Glimmer's placeholder for an empty block, doesn't end a run.
+  }
+  endRun();
+  // Whitespace between elements rarely renders, so it counts only as an
+  // element's whole content.
+  if (children.length === 1 && children[0].whitespace === 'only') {
+    return children;
+  }
+  return children.filter((child) => child.whitespace !== 'only');
+}
+
 function normalizeNode(node, idMap) {
   if (isText(node)) {
-    const text = node.textContent.replace(/\s+/g, ' ').trim();
-    return text ? { type: 'text', text } : null;
+    const text = normalizeText(node.data);
+    return text.whitespace === 'only' ? null : text;
   }
 
   if (!isElement(node)) return null;
@@ -169,9 +217,7 @@ function normalizeNode(node, idMap) {
   const classes = Array.from(node.classList).sort();
   const attributes = normalizeAttributes(node, idMap);
   const style = parseStyle(node.getAttribute('style'));
-  const children = Array.from(node.childNodes)
-    .map((child) => normalizeNode(child, idMap))
-    .filter(Boolean);
+  const children = normalizeChildren(node, idMap);
 
   return {
     type: 'element',
@@ -191,5 +237,28 @@ function normalizeNode(node, idMap) {
  */
 export function normalizeElement(root, scope = root) {
   const idMap = collectIdMap(root, scope);
-  return normalizeNode(root, idMap);
+  const node = normalizeNode(root, idMap);
+  if (node?.type !== 'element') return node;
+  const whitespaceAround = edges(
+    TRAILING_SPACE.test(textBeside(root, 'previousSibling')),
+    LEADING_SPACE.test(textBeside(root, 'nextSibling')),
+  );
+  return { ...node, ...(whitespaceAround && { whitespaceAround }) };
+}
+
+/**
+ * The text between `node` and the nearest element on one side: a template
+ * renders whitespace beside a root inside a block, such as `{{#let}}`.
+ */
+function textBeside(node, sibling) {
+  let text = '';
+  for (
+    let next = node[sibling];
+    next && !isElement(next);
+    next = next[sibling]
+  ) {
+    if (!isText(next)) continue;
+    text = sibling === 'previousSibling' ? next.data + text : text + next.data;
+  }
+  return text;
 }

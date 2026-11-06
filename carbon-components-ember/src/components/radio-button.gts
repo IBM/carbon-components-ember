@@ -129,16 +129,16 @@ export default class RadioButton extends Component<RadioButtonSignature> {
             {{if @hideLabel 'cds--visually-hidden'}}"
           dir="auto"
         >
-          {{#if (has-block)}}
+          {{~#if (has-block)~}}
             {{yield}}
-          {{else}}
+          {{~else~}}
             {{@labelText}}
-          {{/if}}
+          {{~/if~}}
         </span>
       </label>
       {{#if (has-block "decorator")}}
         <div class="cds--radio-button-wrapper-inner--decorator">
-          {{yield (component AILabel size="mini") to="decorator"}}
+          {{~yield (component AILabel size="mini") to="decorator"~}}
         </div>
       {{/if}}
     </div>

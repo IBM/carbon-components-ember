@@ -833,7 +833,7 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
         </div>
         {{#if (has-block "decorator")}}
           <div class="cds--list-box__inner-wrapper--decorator">
-            {{yield (component AILabel size="mini") to="decorator"}}
+            {{~yield (component AILabel size="mini") to="decorator"~}}
           </div>
         {{/if}}
         <ListBoxMenu
@@ -845,7 +845,7 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
           {{scrollToHighlighted this.highlightedIndex}}
           {{(if this.floatsMenu positionMenu) placement=this.direction}}
         >
-          {{#if this.isOpen}}
+          {{~#if this.isOpen~}}
             {{#each this.filteredItems as |item index|}}
               <ListBoxMenuItem
                 id={{this.itemId index}}
@@ -858,20 +858,20 @@ export default class ComboBox<T> extends Component<ComboBoxSignature<T>> {
                 @title={{this.label item}}
                 {{on "click" (fn this.handleItemClick item)}}
               >
-                {{#if (has-block)}}
+                {{~#if (has-block)~}}
                   {{yield item}}
-                {{else}}
+                {{~else~}}
                   {{this.label item}}
-                {{/if}}
-                {{#if (eq item this.selectedItem)}}
+                {{~/if~}}
+                {{~#if (eq item this.selectedItem)~}}
                   <Checkmark
                     @size="16"
                     @svgClass="cds--list-box__menu-item__selected-icon"
                   />
-                {{/if}}
+                {{~/if~}}
               </ListBoxMenuItem>
             {{/each}}
-          {{/if}}
+          {{~/if~}}
         </ListBoxMenu>
       </ListBox>
       {{#if this.showHelperText}}

@@ -49,10 +49,10 @@ export default class PageHeaderTitleBreadcrumb extends PageHeaderBreadcrumbPart<
 
   <template>
     {{#if this.showsOverflowBreadcrumb}}
-      {{#if @overflow}}
+      {{#if @overflow~}}
         <PageHeaderOverflowBreadcrumb @overflow={{@overflow}} />
-      {{/if}}
-    {{/if}}
+      {{~/if}}
+    {{/if~}}
     <BreadcrumbItem
       @isCurrentPage={{if (eq @isCurrentPage false) false true}}
       @ariaCurrent={{@ariaCurrent}}

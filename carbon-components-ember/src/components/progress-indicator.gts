@@ -243,7 +243,7 @@ export default class ProgressIndicator extends Component<ProgressIndicatorSignat
 
   <template>
     <ul class={{this.classes}} ...attributes>
-      {{yield (component ProgressStep indicator=this)}}
+      {{~yield (component ProgressStep indicator=this)~}}
     </ul>
   </template>
 }

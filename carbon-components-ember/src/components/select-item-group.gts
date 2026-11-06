@@ -31,7 +31,7 @@ const SelectItemGroup: TOC<SelectItemGroupSignature> = <template>
     disabled={{@disabled}}
     ...attributes
   >
-    {{yield}}
+    {{~yield~}}
   </optgroup>
 </template>;
 

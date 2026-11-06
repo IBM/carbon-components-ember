@@ -99,7 +99,7 @@ export default class RadioTile extends Component<RadioTileSignature> {
         </span>
         {{! @carbon/react wraps this in Text, which defaults to a span with dir='auto' - same Text/dir='auto' pattern as Tag/ListItem }}
         <span class="cds--tile-content" dir="auto">
-          {{yield}}
+          {{~yield~}}
         </span>
       </label>
     </div>

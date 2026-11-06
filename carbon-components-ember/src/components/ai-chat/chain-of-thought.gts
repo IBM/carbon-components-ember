@@ -134,7 +134,7 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
             <ChevronRight @size="16" />
           </span>
           <span class="cds-aichat-chain-of-thought-step__header-title">
-            {{this.headerTitle}}
+            {{~this.headerTitle~}}
           </span>
           <span class="cds-aichat-chain-of-thought-step__header-status">
             {{#if (eq this.status "processing")}}
@@ -182,7 +182,7 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
             &mdash;
           </span>
           <span class="cds-aichat-chain-of-thought-step__header-title">
-            {{this.headerTitle}}
+            {{~this.headerTitle~}}
           </span>
         </div>
       {{/if}}
@@ -194,7 +194,7 @@ class ChainOfThoughtStep extends Component<ChainOfThoughtStepSignature> {
       >
         {{#if (has-block)}}
           <div class="cds-aichat-chain-of-thought-step__item">
-            {{yield}}
+            {{~yield~}}
           </div>
         {{/if}}
       </div>
@@ -292,7 +292,7 @@ export default class ChainOfThought extends Component<ChainOfThoughtSignature> {
         aria-hidden={{if this.open "false" "true"}}
         hidden={{if this.open false true}}
       >
-        {{yield (component ChainOfThoughtStep controlled=@controlled)}}
+        {{~yield (component ChainOfThoughtStep controlled=@controlled)~}}
       </div>
     </div>
   </template>

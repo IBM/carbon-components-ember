@@ -68,7 +68,7 @@ export default class CardSteps extends Component<CardStepsSignature> {
             <p class="cds-aichat-card-step-title">{{step.title}}</p>
             {{#if step.description}}
               <div class="cds-aichat-card-step-description">
-                {{step.description}}
+                {{~step.description~}}
               </div>
             {{/if}}
           </div>

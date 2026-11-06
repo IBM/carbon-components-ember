@@ -101,7 +101,7 @@ export default class ChatButton extends Component<ChatButtonSignature> {
       ...attributes
       {{on "click" this.handleClick}}
     >
-      {{yield}}
+      {{~yield~}}
     </Button>
   </template>
 }

@@ -97,16 +97,16 @@ export default class Checkbox extends Component<CheckboxSignature> {
           class="cds--checkbox-label-text
             {{if @hideLabel 'cds--visually-hidden'}}"
         >
-          {{#if (has-block)}}
+          {{~#if (has-block)~}}
             {{yield}}
-          {{else}}
+          {{~else~}}
             {{@label}}
-          {{/if}}
+          {{~/if~}}
         </span>
       </label>
       {{#if (has-block "decorator")}}
         <div class="cds--checkbox-wrapper-inner--decorator">
-          {{yield (component AILabel size="mini") to="decorator"}}
+          {{~yield (component AILabel size="mini") to="decorator"~}}
         </div>
       {{/if}}
     </div>

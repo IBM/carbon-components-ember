@@ -205,13 +205,13 @@ export default class SideNav
 
   <template>
     {{#unless @isFixedNav}}
-      {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the overlay is for the pointer; Escape closes the side nav }}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive -- the overlay is for the pointer; Escape closes the side nav ~}}
       <div
         class="cds--side-nav__overlay
           {{if this.isOpen 'cds--side-nav__overlay-active'}}"
         {{on "click" this.clickOverlay}}
       ></div>
-    {{/unless}}
+    {{~/unless~}}
     <nav
       tabindex="-1"
       inert={{this.inert}}
@@ -230,7 +230,7 @@ export default class SideNav
       {{on "click" this.openOnClick}}
       {{this.focusFromMenuButton}}
     >
-      {{yield (component SideNavItems sideNav=this)}}
+      {{~yield (component SideNavItems sideNav=this)~}}
     </nav>
   </template>
 }

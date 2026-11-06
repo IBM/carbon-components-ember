@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, find } from '@ember/test-helpers';
 import { waitForAnimationFrame } from '../../helpers';
 import ChatShell from '#src/components/ai-chat/chat-shell.gts';
 import style from 'ember-style-modifier';
@@ -202,5 +202,20 @@ module('Integration | Component | ai-chat/ChatShell', (hooks) => {
       inputRect.right <= shellRect.right + 1,
       `input column right edge (${inputRect.right}) stays within the shell's right edge (${shellRect.right})`,
     );
+  });
+
+  test('hides the panels container without a panels block', async function (assert) {
+    await render(
+      <template>
+        <ChatShell>
+          <:messages>the conversation</:messages>
+        </ChatShell>
+      </template>,
+    );
+
+    // Its CSS hides it while it's :empty.
+    const element = find('[data-panel-slot="panels"]')!;
+    assert.true(element.matches(':empty'));
+    assert.strictEqual(getComputedStyle(element).display, 'none');
   });
 });

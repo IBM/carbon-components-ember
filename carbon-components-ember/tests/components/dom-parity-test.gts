@@ -2186,9 +2186,9 @@ module('DOM parity | Carbon React', function (hooks) {
     test('inline', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <NotificationActionButton @inline={{true}}>
-            Action
-          </NotificationActionButton>
+          <NotificationActionButton
+            @inline={{true}}
+          >Action</NotificationActionButton>
         </template>,
       );
       assertDomParity(
@@ -4851,9 +4851,8 @@ module('DOM parity | Carbon React', function (hooks) {
     test('size-constraint', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <LayoutConstraint @size={{hash default="md" min="sm" max="lg"}}>
-            Layout constraint content
-          </LayoutConstraint>
+          <LayoutConstraint @size={{hash default="md" min="sm" max="lg"}}>Layout
+            constraint content</LayoutConstraint>
         </template>,
       );
       assertDomParity(
@@ -4867,9 +4866,9 @@ module('DOM parity | Carbon React', function (hooks) {
     test('density-constraint', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <LayoutConstraint @density={{hash default="normal" min="condensed"}}>
-            Layout constraint content
-          </LayoutConstraint>
+          <LayoutConstraint
+            @density={{hash default="normal" min="condensed"}}
+          >Layout constraint content</LayoutConstraint>
         </template>,
       );
       assertDomParity(
@@ -6077,14 +6076,14 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6106,14 +6105,14 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selected-index', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs @defaultSelectedIndex={{1}} as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" as |Tab|>
+          <Tabs @defaultSelectedIndex={{1}} as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6135,14 +6134,14 @@ module('DOM parity | Carbon React', function (hooks) {
     test('disabled-tab', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab @disabled={{true}}>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6164,14 +6163,15 @@ module('DOM parity | Carbon React', function (hooks) {
     test('size-sm', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" @size="sm" as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              @size="sm"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6193,14 +6193,15 @@ module('DOM parity | Carbon React', function (hooks) {
     test('manual-activation', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" @activation="manual" as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              @activation="manual"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6222,14 +6223,15 @@ module('DOM parity | Carbon React', function (hooks) {
     test('contained', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" @contained={{true}} as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              @contained={{true}}
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6251,8 +6253,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('contained-size-lg', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList
+          <Tabs as |TabList TabPanels|><TabList
               aria-label="List of tabs"
               @contained={{true}}
               @size="lg"
@@ -6261,9 +6262,7 @@ module('DOM parity | Carbon React', function (hooks) {
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6285,14 +6284,15 @@ module('DOM parity | Carbon React', function (hooks) {
     test('contained-secondary-label', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" @contained={{true}} as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              @contained={{true}}
+              as |Tab|
+            >
               <Tab @secondaryLabel="Secondary">First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6314,8 +6314,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('contained-full-width', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList
+          <Tabs as |TabList TabPanels|><TabList
               aria-label="List of tabs"
               @contained={{true}}
               @fullWidth={{true}}
@@ -6324,9 +6323,7 @@ module('DOM parity | Carbon React', function (hooks) {
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6352,14 +6349,11 @@ module('DOM parity | Carbon React', function (hooks) {
             @dismissable={{true}}
             @onTabCloseRequest={{noop}}
             as |TabList TabPanels|
-          >
-            <TabList aria-label="List of tabs" as |Tab|>
+          ><TabList aria-label="List of tabs" as |Tab|>
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel>
               <TabPanel>Second tab content</TabPanel>
               <TabPanel>Third tab content</TabPanel>
             </TabPanels>
@@ -6381,16 +6375,15 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selected-panel', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tabs as |TabList TabPanels|>
-            <TabList aria-label="List of tabs" as |Tab|>
+          <Tabs as |TabList TabPanels|><TabList
+              aria-label="List of tabs"
+              as |Tab|
+            >
               <Tab>First tab</Tab>
               <Tab>Second tab</Tab>
               <Tab>Third tab</Tab>
-            </TabList>
-            <TabPanels as |TabPanel|>
-              <TabPanel>First tab content</TabPanel>
-              <TabPanel>Second tab content</TabPanel>
-              <TabPanel>Third tab content</TabPanel>
+            </TabList><TabPanels as |TabPanel|><TabPanel>First tab content</TabPanel><TabPanel
+              >Second tab content</TabPanel><TabPanel>Third tab content</TabPanel>
             </TabPanels>
           </Tabs>
         </template>,
@@ -6917,9 +6910,10 @@ module('DOM parity | Carbon for IBM Products', function (hooks) {
       Element: HTMLLIElement;
       Args: { hiddenBreadcrumbs: HTMLElement[] };
     }> = <template>
-      <BreadcrumbItem data-floating-menu-container="true" ...attributes>
-        Overflow
-      </BreadcrumbItem>
+      <BreadcrumbItem
+        data-floating-menu-container="true"
+        ...attributes
+      >Overflow</BreadcrumbItem>
     </template>;
     const Icon16: TOC<{ Element: SVGSVGElement }> = <template>
       <svg width="16" height="16" ...attributes></svg>
@@ -6941,9 +6935,7 @@ module('DOM parity | Carbon for IBM Products', function (hooks) {
         <template>
           <PageHeader as |PageHeader|>
             <PageHeader.Content @title="Virtual machine">
-              <PageHeader.ContentText @subtitle="Subtitle">
-                Some text
-              </PageHeader.ContentText>
+              <PageHeader.ContentText @subtitle="Subtitle">Some text</PageHeader.ContentText>
             </PageHeader.Content>
           </PageHeader>
         </template>,

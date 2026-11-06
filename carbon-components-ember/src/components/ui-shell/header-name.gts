@@ -23,7 +23,7 @@ export interface HeaderNameSignature {
 
 /** The product's name in the `Header`, linking to its home page. */
 const HeaderName: TOC<HeaderNameSignature> = <template>
-  {{#let (if (eq @prefix undefined) "IBM" @prefix) as |prefix|}}
+  {{#let (if (eq @prefix undefined) "IBM" @prefix) as |prefix|~}}
     <Link
       @as={{@as}}
       @href={{@href}}
@@ -39,7 +39,7 @@ const HeaderName: TOC<HeaderNameSignature> = <template>
       {{~/if~}}
       <span>{{yield}}</span>
     </Link>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default HeaderName;

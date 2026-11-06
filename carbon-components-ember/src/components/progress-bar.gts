@@ -105,7 +105,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
         id="progress-bar-{{this.guid}}"
       >
         <span class="cds--progress-bar__label-text">
-          {{@label}}
+          {{~@label~}}
         </span>
         {{#if this.isFinished}}
           <CheckmarkFilled
@@ -145,13 +145,13 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
           class="cds--progress-bar__helper-text"
           id="progress-bar-helper-text-{{this.guid}}"
         >
-          {{@helperText}}
+          {{~@helperText~}}
           <div
             class="cds--visually-hidden"
             aria-live="polite"
             id="progress-bar-helper-{{this.guid}}"
           >
-            {{if this.isFinished "Done" "Loading"}}
+            {{~if this.isFinished "Done" "Loading"~}}
           </div>
         </div>
       {{/if}}

@@ -223,6 +223,8 @@ module('Integration | Component | Card', function (hooks) {
     );
     assert.dom('.cds--card__title-start-icon').hasText('Start');
     assert.dom('.cds--card__title-end-icon').hasText('End');
+    // As in Carbon React, nothing separates the icons from the title.
+    assert.strictEqual(row.textContent, 'StartTitleEnd');
     assert.dom('.cds--card__label').hasClass('cds--card__label--truncate');
     const description = find('.cds--card__description') as HTMLElement;
     assert.dom(description).hasClass('cds--card__description--truncate-multi');

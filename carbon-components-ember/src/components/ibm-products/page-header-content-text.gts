@@ -25,13 +25,13 @@ export interface PageHeaderContentTextSignature {
 /** The text under a PageHeader's title. */
 const PageHeaderContentText: TOC<PageHeaderContentTextSignature> = <template>
   <div class="c4p--page-header__content__body" ...attributes>
-    {{#if @subtitle}}
+    {{~#if @subtitle~}}
       <Text
         @as={{or @subtitleAs "h2"}}
         class="c4p--page-header__content__subtitle"
       >{{@subtitle}}</Text>
-    {{/if}}
-    {{yield}}
+    {{~/if~}}
+    {{yield~}}
   </div>
 </template>;
 

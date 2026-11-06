@@ -25,12 +25,12 @@ export interface AspectRatioSignature {
  * Keeps its content at a fixed width to height ratio, whatever its width.
  */
 const AspectRatio: TOC<AspectRatioSignature> = <template>
-  {{#let (element (or @as "div")) as |Tag|}}
+  {{#let (element (or @as "div")) as |Tag|~}}
     <Tag
       class="cds--aspect-ratio cds--aspect-ratio--{{or @ratio '1x1'}}"
       ...attributes
     >{{yield}}</Tag>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default AspectRatio;

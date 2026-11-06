@@ -197,7 +197,7 @@ export default class RouterLink extends Component<RouterLinkSignature> {
   };
 
   <template>
-    {{#if @externalRoute}}
+    {{#if @externalRoute~}}
       <a
         href={{this.externalHref}}
         class={{this.externalClass}}
@@ -205,7 +205,7 @@ export default class RouterLink extends Component<RouterLinkSignature> {
         ...attributes
         {{on "click" this.navigate}}
       >{{yield}}</a>
-    {{else if @route}}
+    {{~else if @route~}}
       <LinkTo
         @route={{@route}}
         @models={{if @models @models NO_MODELS}}
@@ -216,13 +216,13 @@ export default class RouterLink extends Component<RouterLinkSignature> {
         ...attributes
         {{on "click" stopIfPrevented}}
       >{{yield}}</LinkTo>
-    {{else}}
+    {{else~}}
       <a
         href={{@href}}
         class={{if this.isActive @activeClass}}
         aria-current={{if this.isActive @ariaCurrent}}
         ...attributes
       >{{yield}}</a>
-    {{/if}}
+    {{~/if}}
   </template>
 }

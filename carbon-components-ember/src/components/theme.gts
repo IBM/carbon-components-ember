@@ -42,10 +42,10 @@ export default class Theme extends Component<ThemeSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag class={{this.classes}} ...attributes>
-        {{yield (hash theme=this.theme isDark=this.isDark)}}
+        {{~yield (hash theme=this.theme isDark=this.isDark)~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

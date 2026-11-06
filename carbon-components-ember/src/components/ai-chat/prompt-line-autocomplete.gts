@@ -885,7 +885,7 @@ export default class PromptLineAutocomplete extends Component<PromptLineAutocomp
                       id={{group.labelId}}
                       class="cds-aichat-autocomplete-item-group__title"
                     >
-                      {{group.title}}
+                      {{~group.title~}}
                     </li>
                   {{/if}}
                   {{#each group.entries key="optionId" as |entry|}}

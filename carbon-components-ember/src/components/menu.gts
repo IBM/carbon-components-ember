@@ -145,7 +145,7 @@ const MenuList: TOC<MenuListSignature> = <template>
     {{@menu.positionMenu}}
     ...attributes
   >
-    {{yield}}
+    {{~yield~}}
   </ul>
 </template>;
 
@@ -366,24 +366,24 @@ export default class Menu extends Component<MenuSignature> {
   <template>
     {{#if this.isRoot}}
       {{#if @open}}
-        {{#in-element this.target insertBefore=null}}
+        {{#in-element this.target insertBefore=null~}}
           <MenuList @menu={{this}} ...attributes>
-            {{yield
+            {{~yield
               (component MenuItem menu=this)
               (component MenuItemSelectable menu=this)
               (component MenuItemRadioGroup menu=this)
-            }}
+            ~}}
           </MenuList>
-        {{/in-element}}
+        {{~/in-element}}
       {{/if}}
-    {{else}}
+    {{else~}}
       <MenuList @menu={{this}} ...attributes>
-        {{yield
+        {{~yield
           (component MenuItem menu=this)
           (component MenuItemSelectable menu=this)
           (component MenuItemRadioGroup menu=this)
-        }}
+        ~}}
       </MenuList>
-    {{/if}}
+    {{~/if}}
   </template>
 }

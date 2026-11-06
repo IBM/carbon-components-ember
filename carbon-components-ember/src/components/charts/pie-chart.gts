@@ -37,7 +37,7 @@ export default class PieChart extends Component<PieChartSignature> {
       ...attributes
       as |chart|
     >
-      {{yield chart}}
+      {{~yield chart~}}
     </Chart>
   </template>
 }

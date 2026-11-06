@@ -99,7 +99,7 @@ export default class Link extends Component<LinkSignature> {
   };
 
   <template>
-    {{#if this.isRouteLink}}
+    {{#if this.isRouteLink~}}
       <RouterLink
         @route={{@route}}
         @externalRoute={{@externalRoute}}
@@ -118,8 +118,8 @@ export default class Link extends Component<LinkSignature> {
           </span>
         {{~/if~}}
       </RouterLink>
-    {{else}}
-      {{#let (element this.tag) as |Tag|}}
+    {{~else}}
+      {{#let (element this.tag) as |Tag|~}}
         <Tag
           class={{this.classes}}
           href={{unless @disabled @href}}
@@ -137,7 +137,7 @@ export default class Link extends Component<LinkSignature> {
             </span>
           {{~/if~}}
         </Tag>
-      {{/let}}
+      {{~/let}}
     {{/if}}
   </template>
 }

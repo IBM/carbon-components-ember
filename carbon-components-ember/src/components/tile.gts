@@ -170,7 +170,7 @@ export default class Tile extends Component<TileSignature> {
         content for this custom widget, not independently interactive, so
         the two a11y lint rules flagging "semantic descendants of
         role=checkbox" are suppressed - this is upstream's own real ARIA
-        pattern, not an accessibility regression. }}
+        pattern, not an accessibility regression. ~}}
       <div
         id={{@id}}
         class="cds--tile cds--tile--selectable
@@ -193,10 +193,10 @@ export default class Tile extends Component<TileSignature> {
         </span>
         {{! eslint-disable-next-line ember/template-require-presentational-children, ember/template-no-nested-interactive }}
         <label for={{@id}} class="cds--tile-content" dir="auto">
-          {{yield to="content"}}
+          {{~yield to="content"~}}
         </label>
       </div>
-    {{/if}}
+    {{~/if}}
     {{#if @expandable}}
       {{! Matches @carbon/react's ExpandableTile's interactive branch (a
         root div with a separate, always-focusable chevron button
@@ -208,7 +208,7 @@ export default class Tile extends Component<TileSignature> {
         The below-the-fold content is now always rendered - clipped via a
         real measured max-height (see clipExpandableTile above), matching
         upstream, not just CSS alone - rather than only once @expanded is
-        true. }}
+        true. ~}}
       <div
         class="cds--tile cds--tile--expandable cds--tile--expandable--interactive
           {{if this.expanded 'cds--tile--is-expanded'}}"
@@ -216,7 +216,7 @@ export default class Tile extends Component<TileSignature> {
       >
         <div>
           <div class="cds--tile-content" {{clipExpandableTile this.expanded}}>
-            {{yield to="above"}}
+            {{~yield to="above"~}}
           </div>
           <button
             type="button"
@@ -234,18 +234,18 @@ export default class Tile extends Component<TileSignature> {
           </button>
           <div class="cds--tile-content" id="tile-below-{{this.guid}}">
             <span class="cds--tile-content__below-the-fold">
-              {{yield to="below"}}
+              {{~yield to="below"~}}
             </span>
           </div>
         </div>
       </div>
-    {{/if}}
-    {{#if this.default}}
+    {{~/if}}
+    {{#if this.default~}}
       <div class="cds--tile" ...attributes>
-        {{yield to="content"}}
+        {{~yield to="content"~}}
       </div>
-    {{/if}}
-    {{#if @clickable}}
+    {{~/if}}
+    {{#if @clickable~}}
       <Link
         @href={{@href}}
         @route={{@route}}
@@ -259,8 +259,8 @@ export default class Tile extends Component<TileSignature> {
         {{on "keydown" this.clickOnKey}}
         ...attributes
       >
-        {{yield to="content"}}
+        {{~yield to="content"~}}
       </Link>
-    {{/if}}
+    {{~/if}}
   </template>
 }

@@ -157,9 +157,9 @@ export default class Grid extends Component<GridSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag class={{this.classes}} ...attributes>
-        {{yield
+        {{~yield
           (hash
             Grid=(component Grid mode=this.mode subgrid=this.nestedSubgrid)
             Column=(component Column mode=this.mode)
@@ -167,8 +167,8 @@ export default class Grid extends Component<GridSignature> {
             ColumnHang=ColumnHang
             mode=this.mode
           )
-        }}
+        ~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

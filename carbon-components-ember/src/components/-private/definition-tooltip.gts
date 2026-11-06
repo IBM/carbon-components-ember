@@ -120,18 +120,18 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
         {{on "mousedown" this.onMouseDown}}
         {{on "keydown" this.onKeyDown}}
       >
-        {{yield}}
+        {{~yield~}}
       </button>
       <span class="cds--popover" id={{this.tooltipId}}>
         <span class="cds--popover-content cds--definition-tooltip">
-          {{#if (has-block "definition")}}
+          {{~#if (has-block "definition")~}}
             {{yield to="definition"}}
-          {{else}}
+          {{~else~}}
             {{@definition}}
-          {{/if}}
-          {{#if @autoAlign}}
+          {{~/if~}}
+          {{#if @autoAlign~}}
             <span class="cds--popover-caret cds--popover--auto-align"></span>
-          {{/if}}
+          {{~/if~}}
         </span>
         {{#unless @autoAlign}}
           <span class="cds--popover-caret"></span>

@@ -26,7 +26,7 @@ export interface SideNavDetailsSignature {
 const SideNavDetails: TOC<SideNavDetailsSignature> = <template>
   <div ...attributes class="cds--side-nav__details">
     <h2 class="cds--side-nav__title" title={{@title}}>{{@title}}</h2>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

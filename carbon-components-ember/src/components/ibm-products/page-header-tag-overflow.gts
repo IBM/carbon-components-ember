@@ -108,7 +108,7 @@ export default class PageHeaderTagOverflow extends Component<PageHeaderTagOverfl
             class="c4p--page-header__tags-popover-list"
             aria-label="Hidden tags"
           >
-            {{yield this.hiddenTags to="renderPopoverContent"}}
+            {{~yield this.hiddenTags to="renderPopoverContent"~}}
           </ul>
         </PopoverContent>
       </Popover>

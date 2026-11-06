@@ -23,11 +23,11 @@ export interface ContentSignature {
  * `id="main-content"` for `SkipToContent`.
  */
 const Content: TOC<ContentSignature> = <template>
-  {{#let (element (if @tagName @tagName "main")) as |Tag|}}
+  {{#let (element (if @tagName @tagName "main")) as |Tag|~}}
     <Tag ...attributes class="cds--content">
-      {{yield}}
+      {{~yield~}}
     </Tag>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default Content;

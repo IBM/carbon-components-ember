@@ -125,9 +125,9 @@ export default class ActionableNotification extends Component<ActionableNotifica
   });
 
   <template>
-    {{#if this.isOpen}}
+    {{#if this.isOpen~}}
       {{! Keys pressed on its controls bubble here: Escape and the focus wrap. }}
-      {{! eslint-disable-next-line ember/template-no-invalid-interactive }}
+      {{! eslint-disable-next-line ember/template-no-invalid-interactive ~}}
       <div
         role={{this.role}}
         class="cds--actionable-notification cds--actionable-notification--{{this.kind}}
@@ -156,7 +156,7 @@ export default class ActionableNotification extends Component<ActionableNotifica
                     class="cds--actionable-notification__title"
                     id={{this.titleId}}
                   >
-                    {{@title}}
+                    {{~@title~}}
                   </Text>
                 {{/if}}
                 {{#if @subtitle}}
@@ -165,12 +165,12 @@ export default class ActionableNotification extends Component<ActionableNotifica
                     class="cds--actionable-notification__subtitle"
                     id={{this.subtitleId}}
                   >
-                    {{@subtitle}}
+                    {{~@subtitle~}}
                   </Text>
                 {{/if}}
                 {{#if @caption}}
                   <Text @as="div" class="cds--actionable-notification__caption">
-                    {{@caption}}
+                    {{~@caption~}}
                   </Text>
                 {{/if}}
                 {{yield}}
@@ -184,7 +184,7 @@ export default class ActionableNotification extends Component<ActionableNotifica
                 {{on "click" this.onActionButtonClick}}
                 {{this.focusOnInsert this.isAlertDialog}}
               >
-                {{@actionButtonLabel}}
+                {{~@actionButtonLabel~}}
               </NotificationActionButton>
             {{/if}}
             {{#unless @hideCloseButton}}
@@ -197,6 +197,6 @@ export default class ActionableNotification extends Component<ActionableNotifica
           </div>
         </div>
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

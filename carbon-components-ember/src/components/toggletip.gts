@@ -116,7 +116,7 @@ export default class Toggletip extends Component<ToggletipSignature> {
       ...attributes
       as |PopoverContent trigger|
     >
-      {{yield
+      {{~yield
         (hash
           Button=(component
             ToggletipButtonComponent
@@ -129,7 +129,7 @@ export default class Toggletip extends Component<ToggletipSignature> {
             ToggletipContentComponent id=this.id PopoverContent=PopoverContent
           )
         )
-      }}
+      ~}}
     </Popover>
   </template>
 }

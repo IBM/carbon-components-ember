@@ -21,6 +21,7 @@ import {
   diffNormalized,
   applyKnownDifferences,
 } from '../../../../dom-parity/lib/diff-normalized.mjs';
+import type { Difference } from '../../../../dom-parity/lib/diff-normalized.mjs';
 import { stripClasses } from '../../../../dom-parity/lib/strip-classes.mjs';
 import {
   flattenComposedTree,
@@ -68,6 +69,9 @@ import { takeCspViolations } from '../../helpers';
  * steps`) is folded into its own shadow content's root element the same
  * way the top-level one is, rather than showing up as an unmatchable extra
  * tag in the diff.
+ *
+ * Lit keeps a template's whitespace, as Glimmer does, so only whitespace
+ * the port adds is a difference (`addedWhitespaceOnly`).
  */
 function assertAiChatDomParity(
   assert: Assert,
@@ -90,7 +94,9 @@ function assertAiChatDomParity(
 
   const upstreamTree = stripClasses(normalizeElement(upstreamRoot));
   const emberTree = stripClasses(normalizeElement(emberRoot));
-  const differences = diffNormalized(upstreamTree, emberTree);
+  const differences = diffNormalized(upstreamTree, emberTree).filter(
+    addedWhitespaceOnly,
+  );
   const known =
     (
       knownDifferences as Record<
@@ -106,6 +112,23 @@ function assertAiChatDomParity(
     `${component}/${variant} should render the same structure/semantic-attributes/text as ` +
       `@carbon/ai-chat-components, modulo classes (see this file's module doc) and the ` +
       `documented gaps in dom-parity/known-differences.json`,
+  );
+}
+
+const EDGES: Record<string, string[]> = {
+  none: [],
+  leading: ['leading'],
+  trailing: ['trailing'],
+  both: ['leading', 'trailing'],
+};
+
+/** Drops whitespace upstream renders and the port doesn't. */
+function addedWhitespaceOnly({ kind, detail }: Difference) {
+  const { react, ember } = detail as { react: string; ember: string };
+  if (kind === 'node-presence') return react !== 'text("")';
+  if (kind !== 'whitespace') return true;
+  return (EDGES[ember] ?? [ember]).some(
+    (edge) => !(EDGES[react] ?? [react]).includes(edge),
   );
 }
 

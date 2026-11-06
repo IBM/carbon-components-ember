@@ -12,7 +12,7 @@ export interface ToggletipLabelSignature {
  */
 const ToggletipLabel: TOC<ToggletipLabelSignature> = <template>
   <span class="cds--toggletip-label" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </span>
 </template>;
 

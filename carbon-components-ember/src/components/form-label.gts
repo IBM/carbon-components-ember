@@ -29,14 +29,14 @@ const FormLabel: TOC<FormLabelSignature> = <template>
     defaults dir to "auto" whenever it has no ambient TextDirection
     context - this addon has no such context (see layer.gts's own note on
     the same limitation), so the same default is hardcoded here to match
-    the common, unnested case. }}
+    the common, unnested case. ~}}
   <label
     for={{@id}}
     dir="auto"
     class="cds--label cds--label--no-margin"
     ...attributes
   >
-    {{yield}}
+    {{~yield~}}
   </label>
 </template>;
 

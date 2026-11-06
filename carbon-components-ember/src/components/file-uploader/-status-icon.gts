@@ -46,7 +46,7 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
   };
 
   <template>
-    {{#if (eq this.status "uploading")}}
+    {{#if (eq this.status "uploading")~}}
       <Loading
         @description={{this.iconDescription}}
         @small={{true}}
@@ -54,10 +54,10 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
         class="cds--file-loading"
         ...attributes
       />
-    {{else if (eq this.status "edit")}}
-      {{#if @invalid}}
+    {{~else if (eq this.status "edit")}}
+      {{#if @invalid~}}
         <WarningFilled @svgClass="cds--file-invalid" />
-      {{/if}}
+      {{~/if~}}
       <button
         type="button"
         disabled={{@disabled}}
@@ -69,11 +69,11 @@ export default class FileUploaderStatusIcon extends Component<FileUploaderStatus
       >
         <Close @size="16" />
       </button>
-    {{else if (eq this.status "complete")}}
+    {{else if (eq this.status "complete")~}}
       <span tabindex="-1" ...attributes>
         <CheckmarkFilled @size="16" @svgClass="cds--file-complete" />
         <span class="cds--visually-hidden">{{this.iconDescription}}</span>
       </span>
-    {{/if}}
+    {{~/if}}
   </template>
 }

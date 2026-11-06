@@ -17,7 +17,7 @@ export interface StructuredListBodySignature {
 /** The body rows' group. */
 const StructuredListBody: TOC<StructuredListBodySignature> = <template>
   <div role="rowgroup" class="cds--structured-list-tbody" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

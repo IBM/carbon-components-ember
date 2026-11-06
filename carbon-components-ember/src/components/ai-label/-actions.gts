@@ -19,7 +19,7 @@ export interface AILabelActionsSignature {
 
 const AILabelActions: TOC<AILabelActionsSignature> = <template>
   <ToggletipActions class="cds--ai-label-actions" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </ToggletipActions>
 </template>;
 

@@ -9,7 +9,7 @@ export interface TableToolbarContentSignature {
 
 const TableToolbarContent: TOC<TableToolbarContentSignature> = <template>
   <div class="cds--toolbar-content" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

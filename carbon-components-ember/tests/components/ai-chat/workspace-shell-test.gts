@@ -63,4 +63,21 @@ module('Integration | Component | ai-chat/WorkspaceShell', (hooks) => {
       .dom('.cds-aichat-workspace-shell__header-title')
       .containsText('Order');
   });
+
+  test('hides the toolbar and notification it has no blocks for', async function (assert) {
+    await render(
+      <template>
+        <WorkspaceShell>
+          <:body><div class="bd">Body</div></:body>
+        </WorkspaceShell>
+      </template>,
+    );
+
+    // Its CSS hides them while they're :empty.
+    for (const slot of ['toolbar', 'notification']) {
+      const element = find(`.cds-aichat-workspace-shell__${slot}`)!;
+      assert.true(element.matches(':empty'), slot);
+      assert.strictEqual(getComputedStyle(element).display, 'none', slot);
+    }
+  });
 });
