@@ -23,7 +23,7 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
-Carbon defines its colours only under a theme's class, so set the app's theme when it starts, in the application route. The `carbon.theme` service, Carbon React's `GlobalTheme`, puts the theme's class on `<html>` and moves it when the theme changes:
+Carbon defines its colours only under a theme's class, which the `carbon.theme` service, Carbon React's `GlobalTheme`, puts on `<html>`. Configure it when the app starts, in the application route:
 
 ```ts
 import Route from '@ember/routing/route';
@@ -34,12 +34,28 @@ export default class ApplicationRoute extends Route {
   @service('carbon.theme') declare carbonTheme: ThemeService;
 
   beforeModel() {
-    this.carbonTheme.theme = 'white';
+    this.carbonTheme.configure({ light: 'white', dark: 'g100', preference: 'system' });
   }
 }
 ```
 
-To follow the system's light or dark mode instead, call `followSystemScheme({ light: 'white', dark: 'g100' })`. A theme class already on `<html>` in `index.html` themes the page before the app starts, and the service starts with it.
+Those are the defaults: it follows the system's light or dark mode until the user picks one. A theme switcher sets `preference` to `'light'`, `'dark'` or `'system'`, and the service saves it in local storage. An app with only one theme sets `theme` instead (`this.carbonTheme.theme = 'g10'`) and puts its class on `<html>` in `index.html`.
+
+So a dark theme doesn't flash light while the app loads, put this in `index.html`'s `<head>`. It applies the saved theme, or the defaults on a first visit, before the page first paints. Under a strict CSP it needs the page's nonce, which Vite adds when you set `html.cspNonce`.
+
+```html
+<script>
+try {
+  const { light = 'white', dark = 'g100', preference = 'system' } =
+    JSON.parse(localStorage.getItem('cds-theme')) ?? {};
+  const isDark = preference === 'dark' ||
+    (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  const { classList } = document.documentElement;
+  classList.remove('cds--white', 'cds--g10', 'cds--g90', 'cds--g100');
+  classList.add('cds--' + (isDark ? dark : light));
+} catch {}
+</script>
+```
 
 ## Use
 
@@ -82,6 +98,8 @@ class Save extends Component {
 ```
 
 That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal.
+
+An [ember-engines](https://ember-engines.com) engine shares them with its host, as it does the router: list `carbon.layers`, `carbon.notifications` and `carbon.theme` in its `dependencies.services`.
 
 ## Use with AI agents
 

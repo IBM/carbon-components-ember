@@ -9,10 +9,10 @@ import Theme from './theme.gts';
 
 import type { TOC } from '@ember/component/template-only';
 import type ThemeService from '../services/theme.ts';
+import { THEMES, isDarkTheme, themeClass } from '../utils/theme.ts';
+
 import type { CarbonTheme } from '../utils/theme.ts';
 import '#storybook/styles/theme.css';
-
-const THEMES = ['white', 'g10', 'g90', 'g100'] as const;
 
 // Carbon React's `WithLayer` storybook template: the content on the
 // background, then on two nested layers.
@@ -110,7 +110,7 @@ const meta = preview.meta({
       description: {
         component: `The Theme component applies one of the Carbon themes (\`white\`, \`g10\`, \`g90\`, \`g100\`) to a section of your page. It renders a wrapper element with the corresponding Carbon zone class, which re-emits the theme's CSS custom properties scoped to that element — everything inside picks up the selected theme's tokens. Without \`@theme\` it keeps the theme around it.
 
-The app's own theme, Carbon React's \`GlobalTheme\`, is the \`carbon.theme\` service. Carbon defines its tokens only under a theme's class, so set the service's \`theme\` when the app starts, in the application route: it puts that class on \`<html>\`, and moves it when the theme changes. \`followSystemScheme({ light: 'white', dark: 'g100' })\` follows the system's colour scheme until a theme is set, and \`prefersDarkScheme\` is React's \`usePrefersDarkScheme\`.
+The app's own theme, Carbon React's \`GlobalTheme\`, is the \`carbon.theme\` service. Carbon defines its tokens only under a theme's class, which the service puts on \`<html>\`. Call its \`configure({ light: 'white', dark: 'g100', preference: 'system' })\` when the app starts, in the application route: it follows the system's colour scheme, or \`light\` or \`dark\`, until the user picks one, which a theme switcher sets as \`preference\` and the service saves. An app with one theme sets \`theme\` instead. \`prefersDarkScheme\` is React's \`usePrefersDarkScheme\`. The README shows the head script that applies a saved theme before the page first paints.
 
 The block receives \`theme\` and \`isDark\`, like React's \`useTheme\` hook; outside a \`Theme\`, the service has them. (These stories' app theme is the toolbar's.)`,
       },
@@ -163,12 +163,17 @@ export const UseTheme = meta.story({
 });
 
 UseTheme.test("reveals the app's theme and a zone's", async ({ canvas }) => {
-  await expect(
-    canvas.getByText("useTheme reveals... { theme: 'white', isDark: 'false'}"),
-  ).toBeInTheDocument();
-  await expect(
-    canvas.getByText("useTheme reveals... { theme: 'g100', isDark: 'true'}"),
-  ).toBeInTheDocument();
+  // The app's theme is the toolbar's.
+  const appTheme =
+    THEMES.find((theme) =>
+      document.documentElement.classList.contains(themeClass(theme)),
+    ) ?? 'white';
+  const reveals = (theme: CarbonTheme) =>
+    `useTheme reveals... { theme: '${theme}', isDark: '${isDarkTheme(theme)}'}`;
+
+  const [app, zone] = canvas.getAllByText(/^useTheme reveals/);
+  await expect(app).toHaveTextContent(reveals(appTheme));
+  await expect(zone).toHaveTextContent(reveals('g100'));
 });
 
 export const UsePrefersDarkScheme = meta.story({
