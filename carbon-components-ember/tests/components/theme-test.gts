@@ -3,20 +3,31 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import Theme from '#src/components/theme.gts';
 
+import type ThemeService from '#src/services/theme.ts';
+
 module('Integration | Component | Theme', (hooks) => {
   setupRenderingTest(hooks);
 
-  test('renders the white theme by default', async function (assert) {
+  test("without @theme it keeps the theme around it, and yields the app's", async function (assert) {
+    const globalTheme = this.owner.lookup(
+      'service:carbon.theme',
+    ) as ThemeService;
+    globalTheme.theme = 'g90';
+
     await render(
       <template>
-        <Theme>
-          <span>Content</span>
+        <Theme as |ctx|>
+          <span data-test-theme>{{ctx.theme}}</span>
+          <span data-test-dark>{{if ctx.isDark "dark" "light"}}</span>
         </Theme>
       </template>,
     );
 
-    assert.dom('div').hasClass('cds--white');
     assert.dom('div').hasClass('cds--layer-one');
+    assert.dom('div').doesNotHaveClass('cds--white');
+    assert.dom('div').doesNotHaveClass('cds--g90');
+    assert.dom('[data-test-theme]').hasText('g90');
+    assert.dom('[data-test-dark]').hasText('dark');
   });
 
   test('@theme applies the matching zone class', async function (assert) {
@@ -83,6 +94,6 @@ module('Integration | Component | Theme', (hooks) => {
 
     assert.dom('#my-theme').exists();
     assert.dom('div').hasClass('custom-class');
-    assert.dom('div').hasClass('cds--white');
+    assert.dom('div').hasClass('cds--layer-one');
   });
 });
