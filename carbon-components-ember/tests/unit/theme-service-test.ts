@@ -137,14 +137,22 @@ module('Unit | Service | theme', function (hooks) {
     assert.strictEqual(service.preference, 'dark');
   });
 
-  test('setting a theme stops following the preference', function (assert) {
+  test('a theme set over the preference keeps its themes for the next one', function (assert) {
     const service = lookup(this.owner);
-    service.configure();
+    service.configure({ light: 'g10', dark: 'g90', preference: 'system' });
 
-    service.theme = 'g10';
+    service.theme = 'white';
     media().change(true);
-    assert.strictEqual(service.preference, undefined);
-    assert.deepEqual(pageThemes(), ['cds--g10']);
+    assert.deepEqual(
+      pageThemes(),
+      ['cds--white'],
+      'the system no longer moves it',
+    );
+    assert.strictEqual(service.preference, 'system');
+
+    service.preference = 'dark';
+    assert.strictEqual(service.theme, 'g90');
+    assert.deepEqual(pageThemes(), ['cds--g90']);
   });
 
   test("puts the page's own theme back when it goes", async function (assert) {
@@ -162,16 +170,33 @@ module('Unit | Service | theme', function (hooks) {
     assert.deepEqual(pageThemes(), ['cds--g10'], 'no longer listening');
   });
 
-  test('leaves a class another app set since', async function (assert) {
-    const service = lookup(this.owner);
-    service.theme = 'g100';
+  test('with several apps on the page, the latest owns the class', async function (assert) {
+    // As on a Storybook docs page, an app per story.
+    const create = () => this.owner.factoryFor('service:carbon.theme').create();
+    const first = create();
+    const second = create();
+    const third = create();
 
-    // Another app on the page, as on a Storybook docs page.
-    document.documentElement.classList.replace('cds--g100', 'cds--g90');
+    first.theme = 'g10';
+    second.theme = 'g90';
+    third.theme = 'g100';
+    assert.deepEqual(pageThemes(), ['cds--g100']);
 
-    destroy(service);
+    destroy(third);
     await settled();
-    assert.deepEqual(pageThemes(), ['cds--g90']);
+    assert.deepEqual(
+      pageThemes(),
+      ['cds--g90'],
+      'the one before takes it back',
+    );
+
+    destroy(first);
+    await settled();
+    assert.deepEqual(pageThemes(), ['cds--g90'], 'an earlier one leaves it');
+
+    destroy(second);
+    await settled();
+    assert.deepEqual(pageThemes(), [], "the last puts the page's back");
   });
 });
 
@@ -184,7 +209,7 @@ module('Unit | Utility | theme script', function (hooks) {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-implied-eval -- runs the script as a page would
-  const run = () => new Function(themeScript)() as void;
+  const run = () => (new Function(themeScript) as () => void)();
 
   test('applies the saved preference', function (assert) {
     document.documentElement.classList.add('cds--white');
@@ -199,6 +224,22 @@ module('Unit | Utility | theme script', function (hooks) {
 
     run();
     assert.deepEqual(pageThemes(), ['cds--g100']);
+  });
+
+  test('does nothing with a saved theme it doesn’t know', function (assert) {
+    document.documentElement.classList.add('cds--g10');
+    save({ light: 'nope', dark: 'g100', preference: 'light' });
+
+    run();
+    assert.deepEqual(pageThemes(), ['cds--g10']);
+  });
+
+  test('takes an unknown preference as light', function (assert) {
+    media().matches = true;
+    save({ light: 'g10', dark: 'g90', preference: 'nope' });
+
+    run();
+    assert.deepEqual(pageThemes(), ['cds--g10']);
   });
 
   test('does nothing with a saved value it can’t read', function (assert) {

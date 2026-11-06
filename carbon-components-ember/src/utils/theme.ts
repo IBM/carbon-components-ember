@@ -43,7 +43,10 @@ export const themeScript = `try {
     JSON.parse(localStorage.getItem('${THEME_STORAGE_KEY}')) ?? {};
   const isDark = preference === 'dark' ||
     (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-  const { classList } = document.documentElement;
-  classList.remove(${THEMES.map((theme) => `'${themeClass(theme)}'`).join(', ')});
-  classList.add('cds--' + (isDark ? dark : light));
+  const theme = isDark ? dark : light;
+  if ([${THEMES.map((theme) => `'${theme}'`).join(', ')}].includes(theme)) {
+    const { classList } = document.documentElement;
+    classList.remove(${THEMES.map((theme) => `'${themeClass(theme)}'`).join(', ')});
+    classList.add('cds--' + theme);
+  }
 } catch {}`;
