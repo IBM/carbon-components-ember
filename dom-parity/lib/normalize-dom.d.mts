@@ -1,6 +1,11 @@
+/** Where a run of text, or the text beside the root, has whitespace. */
+export type Whitespace = 'leading' | 'trailing' | 'both';
+
 export interface NormalizedText {
   type: 'text';
   text: string;
+  /** `only` when the text is whitespace and an element's whole content. */
+  whitespace?: Whitespace | 'only';
 }
 
 export interface NormalizedElement {
@@ -11,6 +16,8 @@ export interface NormalizedElement {
   attributes: Record<string, string | true>;
   style: Record<string, string>;
   children: NormalizedNode[];
+  /** Set on the root only. */
+  whitespaceAround?: Whitespace;
 }
 
 export type NormalizedNode = NormalizedText | NormalizedElement;
