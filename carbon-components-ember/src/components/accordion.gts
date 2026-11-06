@@ -28,10 +28,18 @@ export interface AccordionItemSignature {
     accordion: Accordion;
     isOpen?: boolean;
     isDisabled?: boolean;
-    title: string;
+    /** The item's title, as text. Markup goes in the `<:title>` block. */
+    title?: string;
   };
   Blocks: {
+    /** The item's content. */
     default: [];
+    /**
+     * The title, in place of `@title`, for one with markup such as a tag:
+     * Carbon React's `title` takes a node. The content then goes in
+     * `<:default>`.
+     */
+    title: [];
   };
 }
 
@@ -85,7 +93,11 @@ class AccordionItem extends Component<AccordionItemSignature> {
           <path d="M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
         </svg>
         <div class="cds--accordion__title" dir="auto">
-          {{@title}}
+          {{~#if (has-block "title")~}}
+            {{yield to="title"}}
+          {{~else~}}
+            {{@title}}
+          {{~/if~}}
         </div>
       </button>
       <div class="cds--accordion__wrapper">
