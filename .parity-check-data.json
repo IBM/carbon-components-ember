@@ -1,28 +1,33 @@
 {
-  "lastCheckedVersion": "11.112.0",
-  "lastCheckedCommitSHA": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-  "lastCheckedCommitDate": "2026-07-15T09:42:43Z",
-  "lastCheckDate": "2026-07-21T12:06:55.719Z",
+  "lastCheckedVersion": "11.120.0",
+  "lastCheckedCommitSHA": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+  "lastCheckedCommitDate": "2026-11-04T13:18:45Z",
+  "lastCheckDate": "2026-11-09T19:36:03.921Z",
   "components": {
     "react": [
       "AILabel",
-      "AISkeleton",
       "Accordion",
       "AccordionItem",
+      "ActionSet",
+      "AddSelect",
       "AspectRatio",
       "BadgeIndicator",
+      "BigNumber",
       "Breadcrumb",
       "BreadcrumbItem",
       "Button",
       "ButtonSet",
+      "Card",
       "ChatButton",
       "Checkbox",
       "CheckboxGroup",
       "ClassPrefix",
+      "Coachmark",
       "CodeSnippet",
       "ComboBox",
       "ComboButton",
       "ComposedModal",
+      "ConditionBuilder",
       "ContainedList",
       "ContentSwitcher",
       "ContextMenu",
@@ -36,6 +41,7 @@
       "Dialog",
       "Disclosure",
       "Dropdown",
+      "EditInPlace",
       "ErrorBoundary",
       "ExpandableSearch",
       "FeatureFlags",
@@ -58,9 +64,10 @@
       "FormGroup",
       "FormItem",
       "FormLabel",
+      "FullPageError",
       "Grid",
+      "Guidebanner",
       "Heading",
-      "HideAtBreakpoint",
       "Icon",
       "IconButton",
       "IconIndicator",
@@ -68,11 +75,11 @@
       "IdPrefix",
       "InlineCheckbox",
       "InlineLoading",
+      "InterstitialScreen",
       "Layer",
       "Layout",
       "LayoutDirection",
       "Link",
-      "ListBox",
       "ListItem",
       "Loading",
       "Menu",
@@ -81,41 +88,45 @@
       "ModalWrapper",
       "MultiSelect",
       "Notification",
+      "NotificationsPanel",
       "NumberInput",
+      "OptionsTile",
       "OrderedList",
+      "OverflowHandler",
       "OverflowMenu",
       "OverflowMenuItem",
       "OverflowMenuV2",
-      "PageHeader",
+      "PageHeaderDeprecated",
       "Pagination",
       "PaginationNav",
       "PasswordInput",
       "Plex",
       "Popover",
       "Portal",
-      "PrimaryButton",
       "ProgressBar",
       "ProgressIndicator",
       "RadioButton",
       "RadioButtonGroup",
       "RadioTile",
+      "Resizer",
+      "ScrollGradient",
       "Search",
-      "SecondaryButton",
       "Select",
       "SelectItem",
       "SelectItemGroup",
       "ShapeIndicator",
+      "SidePanel",
       "SkeletonIcon",
       "SkeletonPlaceholder",
       "SkeletonText",
       "Slider",
       "Stack",
       "StructuredList",
-      "Switch",
-      "Tab",
       "TabContent",
       "Tabs",
       "Tag",
+      "TagOverflow",
+      "Tearsheet",
       "Text",
       "TextArea",
       "TextInput",
@@ -129,101 +140,215 @@
       "Toggletip",
       "Tooltip",
       "TreeView",
+      "TruncatedText",
       "UIShell",
-      "UnorderedList"
+      "UnorderedList",
+      "UserAvatar"
     ],
     "ember": [
+      "AILabel",
+      "AISkeletonIcon",
+      "AISkeletonPlaceholder",
+      "AISkeletonText",
       "Accordion",
-      "BarChart",
-      "Breadcrumbs",
+      "AccordionSkeleton",
+      "ActionableNotification",
+      "AspectRatio",
+      "Breadcrumb",
+      "BreadcrumbItem",
+      "BreadcrumbSkeleton",
       "Button",
+      "ButtonSet",
+      "ButtonSkeleton",
+      "Callout",
+      "Card",
+      "CardAction",
+      "CardActions",
+      "CardBody",
+      "CardFooter",
+      "CardHeader",
+      "CardHeaderMedia",
+      "CardMedia",
+      "CardTitle",
+      "CardTitleMedia",
       "Checkbox",
+      "CheckboxSkeleton",
       "CodeSnippet",
-      "ConfirmDialog",
+      "CodeSnippetSkeleton",
+      "Column",
+      "ColumnHang",
+      "ComboBox",
+      "Content",
+      "Copy",
       "CopyButton",
       "DataTable",
+      "DataTableSkeleton",
+      "DatePicker",
+      "DatePickerInput",
+      "DatePickerSkeleton",
+      "Dropdown",
+      "DropdownSkeleton",
+      "FileUploader",
+      "FileUploaderButton",
+      "FileUploaderDropContainer",
+      "FileUploaderItem",
+      "FileUploaderSkeleton",
+      "FilterableMultiSelect",
+      "FlexGrid",
       "FluidTextInput",
+      "FluidTextInputSkeleton",
+      "FormGroup",
       "FormInput",
+      "FormItem",
+      "FormLabel",
       "Grid",
+      "GridSettings",
+      "Header",
+      "HeaderContainer",
+      "HeaderGlobalAction",
+      "HeaderGlobalBar",
+      "HeaderMenu",
+      "HeaderMenuButton",
+      "HeaderMenuItem",
+      "HeaderName",
+      "HeaderNavigation",
+      "HeaderPanel",
+      "HeaderSideNavItems",
       "Icon",
+      "IconIndicator",
+      "InlineLoading",
+      "InlineNotification",
+      "Layer",
+      "Layout",
       "LayoutDirection",
-      "LineChart",
       "Link",
       "List",
+      "ListItem",
       "Loading",
+      "Menu",
+      "MenuButton",
+      "MenuItem",
+      "MenuItemDivider",
+      "MenuItemGroup",
+      "MenuItemRadioGroup",
+      "MenuItemSelectable",
       "Modal",
-      "Notification",
+      "MultiSelect",
+      "NotificationActionButton",
+      "NotificationButton",
+      "NumberInput",
+      "NumberInputSkeleton",
       "OrderedList",
       "OverflowMenu",
+      "OverflowMenuItem",
       "Pagination",
-      "PieChart",
+      "PaginationSkeleton",
+      "PasswordInput",
       "Popover",
       "Portal",
       "ProgressBar",
       "ProgressIndicator",
+      "ProgressIndicatorSkeleton",
       "RadioButton",
       "RadioButtonGroup",
+      "RadioButtonSkeleton",
       "RadioTile",
+      "Resizer",
+      "Row",
       "Search",
+      "SearchSkeleton",
       "Select",
+      "SelectItem",
       "SelectItemGroup",
+      "SelectSkeleton",
       "ShapeIndicator",
+      "SideNav",
+      "SideNavDetails",
+      "SideNavDivider",
+      "SideNavFooter",
+      "SideNavHeader",
+      "SideNavIcon",
+      "SideNavItem",
+      "SideNavItems",
+      "SideNavLink",
+      "SideNavLinkText",
+      "SideNavMenu",
+      "SideNavMenuItem",
+      "SideNavSwitcher",
+      "SidePanel",
       "SkeletonIcon",
       "SkeletonPlaceholder",
       "SkeletonText",
+      "SkipToContent",
       "Slider",
       "SliderSkeleton",
       "Stack",
-      "StructuredList",
+      "StructuredListBody",
+      "StructuredListCell",
+      "StructuredListHead",
+      "StructuredListInput",
+      "StructuredListRow",
+      "StructuredListSkeleton",
+      "StructuredListWrapper",
+      "Switcher",
+      "SwitcherDivider",
+      "SwitcherItem",
+      "Tab",
       "TabContent",
+      "TabList",
+      "TabPanel",
+      "TabPanels",
       "Tabs",
+      "TabsSkeleton",
       "Tag",
+      "TagSkeleton",
       "Text",
       "TextArea",
+      "TextAreaSkeleton",
       "TextDirection",
+      "TextInput",
+      "TextInputSkeleton",
       "Theme",
       "Tile",
       "TileGroup",
       "TimePicker",
       "TimePickerSelect",
+      "ToastNotification",
+      "ToastNotificationList",
       "Toggle",
+      "ToggleSkeleton",
       "Toggletip",
+      "ToggletipActions",
+      "ToggletipButton",
+      "ToggletipContent",
+      "ToggletipLabel",
       "Tooltip",
       "TreeView",
-      "UIShell",
       "UnorderedList"
     ],
     "missing": [
-      "AILabel",
-      "AISkeleton",
       "AccordionItem",
-      "AspectRatio",
+      "ActionSet",
+      "AddSelect",
       "BadgeIndicator",
-      "Breadcrumb",
-      "BreadcrumbItem",
-      "ButtonSet",
+      "BigNumber",
       "ChatButton",
       "CheckboxGroup",
       "ClassPrefix",
-      "ComboBox",
+      "Coachmark",
       "ComboButton",
       "ComposedModal",
+      "ConditionBuilder",
       "ContainedList",
       "ContentSwitcher",
       "ContextMenu",
-      "Copy",
       "DangerButton",
-      "DataTableSkeleton",
-      "DatePicker",
-      "DatePickerInput",
       "Dialog",
       "Disclosure",
-      "Dropdown",
+      "EditInPlace",
       "ErrorBoundary",
       "ExpandableSearch",
       "FeatureFlags",
-      "FileUploader",
-      "FlexGrid",
       "FluidComboBox",
       "FluidDatePicker",
       "FluidDatePickerInput",
@@ -237,65 +362,73 @@
       "FluidTimePicker",
       "FluidTimePickerSelect",
       "Form",
-      "FormLabel",
+      "FullPageError",
+      "Guidebanner",
       "Heading",
-      "HideAtBreakpoint",
       "IconButton",
       "Icons",
       "IdPrefix",
       "InlineCheckbox",
+      "InterstitialScreen",
+      "ModalWrapper",
+      "NotificationsPanel",
+      "OptionsTile",
+      "OverflowHandler",
+      "OverflowMenuV2",
+      "PageHeaderDeprecated",
+      "PaginationNav",
+      "Plex",
+      "ScrollGradient",
+      "TagOverflow",
+      "Tearsheet",
+      "ToggleSmall",
+      "TruncatedText",
+      "UserAvatar"
+    ],
+    "implemented": [
+      "AILabel",
+      "Accordion",
+      "AspectRatio",
+      "Breadcrumb",
+      "BreadcrumbItem",
+      "Button",
+      "ButtonSet",
+      "Card",
+      "Checkbox",
+      "CodeSnippet",
+      "ComboBox",
+      "Copy",
+      "CopyButton",
+      "DataTable",
+      "DataTableSkeleton",
+      "DatePicker",
+      "DatePickerInput",
+      "Dropdown",
+      "FileUploader",
+      "FlexGrid",
+      "FluidTextInput",
+      "FormGroup",
+      "FormItem",
+      "FormLabel",
+      "Grid",
+      "Icon",
+      "IconIndicator",
       "InlineLoading",
       "Layer",
       "Layout",
       "LayoutDirection",
-      "ListBox",
-      "MenuButton",
-      "ModalWrapper",
-      "MultiSelect",
-      "OverflowMenuItem",
-      "OverflowMenuV2",
-      "PageHeader",
-      "PaginationNav",
-      "Plex",
-      "PrimaryButton",
-      "SecondaryButton",
-      "SelectItem",
-      "ShapeIndicator",
-      "SkeletonText",
-      "SkeletonIcon",
-      "SkeletonText",
-      "Slider",
-      "Switch",
-      "Tab",
-      "TextArea",
-      "TextInput",
-      "ToggleSmall",
-      "Tooltip",
-      "TimePicker",
-      "TimePickerSelect"
-    ],
-    "implemented": [
-      "Accordion",
-      "Button",
-      "Checkbox",
-      "CodeSnippet",
-      "CopyButton",
-      "DataTable",
-      "FluidTextInput",
-      "FormGroup",
-      "FormItem",
-      "Grid",
-      "Icon",
-      "IconIndicator",
-      "LayoutDirection",
       "Link",
       "ListItem",
       "Loading",
+      "Menu",
+      "MenuButton",
       "Modal",
+      "MultiSelect",
       "Notification",
       "NumberInput",
       "OrderedList",
       "OverflowMenu",
+      "OverflowMenuItem",
       "Pagination",
       "PasswordInput",
       "Popover",
@@ -305,10 +438,14 @@
       "RadioButton",
       "RadioButtonGroup",
       "RadioTile",
+      "Resizer",
       "Search",
       "Select",
+      "SelectItem",
       "SelectItemGroup",
       "ShapeIndicator",
+      "SidePanel",
+      "SkeletonIcon",
       "SkeletonPlaceholder",
       "SkeletonText",
       "Slider",
@@ -318,6 +455,8 @@
       "Tabs",
       "Tag",
       "Text",
+      "TextArea",
+      "TextInput",
       "Theme",
       "Tile",
       "TileGroup",
@@ -330,477 +469,685 @@
       "UIShell",
       "UnorderedList"
     ],
-    "outdated": []
+    "outdated": [
+      "AILabel",
+      "Accordion",
+      "AspectRatio",
+      "Breadcrumb",
+      "Button",
+      "ButtonSet",
+      "Card",
+      "Checkbox",
+      "CodeSnippet",
+      "ComboBox",
+      "Copy",
+      "CopyButton",
+      "DataTable",
+      "DataTableSkeleton",
+      "DatePicker",
+      "DatePickerInput",
+      "Dropdown",
+      "FileUploader",
+      "FluidTextInput",
+      "FormGroup",
+      "FormLabel",
+      "Grid",
+      "IconIndicator",
+      "InlineLoading",
+      "Layer",
+      "Layout",
+      "Link",
+      "Loading",
+      "Menu",
+      "MenuButton",
+      "Modal",
+      "MultiSelect",
+      "Notification",
+      "NumberInput",
+      "OrderedList",
+      "OverflowMenu",
+      "Pagination",
+      "Popover",
+      "ProgressBar",
+      "ProgressIndicator",
+      "RadioButton",
+      "RadioButtonGroup",
+      "RadioTile",
+      "Resizer",
+      "Search",
+      "Select",
+      "ShapeIndicator",
+      "SidePanel",
+      "SkeletonIcon",
+      "SkeletonPlaceholder",
+      "SkeletonText",
+      "Slider",
+      "Stack",
+      "StructuredList",
+      "Tabs",
+      "Tag",
+      "Text",
+      "TextArea",
+      "TextInput",
+      "Theme",
+      "Tile",
+      "TileGroup",
+      "TimePicker",
+      "Toggle",
+      "Toggletip",
+      "Tooltip",
+      "TreeView",
+      "UIShell",
+      "UnorderedList"
+    ]
   },
   "componentMetadata": {
-    "Breadcrumb": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "PasswordInput": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "NumberInput": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "AILabel": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-09-22T13:25:37Z"
     },
     "Accordion": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-09-24T18:19:18Z"
+    },
+    "AspectRatio": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "Breadcrumb": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-09T18:21:59Z"
+    },
+    "BreadcrumbItem": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
     },
     "Button": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-26T18:43:19Z"
+    },
+    "ButtonSet": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-10-13T12:26:17Z"
+    },
+    "Card": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 8,
+      "lastUpdate": "2026-11-04T13:44:19Z"
     },
     "Checkbox": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-09-22T13:25:37Z"
     },
     "CodeSnippet": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "571cd549545dd156e11f06fd046eb14efa6a61c3",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
+    "ComboBox": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 5,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
+    "Copy": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-10-15T07:23:06Z"
     },
     "CopyButton": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-15T07:23:06Z"
     },
     "DataTable": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 11,
+      "lastUpdate": "2026-10-28T10:17:32Z"
     },
-    "FormGroup": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "DataTableSkeleton": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-10-20T09:37:51Z"
     },
-    "FormItem": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "DatePicker": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 12,
+      "lastUpdate": "2026-10-23T14:05:28Z"
     },
-    "FormLabel": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "DatePickerInput": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-09-21T13:11:30Z"
     },
-    "Grid": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Icon": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Loading": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Modal": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Notification": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "OverflowMenu": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Pagination": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "ProgressBar": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "RadioButton": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "RadioButtonGroup": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Select": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "ShapeIndicator": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SkeletonPlaceholder": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Slider": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "Dropdown": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-15T07:23:06Z"
     },
-    "Stack": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "FileUploader": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
+      "hasChanges": true,
+      "changeCount": 9,
+      "lastUpdate": "2026-10-20T09:37:51Z"
     },
-    "TabContent": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Tabs": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Tag": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Text": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Theme": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Tile": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Toggle": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Toggletip": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Tooltip": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "UIShell": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "UnorderedList": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "N/A",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SkeletonIcon": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SkeletonText": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Portal": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SelectItemGroup": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "StructuredList": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TextArea": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "ProgressIndicator": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "RadioTile": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TreeView": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Search": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TextInput": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TileGroup": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TimePicker": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "TimePickerSelect": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Layout": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "LayoutDirection": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Link": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "ListItem": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "OrderedList": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "SelectItem": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "Popover": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "OverflowMenuItem": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-      "hasChanges": false,
-      "changeCount": 0,
-      "lastUpdate": null
-    },
-    "IconIndicator": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+    "FlexGrid": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
     },
     "FluidTextInput": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 5,
+      "lastUpdate": "2026-10-12T16:34:08Z"
+    },
+    "FormGroup": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "FormItem": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
     },
+    "FormLabel": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-08-12T19:54:27Z"
+    },
+    "Grid": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": true,
+      "changeCount": 7,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "Icon": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "IconIndicator": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 5,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
     "InlineLoading": {
-      "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-11-05T21:01:32Z"
+    },
+    "Layer": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-09T18:21:59Z"
+    },
+    "Layout": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-09T09:06:46Z"
+    },
+    "LayoutDirection": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Link": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-09-24T18:19:18Z"
+    },
+    "ListItem": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Loading": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-09T18:21:59Z"
+    },
+    "Menu": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-20T19:25:38Z"
+    },
+    "MenuButton": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-09T09:06:46Z"
+    },
+    "Modal": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-13T12:26:17Z"
+    },
+    "MultiSelect": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 10,
+      "lastUpdate": "2026-10-26T16:21:11Z"
+    },
+    "Notification": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-30T10:01:41Z"
+    },
+    "NumberInput": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 7,
+      "lastUpdate": "2026-10-27T13:08:07Z"
+    },
+    "OrderedList": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-09T18:21:59Z"
+    },
+    "OverflowMenu": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 8,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "OverflowMenuItem": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
       "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
+    },
+    "Pagination": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "PasswordInput": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Popover": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+      "hasChanges": true,
+      "changeCount": 8,
+      "lastUpdate": "2026-10-19T17:50:21Z"
+    },
+    "Portal": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "ProgressBar": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-11-06T08:43:17Z"
+    },
+    "ProgressIndicator": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-26T22:37:54Z"
+    },
+    "RadioButton": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "RadioButtonGroup": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "RadioTile": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-09-21T13:11:30Z"
+    },
+    "Resizer": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-09-09T04:57:41Z"
+    },
+    "Search": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-09T09:06:46Z"
+    },
+    "Select": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-09T09:06:46Z"
+    },
+    "SelectItem": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "SelectItemGroup": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "ShapeIndicator": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
+    "SidePanel": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-09T04:57:41Z"
+    },
+    "SkeletonIcon": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "SkeletonPlaceholder": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "SkeletonText": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "Slider": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 7,
+      "lastUpdate": "2026-11-05T03:33:26Z"
+    },
+    "Stack": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-09-04T14:45:11Z"
+    },
+    "StructuredList": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "hasChanges": true,
+      "changeCount": 4,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "TabContent": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Tabs": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": true,
+      "changeCount": 9,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "Tag": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": true,
+      "changeCount": 11,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "Text": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 1,
+      "lastUpdate": "2026-09-16T09:23:12Z"
+    },
+    "TextArea": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-12T16:34:08Z"
+    },
+    "TextInput": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+      "hasChanges": true,
+      "changeCount": 9,
+      "lastUpdate": "2026-10-12T16:34:08Z"
+    },
+    "Theme": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-15T11:47:49Z"
+    },
+    "Tile": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 7,
+      "lastUpdate": "2026-09-30T10:20:35Z"
+    },
+    "TileGroup": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "TimePicker": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "TimePickerSelect": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": null
+    },
+    "Toggle": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 2,
+      "lastUpdate": "2026-09-22T13:25:37Z"
+    },
+    "Toggletip": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
+    "Tooltip": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+      "hasChanges": true,
+      "changeCount": 8,
+      "lastUpdate": "2026-10-15T07:23:06Z"
+    },
+    "TreeView": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-10-20T09:37:51Z"
+    },
+    "UIShell": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "hasChanges": true,
+      "changeCount": 6,
+      "lastUpdate": "2026-11-04T14:03:14Z"
+    },
+    "UnorderedList": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+      "hasChanges": true,
+      "changeCount": 3,
+      "lastUpdate": "2026-10-09T09:06:46Z"
     }
   },
   "sources": {
     "react": {
-      "lastCheckedVersion": "11.112.0",
-      "lastCheckedCommitSHA": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-      "lastCheckedCommitDate": "2026-07-15T09:42:43Z",
-      "lastCheckDate": "2026-07-21T12:06:55.719Z",
+      "lastCheckedVersion": "11.120.0",
+      "lastCheckedCommitSHA": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastCheckedCommitDate": "2026-11-04T13:18:45Z",
+      "lastCheckDate": "2026-11-09T19:35:55.934Z",
       "components": {
-        "react": [
+        "upstream": [
           "AILabel",
-          "AISkeleton",
           "Accordion",
           "AccordionItem",
+          "ActionSet",
+          "AddSelect",
           "AspectRatio",
           "BadgeIndicator",
+          "BigNumber",
           "Breadcrumb",
           "BreadcrumbItem",
           "Button",
           "ButtonSet",
+          "Card",
           "ChatButton",
           "Checkbox",
           "CheckboxGroup",
           "ClassPrefix",
+          "Coachmark",
           "CodeSnippet",
           "ComboBox",
           "ComboButton",
           "ComposedModal",
+          "ConditionBuilder",
           "ContainedList",
           "ContentSwitcher",
           "ContextMenu",
@@ -814,6 +1161,7 @@
           "Dialog",
           "Disclosure",
           "Dropdown",
+          "EditInPlace",
           "ErrorBoundary",
           "ExpandableSearch",
           "FeatureFlags",
@@ -836,9 +1184,10 @@
           "FormGroup",
           "FormItem",
           "FormLabel",
+          "FullPageError",
           "Grid",
+          "Guidebanner",
           "Heading",
-          "HideAtBreakpoint",
           "Icon",
           "IconButton",
           "IconIndicator",
@@ -846,11 +1195,11 @@
           "IdPrefix",
           "InlineCheckbox",
           "InlineLoading",
+          "InterstitialScreen",
           "Layer",
           "Layout",
           "LayoutDirection",
           "Link",
-          "ListBox",
           "ListItem",
           "Loading",
           "Menu",
@@ -859,41 +1208,45 @@
           "ModalWrapper",
           "MultiSelect",
           "Notification",
+          "NotificationsPanel",
           "NumberInput",
+          "OptionsTile",
           "OrderedList",
+          "OverflowHandler",
           "OverflowMenu",
           "OverflowMenuItem",
           "OverflowMenuV2",
-          "PageHeader",
+          "PageHeaderDeprecated",
           "Pagination",
           "PaginationNav",
           "PasswordInput",
           "Plex",
           "Popover",
           "Portal",
-          "PrimaryButton",
           "ProgressBar",
           "ProgressIndicator",
           "RadioButton",
           "RadioButtonGroup",
           "RadioTile",
+          "Resizer",
+          "ScrollGradient",
           "Search",
-          "SecondaryButton",
           "Select",
           "SelectItem",
           "SelectItemGroup",
           "ShapeIndicator",
+          "SidePanel",
           "SkeletonIcon",
           "SkeletonPlaceholder",
           "SkeletonText",
           "Slider",
           "Stack",
           "StructuredList",
-          "Switch",
-          "Tab",
           "TabContent",
           "Tabs",
           "Tag",
+          "TagOverflow",
+          "Tearsheet",
           "Text",
           "TextArea",
           "TextInput",
@@ -907,101 +1260,215 @@
           "Toggletip",
           "Tooltip",
           "TreeView",
+          "TruncatedText",
           "UIShell",
-          "UnorderedList"
+          "UnorderedList",
+          "UserAvatar"
         ],
         "ember": [
+          "AILabel",
+          "AISkeletonIcon",
+          "AISkeletonPlaceholder",
+          "AISkeletonText",
           "Accordion",
-          "BarChart",
-          "Breadcrumbs",
+          "AccordionSkeleton",
+          "ActionableNotification",
+          "AspectRatio",
+          "Breadcrumb",
+          "BreadcrumbItem",
+          "BreadcrumbSkeleton",
           "Button",
+          "ButtonSet",
+          "ButtonSkeleton",
+          "Callout",
+          "Card",
+          "CardAction",
+          "CardActions",
+          "CardBody",
+          "CardFooter",
+          "CardHeader",
+          "CardHeaderMedia",
+          "CardMedia",
+          "CardTitle",
+          "CardTitleMedia",
           "Checkbox",
+          "CheckboxSkeleton",
           "CodeSnippet",
-          "ConfirmDialog",
+          "CodeSnippetSkeleton",
+          "Column",
+          "ColumnHang",
+          "ComboBox",
+          "Content",
+          "Copy",
           "CopyButton",
           "DataTable",
+          "DataTableSkeleton",
+          "DatePicker",
+          "DatePickerInput",
+          "DatePickerSkeleton",
+          "Dropdown",
+          "DropdownSkeleton",
+          "FileUploader",
+          "FileUploaderButton",
+          "FileUploaderDropContainer",
+          "FileUploaderItem",
+          "FileUploaderSkeleton",
+          "FilterableMultiSelect",
+          "FlexGrid",
           "FluidTextInput",
+          "FluidTextInputSkeleton",
+          "FormGroup",
           "FormInput",
+          "FormItem",
+          "FormLabel",
           "Grid",
+          "GridSettings",
+          "Header",
+          "HeaderContainer",
+          "HeaderGlobalAction",
+          "HeaderGlobalBar",
+          "HeaderMenu",
+          "HeaderMenuButton",
+          "HeaderMenuItem",
+          "HeaderName",
+          "HeaderNavigation",
+          "HeaderPanel",
+          "HeaderSideNavItems",
           "Icon",
+          "IconIndicator",
+          "InlineLoading",
+          "InlineNotification",
+          "Layer",
+          "Layout",
           "LayoutDirection",
-          "LineChart",
           "Link",
           "List",
+          "ListItem",
           "Loading",
+          "Menu",
+          "MenuButton",
+          "MenuItem",
+          "MenuItemDivider",
+          "MenuItemGroup",
+          "MenuItemRadioGroup",
+          "MenuItemSelectable",
           "Modal",
-          "Notification",
+          "MultiSelect",
+          "NotificationActionButton",
+          "NotificationButton",
+          "NumberInput",
+          "NumberInputSkeleton",
           "OrderedList",
           "OverflowMenu",
+          "OverflowMenuItem",
           "Pagination",
-          "PieChart",
+          "PaginationSkeleton",
+          "PasswordInput",
           "Popover",
           "Portal",
           "ProgressBar",
           "ProgressIndicator",
+          "ProgressIndicatorSkeleton",
           "RadioButton",
           "RadioButtonGroup",
+          "RadioButtonSkeleton",
           "RadioTile",
+          "Resizer",
+          "Row",
           "Search",
+          "SearchSkeleton",
           "Select",
+          "SelectItem",
           "SelectItemGroup",
+          "SelectSkeleton",
           "ShapeIndicator",
+          "SideNav",
+          "SideNavDetails",
+          "SideNavDivider",
+          "SideNavFooter",
+          "SideNavHeader",
+          "SideNavIcon",
+          "SideNavItem",
+          "SideNavItems",
+          "SideNavLink",
+          "SideNavLinkText",
+          "SideNavMenu",
+          "SideNavMenuItem",
+          "SideNavSwitcher",
+          "SidePanel",
           "SkeletonIcon",
           "SkeletonPlaceholder",
           "SkeletonText",
+          "SkipToContent",
           "Slider",
           "SliderSkeleton",
           "Stack",
-          "StructuredList",
+          "StructuredListBody",
+          "StructuredListCell",
+          "StructuredListHead",
+          "StructuredListInput",
+          "StructuredListRow",
+          "StructuredListSkeleton",
+          "StructuredListWrapper",
+          "Switcher",
+          "SwitcherDivider",
+          "SwitcherItem",
+          "Tab",
           "TabContent",
+          "TabList",
+          "TabPanel",
+          "TabPanels",
           "Tabs",
+          "TabsSkeleton",
           "Tag",
+          "TagSkeleton",
           "Text",
           "TextArea",
+          "TextAreaSkeleton",
           "TextDirection",
+          "TextInput",
+          "TextInputSkeleton",
           "Theme",
           "Tile",
           "TileGroup",
           "TimePicker",
           "TimePickerSelect",
+          "ToastNotification",
+          "ToastNotificationList",
           "Toggle",
+          "ToggleSkeleton",
           "Toggletip",
+          "ToggletipActions",
+          "ToggletipButton",
+          "ToggletipContent",
+          "ToggletipLabel",
           "Tooltip",
           "TreeView",
-          "UIShell",
           "UnorderedList"
         ],
         "missing": [
-          "AILabel",
-          "AISkeleton",
           "AccordionItem",
-          "AspectRatio",
+          "ActionSet",
+          "AddSelect",
           "BadgeIndicator",
-          "Breadcrumb",
-          "BreadcrumbItem",
-          "ButtonSet",
+          "BigNumber",
           "ChatButton",
           "CheckboxGroup",
           "ClassPrefix",
-          "ComboBox",
+          "Coachmark",
           "ComboButton",
           "ComposedModal",
+          "ConditionBuilder",
           "ContainedList",
           "ContentSwitcher",
           "ContextMenu",
-          "Copy",
           "DangerButton",
-          "DataTableSkeleton",
-          "DatePicker",
-          "DatePickerInput",
           "Dialog",
           "Disclosure",
-          "Dropdown",
+          "EditInPlace",
           "ErrorBoundary",
           "ExpandableSearch",
           "FeatureFlags",
-          "FileUploader",
-          "FlexGrid",
           "FluidComboBox",
           "FluidDatePicker",
           "FluidDatePickerInput",
@@ -1015,209 +1482,95 @@
           "FluidTimePicker",
           "FluidTimePickerSelect",
           "Form",
-          "FormLabel",
+          "FullPageError",
+          "Guidebanner",
           "Heading",
-          "HideAtBreakpoint",
           "IconButton",
           "Icons",
           "IdPrefix",
           "InlineCheckbox",
-          "InlineLoading",
-          "Layer",
-          "Layout",
-          "LayoutDirection",
-          "ListBox",
-          "MenuButton",
+          "InterstitialScreen",
           "ModalWrapper",
-          "MultiSelect",
-          "OverflowMenuItem",
+          "NotificationsPanel",
+          "OptionsTile",
+          "OverflowHandler",
           "OverflowMenuV2",
-          "PageHeader",
+          "PageHeaderDeprecated",
           "PaginationNav",
           "Plex",
-          "PrimaryButton",
-          "SecondaryButton",
-          "SelectItem",
-          "ShapeIndicator",
-          "SkeletonText",
-          "SkeletonIcon",
-          "SkeletonText",
-          "Slider",
-          "Switch",
-          "Tab",
-          "TextArea",
-          "TextInput",
+          "ScrollGradient",
+          "TagOverflow",
+          "Tearsheet",
           "ToggleSmall",
-          "Tooltip",
-          "TimePicker",
-          "TimePickerSelect"
+          "TruncatedText",
+          "UserAvatar"
         ],
         "implemented": [
-          "Accordion",
-          "Button",
-          "Checkbox",
-          "CodeSnippet",
-          "CopyButton",
-          "DataTable",
-          "FluidTextInput",
-          "FormGroup",
-          "FormItem",
-          "Grid",
-          "Icon",
-          "IconIndicator",
-          "LayoutDirection",
-          "Link",
-          "ListItem",
-          "Loading",
-          "Modal",
-          "Notification",
-          "NumberInput",
-          "OrderedList",
-          "OverflowMenu",
-          "Pagination",
-          "PasswordInput",
-          "Popover",
-          "Portal",
-          "ProgressBar",
-          "ProgressIndicator",
-          "RadioButton",
-          "RadioButtonGroup",
-          "RadioTile",
-          "Search",
-          "Select",
-          "SelectItemGroup",
-          "ShapeIndicator",
-          "SkeletonPlaceholder",
-          "SkeletonText",
-          "Slider",
-          "Stack",
-          "StructuredList",
-          "TabContent",
-          "Tabs",
-          "Tag",
-          "Text",
-          "Theme",
-          "Tile",
-          "TileGroup",
-          "TimePicker",
-          "TimePickerSelect",
-          "Toggle",
-          "Toggletip",
-          "Tooltip",
-          "TreeView",
-          "UIShell",
-          "UnorderedList"
-        ],
-        "outdated": [],
-        "upstream": [
           "AILabel",
-          "AISkeleton",
           "Accordion",
-          "AccordionItem",
           "AspectRatio",
-          "BadgeIndicator",
           "Breadcrumb",
           "BreadcrumbItem",
           "Button",
           "ButtonSet",
-          "ChatButton",
+          "Card",
           "Checkbox",
-          "CheckboxGroup",
-          "ClassPrefix",
           "CodeSnippet",
           "ComboBox",
-          "ComboButton",
-          "ComposedModal",
-          "ContainedList",
-          "ContentSwitcher",
-          "ContextMenu",
           "Copy",
           "CopyButton",
-          "DangerButton",
           "DataTable",
           "DataTableSkeleton",
           "DatePicker",
           "DatePickerInput",
-          "Dialog",
-          "Disclosure",
           "Dropdown",
-          "ErrorBoundary",
-          "ExpandableSearch",
-          "FeatureFlags",
           "FileUploader",
           "FlexGrid",
-          "FluidComboBox",
-          "FluidDatePicker",
-          "FluidDatePickerInput",
-          "FluidDropdown",
-          "FluidForm",
-          "FluidMultiSelect",
-          "FluidNumberInput",
-          "FluidSearch",
-          "FluidSelect",
-          "FluidTextArea",
           "FluidTextInput",
-          "FluidTimePicker",
-          "FluidTimePickerSelect",
-          "Form",
           "FormGroup",
           "FormItem",
           "FormLabel",
           "Grid",
-          "Heading",
-          "HideAtBreakpoint",
           "Icon",
-          "IconButton",
           "IconIndicator",
-          "Icons",
-          "IdPrefix",
-          "InlineCheckbox",
           "InlineLoading",
           "Layer",
           "Layout",
           "LayoutDirection",
           "Link",
-          "ListBox",
           "ListItem",
           "Loading",
           "Menu",
           "MenuButton",
           "Modal",
-          "ModalWrapper",
           "MultiSelect",
           "Notification",
           "NumberInput",
           "OrderedList",
           "OverflowMenu",
           "OverflowMenuItem",
-          "OverflowMenuV2",
-          "PageHeader",
           "Pagination",
-          "PaginationNav",
           "PasswordInput",
-          "Plex",
           "Popover",
           "Portal",
-          "PrimaryButton",
           "ProgressBar",
           "ProgressIndicator",
           "RadioButton",
           "RadioButtonGroup",
           "RadioTile",
+          "Resizer",
           "Search",
-          "SecondaryButton",
           "Select",
           "SelectItem",
           "SelectItemGroup",
           "ShapeIndicator",
+          "SidePanel",
           "SkeletonIcon",
           "SkeletonPlaceholder",
           "SkeletonText",
           "Slider",
           "Stack",
           "StructuredList",
-          "Switch",
-          "Tab",
           "TabContent",
           "Tabs",
           "Tag",
@@ -1230,7 +1583,77 @@
           "TimePicker",
           "TimePickerSelect",
           "Toggle",
-          "ToggleSmall",
+          "Toggletip",
+          "Tooltip",
+          "TreeView",
+          "UIShell",
+          "UnorderedList"
+        ],
+        "outdated": [
+          "AILabel",
+          "Accordion",
+          "AspectRatio",
+          "Breadcrumb",
+          "Button",
+          "ButtonSet",
+          "Card",
+          "Checkbox",
+          "CodeSnippet",
+          "ComboBox",
+          "Copy",
+          "CopyButton",
+          "DataTable",
+          "DataTableSkeleton",
+          "DatePicker",
+          "DatePickerInput",
+          "Dropdown",
+          "FileUploader",
+          "FluidTextInput",
+          "FormGroup",
+          "FormLabel",
+          "Grid",
+          "IconIndicator",
+          "InlineLoading",
+          "Layer",
+          "Layout",
+          "Link",
+          "Loading",
+          "Menu",
+          "MenuButton",
+          "Modal",
+          "MultiSelect",
+          "Notification",
+          "NumberInput",
+          "OrderedList",
+          "OverflowMenu",
+          "Pagination",
+          "Popover",
+          "ProgressBar",
+          "ProgressIndicator",
+          "RadioButton",
+          "RadioButtonGroup",
+          "RadioTile",
+          "Resizer",
+          "Search",
+          "Select",
+          "ShapeIndicator",
+          "SidePanel",
+          "SkeletonIcon",
+          "SkeletonPlaceholder",
+          "SkeletonText",
+          "Slider",
+          "Stack",
+          "StructuredList",
+          "Tabs",
+          "Tag",
+          "Text",
+          "TextArea",
+          "TextInput",
+          "Theme",
+          "Tile",
+          "TileGroup",
+          "TimePicker",
+          "Toggle",
           "Toggletip",
           "Tooltip",
           "TreeView",
@@ -1239,443 +1662,1089 @@
         ]
       },
       "componentMetadata": {
-        "Breadcrumb": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "PasswordInput": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "NumberInput": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "AILabel": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-09-22T13:25:37Z"
         },
         "Accordion": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-09-24T18:19:18Z"
+        },
+        "AspectRatio": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "Breadcrumb": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-09T18:21:59Z"
+        },
+        "BreadcrumbItem": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
           "hasChanges": false,
           "changeCount": 0,
           "lastUpdate": null
         },
         "Button": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-26T18:43:19Z"
+        },
+        "ButtonSet": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-10-13T12:26:17Z"
+        },
+        "Card": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 8,
+          "lastUpdate": "2026-11-04T13:44:19Z"
         },
         "Checkbox": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-09-22T13:25:37Z"
         },
         "CodeSnippet": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "571cd549545dd156e11f06fd046eb14efa6a61c3",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
+        "ComboBox": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 5,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
+        "Copy": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-10-15T07:23:06Z"
         },
         "CopyButton": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-15T07:23:06Z"
         },
         "DataTable": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 11,
+          "lastUpdate": "2026-10-28T10:17:32Z"
         },
-        "FormGroup": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "DataTableSkeleton": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-10-20T09:37:51Z"
         },
-        "FormItem": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "DatePicker": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 12,
+          "lastUpdate": "2026-10-23T14:05:28Z"
         },
-        "FormLabel": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "DatePickerInput": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-09-21T13:11:30Z"
         },
-        "Grid": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Icon": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Loading": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Modal": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Notification": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "OverflowMenu": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Pagination": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "ProgressBar": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "RadioButton": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "RadioButtonGroup": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Select": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "ShapeIndicator": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "SkeletonPlaceholder": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Slider": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "Dropdown": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-15T07:23:06Z"
         },
-        "Stack": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "FileUploader": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
+          "hasChanges": true,
+          "changeCount": 9,
+          "lastUpdate": "2026-10-20T09:37:51Z"
         },
-        "TabContent": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Tabs": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Tag": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Text": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Theme": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Tile": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Toggle": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Toggletip": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Tooltip": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "UIShell": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "UnorderedList": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "N/A",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "SkeletonIcon": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "SkeletonText": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Portal": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "SelectItemGroup": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "StructuredList": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TextArea": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "ProgressIndicator": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "RadioTile": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TreeView": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Search": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TextInput": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TileGroup": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TimePicker": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "TimePickerSelect": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Layout": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "LayoutDirection": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Link": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "ListItem": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "OrderedList": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "SelectItem": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "Popover": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "OverflowMenuItem": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
-          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
-          "hasChanges": false,
-          "changeCount": 0,
-          "lastUpdate": null
-        },
-        "IconIndicator": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+        "FlexGrid": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
           "hasChanges": false,
           "changeCount": 0,
           "lastUpdate": null
         },
         "FluidTextInput": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 5,
+          "lastUpdate": "2026-10-12T16:34:08Z"
+        },
+        "FormGroup": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "FormItem": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
           "hasChanges": false,
           "changeCount": 0,
           "lastUpdate": null
         },
+        "FormLabel": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-08-12T19:54:27Z"
+        },
+        "Grid": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": true,
+          "changeCount": 7,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "Icon": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "IconIndicator": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 5,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
         "InlineLoading": {
-          "lastCheckedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
           "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-11-05T21:01:32Z"
+        },
+        "Layer": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-09T18:21:59Z"
+        },
+        "Layout": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-09T09:06:46Z"
+        },
+        "LayoutDirection": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Link": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-09-24T18:19:18Z"
+        },
+        "ListItem": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Loading": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-09T18:21:59Z"
+        },
+        "Menu": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-20T19:25:38Z"
+        },
+        "MenuButton": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-09T09:06:46Z"
+        },
+        "Modal": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-13T12:26:17Z"
+        },
+        "MultiSelect": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 10,
+          "lastUpdate": "2026-10-26T16:21:11Z"
+        },
+        "Notification": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-30T10:01:41Z"
+        },
+        "NumberInput": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 7,
+          "lastUpdate": "2026-10-27T13:08:07Z"
+        },
+        "OrderedList": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-09T18:21:59Z"
+        },
+        "OverflowMenu": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 8,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "OverflowMenuItem": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Pagination": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "PasswordInput": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Popover": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "188d23202ec1092322dee92cf0df9d9958224ae4",
+          "hasChanges": true,
+          "changeCount": 8,
+          "lastUpdate": "2026-10-19T17:50:21Z"
+        },
+        "Portal": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "ProgressBar": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-11-06T08:43:17Z"
+        },
+        "ProgressIndicator": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-26T22:37:54Z"
+        },
+        "RadioButton": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "RadioButtonGroup": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "RadioTile": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-09-21T13:11:30Z"
+        },
+        "Resizer": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-09-09T04:57:41Z"
+        },
+        "Search": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-09T09:06:46Z"
+        },
+        "Select": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-09T09:06:46Z"
+        },
+        "SelectItem": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "SelectItemGroup": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "ShapeIndicator": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
+        "SidePanel": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-09T04:57:41Z"
+        },
+        "SkeletonIcon": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "SkeletonPlaceholder": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "SkeletonText": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "Slider": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 7,
+          "lastUpdate": "2026-11-05T03:33:26Z"
+        },
+        "Stack": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-09-04T14:45:11Z"
+        },
+        "StructuredList": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "hasChanges": true,
+          "changeCount": 4,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "TabContent": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Tabs": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": true,
+          "changeCount": 9,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "Tag": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": true,
+          "changeCount": 11,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "Text": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 1,
+          "lastUpdate": "2026-09-16T09:23:12Z"
+        },
+        "TextArea": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-12T16:34:08Z"
+        },
+        "TextInput": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "44f90d8d6b24889af06cee1422ceb37f58e40bed",
+          "hasChanges": true,
+          "changeCount": 9,
+          "lastUpdate": "2026-10-12T16:34:08Z"
+        },
+        "Theme": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-15T11:47:49Z"
+        },
+        "Tile": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 7,
+          "lastUpdate": "2026-09-30T10:20:35Z"
+        },
+        "TileGroup": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "TimePicker": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "TimePickerSelect": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "Toggle": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 2,
+          "lastUpdate": "2026-09-22T13:25:37Z"
+        },
+        "Toggletip": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
+        "Tooltip": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "a57cf8a896fe3fe09c5ab27648cd58947f37360a",
+          "hasChanges": true,
+          "changeCount": 8,
+          "lastUpdate": "2026-10-15T07:23:06Z"
+        },
+        "TreeView": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-10-20T09:37:51Z"
+        },
+        "UIShell": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "hasChanges": true,
+          "changeCount": 6,
+          "lastUpdate": "2026-11-04T14:03:14Z"
+        },
+        "UnorderedList": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "5102bd860864c2580048183ffaf50d1ffd4400b5",
+          "hasChanges": true,
+          "changeCount": 3,
+          "lastUpdate": "2026-10-09T09:06:46Z"
+        }
+      },
+      "stories": {
+        "matched": 312,
+        "total": 462,
+        "missing": {
+          "Components/Accordion": [
+            "Controlled"
+          ],
+          "Components/Button": [
+            "Icon Button With Badge",
+            "Radius"
+          ],
+          "Components/Checkbox": [
+            "Default",
+            "Horizontal"
+          ],
+          "Components/ClassPrefix": [
+            "Default"
+          ],
+          "Components/ComboButton": [
+            "Default",
+            "Experimental Auto Align",
+            "With Danger",
+            "With Icons"
+          ],
+          "Components/ComposedModal": [
+            "Default",
+            "Full Width",
+            "Passive Modal",
+            "With AI Label",
+            "With Inline Loading",
+            "With Scrolling Content",
+            "With State Manager"
+          ],
+          "Components/ContainedList": [
+            "Default",
+            "Usage Examples",
+            "Disclosed",
+            "With Actions",
+            "With Expandable Search",
+            "With Icons",
+            "With Interactive Items",
+            "With Interactive Items And Actions",
+            "With Layer",
+            "With List Title Decorators",
+            "With Persistent Search"
+          ],
+          "Components/ContentSwitcher": [
+            "Default",
+            "Icon Only",
+            "Icon Only With Layer",
+            "Low Contrast",
+            "Low Contrast Icon Only",
+            "With Layer"
+          ],
+          "Components/DataTable/Dynamic": [
+            "Default"
+          ],
+          "Components/DataTable/Expansion": [
+            "Batch Expansion",
+            "Batch Expansion Multiple Tables",
+            "Sticky Header"
+          ],
+          "Components/DataTable/Selection": [
+            "With Radio Selection",
+            "With Selection And Sorting"
+          ],
+          "Components/DataTable/Sorting": [
+            "Default"
+          ],
+          "Components/DataTable/Toolbar": [
+            "With Overflow Menu"
+          ],
+          "Components/DataTable/WithAILabel": [
+            "AI Label With Expansion",
+            "AI Label With Radio Selection",
+            "AI Label With Selection",
+            "AI Label With Selection And Expansion",
+            "Column AI Label Sort",
+            "Column AI Label With Selection And Expansion",
+            "Full Table AI"
+          ],
+          "Components/DefinitionTooltip": [
+            "Default",
+            "With Large Text"
+          ],
+          "Components/Dropdown": [
+            "Experimental Auto Align",
+            "Test Invalid Text No Overlap"
+          ],
+          "Components/ErrorBoundary": [
+            "Default",
+            "with custom context"
+          ],
+          "Components/Fluid Components/FluidComboBox": [
+            "Default",
+            "Condensed",
+            "Skeleton",
+            "With AI Label"
+          ],
+          "Components/Fluid Components/FluidDatePicker": [
+            "Range With Calendar",
+            "Simple",
+            "Single",
+            "Skeleton"
+          ],
+          "Components/Fluid Components/FluidDropdown": [
+            "Default",
+            "Condensed",
+            "Skeleton",
+            "With AI Label"
+          ],
+          "Components/Fluid Components/FluidForm": [
+            "Default"
+          ],
+          "Components/Fluid Components/FluidMultiSelect": [
+            "Default",
+            "Condensed",
+            "Filterable",
+            "Filterable With Layer",
+            "Skeleton",
+            "With AI Label"
+          ],
+          "Components/Fluid Components/FluidNumberInput": [
+            "Default",
+            "Skeleton"
+          ],
+          "Components/Fluid Components/FluidPasswordInput": [
+            "Default"
+          ],
+          "Components/Fluid Components/FluidSearch": [
+            "Default",
+            "Skeleton"
+          ],
+          "Components/Fluid Components/FluidSelect": [
+            "Default",
+            "Skeleton",
+            "With AI Label"
+          ],
+          "Components/Fluid Components/FluidTextArea": [
+            "Default",
+            "Default With Layers",
+            "Default With Toggletip",
+            "Skeleton"
+          ],
+          "Components/Fluid Components/FluidTimePicker": [
+            "Default",
+            "Skeleton"
+          ],
+          "Components/Form": [
+            "Default",
+            "With AI Label"
+          ],
+          "Components/Heading": [
+            "Default",
+            "Custom Level"
+          ],
+          "Components/IconButton": [
+            "Default",
+            "With Badge Indicator"
+          ],
+          "Components/IdPrefix": [
+            "Default"
+          ],
+          "Components/Layer": [
+            "Use Layer"
+          ],
+          "Components/NumberInput": [
+            "With Type Of Custom Validation",
+            "With Type Of Text",
+            "With Type Of Text Controlled"
+          ],
+          "Components/Pagination": [
+            "Unknown pages and items",
+            "Pagination with custom page sizes label",
+            "Tooltip Hover",
+            "Without page sizes and render page select"
+          ],
+          "Components/PaginationNav": [
+            "Default"
+          ],
+          "Components/Tabs": [
+            "Icon 20 Only",
+            "Icon Only",
+            "Vertical"
+          ],
+          "Components/Tag": [
+            "Dismissible",
+            "Operational",
+            "Selectable"
+          ],
+          "Components/TextInput": [
+            "Inline",
+            "Test Invalid Text No Overlap"
+          ],
+          "Components/Theme": [
+            "usePrefersDarkScheme"
+          ],
+          "Components/Tile": [
+            "Clickable With Custom Icon",
+            "With AI Label"
+          ],
+          "Components/Toggle": [
+            "With Accessible Labels"
+          ],
+          "Elements/IBM Plex": [
+            "IBM Plex Mono",
+            "IBM Plex Sans",
+            "IBM Plex Sans Arabic",
+            "IBM Plex Sans Devanagari",
+            "IBM Plex Sans Hebrew",
+            "IBM Plex Sans Thai",
+            "IBM Plex Sans Thai Looped",
+            "IBM Plex Serif"
+          ],
+          "Elements/Icons": [
+            "Default",
+            "With Relative Size"
+          ],
+          "Examples/EmptyState": [
+            "Empty State in a UI",
+            "Empty State unit with isometric illustration",
+            "Empty State unit with pictogram illustration"
+          ],
+          "Helpers/HideAtBreakpoint": [
+            "Hide At Breakpoint"
+          ],
+          "Preview/preview__Card": [
+            "With Densities"
+          ],
+          "Preview/preview__ChatButton": [
+            "Default",
+            "Skeleton"
+          ],
+          "Preview/preview__DatePicker": [
+            "Default",
+            "Range With Calendar",
+            "Range With Calendar With Layer",
+            "Simple",
+            "Simple With Layer",
+            "Single With Calendar",
+            "Single With Calendar With Layer",
+            "Skeleton",
+            "With AI Label"
+          ],
+          "Preview/preview__Dialog": [
+            "Danger Dialog",
+            "Modal",
+            "Non Modal",
+            "Passive Dialog",
+            "With Scrolling Content"
+          ],
+          "Preview/preview__OverflowMenuV2": [
+            "Overflow Menu V 2"
+          ],
+          "Preview/preview_Text": [
+            "Usage Examples"
+          ],
+          "Utilities/OverflowHandler": [
+            "Default"
+          ]
+        }
+      }
+    },
+    "carbon-ai-chat": {
+      "lastCheckedVersion": "1.24.0",
+      "lastCheckedCommitSHA": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+      "lastCheckedCommitDate": "2026-11-02T17:43:46Z",
+      "lastCheckDate": "2026-11-09T19:36:03.919Z",
+      "components": {
+        "upstream": [
+          "audio-player",
+          "card",
+          "carousel",
+          "chain-of-thought",
+          "chat-button",
+          "chat-history",
+          "chat-shell",
+          "code-snippet",
+          "conversational-search",
+          "feedback",
+          "file-uploads",
+          "launcher",
+          "markdown",
+          "message-item-shell",
+          "messages-shell",
+          "processing",
+          "prompt-line",
+          "reasoning-steps",
+          "table",
+          "toolbar",
+          "truncated-text",
+          "user-avatar",
+          "video-player",
+          "workspace-shell"
+        ],
+        "ember": [
+          "AudioPlayer",
+          "Card",
+          "CardFooter",
+          "CardSteps",
+          "Carousel",
+          "ChainOfThought",
+          "ChainOfThoughtToggle",
+          "ChatButton",
+          "ChatButtonSkeleton",
+          "ChatHistory",
+          "ChatHistoryContent",
+          "ChatHistoryDeletePanel",
+          "ChatHistoryHeader",
+          "ChatHistoryLoading",
+          "ChatHistoryPanel",
+          "ChatHistoryPanelItem",
+          "ChatHistoryPanelItemInput",
+          "ChatHistoryPanelItems",
+          "ChatHistoryPanelMenu",
+          "ChatHistorySearchItem",
+          "ChatHistoryToolbar",
+          "ChatShell",
+          "CodeSnippet",
+          "Feedback",
+          "FeedbackButtons",
+          "FileUploadItem",
+          "FileUploads",
+          "Launcher",
+          "Markdown",
+          "Processing",
+          "PromptLine",
+          "PromptLineAutocomplete",
+          "PromptLineShell",
+          "ReasoningSteps",
+          "ReasoningStepsToggle",
+          "SessionShell",
+          "Table",
+          "Toolbar",
+          "TruncatedText",
+          "VideoPlayer",
+          "WorkspaceShell",
+          "WorkspaceShellBody",
+          "WorkspaceShellFooter",
+          "WorkspaceShellHeader"
+        ],
+        "missing": [
+          "conversational-search",
+          "message-item-shell",
+          "messages-shell",
+          "user-avatar"
+        ],
+        "implemented": [
+          "audio-player",
+          "card",
+          "carousel",
+          "chain-of-thought",
+          "chat-button",
+          "chat-history",
+          "chat-shell",
+          "code-snippet",
+          "feedback",
+          "file-uploads",
+          "launcher",
+          "markdown",
+          "processing",
+          "prompt-line",
+          "reasoning-steps",
+          "table",
+          "toolbar",
+          "truncated-text",
+          "video-player",
+          "workspace-shell"
+        ],
+        "outdated": []
+      },
+      "componentMetadata": {
+        "audio-player": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "card": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "carousel": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "chain-of-thought": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "chat-button": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "chat-history": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "chat-shell": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "code-snippet": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "feedback": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "file-uploads": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "launcher": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "markdown": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "processing": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "prompt-line": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "reasoning-steps": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "table": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "toolbar": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "truncated-text": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "video-player": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": null
+        },
+        "workspace-shell": {
+          "lastCheckedCommit": "b4f66ffaa08df78f87511f5269e3aaa1b6a356aa",
+          "lastSyncedCommit": "N/A",
           "hasChanges": false,
           "changeCount": 0,
           "lastUpdate": null
