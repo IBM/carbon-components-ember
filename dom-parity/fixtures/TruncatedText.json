@@ -1,0 +1,164 @@
+{
+  "component": "TruncatedText",
+  "generatedAt": "2026-11-05T05:44:34.676Z",
+  "carbonReactVersion": "1.119.0",
+  "ibmProductsVersion": "2.101.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "value": "Virtual machine"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--truncated-text"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--TruncatedText"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "c4p--truncated-text__text-content"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {
+              "-webkit-line-clamp": "2"
+            },
+            "children": [
+              {
+                "type": "text",
+                "text": "Virtual machine"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lines": {
+      "props": {
+        "value": "Virtual machine",
+        "lines": 3
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--truncated-text"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--TruncatedText"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "c4p--truncated-text__text-content"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {
+              "-webkit-line-clamp": "3"
+            },
+            "children": [
+              {
+                "type": "text",
+                "text": "Virtual machine"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expand": {
+      "props": {
+        "value": "Virtual machine",
+        "type": "expand",
+        "expandLabel": "View more",
+        "collapseLabel": "View less"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--truncated-text"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--TruncatedText"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "c4p--truncated-text__text-content"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {
+              "-webkit-line-clamp": "2"
+            },
+            "children": [
+              {
+                "type": "text",
+                "text": "Virtual machine"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "id-and-class": {
+      "props": {
+        "value": "Virtual machine",
+        "id": "example-id",
+        "className": "custom-class"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "c4p--truncated-text",
+          "custom-class"
+        ],
+        "attributes": {
+          "data-carbon-devtools-id": "c4p--TruncatedText"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "c4p--truncated-text__text-content"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {
+              "-webkit-line-clamp": "2"
+            },
+            "children": [
+              {
+                "type": "text",
+                "text": "Virtual machine"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,18 +1,34 @@
 /* The shell's header and side nav are `position: fixed`; each story renders
    it inside a box whose `transform` makes it their containing block, so the
    shell stays inside the story instead of covering the page. */
-.fixtures-ui-shell-story__frame,
-.fixtures-ui-shell-story__small-frame {
+.fixtures-ui-shell-story__frame {
   position: relative;
   overflow: hidden;
   transform: translate(0);
+  height: 26rem;
   border: 1px solid var(--cds-border-subtle-01, #e0e0e0);
 }
 
-.fixtures-ui-shell-story__frame {
-  height: 26rem;
+.fixtures-ui-shell-story__content {
+  height: 100%;
 }
 
-.fixtures-ui-shell-story__small-frame {
-  height: 14rem;
+/* React's StoryContent leaves room for the side nav with the flexbox grid's
+   offset columns, which Carbon's stylesheet leaves out. */
+@media (width >= 66rem) {
+  .fixtures-ui-shell-story__content--offset {
+    padding-left: calc(16rem + 2rem);
+  }
+}
+
+.fixtures-ui-shell-story__heading {
+  margin: 30px 0;
+}
+
+.fixtures-ui-shell-story__heading:first-child {
+  margin-top: 0;
+}
+
+.fixtures-ui-shell-story__modal-text {
+  margin-bottom: 1rem;
 }

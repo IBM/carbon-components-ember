@@ -308,8 +308,7 @@ export default class Modal extends Component<ModalSignature> {
   }
 
   // As in Carbon React: the `@selectorPrimaryFocus` match, a danger modal's
-  // secondary button, or else the primary button (the close button when
-  // passive).
+  // secondary button, or else the close button.
   focusInitial = () => {
     const container = this.container;
     if (!this.dialog?.open || !container) return;
@@ -320,11 +319,7 @@ export default class Modal extends Component<ModalSignature> {
       (this.args.danger
         ? container.querySelector<HTMLElement>('.cds--btn--secondary')
         : null) ??
-      container.querySelector<HTMLElement>(
-        this.args.passiveModal
-          ? '.cds--modal-close'
-          : '.cds--modal-footer .cds--btn:last-child',
-      );
+      container.querySelector<HTMLElement>('.cds--modal-close');
     target?.focus();
   };
 

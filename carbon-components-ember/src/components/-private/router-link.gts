@@ -70,6 +70,64 @@ const stopIfPrevented = (event: MouseEvent) => {
   if (event.defaultPrevented) event.stopImmediatePropagation();
 };
 
+// The application's router, which takes full route names, also from an
+// engine, where `service:router` may not exist or may name its routes
+// relative to the engine.
+function rootRouter(owner: object): RouterService {
+  let root = owner as EngineInstance;
+  for (let parent = getEngineParent(root); parent;) {
+    root = parent;
+    parent = getEngineParent(root);
+  }
+  return root.lookup('service:router');
+}
+
+// The full name of the route linked to: an engine's own routes sit under
+// its mount point, as LinkTo names them, and its external ones map to the
+// app's.
+function fullRouteName(owner: object, { route, externalRoute }: RouteArgs) {
+  const engine = owner as EngineOwner;
+  const { mountPoint, _getExternalRoute } = engine;
+  if (externalRoute) {
+    return mountPoint && _getExternalRoute
+      ? _getExternalRoute.call(engine, externalRoute)
+      : externalRoute;
+  }
+  if (!route || !mountPoint) return route;
+  return route === 'application' ? mountPoint : `${mountPoint}.${route}`;
+}
+
+function routeParams({ models = NO_MODELS, query }: RouteArgs): unknown[] {
+  return [...models, { queryParams: query ?? {} }];
+}
+
+// As LinkTo, a link whose models haven't loaded yet goes nowhere.
+function isLoading({ models = NO_MODELS }: RouteArgs) {
+  return models.some((model) => model == null);
+}
+
+/**
+ * Whether these arguments link to the current route, as `RouterLink` marks
+ * its link, for a component that marks something else with it.
+ */
+export function isCurrentRoute(
+  owner: object,
+  args: RouteArgs & { exact?: boolean },
+): boolean {
+  const name = fullRouteName(owner, args);
+  if (!name || isLoading(args)) return false;
+  const router = rootRouter(owner);
+  const { currentRouteName } = router;
+  if (
+    args.exact &&
+    currentRouteName !== name &&
+    currentRouteName !== `${name}.index`
+  ) {
+    return false;
+  }
+  return router.isActive(name, ...routeParams(args));
+}
+
 /**
  * The `<a>` of a link-like component: Ember's `LinkTo` given `@route`, which
  * navigates with the router and marks a link to the current route `active`;
@@ -78,45 +136,20 @@ const stopIfPrevented = (event: MouseEvent) => {
  * link with them instead.
  */
 export default class RouterLink extends Component<RouterLinkSignature> {
-  get engine(): EngineOwner {
-    return getOwner(this) as EngineOwner;
-  }
-
-  // The application's router, which takes full route names, also from an
-  // engine, where `service:router` may not exist or may name its routes
-  // relative to the engine.
   get router(): RouterService {
-    let owner = getOwner(this) as EngineInstance;
-    for (let parent = getEngineParent(owner); parent;) {
-      owner = parent;
-      parent = getEngineParent(owner);
-    }
-    return owner.lookup('service:router');
+    return rootRouter(getOwner(this)!);
   }
 
-  // The full name of the route linked to: an engine's own routes sit under
-  // its mount point, as LinkTo names them, and its external ones map to the
-  // app's.
   get routeName() {
-    const { route, externalRoute } = this.args;
-    const { mountPoint, _getExternalRoute } = this.engine;
-    if (externalRoute) {
-      return mountPoint && _getExternalRoute
-        ? _getExternalRoute.call(this.engine, externalRoute)
-        : externalRoute;
-    }
-    if (!route || !mountPoint) return route;
-    return route === 'application' ? mountPoint : `${mountPoint}.${route}`;
+    return fullRouteName(getOwner(this)!, this.args);
   }
 
   get routeParams(): unknown[] {
-    const { models = NO_MODELS, query } = this.args;
-    return [...models, { queryParams: query ?? {} }];
+    return routeParams(this.args);
   }
 
-  // As LinkTo, a link whose models haven't loaded yet goes nowhere.
   get isLoading() {
-    return (this.args.models ?? NO_MODELS).some((model) => model == null);
+    return isLoading(this.args);
   }
 
   get externalHref() {
@@ -128,17 +161,7 @@ export default class RouterLink extends Component<RouterLinkSignature> {
   }
 
   get isCurrent() {
-    const name = this.routeName;
-    if (!name || this.isLoading) return false;
-    const { currentRouteName } = this.router;
-    if (
-      this.args.exact &&
-      currentRouteName !== name &&
-      currentRouteName !== `${name}.index`
-    ) {
-      return false;
-    }
-    return this.router.isActive(name, ...this.routeParams);
+    return isCurrentRoute(getOwner(this)!, this.args);
   }
 
   get isActive() {

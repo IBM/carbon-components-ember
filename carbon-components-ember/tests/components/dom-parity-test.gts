@@ -7,6 +7,7 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
+import DefinitionTooltip from '#src/components/definition-tooltip.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import CodeSnippet from '#src/components/code-snippet.gts';
 import Copy from '#src/components/copy.gts';
@@ -41,6 +42,8 @@ import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
+import Pagination from '#src/components/pagination.gts';
+import type { PaginationSignature } from '#src/components/pagination.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
@@ -71,7 +74,17 @@ import IconIndicator from '#src/components/icon-indicator.gts';
 import ShapeIndicator from '#src/components/shape-indicator.gts';
 import Slider from '#src/components/slider.gts';
 import Accordion from '#src/components/accordion.gts';
-import StructuredList from '#src/components/structured-list.gts';
+import StructuredListBody from '#src/components/structured-list/structured-list-body.gts';
+import StructuredListCell from '#src/components/structured-list/structured-list-cell.gts';
+import StructuredListHead from '#src/components/structured-list/structured-list-head.gts';
+import StructuredListWrapper from '#src/components/structured-list/structured-list-wrapper.gts';
+import Table from '#src/components/table/table.gts';
+import TableBody from '#src/components/table/table-body.gts';
+import TableCell from '#src/components/table/table-cell.gts';
+import TableContainer from '#src/components/table/table-container.gts';
+import TableHead from '#src/components/table/table-head.gts';
+import TableHeader from '#src/components/table/table-header.gts';
+import TableRow from '#src/components/table/table-row.gts';
 import Tabs from '#src/components/tabs.gts';
 import TabContent from '#src/components/tab-content.gts';
 import { normalizeElement } from '../../../dom-parity/lib/normalize-dom.mjs';
@@ -83,6 +96,7 @@ import {
 import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
+import definitionTooltipFixture from '../../../dom-parity/fixtures/DefinitionTooltip.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
@@ -120,6 +134,7 @@ import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
 import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
+import paginationFixture from '../../../dom-parity/fixtures/Pagination.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
 import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
@@ -149,11 +164,18 @@ import shapeIndicatorFixture from '../../../dom-parity/fixtures/ShapeIndicator.j
 import sliderFixture from '../../../dom-parity/fixtures/Slider.json';
 import accordionFixture from '../../../dom-parity/fixtures/Accordion.json';
 import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.json';
+import tableFixture from '../../../dom-parity/fixtures/Table.json';
+import tableCellFixture from '../../../dom-parity/fixtures/TableCell.json';
+import tableContainerFixture from '../../../dom-parity/fixtures/TableContainer.json';
+import tableHeaderFixture from '../../../dom-parity/fixtures/TableHeader.json';
+import tableRowFixture from '../../../dom-parity/fixtures/TableRow.json';
 import tabsFixture from '../../../dom-parity/fixtures/Tabs.json';
 import tabContentFixture from '../../../dom-parity/fixtures/TabContent.json';
 import EmptyState from '#src/components/ibm-products/empty-state.gts';
 import FullPageError from '#src/components/ibm-products/full-page-error.gts';
 import PageHeader from '#src/components/ibm-products/page-header.gts';
+import TruncatedText from '#src/components/ibm-products/truncated-text.gts';
+import truncatedTextFixture from '../../../dom-parity/fixtures/TruncatedText.json';
 import BreadcrumbItem from '#src/components/breadcrumb/breadcrumb-item.gts';
 import pageHeaderFixture from '../../../dom-parity/fixtures/PageHeader.json';
 import ErrorEmptyState from '#src/components/ibm-products/error-empty-state.gts';
@@ -707,6 +729,121 @@ module('DOM parity | Carbon React', function (hooks) {
         'disabled',
         'size-sm',
         'size-lg',
+      ]);
+    });
+  });
+
+  module('DefinitionTooltip', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('default-open', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @defaultOpen={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default-open',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('align-top', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @align="top"
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'align-top',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('auto-align', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @autoAlign={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'auto-align',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('class-names', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @className="custom-popover"
+            @definition="Uniform Resource Locator"
+            @triggerClassName="custom-trigger"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'class-names',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('id', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+            @id="url-definition"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'id',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, definitionTooltipFixture, [
+        'default',
+        'default-open',
+        'align-top',
+        'auto-align',
+        'class-names',
+        'id',
       ]);
     });
   });
@@ -3318,6 +3455,87 @@ module('DOM parity | Carbon React', function (hooks) {
     });
   });
 
+  module('Pagination', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with.
+    const sizes = [10, 20, 30];
+    const variants: Record<string, PaginationSignature['Args']> = {
+      default: { totalItems: 103, pageSizes: sizes },
+      'no-page-sizes': { totalItems: 103 },
+      'page-2': { totalItems: 103, pageSizes: sizes, page: 2 },
+      'last-page': { totalItems: 103, pageSizes: sizes, page: 11 },
+      'page-size-20': { totalItems: 103, pageSizes: sizes, pageSize: 20 },
+      'custom-page-sizes': {
+        totalItems: 103,
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      },
+      'pages-unknown': { pageSizes: sizes, pagesUnknown: true, page: 2 },
+      'is-last-page': {
+        pageSizes: sizes,
+        pagesUnknown: true,
+        isLastPage: true,
+      },
+      'no-items': { totalItems: 0 },
+      disabled: { totalItems: 103, pageSizes: sizes, disabled: true },
+      'page-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageInputDisabled: true,
+      },
+      'page-size-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageSizeInputDisabled: true,
+      },
+      'size-sm': { totalItems: 103, pageSizes: sizes, size: 'sm' },
+      'size-lg': { totalItems: 103, pageSizes: sizes, size: 'lg' },
+      'custom-texts': {
+        totalItems: 103,
+        pageSizes: sizes,
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Pagination
+              @id="pagination-1"
+              @totalItems={{props.totalItems}}
+              @pageSizes={{props.pageSizes}}
+              @page={{props.page}}
+              @pageSize={{props.pageSize}}
+              @pagesUnknown={{props.pagesUnknown}}
+              @isLastPage={{props.isLastPage}}
+              @disabled={{props.disabled}}
+              @pageInputDisabled={{props.pageInputDisabled}}
+              @pageSizeInputDisabled={{props.pageSizeInputDisabled}}
+              @size={{props.size}}
+              @backwardText={{props.backwardText}}
+              @forwardText={{props.forwardText}}
+              @itemsPerPageText={{props.itemsPerPageText}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          paginationFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, paginationFixture, Object.keys(variants));
+    });
+  });
+
   module('Modal', function () {
     // The props dom-parity/lib/components.mjs renders each variant with.
     const variants: Record<string, ModalSignature['Args']> = {
@@ -5865,24 +6083,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5896,24 +6114,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('condensed', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @isCondensed={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper @isCondensed={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5927,24 +6145,24 @@ module('DOM parity | Carbon React', function (hooks) {
     test('flush', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @isFlush={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1">
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2">
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+          <StructuredListWrapper @isFlush={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow @id="row-1">
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow @id="row-2">
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5958,34 +6176,42 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selection', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList @selection={{true}} as |SL|>
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1" as |Input|>
-                <Input
-                  @id="row-1-input"
-                  @name="structured-list-input"
-                  @title="Row 1"
+          <StructuredListWrapper @selection={{true}} as |StructuredListRow|>
+            <StructuredListHead>
+              <StructuredListRow @head={{true}} @selection={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow
+                @id="row-1"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-1-input"
+                  name="structured-list-input"
+                  title="Row 1"
                 />
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2" as |Input|>
-                <Input
-                  @id="row-2-input"
-                  @name="structured-list-input"
-                  @title="Row 2"
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow
+                @id="row-2"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-2-input"
+                  name="structured-list-input"
+                  title="Row 2"
                 />
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -5999,38 +6225,46 @@ module('DOM parity | Carbon React', function (hooks) {
     test('selection-initial-row', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <StructuredList
+          <StructuredListWrapper
             @selection={{true}}
             @selectedInitialRow="row-2"
-            as |SL|
+            as |StructuredListRow|
           >
-            <SL.Head>
-              <SL.Row @head={{true}}>
-                <SL.Cell @head={{true}}>Column A</SL.Cell>
-                <SL.Cell @head={{true}}>Column B</SL.Cell>
-              </SL.Row>
-            </SL.Head>
-            <SL.Body>
-              <SL.Row @id="row-1" as |Input|>
-                <Input
-                  @id="row-1-input"
-                  @name="structured-list-input"
-                  @title="Row 1"
+            <StructuredListHead>
+              <StructuredListRow @head={{true}} @selection={{true}}>
+                <StructuredListCell @head={{true}}>Column A</StructuredListCell>
+                <StructuredListCell @head={{true}}>Column B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListHead>
+            <StructuredListBody>
+              <StructuredListRow
+                @id="row-1"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-1-input"
+                  name="structured-list-input"
+                  title="Row 1"
                 />
-                <SL.Cell @noWrap={{true}}>Row 1 A</SL.Cell>
-                <SL.Cell>Row 1 B</SL.Cell>
-              </SL.Row>
-              <SL.Row @id="row-2" as |Input|>
-                <Input
-                  @id="row-2-input"
-                  @name="structured-list-input"
-                  @title="Row 2"
+                <StructuredListCell @noWrap={{true}}>Row 1 A</StructuredListCell>
+                <StructuredListCell>Row 1 B</StructuredListCell>
+              </StructuredListRow>
+              <StructuredListRow
+                @id="row-2"
+                @selection={{true}}
+                as |StructuredListInput|
+              >
+                <StructuredListInput
+                  id="row-2-input"
+                  name="structured-list-input"
+                  title="Row 2"
                 />
-                <SL.Cell>Row 2 A</SL.Cell>
-                <SL.Cell>Row 2 B</SL.Cell>
-              </SL.Row>
-            </SL.Body>
-          </StructuredList>
+                <StructuredListCell>Row 2 A</StructuredListCell>
+                <StructuredListCell>Row 2 B</StructuredListCell>
+              </StructuredListRow>
+            </StructuredListBody>
+          </StructuredListWrapper>
         </template>,
       );
       assertDomParity(
@@ -6436,6 +6670,419 @@ module('DOM parity | Carbon React', function (hooks) {
       assertFullCoverage(assert, tabContentFixture, ['selected', 'hidden']);
     });
   });
+
+  // The hand-built table parts. Table and TableContainer compare the whole
+  // table; the others compare their own element in a table around it.
+  module('Table parts', function () {
+    const Rows = <template>
+      <TableHead>
+        <TableRow>
+          <TableHeader>Name</TableHeader>
+          <TableHeader>Role</TableHeader>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Ada</TableCell>
+          <TableCell>Engineer</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Grace</TableCell>
+          <TableCell>Admiral</TableCell>
+        </TableRow>
+      </TableBody>
+    </template>;
+
+    module('TableContainer', function () {
+      const cases: Array<
+        [
+          string,
+          {
+            title?: string;
+            description?: string;
+            stickyHeader?: boolean;
+            useStaticWidth?: boolean;
+            aiEnabled?: boolean;
+          },
+        ]
+      > = [
+        ['default', {}],
+        ['title', { title: 'Team' }],
+        ['description', { description: 'Who works here' }],
+        ['title-description', { title: 'Team', description: 'Who works here' }],
+        ['sticky-header', { title: 'Team', stickyHeader: true }],
+        ['static-width', { title: 'Team', useStaticWidth: true }],
+        ['ai-enabled', { title: 'Team', aiEnabled: true }],
+      ];
+
+      for (const [variant, args] of cases) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          const {
+            title,
+            description,
+            stickyHeader,
+            useStaticWidth,
+            aiEnabled,
+          } = args;
+          await render(
+            <template>
+              <TableContainer
+                @title={{title}}
+                @description={{description}}
+                @stickyHeader={{stickyHeader}}
+                @useStaticWidth={{useStaticWidth}}
+                @aiEnabled={{aiEnabled}}
+                as |Table|
+              >
+                <Table @stickyHeader={{stickyHeader}}>
+                  <Rows />
+                </Table>
+              </TableContainer>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableContainerFixture,
+            variant,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(
+          assert,
+          tableContainerFixture,
+          cases.map(([variant]) => variant),
+        );
+      });
+    });
+
+    module('Table', function () {
+      const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'default',
+          this.element.firstElementChild,
+        );
+      });
+
+      for (const size of sizes) {
+        test(`size-${size}`, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <Table @size={{size}}><Rows /></Table>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableFixture,
+            `size-${size}`,
+            this.element.firstElementChild,
+          );
+        });
+      }
+
+      test('zebra', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @useZebraStyles={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'zebra',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('sortable', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @isSortable={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'sortable',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('static-width', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @useStaticWidth={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'static-width',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('sticky-header', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @stickyHeader={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'sticky-header',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('overflow-menu-visible', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @overflowMenuOnHover={{false}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'overflow-menu-visible',
+          this.element.firstElementChild,
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableFixture, [
+          'default',
+          ...sizes.map((size) => `size-${size}`),
+          'zebra',
+          'sortable',
+          'static-width',
+          'sticky-header',
+          'overflow-menu-visible',
+        ]);
+      });
+    });
+
+    module('TableHeader', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'default',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('scope-row', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @scope="row"
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'scope-row',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('col-span', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @colSpan={{2}}
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'col-span',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('sortable', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @isSortable={{true}}
+                  >Name</TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'sortable',
+          this.element.querySelector('th'),
+        );
+      });
+
+      const directions = [
+        ['sortable-none', 'NONE'],
+        ['sortable-ascending', 'ASC'],
+        ['sortable-descending', 'DESC'],
+      ] as const;
+
+      for (const [variant, sortDirection] of directions) {
+        test(variant, async function (this: RenderingTestContext, assert) {
+          await render(
+            <template>
+              <Table><TableHead><TableRow><TableHeader
+                      @isSortable={{true}}
+                      @isSortHeader={{true}}
+                      @sortDirection={{sortDirection}}
+                    >Name</TableHeader></TableRow></TableHead></Table>
+            </template>,
+          );
+          assertDomParity(
+            assert,
+            tableHeaderFixture,
+            variant,
+            this.element.querySelector('th'),
+          );
+        });
+      }
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableHeaderFixture, [
+          'default',
+          'scope-row',
+          'col-span',
+          'sortable',
+          'sortable-none',
+          'sortable-ascending',
+          'sortable-descending',
+        ]);
+      });
+    });
+
+    module('TableRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody><TableRow><TableCell>Ada</TableCell><TableCell
+                  >Engineer</TableCell></TableRow></TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableRowFixture,
+          'default',
+          this.element.querySelector('tbody > tr'),
+        );
+      });
+
+      test('selected', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody><TableRow @isSelected={{true}}>
+                  <TableCell>Ada</TableCell>
+                  <TableCell>Engineer</TableCell>
+                </TableRow></TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableRowFixture,
+          'selected',
+          this.element.querySelector('tbody > tr'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableRowFixture, ['default', 'selected']);
+      });
+    });
+
+    module('TableCell', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell>Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'default',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('col-span', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell colspan="2">Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'col-span',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('headers', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableBody>
+                <TableRow><TableCell headers="name">Ada</TableCell></TableRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableCellFixture,
+          'headers',
+          this.element.querySelector('td'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableCellFixture, [
+          'default',
+          'col-span',
+          'headers',
+        ]);
+      });
+    });
+  });
 });
 
 module('DOM parity | Carbon for IBM Products', function (hooks) {
@@ -6812,6 +7459,80 @@ module('DOM parity | Carbon for IBM Products', function (hooks) {
         'custom',
         '403',
         '404',
+      ]);
+    });
+  });
+
+  module('TruncatedText', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><TruncatedText @value="Virtual machine" /></template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('lines', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText @value="Virtual machine" @lines={{3}} />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'lines',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('expand', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText
+            @value="Virtual machine"
+            @type="expand"
+            @expandLabel="View more"
+            @collapseLabel="View less"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'expand',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('id-and-class', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <TruncatedText
+            @value="Virtual machine"
+            @id="example-id"
+            class="custom-class"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        truncatedTextFixture,
+        'id-and-class',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, truncatedTextFixture, [
+        'default',
+        'lines',
+        'expand',
+        'id-and-class',
       ]);
     });
   });

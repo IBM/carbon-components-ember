@@ -1,7 +1,9 @@
 // What arg-parity.mjs compares the `ibm-products` barrel with: everything
 // @carbon/ibm-products exports, with the PageHeader names from its
-// `preview__PageHeader`, as the stable PageHeader shares them.
+// `preview__PageHeader`, as the stable PageHeader shares them, and
+// `preview__TruncatedText` as `TruncatedText`.
 export * from '@carbon/ibm-products';
+export { preview__TruncatedText as TruncatedText } from '@carbon/ibm-products';
 export {
   PageHeader,
   PageHeaderBreadcrumbBar,

@@ -231,7 +231,7 @@ Template keywords such as `fn`, `on`, `eq`, and `element` resolve to a same-name
 
 ### ❌ Pitfall 2: Naming a File Differently from Its Export
 
-File names are kebab-case, and `pnpm generate` names each export of the `carbon-components-ember/components`, `/ai-chat`, `/charts` and `/ibm-products` barrels after its file: `text-input.gts` exports `TextInput`, and a top-level `ai-` or `ui-` file spells the acronym (`AILabel`, `UIShell`). It fails when two files would export the same name from one barrel. So name a file after its export in full: `toggletip/toggletip-button.gts`, not `toggletip/button.gts`. Two files sharing a basename (`tile/group.gts` and `radio-button/group.gts`) once made the production rollup build mis-name exports.
+File names are kebab-case, and `pnpm generate` names each export of the `carbon-components-ember/components`, `/ai-chat`, `/charts` and `/ibm-products` barrels after its file: `text-input.gts` exports `TextInput`, and a top-level `ai-` or `ui-` file spells the acronym (`AILabel`). It fails when two files would export the same name from one barrel. So name a file after its export in full: `toggletip/toggletip-button.gts`, not `toggletip/button.gts`. Two files sharing a basename (`tile/group.gts` and `radio-button/group.gts`) once made the production rollup build mis-name exports.
 
 ### ❌ Pitfall 3: MutationObservers to inspect Child DOM Nodes
 
@@ -247,7 +247,7 @@ Nothing registers icons with `IconMap` in app code, so string-based icon lookups
 
 ### ❌ Pitfall 6: An Attribute the Element Doesn't Define
 
-Glint types each element's attributes, so one HTML doesn't define for that element fails type-checking, even where Carbon's CSS selects it (`disabled` on a list box `<li>`). Set it from a modifier with `element.toggleAttribute()`, as `-private/list-box/list-box-menu-item.gts` does.
+Glint types each element's attributes, so one HTML doesn't define for that element fails type-checking, even where Carbon's CSS selects it (`disabled` on a list box `<li>`). Set it from a modifier with `element.toggleAttribute()`, as `-private/list-box/list-box-menu-item.gts` does. A caller's attributes on a component are checked against its `Element` the same way, so a component that renders `@as` types it as the elements it usually renders (`HTMLAnchorElement | HTMLButtonElement`) and casts its tag to match, as `-private/button-base.gts` does: `HTMLElement` rejects `type="button"`.
 
 ### ❌ Pitfall 7: Binding `value` on a `<select>`
 

@@ -7,7 +7,8 @@ import DataTable from '../../src/components/data-table.gts';
 import MultiSelect from '../../src/components/multi-select.gts';
 import TextArea from '../../src/components/text-area.gts';
 import TextInput from '../../src/components/text-input.gts';
-import UIShell from '../../src/components/ui-shell.gts';
+import Header from '../../src/components/ui-shell/header.gts';
+import HeaderName from '../../src/components/ui-shell/header-name.gts';
 import Copy from '../../src/components/icons/copy.ts';
 import Settings from '../../src/components/icons/settings.ts';
 import TrashCan from '../../src/components/icons/trash-can.ts';
@@ -159,12 +160,9 @@ export const Step: TOC<{
 // `position: fixed`, so it stays inside the story.
 export const withPageFrame: Decorator = (Story, context) => <template>
   <div class="side-panel-story__viewport">
-    <UIShell>
-      <:shell as |s|>
-        <s.Header @href="#" @title="IBM" @subtitle="Cloud Pak" />
-      </:shell>
-      <:content></:content>
-    </UIShell>
+    <Header aria-label="IBM Cloud Pak">
+      <HeaderName @href="#">Cloud Pak</HeaderName>
+    </Header>
     <div class="side-panel-story__story-content">
       <RenderStory @story={{Story}} @args={{context.args}} />
     </div>

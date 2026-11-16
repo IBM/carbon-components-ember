@@ -16,7 +16,7 @@ const meta = preview
       docs: {
         description: {
           component:
-            'A loading placeholder for a `StructuredList` with a header row and `@rowCount` rows.',
+            'A loading placeholder for a `StructuredListWrapper`, with a header row and `@rowCount` rows.',
         },
       },
     },

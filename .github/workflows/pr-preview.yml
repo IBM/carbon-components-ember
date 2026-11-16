@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-26.04
     permissions:
       contents: write
-      pull-requests: write
       actions: write # starts the Pages deploy
+      deployments: write # shows the preview on the pull request
     steps:
       - uses: actions/checkout@v7
 
@@ -75,41 +75,25 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
-      - name: Post or update preview comment
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const marker = '<!-- pr-docs-preview -->';
-            const body = `${marker}
-            ## 📖 Docs Preview
-
-            📚 **Storybook:** https://ibm.github.io/carbon-components-ember/pr-previews/pr-${{ github.event.pull_request.number }}/
-
-            _Built from commit ${{ github.event.pull_request.head.sha }}_`;
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: ${{ github.event.pull_request.number }},
-            });
-
-            const existing = comments.find(c => c.body && c.body.includes(marker));
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: ${{ github.event.pull_request.number }},
-                body,
-              });
-            }
+      # Shows the preview in the pull request's deployments, in place of its
+      # earlier ones. Transient, so one pull request's preview doesn't retire
+      # another's, and keyed by the pull request, which outlasts a branch name.
+      - name: Record the deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ github.head_ref }}
+          TASK: pr-preview-${{ github.event.pull_request.number }}
+          URL: https://ibm.github.io/carbon-components-ember/pr-previews/pr-${{ github.event.pull_request.number }}/
+          LOG: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          ids=$(gh api --method GET "repos/$GITHUB_REPOSITORY/deployments" -f environment=pr-preview -f task="$TASK" --paginate --jq '.[].id')
+          for id in $ids; do
+            gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" -f state=inactive > /dev/null
+          done
+          id=$(jq -n --arg ref "$REF" --arg task "$TASK" '{ref: $ref, task: $task, environment: "pr-preview", description: "Storybook preview", auto_merge: false, required_contexts: [], transient_environment: true}' \
+            | gh api "repos/$GITHUB_REPOSITORY/deployments" --input - --jq .id)
+          jq -n --arg url "$URL" --arg log "$LOG" '{state: "success", environment_url: $url, log_url: $log, auto_inactive: false}' \
+            | gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" --input - > /dev/null
 
   cleanup-preview:
     name: Cleanup Preview
@@ -122,8 +106,8 @@ jobs:
     runs-on: ubuntu-26.04
     permissions:
       contents: write
-      pull-requests: write
       actions: write # starts the Pages deploy
+      deployments: write # retires the preview's deployment
     steps:
       - name: Checkout gh-pages branch
         uses: actions/checkout@v7
@@ -170,32 +154,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
 
-      - name: Update preview comment
-        uses: actions/github-script@v9
-        with:
-          script: |
-            const marker = '<!-- pr-docs-preview -->';
-            const body = `${marker}
-            ## 📖 Docs Preview
-
-            ~~Preview has been removed~~ (PR closed or \`preview\` label removed).`;
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: ${{ github.event.pull_request.number }},
-            });
-
-            const existing = comments.find(c => c.body && c.body.includes(marker));
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            }
+      - name: Retire the deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TASK: pr-preview-${{ github.event.pull_request.number }}
+        run: |
+          ids=$(gh api --method GET "repos/$GITHUB_REPOSITORY/deployments" -f environment=pr-preview -f task="$TASK" --paginate --jq '.[].id')
+          for id in $ids; do
+            gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" -f state=inactive > /dev/null
+          done
 
       # The Docs job's screenshots of the stories that differ, which don't
       # depend on the `preview` label: only when the PR closes.

@@ -104,6 +104,10 @@ patchedDependencies:
   #   (ember-integrations/ember-storybook#88)
   # - a components manifest for Storybook's MCP addon
   #   (ember-integrations/ember-storybook#89)
+  # - the params of a block typed by reference, as one forwarding another
+  #   component's block is (ember-integrations/ember-storybook#117)
+  # - block descriptions and yielded components' names in the docs page's
+  #   Blocks table (ember-integrations/ember-storybook#118)
   # Drop once all are released.
   ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch
   # Vite's dependency optimizer hashes every discovered dependency again each
