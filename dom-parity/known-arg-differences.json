@@ -281,12 +281,6 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "Tab": {
-    "missing": [
-      "as",
-      "renderButton"
-    ]
-  },
   "Table": {
     "missing": [
       "experimentalAutoAlign"

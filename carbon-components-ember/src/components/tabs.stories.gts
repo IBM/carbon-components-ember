@@ -23,8 +23,7 @@ import '#storybook/styles/tabs.css';
 // - `IconOnly` / `Icon20Only` (+ their visual snapshots): no IconTab and no
 //   TabList `iconSize` (#1279).
 // - `Vertical`: no TabsVertical / TabListVertical (#1280).
-// - No Tab `as` / `renderButton` (#1281), and no TabList
-//   `left/rightOverflowButtonProps`.
+// - No TabList `left/rightOverflowButtonProps`.
 // - In right-to-left, ArrowLeft moves to the next tab (React keeps
 //   ArrowRight), as the ARIA tabs pattern recommends.
 // - No story for React's `scrollDebounceWait` / `scrollIntoView` controls
@@ -67,7 +66,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "`Tabs` holds the selection and yields `TabList` and `TabPanels`, as Carbon React's composed API. `TabList` yields a `Tab` for each tab, `TabPanels` a `TabPanel` for each panel, and the nth tab controls the nth panel. The selection is uncontrolled (`@defaultSelectedIndex`) or controlled with `@selectedIndex` and `@onChange`.",
+          "`Tabs` holds the selection and yields `TabList` and `TabPanels`, as Carbon React's composed API. `TabList` yields a `Tab` for each tab, `TabPanels` a `TabPanel` for each panel, and the nth tab controls the nth panel. The selection is uncontrolled (`@defaultSelectedIndex`) or controlled with `@selectedIndex` and `@onChange`. A `Tab` with `@href`, or `@route` (plus `@models` and `@query`), is a link, as Carbon React's `as` given a router `Link`: clicking it selects the tab and follows the link.",
       },
     },
   },
@@ -497,6 +496,31 @@ Controlled.test(
     await expect(canvas.getByRole('tabpanel')).toHaveTextContent('selected: 2');
   },
 );
+
+export const WithLinks = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Ember-only: `@href` makes each tab a link. In an app, `@route` links a tab to one of the app's routes through the router.",
+      },
+    },
+  },
+  render: () => <template>
+    <Tabs as |TabList TabPanels|>
+      <TabList aria-label="List of tabs" as |Tab|>
+        <Tab @href="#overview">Overview</Tab>
+        <Tab @href="#activity">Activity</Tab>
+        <Tab @href="#settings">Settings</Tab>
+      </TabList>
+      <TabPanels as |TabPanel|>
+        <TabPanel>Overview</TabPanel>
+        <TabPanel>Activity</TabPanel>
+        <TabPanel>Settings</TabPanel>
+      </TabPanels>
+    </Tabs>
+  </template>,
+});
 
 // `TabContent` is a standalone panel for when tab selection is managed
 // outside of `Tabs`, such as a custom tab list.
