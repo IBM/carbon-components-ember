@@ -4,14 +4,13 @@ import { withLayer } from '#storybook/decorators.gts';
 import preview from '#storybook/preview.ts';
 import Accordion from './accordion.gts';
 import AccordionSkeleton from './accordion-skeleton.gts';
+import Tag from './tag.gts';
 import '#storybook/styles/accordion.css';
 
 // Carbon React parity gaps (Components/Accordion):
 // - `Controlled`: AccordionItem has no `onHeadingClick` callback, so the
 //   open state can't be driven from outside per item.
-// - Accordion has no `size`, `isFlush` or `ordered` args; AccordionItem's
-//   `title` is a string only (React accepts a node) and its `isDisabled`
-//   arg is accepted but not rendered.
+// - Accordion has no `isFlush` or `ordered` args.
 // - Only one item can be open at a time (React lets every item toggle on
 //   its own), unless `@open` opens all of them.
 const meta = preview.meta({
@@ -21,7 +20,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'An accordion component is an element that organizes content into collapsible sections, enabling users to expand or collapse them for efficient information presentation and navigation.\n\nThe yielded `Item` is already bound to its accordion: pass each one a `@title` and its content as the block.',
+          'An accordion component is an element that organizes content into collapsible sections, enabling users to expand or collapse them for efficient information presentation and navigation.\n\nThe yielded `Item` is already bound to its accordion: pass each one a `@title` and its content as the block. A title with markup goes in its `<:title>` block, with the content in `<:default>`.',
       },
     },
   },
@@ -128,6 +127,49 @@ Disabled.test('disables every heading', async ({ canvas }) => {
     await expect(heading).toHaveAttribute('aria-expanded', 'false');
   }
 });
+
+// Ember-only: Carbon React's `title` takes a node, which here is the
+// `<:title>` block.
+export const TitleWithMarkup = meta.story({
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A title with markup, such as a tag beside its text, goes in the `<:title>` block, and the content in `<:default>`.',
+      },
+    },
+  },
+  render: (args) => <template>
+    <Accordion
+      @align={{args.align}}
+      @disabled={{args.disabled}}
+      @open={{args.open}}
+      as |Item|
+    >
+      <Item>
+        <:title>Production <Tag @size="sm" @type="green">Live</Tag></:title>
+        <:default>
+          <p>Serves every request from the main region.</p>
+        </:default>
+      </Item>
+      <Item>
+        <:title>Staging <Tag @size="sm" @type="gray">Paused</Tag></:title>
+        <:default>
+          <p>Takes no traffic until it is resumed.</p>
+        </:default>
+      </Item>
+    </Accordion>
+  </template>,
+});
+
+TitleWithMarkup.test(
+  'names each heading by its title block',
+  async ({ canvas }) => {
+    await expect(
+      canvas.getByRole('button', { name: 'Production Live' }),
+    ).toBeInTheDocument();
+  },
+);
 
 export const WithLayer = Default.extend({ decorators: [withLayer] });
 

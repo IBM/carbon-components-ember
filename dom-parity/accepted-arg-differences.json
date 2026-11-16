@@ -141,6 +141,19 @@
       "rightOverflowButtonProps": "Attributes for the scroll buttons: Glimmer can't spread an object of attributes onto an element, and `...attributes` goes to the tablist, where React spreads its rest props."
     }
   },
+  "TableCell": {
+    "missing": {
+      "colSpan": "A plain attribute, through `...attributes`, as on a native `<td>`.",
+      "headers": "A plain attribute, through `...attributes`, as on a native `<td>`."
+    }
+  },
+  "TableRow": {
+    "missing": {
+      "expandHeader": "React's TableRow strips it and doesn't use it; it belongs to the expandable row.",
+      "isExpanded": "React's TableRow strips it and doesn't use it; it belongs to the expandable row.",
+      "onExpand": "React's TableRow strips it and doesn't use it; it belongs to the expandable row."
+    }
+  },
   "Tag": {
     "extra": {
       "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",

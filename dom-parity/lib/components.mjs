@@ -420,8 +420,8 @@
  *    root drops the non-upstream `cds--form-item--invalid` class, and the
  *    thumb icons gained upstream's invisible hit-box path; and both
  *    IconIndicator's and ShapeIndicator's `compact` mode now render
- *    through a private port of `DefinitionTooltip`
- *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    through `DefinitionTooltip`
+ *    (`components/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
@@ -607,6 +607,17 @@ const tag = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Tag, props, 'Tag content'),
+});
+
+const definitionTooltip = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.DefinitionTooltip,
+      { definition: 'Uniform Resource Locator', ...props },
+      'URL',
+    ),
 });
 
 // DismissibleTag, OperationalTag and SelectableTag take their text as `text`.
@@ -982,6 +993,17 @@ const select = (name, props) => ({
         text: 'Option 2',
       }),
     ),
+});
+
+const pagination = (name, props) => ({
+  name,
+  props: { id: 'pagination-1', totalItems: 103, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Pagination, {
+      id: 'pagination-1',
+      totalItems: 103,
+      ...props,
+    }),
 });
 
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
@@ -1432,6 +1454,102 @@ const structuredList = (name, props) => ({
   },
 });
 
+// Hand-built tables. `table(...)` renders the parts in a small table; the
+// header, row and cell variants render one table around the part under
+// test, and the fixture's root is that part's own element (or the table's
+// wrapper for `Table`).
+const tableBody = (React, Carbon, rowProps = {}, cellProps = {}) => [
+  React.createElement(
+    Carbon.TableHead,
+    { key: 'head' },
+    React.createElement(
+      Carbon.TableRow,
+      null,
+      React.createElement(Carbon.TableHeader, null, 'Name'),
+      React.createElement(Carbon.TableHeader, null, 'Role'),
+    ),
+  ),
+  React.createElement(
+    Carbon.TableBody,
+    { key: 'body' },
+    React.createElement(
+      Carbon.TableRow,
+      rowProps,
+      React.createElement(Carbon.TableCell, cellProps, 'Ada'),
+      React.createElement(Carbon.TableCell, null, 'Engineer'),
+    ),
+    React.createElement(
+      Carbon.TableRow,
+      null,
+      React.createElement(Carbon.TableCell, null, 'Grace'),
+      React.createElement(Carbon.TableCell, null, 'Admiral'),
+    ),
+  ),
+];
+
+const table = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Table, props, ...tableBody(React, Carbon)),
+});
+
+const tableContainer = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableContainer,
+      props,
+      React.createElement(
+        Carbon.Table,
+        props.stickyHeader ? { stickyHeader: true } : null,
+        ...tableBody(React, Carbon),
+      ),
+    ),
+});
+
+// A header's own element: the `<th>` in a table around it.
+const tableHeader = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableHeader, props, 'Name'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('th'),
+});
+
+const tableRow = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Table, null, ...tableBody(React, Carbon, props)),
+  pickRoot: (container) => container.querySelector('tbody > tr'),
+});
+
+const tableCell = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      ...tableBody(React, Carbon, {}, props),
+    ),
+  pickRoot: (container) => container.querySelector('tbody td'),
+});
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -1632,6 +1750,20 @@ export const COMPONENTS = [
       selectableTag('disabled', { disabled: true }),
       selectableTag('size-sm', { size: 'sm' }),
       selectableTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'DefinitionTooltip',
+    variants: [
+      definitionTooltip('default', {}),
+      definitionTooltip('default-open', { defaultOpen: true }),
+      definitionTooltip('align-top', { align: 'top' }),
+      definitionTooltip('auto-align', { autoAlign: true }),
+      definitionTooltip('class-names', {
+        className: 'custom-popover',
+        triggerClassName: 'custom-trigger',
+      }),
+      definitionTooltip('id', { id: 'url-definition' }),
     ],
   },
   {
@@ -2202,6 +2334,52 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'Pagination',
+    variants: [
+      pagination('default', { pageSizes: [10, 20, 30] }),
+      pagination('no-page-sizes', {}),
+      pagination('page-2', { pageSizes: [10, 20, 30], page: 2 }),
+      pagination('last-page', { pageSizes: [10, 20, 30], page: 11 }),
+      pagination('page-size-20', { pageSizes: [10, 20, 30], pageSize: 20 }),
+      pagination('custom-page-sizes', {
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      }),
+      pagination('pages-unknown', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        totalItems: undefined,
+        page: 2,
+      }),
+      pagination('is-last-page', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        isLastPage: true,
+        totalItems: undefined,
+      }),
+      pagination('no-items', { totalItems: 0 }),
+      pagination('disabled', { pageSizes: [10, 20, 30], disabled: true }),
+      pagination('page-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageInputDisabled: true,
+      }),
+      pagination('page-size-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageSizeInputDisabled: true,
+      }),
+      pagination('size-sm', { pageSizes: [10, 20, 30], size: 'sm' }),
+      pagination('size-lg', { pageSizes: [10, 20, 30], size: 'lg' }),
+      pagination('custom-texts', {
+        pageSizes: [10, 20, 30],
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      }),
+    ],
+  },
+  {
     name: 'Select',
     variants: [
       select('default', {}),
@@ -2659,6 +2837,76 @@ export const COMPONENTS = [
         selection: true,
         selectedInitialRow: 'row-2',
       }),
+    ],
+  },
+  {
+    name: 'TableContainer',
+    variants: [
+      tableContainer('default', {}),
+      tableContainer('title', { title: 'Team' }),
+      tableContainer('description', { description: 'Who works here' }),
+      tableContainer('title-description', {
+        title: 'Team',
+        description: 'Who works here',
+      }),
+      tableContainer('sticky-header', { title: 'Team', stickyHeader: true }),
+      tableContainer('static-width', { title: 'Team', useStaticWidth: true }),
+      tableContainer('ai-enabled', { title: 'Team', aiEnabled: true }),
+    ],
+  },
+  {
+    name: 'Table',
+    variants: [
+      table('default', {}),
+      table('size-xs', { size: 'xs' }),
+      table('size-sm', { size: 'sm' }),
+      table('size-md', { size: 'md' }),
+      table('size-lg', { size: 'lg' }),
+      table('size-xl', { size: 'xl' }),
+      table('zebra', { useZebraStyles: true }),
+      table('sortable', { isSortable: true }),
+      table('static-width', { useStaticWidth: true }),
+      table('sticky-header', { stickyHeader: true }),
+      table('overflow-menu-visible', { overflowMenuOnHover: false }),
+    ],
+  },
+  {
+    name: 'TableHeader',
+    variants: [
+      tableHeader('default', {}),
+      tableHeader('scope-row', { scope: 'row' }),
+      tableHeader('col-span', { colSpan: 2 }),
+      tableHeader('sortable', { isSortable: true }),
+      tableHeader('sortable-none', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'NONE',
+      }),
+      tableHeader('sortable-ascending', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'ASC',
+      }),
+      tableHeader('sortable-descending', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'DESC',
+      }),
+    ],
+  },
+  {
+    name: 'TableRow',
+    variants: [
+      tableRow('default', {}),
+      tableRow('selected', { isSelected: true }),
+    ],
+  },
+  {
+    name: 'TableCell',
+    variants: [
+      tableCell('default', {}),
+      tableCell('col-span', { colSpan: 2 }),
+      tableCell('headers', { headers: 'name' }),
     ],
   },
   {

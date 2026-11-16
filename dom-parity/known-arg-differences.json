@@ -212,30 +212,6 @@
       "tooltipLeaveDelayMs"
     ]
   },
-  "Pagination": {
-    "missing": [
-      "id",
-      "isLastPage",
-      "itemRangeText",
-      "itemText",
-      "itemsPerPageText",
-      "onChange",
-      "page",
-      "pageInputDisabled",
-      "pageNumberText",
-      "pageRangeText",
-      "pageSelectLabelText",
-      "pageSize",
-      "pageSizeInputDisabled",
-      "pageSizes",
-      "pageText",
-      "pagesUnknown",
-      "totalItems"
-    ],
-    "extra": [
-      "itemsPerPageOptions"
-    ]
-  },
   "PasswordInput": {
     "missing": [
       "enableCounter",
@@ -309,6 +285,16 @@
     "missing": [
       "as",
       "renderButton"
+    ]
+  },
+  "Table": {
+    "missing": [
+      "experimentalAutoAlign"
+    ]
+  },
+  "TableHeader": {
+    "missing": [
+      "decorator"
     ]
   },
   "TabList": {
