@@ -135,6 +135,18 @@
       "isFluid": "Stands in for Carbon React's FormContext, through which its FluidTextInput turns on the fluid style. Marked @internal."
     }
   },
+  "Tab": {
+    "missing": {
+      "renderButton": "Carbon React's Tab declares it but never calls it; @href and @route link a tab."
+    },
+    "extra": {
+      "href": "Carbon React's Tab takes `as` (a router Link, or `a` with `href`), which Ember can't take for a component; @href links the tab, as Button's does.",
+      "route": "Ember-only, for links within the app: Carbon React takes a router Link component as `as`, which Ember can't hand arbitrary arguments to; this renders Ember's LinkTo (#1040).",
+      "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
+      "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
+      "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
   "TabList": {
     "missing": {
       "leftOverflowButtonProps": "Attributes for the scroll buttons: Glimmer can't spread an object of attributes onto an element, and `...attributes` goes to the tablist, where React spreads its rest props.",
@@ -145,6 +157,16 @@
     "missing": {
       "colSpan": "A plain attribute, through `...attributes`, as on a native `<td>`.",
       "headers": "A plain attribute, through `...attributes`, as on a native `<td>`."
+    }
+  },
+  "TableExpandHeader": {
+    "extra": {
+      "ariaControls": "Carbon React's aria-controls labels the expand button; an aria-controls attribute would go to the <th>, with the other attributes."
+    }
+  },
+  "TableExpandRow": {
+    "extra": {
+      "ariaControls": "Carbon React's aria-controls labels the expand button; an aria-controls attribute would go to the <tr>, with the other attributes."
     }
   },
   "TableRow": {
@@ -306,6 +328,21 @@
       "externalRoute": "Ember-only, for links out of an ember-engines engine to its external routes, as LinkToExternal; outside an engine, a route of the app (#1040).",
       "models": "The models for @route's dynamic segments, as LinkTo's @models (#1040).",
       "query": "Query params for @route, as LinkTo's @query (#1040)."
+    }
+  },
+  "DismissibleTag": {
+    "missing": {
+      "as": "Holds its dismiss button, so it stays a `<div>`: React's `as`, which it passes on to Tag, would put the button inside a link or another element."
+    }
+  },
+  "OperationalTag": {
+    "missing": {
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its click."
+    }
+  },
+  "SelectableTag": {
+    "missing": {
+      "as": "Is its own `<button>`, so it takes no other element: React's `as`, which it passes on to Tag, would replace the button and its pressed state."
     }
   }
 }

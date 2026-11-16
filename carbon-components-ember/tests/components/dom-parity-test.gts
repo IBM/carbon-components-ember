@@ -7,6 +7,10 @@ import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-c
 import Button from '#src/components/button.gts';
 import Add from '#src/components/icons/add.ts';
 import Tag from '#src/components/tag.gts';
+import DismissibleTag from '#src/components/dismissible-tag.gts';
+import OperationalTag from '#src/components/operational-tag.gts';
+import SelectableTag from '#src/components/selectable-tag.gts';
+import DefinitionTooltip from '#src/components/definition-tooltip.gts';
 import InlineLoading from '#src/components/inline-loading.gts';
 import CodeSnippet from '#src/components/code-snippet.gts';
 import Copy from '#src/components/copy.gts';
@@ -42,6 +46,8 @@ import Toggle from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
+import Pagination from '#src/components/pagination.gts';
+import type { PaginationSignature } from '#src/components/pagination.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
@@ -80,6 +86,9 @@ import Table from '#src/components/table/table.gts';
 import TableBody from '#src/components/table/table-body.gts';
 import TableCell from '#src/components/table/table-cell.gts';
 import TableContainer from '#src/components/table/table-container.gts';
+import TableExpandHeader from '#src/components/table/table-expand-header.gts';
+import TableExpandRow from '#src/components/table/table-expand-row.gts';
+import TableExpandedRow from '#src/components/table/table-expanded-row.gts';
 import TableHead from '#src/components/table/table-head.gts';
 import TableHeader from '#src/components/table/table-header.gts';
 import TableRow from '#src/components/table/table-row.gts';
@@ -96,6 +105,10 @@ import {
 import knownDifferences from '../../../dom-parity/known-differences.json';
 import buttonFixture from '../../../dom-parity/fixtures/Button.json';
 import tagFixture from '../../../dom-parity/fixtures/Tag.json';
+import dismissibleTagFixture from '../../../dom-parity/fixtures/DismissibleTag.json';
+import operationalTagFixture from '../../../dom-parity/fixtures/OperationalTag.json';
+import selectableTagFixture from '../../../dom-parity/fixtures/SelectableTag.json';
+import definitionTooltipFixture from '../../../dom-parity/fixtures/DefinitionTooltip.json';
 import loadingFixture from '../../../dom-parity/fixtures/Loading.json';
 import inlineLoadingFixture from '../../../dom-parity/fixtures/InlineLoading.json';
 import codeSnippetFixture from '../../../dom-parity/fixtures/CodeSnippet.json';
@@ -134,6 +147,7 @@ import toggleFixture from '../../../dom-parity/fixtures/Toggle.json';
 import textInputFixture from '../../../dom-parity/fixtures/TextInput.json';
 import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
+import paginationFixture from '../../../dom-parity/fixtures/Pagination.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
 import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
@@ -166,6 +180,10 @@ import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.j
 import tableFixture from '../../../dom-parity/fixtures/Table.json';
 import tableCellFixture from '../../../dom-parity/fixtures/TableCell.json';
 import tableContainerFixture from '../../../dom-parity/fixtures/TableContainer.json';
+import tableDecoratorRowFixture from '../../../dom-parity/fixtures/TableDecoratorRow.json';
+import tableExpandHeaderFixture from '../../../dom-parity/fixtures/TableExpandHeader.json';
+import tableExpandRowFixture from '../../../dom-parity/fixtures/TableExpandRow.json';
+import tableExpandedRowFixture from '../../../dom-parity/fixtures/TableExpandedRow.json';
 import tableHeaderFixture from '../../../dom-parity/fixtures/TableHeader.json';
 import tableRowFixture from '../../../dom-parity/fixtures/TableRow.json';
 import tableSelectAllFixture from '../../../dom-parity/fixtures/TableSelectAll.json';
@@ -730,6 +748,360 @@ module('DOM parity | Carbon React', function (hooks) {
         'disabled',
         'size-sm',
         'size-lg',
+      ]);
+    });
+  });
+
+  module('DismissibleTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><DismissibleTag @text="Tag content" @type="red" /></template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag @disabled={{true}} @text="Tag content" @type="gray" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag @size="sm" @text="Tag content" @type="gray" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag
+            @renderIcon={{Add}}
+            @text="Tag content"
+            @type="blue"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('custom-title', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DismissibleTag
+            @tagTitle="Full tag title"
+            @text="Tag content"
+            @title="Remove filter"
+            @type="gray"
+          />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        dismissibleTagFixture,
+        'custom-title',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, dismissibleTagFixture, [
+        'default',
+        'disabled',
+        'size-sm',
+        'with-icon',
+        'custom-title',
+      ]);
+    });
+  });
+
+  module('OperationalTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><OperationalTag @text="Tag content" /></template>);
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('red', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><OperationalTag @text="Tag content" @type="red" /></template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'red',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OperationalTag @disabled={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><OperationalTag @size="sm" @text="Tag content" /></template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <OperationalTag @renderIcon={{Add}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        operationalTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, operationalTagFixture, [
+        'default',
+        'red',
+        'disabled',
+        'size-sm',
+        'with-icon',
+      ]);
+    });
+  });
+
+  module('SelectableTag', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(<template><SelectableTag @text="Tag content" /></template>);
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('selected', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @selected={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'selected',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('disabled', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @disabled={{true}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'disabled',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('size-sm', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template><SelectableTag @size="sm" @text="Tag content" /></template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'size-sm',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('with-icon', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <SelectableTag @renderIcon={{Add}} @text="Tag content" />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        selectableTagFixture,
+        'with-icon',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, selectableTagFixture, [
+        'default',
+        'selected',
+        'disabled',
+        'size-sm',
+        'with-icon',
+      ]);
+    });
+  });
+
+  module('DefinitionTooltip', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('default-open', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @defaultOpen={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'default-open',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('align-top', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @align="top"
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'align-top',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('auto-align', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @autoAlign={{true}}
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'auto-align',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('class-names', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @className="custom-popover"
+            @definition="Uniform Resource Locator"
+            @triggerClassName="custom-trigger"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'class-names',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('id', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+            @id="url-definition"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'id',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, definitionTooltipFixture, [
+        'default',
+        'default-open',
+        'align-top',
+        'auto-align',
+        'class-names',
+        'id',
       ]);
     });
   });
@@ -3444,6 +3816,87 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, selectFixture, Object.keys(variants));
+    });
+  });
+
+  module('Pagination', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with.
+    const sizes = [10, 20, 30];
+    const variants: Record<string, PaginationSignature['Args']> = {
+      default: { totalItems: 103, pageSizes: sizes },
+      'no-page-sizes': { totalItems: 103 },
+      'page-2': { totalItems: 103, pageSizes: sizes, page: 2 },
+      'last-page': { totalItems: 103, pageSizes: sizes, page: 11 },
+      'page-size-20': { totalItems: 103, pageSizes: sizes, pageSize: 20 },
+      'custom-page-sizes': {
+        totalItems: 103,
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      },
+      'pages-unknown': { pageSizes: sizes, pagesUnknown: true, page: 2 },
+      'is-last-page': {
+        pageSizes: sizes,
+        pagesUnknown: true,
+        isLastPage: true,
+      },
+      'no-items': { totalItems: 0 },
+      disabled: { totalItems: 103, pageSizes: sizes, disabled: true },
+      'page-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageInputDisabled: true,
+      },
+      'page-size-input-disabled': {
+        totalItems: 103,
+        pageSizes: sizes,
+        pageSizeInputDisabled: true,
+      },
+      'size-sm': { totalItems: 103, pageSizes: sizes, size: 'sm' },
+      'size-lg': { totalItems: 103, pageSizes: sizes, size: 'lg' },
+      'custom-texts': {
+        totalItems: 103,
+        pageSizes: sizes,
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Pagination
+              @id="pagination-1"
+              @totalItems={{props.totalItems}}
+              @pageSizes={{props.pageSizes}}
+              @page={{props.page}}
+              @pageSize={{props.pageSize}}
+              @pagesUnknown={{props.pagesUnknown}}
+              @isLastPage={{props.isLastPage}}
+              @disabled={{props.disabled}}
+              @pageInputDisabled={{props.pageInputDisabled}}
+              @pageSizeInputDisabled={{props.pageSizeInputDisabled}}
+              @size={{props.size}}
+              @backwardText={{props.backwardText}}
+              @forwardText={{props.forwardText}}
+              @itemsPerPageText={{props.itemsPerPageText}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          paginationFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, paginationFixture, Object.keys(variants));
     });
   });
 
@@ -6893,10 +7346,8 @@ module('DOM parity | Carbon React', function (hooks) {
         await render(
           <template>
             <Table>
-              <TableBody>
-                <TableRow><TableCell>Ada</TableCell><TableCell
-                  >Engineer</TableCell></TableRow>
-              </TableBody>
+              <TableBody><TableRow><TableCell>Ada</TableCell><TableCell
+                  >Engineer</TableCell></TableRow></TableBody>
             </Table>
           </template>,
         );
@@ -6912,12 +7363,10 @@ module('DOM parity | Carbon React', function (hooks) {
         await render(
           <template>
             <Table>
-              <TableBody>
-                <TableRow @isSelected={{true}}>
+              <TableBody><TableRow @isSelected={{true}}>
                   <TableCell>Ada</TableCell>
                   <TableCell>Engineer</TableCell>
-                </TableRow>
-              </TableBody>
+                </TableRow></TableBody>
             </Table>
           </template>,
         );
@@ -6995,6 +7444,382 @@ module('DOM parity | Carbon React', function (hooks) {
           'col-span',
           'headers',
         ]);
+      });
+    });
+
+    module('TableExpandHeader', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'default',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('enable-toggle', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader
+                    @enableToggle={{true}}
+                    @isExpanded={{false}}
+                    @onExpand={{noop}}
+                    @ariaLabel="Expand all rows"
+                    @ariaControls="details"
+                    @expandIconDescription="Expand"
+                  />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'enable-toggle',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('expanded', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader
+                    @enableToggle={{true}}
+                    @isExpanded={{true}}
+                    @onExpand={{noop}}
+                    @ariaLabel="Collapse all rows"
+                  />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'expanded',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('id', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader @id="toggle" />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandHeaderFixture,
+          'id',
+          this.element.querySelector('thead th.cds--table-expand'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandHeaderFixture, [
+          'default',
+          'enable-toggle',
+          'expanded',
+          'id',
+        ]);
+      });
+    });
+    module('TableExpandRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'default',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('expanded', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @isExpanded={{true}}
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'expanded',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('selected', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @isSelected={{true}}
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'selected',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('labelled', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @ariaLabel="Expand Ada"
+                  @ariaControls="details"
+                  @expandIconDescription="Expand"
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'labelled',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('expand-header', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow
+                  @onExpand={{noop}}
+                  @expandHeader="toggle"
+                ><TableCell>Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandRowFixture,
+          'expand-header',
+          this.element.querySelector('tbody tr[data-parent-row]'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandRowFixture, [
+          'default',
+          'expanded',
+          'selected',
+          'labelled',
+          'expand-header',
+        ]);
+      });
+    });
+    module('TableExpandedRow', function () {
+      test('default', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandedRowFixture,
+          'default',
+          this.element.querySelector('tbody tr[data-child-row]'),
+        );
+      });
+
+      test('class-name', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow>
+                <TableExpandedRow
+                  @colSpan={{3}}
+                  class="mine"
+                >Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableExpandedRowFixture,
+          'class-name',
+          this.element.querySelector('tbody tr[data-child-row]'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableExpandedRowFixture, [
+          'default',
+          'class-name',
+        ]);
+      });
+    });
+    module('TableDecoratorRow', function () {
+      test('ai-label', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableExpandHeader />
+                  <TableHeader>Name</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableExpandRow @onExpand={{noop}}>
+                  <:decorator as |AILabel|><AILabel
+                      @ariaLabel="AI"
+                    /></:decorator>
+                  <:default><TableCell>Ada</TableCell></:default>
+                </TableExpandRow>
+                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
+              </TableBody>
+            </Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableDecoratorRowFixture,
+          'ai-label',
+          this.element.querySelector('tbody td.cds--table-column-decorator'),
+        );
+      });
+
+      test('every fixture variant is covered', function (assert) {
+        assertFullCoverage(assert, tableDecoratorRowFixture, ['ai-label']);
       });
     });
 

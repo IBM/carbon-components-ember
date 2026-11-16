@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, rerender } from '@ember/test-helpers';
+import { render, click, find, rerender } from '@ember/test-helpers';
 import Accordion from '#src/components/accordion.gts';
 import * as carbonDarkStyle from '../styles/carbon-gray-90.scss?inline';
 import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
@@ -210,5 +210,56 @@ module('Integration | Component | Accordion', (hooks) => {
 
     await click(headings[0]!);
     assert.dom(items[0]).hasClass('cds--accordion__item--active');
+  });
+
+  test('@title is the title, with no whitespace around it', async function (assert) {
+    await render(
+      <template>
+        <Accordion as |Item|><Item @title="Section 1">Content</Item></Accordion>
+      </template>,
+    );
+
+    assert.strictEqual(
+      find('.cds--accordion__title')?.textContent,
+      'Section 1',
+    );
+  });
+
+  test('without a title, it is "title", as in Carbon React', async function (assert) {
+    await render(
+      <template>
+        <Accordion as |Item|><Item>Content</Item></Accordion>
+      </template>,
+    );
+
+    assert.strictEqual(find('.cds--accordion__title')?.textContent, 'title');
+  });
+
+  test('the title block takes markup, with the content in the default block', async function (assert) {
+    await render(
+      <template>
+        <Accordion as |Item|>
+          <Item>
+            <:title>Production <strong data-test-badge>Live</strong></:title>
+            <:default><p data-test-content>Lorem ipsum</p></:default>
+          </Item>
+        </Accordion>
+      </template>,
+    );
+
+    assert
+      .dom('.cds--accordion__heading .cds--accordion__title [data-test-badge]')
+      .hasText('Live');
+    assert.strictEqual(
+      find('.cds--accordion__title')?.textContent,
+      'Production Live',
+    );
+    assert.dom('.cds--accordion__content [data-test-content]').exists();
+
+    await click('.cds--accordion__heading');
+
+    assert
+      .dom('.cds--accordion__item')
+      .hasClass('cds--accordion__item--active');
   });
 });

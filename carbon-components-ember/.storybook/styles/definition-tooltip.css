@@ -1,0 +1,17 @@
+/* As Carbon React's DefinitionTooltip stories frame their paragraph. */
+.definition-tooltip-story__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-inline-size: 60ch;
+  min-block-size: 250px;
+  margin: auto;
+}
+
+/* Carbon's body-compact-02, as React's story styles its paragraph. */
+.definition-tooltip-story__text {
+  font-size: var(--cds-body-compact-02-font-size, 1rem);
+  font-weight: var(--cds-body-compact-02-font-weight, 400);
+  line-height: var(--cds-body-compact-02-line-height, 1.375);
+  letter-spacing: var(--cds-body-compact-02-letter-spacing, 0);
+}

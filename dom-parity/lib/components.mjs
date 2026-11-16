@@ -420,8 +420,8 @@
  *    root drops the non-upstream `cds--form-item--invalid` class, and the
  *    thumb icons gained upstream's invisible hit-box path; and both
  *    IconIndicator's and ShapeIndicator's `compact` mode now render
- *    through a private port of `DefinitionTooltip`
- *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    through `DefinitionTooltip`
+ *    (`components/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
@@ -608,6 +608,32 @@ const tag = (name, props) => ({
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Tag, props, 'Tag content'),
 });
+
+const definitionTooltip = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.DefinitionTooltip,
+      { definition: 'Uniform Resource Locator', ...props },
+      'URL',
+    ),
+});
+
+// DismissibleTag, OperationalTag and SelectableTag take their text as `text`.
+const interactiveTag = (component) => (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon[component], {
+      text: 'Tag content',
+      ...props,
+      ...(props.renderIcon && { renderIcon: Add }),
+    }),
+});
+const dismissibleTag = interactiveTag('DismissibleTag');
+const operationalTag = interactiveTag('OperationalTag');
+const selectableTag = interactiveTag('SelectableTag');
 
 const link = (name, props) => ({
   name,
@@ -979,6 +1005,17 @@ const select = (name, props) => ({
         text: 'Option 2',
       }),
     ),
+});
+
+const pagination = (name, props) => ({
+  name,
+  props: { id: 'pagination-1', totalItems: 103, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Pagination, {
+      id: 'pagination-1',
+      totalItems: 103,
+      ...props,
+    }),
 });
 
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
@@ -1579,6 +1616,61 @@ const tableSelectRow = (name, props) => ({
   pickRoot: (container) => container.querySelector('td'),
 });
 
+// The expansion parts, each in a table with an expand header, an expandable
+// row and the row it expands; the fixture's root is the part under test.
+const tableExpansion = (name, pick, { header, row, expanded, decorator }) => ({
+  name,
+  props: { header, row, expanded, decorator },
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableExpandHeader, header ?? null),
+          React.createElement(Carbon.TableHeader, null, 'Name'),
+        ),
+      ),
+      React.createElement(
+        Carbon.TableBody,
+        null,
+        React.createElement(
+          Carbon.TableExpandRow,
+          { onExpand: () => {}, ...row },
+          decorator
+            ? React.createElement(Carbon.TableDecoratorRow, {
+                decorator: React.createElement(Carbon.AILabel, {
+                  'aria-label': 'AI',
+                }),
+              })
+            : null,
+          React.createElement(Carbon.TableCell, null, 'Ada'),
+        ),
+        React.createElement(
+          Carbon.TableExpandedRow,
+          { colSpan: 3, ...expanded },
+          'Details',
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector(pick),
+});
+
+const tableExpandHeader = (name, header) =>
+  tableExpansion(name, 'thead th.cds--table-expand', { header });
+const tableExpandRow = (name, row, decorator) =>
+  tableExpansion(name, 'tbody tr[data-parent-row]', { row, decorator });
+const tableExpandedRow = (name, expanded) =>
+  tableExpansion(name, 'tbody tr[data-child-row]', { expanded });
+const tableDecoratorRow = (name) =>
+  tableExpansion(name, 'tbody td.cds--table-column-decorator', {
+    decorator: true,
+  });
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -1745,6 +1837,54 @@ export const COMPONENTS = [
       tag('disabled', { type: 'gray', disabled: true }),
       tag('size-sm', { type: 'gray', size: 'sm' }),
       tag('size-lg', { type: 'gray', size: 'lg' }),
+    ],
+  },
+  {
+    name: 'DismissibleTag',
+    variants: [
+      dismissibleTag('default', { type: 'red' }),
+      dismissibleTag('disabled', { type: 'gray', disabled: true }),
+      dismissibleTag('size-sm', { type: 'gray', size: 'sm' }),
+      dismissibleTag('with-icon', { type: 'blue', renderIcon: 'Add' }),
+      dismissibleTag('custom-title', {
+        type: 'gray',
+        title: 'Remove filter',
+        tagTitle: 'Full tag title',
+      }),
+    ],
+  },
+  {
+    name: 'OperationalTag',
+    variants: [
+      operationalTag('default', {}),
+      operationalTag('red', { type: 'red' }),
+      operationalTag('disabled', { disabled: true }),
+      operationalTag('size-sm', { size: 'sm' }),
+      operationalTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'SelectableTag',
+    variants: [
+      selectableTag('default', {}),
+      selectableTag('selected', { selected: true }),
+      selectableTag('disabled', { disabled: true }),
+      selectableTag('size-sm', { size: 'sm' }),
+      selectableTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'DefinitionTooltip',
+    variants: [
+      definitionTooltip('default', {}),
+      definitionTooltip('default-open', { defaultOpen: true }),
+      definitionTooltip('align-top', { align: 'top' }),
+      definitionTooltip('auto-align', { autoAlign: true }),
+      definitionTooltip('class-names', {
+        className: 'custom-popover',
+        triggerClassName: 'custom-trigger',
+      }),
+      definitionTooltip('id', { id: 'url-definition' }),
     ],
   },
   {
@@ -2325,6 +2465,52 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'Pagination',
+    variants: [
+      pagination('default', { pageSizes: [10, 20, 30] }),
+      pagination('no-page-sizes', {}),
+      pagination('page-2', { pageSizes: [10, 20, 30], page: 2 }),
+      pagination('last-page', { pageSizes: [10, 20, 30], page: 11 }),
+      pagination('page-size-20', { pageSizes: [10, 20, 30], pageSize: 20 }),
+      pagination('custom-page-sizes', {
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      }),
+      pagination('pages-unknown', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        totalItems: undefined,
+        page: 2,
+      }),
+      pagination('is-last-page', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        isLastPage: true,
+        totalItems: undefined,
+      }),
+      pagination('no-items', { totalItems: 0 }),
+      pagination('disabled', { pageSizes: [10, 20, 30], disabled: true }),
+      pagination('page-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageInputDisabled: true,
+      }),
+      pagination('page-size-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageSizeInputDisabled: true,
+      }),
+      pagination('size-sm', { pageSizes: [10, 20, 30], size: 'sm' }),
+      pagination('size-lg', { pageSizes: [10, 20, 30], size: 'lg' }),
+      pagination('custom-texts', {
+        pageSizes: [10, 20, 30],
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      }),
+    ],
+  },
+  {
     name: 'Select',
     variants: [
       select('default', {}),
@@ -2880,6 +3066,52 @@ export const COMPONENTS = [
         'aria-label': 'Select Ada',
       }),
     ],
+  },
+  {
+    name: 'TableExpandHeader',
+    variants: [
+      tableExpandHeader('default', {}),
+      tableExpandHeader('enable-toggle', {
+        enableToggle: true,
+        isExpanded: false,
+        onExpand: () => {},
+        'aria-label': 'Expand all rows',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandHeader('expanded', {
+        enableToggle: true,
+        isExpanded: true,
+        onExpand: () => {},
+        'aria-label': 'Collapse all rows',
+      }),
+      tableExpandHeader('id', { id: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandRow',
+    variants: [
+      tableExpandRow('default', {}),
+      tableExpandRow('expanded', { isExpanded: true }),
+      tableExpandRow('selected', { isSelected: true }),
+      tableExpandRow('labelled', {
+        'aria-label': 'Expand Ada',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandRow('expand-header', { expandHeader: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandedRow',
+    variants: [
+      tableExpandedRow('default', {}),
+      tableExpandedRow('class-name', { className: 'mine' }),
+    ],
+  },
+  {
+    name: 'TableDecoratorRow',
+    variants: [tableDecoratorRow('ai-label')],
   },
   {
     name: 'Tabs',
