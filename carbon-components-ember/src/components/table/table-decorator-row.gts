@@ -32,9 +32,9 @@ const TableDecoratorRow: TOC<TableDecoratorRowSignature> = <template>
       {{if (has-block 'decorator') 'cds--table-column-decorator--active'}}"
     ...attributes
   >
-    {{#if (has-block "decorator")}}
+    {{~#if (has-block "decorator")~}}
       {{yield (component AILabel size="mini") to="decorator"}}
-    {{/if}}
+    {{~/if~}}
   </td>
 </template>;
 

@@ -70,11 +70,11 @@ export default class TableExpandRow extends Component<TableExpandRowSignature> {
       data-parent-row="true"
       ...attributes
     >
-      {{#if (has-block "decorator")}}
+      {{~#if (has-block "decorator")~}}
         <TableDecoratorRow>
           <:decorator as |AILabel|>{{yield AILabel to="decorator"}}</:decorator>
         </TableDecoratorRow>
-      {{/if}}
+      {{~/if~}}
       <TableCell
         class="cds--table-expand"
         data-previous-value={{if @isExpanded "collapsed"}}
@@ -96,7 +96,7 @@ export default class TableExpandRow extends Component<TableExpandRowSignature> {
           />
         </button>
       </TableCell>
-      {{yield}}
+      {{~yield~}}
     </tr>
   </template>
 }

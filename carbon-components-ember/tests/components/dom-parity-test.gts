@@ -7463,16 +7463,13 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7489,23 +7486,19 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader
+                <TableRow><TableExpandHeader
                     @enableToggle={{true}}
                     @isExpanded={{false}}
                     @onExpand={{noop}}
                     @ariaLabel="Expand all rows"
                     @ariaControls="details"
                     @expandIconDescription="Expand"
-                  />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                  /><TableHeader>Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7522,21 +7515,17 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader
+                <TableRow><TableExpandHeader
                     @enableToggle={{true}}
                     @isExpanded={{true}}
                     @onExpand={{noop}}
                     @ariaLabel="Collapse all rows"
-                  />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                  /><TableHeader>Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7553,16 +7542,13 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader @id="toggle" />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader @id="toggle" /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7589,16 +7575,13 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7615,18 +7598,15 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow
+              <TableBody><TableExpandRow
                   @onExpand={{noop}}
                   @isExpanded={{true}}
-                ><TableCell>Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+                ><TableCell>Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7643,18 +7623,15 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow
+              <TableBody><TableExpandRow
                   @onExpand={{noop}}
                   @isSelected={{true}}
-                ><TableCell>Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+                ><TableCell>Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7671,20 +7648,17 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow
+              <TableBody><TableExpandRow
                   @onExpand={{noop}}
                   @ariaLabel="Expand Ada"
                   @ariaControls="details"
                   @expandIconDescription="Expand"
-                ><TableCell>Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+                ><TableCell>Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7701,18 +7675,15 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow
+              <TableBody><TableExpandRow
                   @onExpand={{noop}}
                   @expandHeader="toggle"
-                ><TableCell>Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+                ><TableCell>Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7740,16 +7711,13 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7766,19 +7734,14 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}><TableCell
-                  >Ada</TableCell></TableExpandRow>
-                <TableExpandedRow
+              <TableBody><TableExpandRow @onExpand={{noop}}><TableCell
+                  >Ada</TableCell></TableExpandRow><TableExpandedRow
                   @colSpan={{3}}
                   class="mine"
-                >Details</TableExpandedRow>
-              </TableBody>
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
@@ -7803,20 +7766,17 @@ module('DOM parity | Carbon React', function (hooks) {
           <template>
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableExpandHeader />
-                  <TableHeader>Name</TableHeader>
-                </TableRow>
+                <TableRow><TableExpandHeader /><TableHeader
+                  >Name</TableHeader></TableRow>
               </TableHead>
-              <TableBody>
-                <TableExpandRow @onExpand={{noop}}>
+              <TableBody><TableExpandRow @onExpand={{noop}}>
                   <:decorator as |AILabel|><AILabel
                       @ariaLabel="AI"
                     /></:decorator>
                   <:default><TableCell>Ada</TableCell></:default>
-                </TableExpandRow>
-                <TableExpandedRow @colSpan={{3}}>Details</TableExpandedRow>
-              </TableBody>
+                </TableExpandRow><TableExpandedRow
+                  @colSpan={{3}}
+                >Details</TableExpandedRow></TableBody>
             </Table>
           </template>,
         );
