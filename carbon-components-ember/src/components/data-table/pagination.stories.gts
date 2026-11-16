@@ -77,8 +77,8 @@ Default.test(
     await expect(body().getByText('Load Balancer 1')).toBeVisible();
     await expect(body().queryByText('Load Balancer 11')).toBeNull();
     await expect(
-      canvasElement.querySelector('[data-total-items]'),
-    ).toHaveTextContent('100');
+      canvasElement.querySelector('.cds--pagination__items-count'),
+    ).toHaveTextContent('1–10 of 100 items');
 
     await userEvent.click(canvas.getByRole('button', { name: 'Next page' }));
     await waitFor(() =>

@@ -1,0 +1,461 @@
+{
+  "component": "TableExpandRow",
+  "generatedAt": "2026-11-05T19:10:25.337Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "row": {}
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--parent-row"
+        ],
+        "attributes": {
+          "data-parent-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [
+              "cds--table-expand"
+            ],
+            "attributes": {
+              "headers": "expand"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--table-expand__button"
+                ],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-expand__svg"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expanded": {
+      "props": {
+        "row": {
+          "isExpanded": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--expandable-row",
+          "cds--parent-row"
+        ],
+        "attributes": {
+          "data-parent-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [
+              "cds--table-expand"
+            ],
+            "attributes": {
+              "data-previous-value": "collapsed",
+              "headers": "expand"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--table-expand__button"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "aria-expanded": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-expand__svg"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selected": {
+      "props": {
+        "row": {
+          "isSelected": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--data-table--selected",
+          "cds--parent-row"
+        ],
+        "attributes": {
+          "data-parent-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [
+              "cds--table-expand"
+            ],
+            "attributes": {
+              "headers": "expand"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--table-expand__button"
+                ],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-expand__svg"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "labelled": {
+      "props": {
+        "row": {
+          "aria-label": "Expand Ada",
+          "aria-controls": "details",
+          "expandIconDescription": "Expand"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--parent-row"
+        ],
+        "attributes": {
+          "data-parent-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [
+              "cds--table-expand"
+            ],
+            "attributes": {
+              "headers": "expand"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--table-expand__button"
+                ],
+                "attributes": {
+                  "type": "button",
+                  "title": "Expand",
+                  "aria-label": "Expand Ada",
+                  "aria-controls": "details"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-expand__svg"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Expand",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expand-header": {
+      "props": {
+        "row": {
+          "expandHeader": "toggle"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "tr",
+        "classes": [
+          "cds--parent-row"
+        ],
+        "attributes": {
+          "data-parent-row": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [
+              "cds--table-expand"
+            ],
+            "attributes": {
+              "headers": "toggle"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--table-expand__button"
+                ],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--table-expand__svg"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "td",
+            "classes": [],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Ada"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

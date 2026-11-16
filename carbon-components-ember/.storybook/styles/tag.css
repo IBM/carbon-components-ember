@@ -1,0 +1,30 @@
+.tag-story__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag-story__group--column {
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.tag-story__operational {
+  margin-block-end: 1rem;
+}
+
+.tag-story__ai-label {
+  margin-block-end: 4rem;
+}
+
+.tag-story__popovers {
+  margin-block-start: 1rem;
+}
+
+.tag-story__reset {
+  margin-block-end: 3rem;
+}
+
+.tag-story__popover-content {
+  padding: 1rem;
+}
