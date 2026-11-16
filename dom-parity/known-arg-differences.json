@@ -280,16 +280,6 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "Table": {
-    "missing": [
-      "experimentalAutoAlign"
-    ]
-  },
-  "TableHeader": {
-    "missing": [
-      "decorator"
-    ]
-  },
   "TableToolbarSearch": {
     "missing": [
       "isExpanded",

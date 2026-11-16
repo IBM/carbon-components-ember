@@ -7242,6 +7242,20 @@ module('DOM parity | Carbon React', function (hooks) {
         );
       });
 
+      test('auto-align', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table @experimentalAutoAlign={{true}}><Rows /></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableFixture,
+          'auto-align',
+          this.element.firstElementChild,
+        );
+      });
+
       test('every fixture variant is covered', function (assert) {
         assertFullCoverage(assert, tableFixture, [
           'default',
@@ -7251,6 +7265,7 @@ module('DOM parity | Carbon React', function (hooks) {
           'static-width',
           'sticky-header',
           'overflow-menu-visible',
+          'auto-align',
         ]);
       });
     });
@@ -7319,6 +7334,39 @@ module('DOM parity | Carbon React', function (hooks) {
         );
       });
 
+      test('decorator', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader><:default
+                    >Name</:default><:decorator as |AILabel|><AILabel
+                      /></:decorator></TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'decorator',
+          this.element.querySelector('th'),
+        );
+      });
+
+      test('sortable-decorator', async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Table><TableHead><TableRow><TableHeader
+                    @isSortable={{true}}
+                  ><:default>Name</:default><:decorator as |AILabel|><AILabel
+                      /></:decorator></TableHeader></TableRow></TableHead></Table>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          tableHeaderFixture,
+          'sortable-decorator',
+          this.element.querySelector('th'),
+        );
+      });
+
       const directions = [
         ['sortable-none', 'NONE'],
         ['sortable-ascending', 'ASC'],
@@ -7354,6 +7402,8 @@ module('DOM parity | Carbon React', function (hooks) {
           'sortable-none',
           'sortable-ascending',
           'sortable-descending',
+          'decorator',
+          'sortable-decorator',
         ]);
       });
     });

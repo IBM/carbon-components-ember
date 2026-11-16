@@ -1,0 +1,4 @@
+/* Narrow enough for the cells' text to wrap. */
+.table-table-story__narrow {
+  inline-size: 24rem;
+}
