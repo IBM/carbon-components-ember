@@ -1,0 +1,487 @@
+{
+  "component": "DefinitionTooltip",
+  "generatedAt": "2026-11-06T10:14:21.349Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-caret"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "default-open": {
+      "props": {
+        "defaultOpen": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--open",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "true",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-caret"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "align-top": {
+      "props": {
+        "align": "top"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-caret"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "auto-align": {
+      "props": {
+        "autoAlign": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "class-names": {
+      "props": {
+        "className": "custom-popover",
+        "triggerClassName": "custom-trigger"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container",
+          "custom-popover"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term",
+              "custom-trigger"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-caret"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "id": {
+      "props": {
+        "id": "url-definition"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-caret"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

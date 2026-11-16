@@ -18,8 +18,6 @@ import '#storybook/styles/ai-chat/table.css';
 // and two headers; the skeleton simply renders one row per page-size slot).
 //
 // Parity gaps (see the component's doc comment):
-// - `@itemsPerPageText` is accepted but not wired - the shared `Pagination`
-//   hardcodes its "Items per page" label.
 // - Upstream sizes the default page from the rendered width (10 above
 //   ~400px, 5 below); the Ember port defaults to 5.
 // - Upstream's `data-rounded` (set here by `useCard`) isn't exposed, so the

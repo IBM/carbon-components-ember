@@ -420,8 +420,8 @@
  *    root drops the non-upstream `cds--form-item--invalid` class, and the
  *    thumb icons gained upstream's invisible hit-box path; and both
  *    IconIndicator's and ShapeIndicator's `compact` mode now render
- *    through a private port of `DefinitionTooltip`
- *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    through `DefinitionTooltip`
+ *    (`components/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
@@ -607,6 +607,17 @@ const tag = (name, props) => ({
   props,
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Tag, props, 'Tag content'),
+});
+
+const definitionTooltip = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.DefinitionTooltip,
+      { definition: 'Uniform Resource Locator', ...props },
+      'URL',
+    ),
 });
 
 const link = (name, props) => ({
@@ -967,6 +978,17 @@ const select = (name, props) => ({
         text: 'Option 2',
       }),
     ),
+});
+
+const pagination = (name, props) => ({
+  name,
+  props: { id: 'pagination-1', totalItems: 103, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Pagination, {
+      id: 'pagination-1',
+      totalItems: 103,
+      ...props,
+    }),
 });
 
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
@@ -1737,6 +1759,20 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'DefinitionTooltip',
+    variants: [
+      definitionTooltip('default', {}),
+      definitionTooltip('default-open', { defaultOpen: true }),
+      definitionTooltip('align-top', { align: 'top' }),
+      definitionTooltip('auto-align', { autoAlign: true }),
+      definitionTooltip('class-names', {
+        className: 'custom-popover',
+        triggerClassName: 'custom-trigger',
+      }),
+      definitionTooltip('id', { id: 'url-definition' }),
+    ],
+  },
+  {
     name: 'Loading',
     variants: [
       {
@@ -2301,6 +2337,52 @@ export const COMPONENTS = [
       ),
       breadcrumb('custom-link', {}, { link: '#b' }),
       breadcrumb('overflow-menu', {}, { overflowMenu: true }),
+    ],
+  },
+  {
+    name: 'Pagination',
+    variants: [
+      pagination('default', { pageSizes: [10, 20, 30] }),
+      pagination('no-page-sizes', {}),
+      pagination('page-2', { pageSizes: [10, 20, 30], page: 2 }),
+      pagination('last-page', { pageSizes: [10, 20, 30], page: 11 }),
+      pagination('page-size-20', { pageSizes: [10, 20, 30], pageSize: 20 }),
+      pagination('custom-page-sizes', {
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      }),
+      pagination('pages-unknown', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        totalItems: undefined,
+        page: 2,
+      }),
+      pagination('is-last-page', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        isLastPage: true,
+        totalItems: undefined,
+      }),
+      pagination('no-items', { totalItems: 0 }),
+      pagination('disabled', { pageSizes: [10, 20, 30], disabled: true }),
+      pagination('page-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageInputDisabled: true,
+      }),
+      pagination('page-size-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageSizeInputDisabled: true,
+      }),
+      pagination('size-sm', { pageSizes: [10, 20, 30], size: 'sm' }),
+      pagination('size-lg', { pageSizes: [10, 20, 30], size: 'lg' }),
+      pagination('custom-texts', {
+        pageSizes: [10, 20, 30],
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      }),
     ],
   },
   {

@@ -1,64 +1,99 @@
+/**
+ * Copyright IBM Corp. 2016, 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import Select from './select.gts';
-import Tooltip from './tooltip.gts';
+import Button from './button.gts';
 import { modifier } from 'ember-modifier';
-import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
-import type Owner from '@ember/owner';
 import { cached, tracked } from '@glimmer/tracking';
-import { afterRender } from '../utils/after-render.ts';
 import { guidFor } from '@ember/object/internals';
+import { afterRender } from '../utils/after-render.ts';
+import captureElement from '../modifiers/capture-element.ts';
 import CaretLeft from './icons/caret-left.ts';
 import CaretRight from './icons/caret-right.ts';
 import type { ComponentLike } from '@glint/template';
-import './pagination.scss';
 
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
-type Slice = {
-  page: number;
-  itemsPerPage: number;
-  start: number;
-  end: number;
-};
+const DEFAULT_PAGE_SIZE = 10;
 
-type State = {
+export interface PaginationPageSize {
+  text: string;
+  value: number;
+}
+
+export interface PaginationChange {
   page: number;
-  itemsPerPage: number;
-};
+  pageSize: number;
+}
 
 export interface PaginationSignature {
   Element: HTMLDivElement;
   Args: {
-    disabled?: boolean;
-    isLoading?: boolean;
-    length: number;
-    onPageChanged: (currentSlice: Slice) => void;
-    state?: State;
-    itemsPerPageOptions?: (number | string)[];
-    /** Defaults to `'md'`. */
-    size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
-     * The description for the backward icon, also used as its tooltip content.
+     * The description for the backward icon, also used as its tooltip.
      * Defaults to `'Previous page'`.
      */
     backwardText?: string;
-    /**
-     * The tooltip position for the backward button. Defaults to `'top'`.
-     */
+    /** The tooltip position for the backward button. Defaults to `'top'`. */
     backwardTextTooltipPosition?: TooltipPosition;
     /**
-     * The description for the forward icon, also used as its tooltip content.
+     * `true` if the backward/forward buttons, as well as the page select
+     * elements, should be disabled.
+     */
+    disabled?: boolean;
+    /**
+     * The description for the forward icon, also used as its tooltip.
      * Defaults to `'Next page'`.
      */
     forwardText?: string;
-    /**
-     * The tooltip position for the forward button. Defaults to `'top'`.
-     */
+    /** The tooltip position for the forward button. Defaults to `'top'`. */
     forwardTextTooltipPosition?: TooltipPosition;
+    /** The unique ID of this component instance. */
+    id?: string | number;
+    /** `true` if the current page should be the last page. */
+    isLastPage?: boolean;
     /**
-     * Provide a custom component to render in place of the default page-select
-     * control. Receives `@currentPage`, `@totalPages`, `@currentPageSize`,
-     * `@pageSelectLabelText` and `@onSetPage`.
+     * Shows where the current page is, in a manner of the range of items.
+     * Defaults to "1–10 of 100 items".
+     */
+    itemRangeText?: (min: number, max: number, total: number) => string;
+    /**
+     * A variant of `itemRangeText`, used if the total number of items is
+     * unknown. Defaults to "1–10 items".
+     */
+    itemText?: (min: number, max: number) => string;
+    /** The text indicating the number of items per page. */
+    itemsPerPageText?: string;
+    /**
+     * Called with the new `{ page, pageSize }` when the user changes either.
+     */
+    onChange?: (data: PaginationChange) => void;
+    /**
+     * The current page. Follows this argument whenever it changes, and the
+     * user's changes in between. Defaults to `1`.
+     */
+    page?: number;
+    /** `true` if the select box to change the page should be disabled. */
+    pageInputDisabled?: boolean;
+    /** Accepted as in Carbon React, which doesn't use it. */
+    pageNumberText?: string;
+    /**
+     * The text after the page select. Defaults to "of 10 pages".
+     */
+    pageRangeText?: (current: number, total: number) => string;
+    /**
+     * The label for the page select. Defaults to "Page of 10 pages".
+     */
+    pageSelectLabelText?: (total: number) => string;
+    /**
+     * Replaces the page select. A component that renders nothing hides it,
+     * and the range then names the page ("1 of 11 pages"). Receives `@currentPage`, `@totalPages`,
+     * `@currentPageSize`, `@pageSelectLabelText` and `@onSetPage`.
      */
     renderPageSelect?: ComponentLike<{
       Args: {
@@ -66,169 +101,341 @@ export interface PaginationSignature {
         totalPages: number;
         currentPageSize: number;
         pageSelectLabelText: string;
-        onSetPage: (page: number) => void;
+        onSetPage: (page: number | string) => void;
       };
     }>;
+    /**
+     * The number of items on a page. Follows this argument whenever it
+     * changes, and the user's changes in between. Defaults to the first of
+     * `@pageSizes`, or `10`.
+     */
+    pageSize?: number;
+    /** `true` if the select box to change the items per page should be disabled. */
+    pageSizeInputDisabled?: boolean;
+    /**
+     * The choices for `@pageSize`. Without them, there is no select for the
+     * page size.
+     */
+    pageSizes?: (number | PaginationPageSize)[];
+    /**
+     * The text showing the current page when the total is unknown. Defaults to "page 1".
+     */
+    pageText?: (page: number, pagesUnknown?: boolean) => string;
+    /**
+     * `true` when the total number of pages is unknown. Hides the page
+     * select.
+     */
+    pagesUnknown?: boolean;
+    /** Defaults to `'md'`. */
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    /** The total number of items. */
+    totalItems?: number;
   };
 }
 
+function resolvePageSize(
+  pageSizes: PaginationPageSize[] | undefined,
+  pageSize: number | undefined,
+) {
+  if (!pageSizes) {
+    const resolved = pageSize ?? DEFAULT_PAGE_SIZE;
+    return resolved > 0 ? resolved : DEFAULT_PAGE_SIZE;
+  }
+  return pageSize !== undefined &&
+    pageSizes.some((size) => size.value === pageSize)
+    ? pageSize
+    : pageSizes[0]!.value;
+}
+
 export default class Pagination extends Component<PaginationSignature> {
-  @tracked currentPage: number;
-  @tracked itemsPerPage: number;
+  // The user's choice stands until the argument it was made against changes,
+  // as React's state does when its effect syncs it to the prop.
+  @tracked pageChoice?: number;
+  @tracked pageSizeChoice?: number;
 
-  constructor(owner: Owner, args: PaginationSignature['Args']) {
-    super(owner, args);
-    // Seeded from the initial `@state`; later changes are applied by
-    // `syncState`.
-    this.currentPage = args.state?.page ?? 1;
-    this.itemsPerPage = args.state?.itemsPerPage ?? 10;
+  seen?: {
+    page: number | undefined;
+    pageSize: number | undefined;
+    sizes: PaginationPageSize[] | undefined;
+    sizesKey: string;
+  };
+
+  @tracked customSelectEmpty = false;
+
+  rangeElement?: HTMLElement;
+
+  backwardButton?: HTMLElement;
+  forwardButton?: HTMLElement;
+
+  get guid() {
+    return this.args.id !== undefined ? String(this.args.id) : guidFor(this);
   }
 
-  get backwardText() {
-    return this.args.backwardText ?? 'Previous page';
-  }
-
-  get forwardText() {
-    return this.args.forwardText ?? 'Next page';
-  }
-
-  // `@itemsPerPageOptions` accepts strings too, but the selected value is
-  // always the numeric `itemsPerPage`, so normalize the options to match.
   @cached
-  get itemsPerPageOptions(): number[] {
-    return (this.args.itemsPerPageOptions ?? [10, 20, 30, 40, 50, 100]).map(
-      Number,
+  get pageSizes(): PaginationPageSize[] | undefined {
+    const sizes = this.args.pageSizes;
+    if (!sizes?.length) return undefined;
+    return sizes.map((size) =>
+      typeof size === 'object' ? size : { text: String(size), value: size },
     );
   }
 
+  get page() {
+    return this.pageChoice ?? this.args.page ?? 1;
+  }
+
+  get pageSize() {
+    return resolvePageSize(
+      this.pageSizes,
+      this.pageSizeChoice ?? this.args.pageSize,
+    );
+  }
+
+  get totalPages() {
+    const { totalItems } = this.args;
+    return totalItems ? Math.max(Math.ceil(totalItems / this.pageSize), 1) : 1;
+  }
+
+  get pageNumbers() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  get backDisabled() {
+    return !!this.args.disabled || this.page === 1;
+  }
+
+  // React's class follows this, which leaves `isLastPage` out.
+  get forwardNoIndex() {
+    return (
+      !!this.args.disabled ||
+      (this.page === this.totalPages && !this.args.pagesUnknown)
+    );
+  }
+
+  get forwardDisabled() {
+    return this.forwardNoIndex || !!this.args.isLastPage;
+  }
+
   get pageSelectLabelText() {
-    return `Page ${this.currentPage} of ${this.pages} ${
-      this.pages === 1 ? 'page' : 'pages'
-    }`;
+    const total = this.totalPages;
+    return (
+      this.args.pageSelectLabelText ??
+      ((t: number) => `Page of ${t} ${t === 1 ? 'page' : 'pages'}`)
+    )(total);
   }
 
-  get pages() {
-    return Math.max(1, Math.ceil(this.args.length / Number(this.itemsPerPage)));
+  get itemsText() {
+    const { totalItems, pagesUnknown } = this.args;
+    const { page, pageSize } = this;
+    const itemText =
+      this.args.itemText ?? ((min, max) => `${min}–${max} items`);
+    const itemRangeText =
+      this.args.itemRangeText ??
+      ((min, max, total) => `${min}–${max} of ${total} items`);
+    if (pagesUnknown || !totalItems) {
+      return totalItems === 0
+        ? itemRangeText(0, 0, 0)
+        : itemText(pageSize * (page - 1) + 1, page * pageSize);
+    }
+    return itemRangeText(
+      Math.min(pageSize * (page - 1) + 1, totalItems),
+      Math.min(page * pageSize, totalItems),
+      totalItems,
+    );
   }
 
-  get currentSlice(): Slice {
-    const ipp = this.itemsPerPage;
-    return {
-      page: this.currentPage,
-      itemsPerPage: this.itemsPerPage,
-      start: (this.currentPage - 1) * ipp,
-      end: (this.currentPage - 1) * ipp + Number(ipp),
-    };
+  get pageText() {
+    return (this.args.pageText ?? ((page: number) => `page ${page}`))(
+      this.page,
+      this.args.pagesUnknown,
+    );
   }
 
-  setState = (state?: State) => {
-    if (!state) return;
-    this.currentPage = state.page;
-    this.itemsPerPage = state.itemsPerPage;
-    this.lengthChanged();
-  };
+  get pageRangeText() {
+    const text = (
+      this.args.pageRangeText ??
+      ((_current: number, total: number) =>
+        `of ${total} ${total === 1 ? 'page' : 'pages'}`)
+    )(this.page, this.totalPages);
+    // As in React, a custom page select that renders nothing leaves the
+    // range to say which page it is.
+    return this.args.renderPageSelect && this.customSelectEmpty
+      ? `${this.page} ${text}`
+      : text;
+  }
 
-  setItemsPerPage = (items: number) => {
-    this.itemsPerPage = items;
-    this.pageChanged();
-  };
+  setPage(page: number) {
+    this.pageChoice = page;
+  }
 
-  setCurrentPage = (p: number) => {
-    this.currentPage = p;
-    this.pageChanged();
-  };
+  setPageSize(pageSize: number) {
+    this.pageSizeChoice = pageSize;
+  }
 
-  // As in Carbon React, a new page size starts from the first page.
-  changeItemsPerPage = (event: Event & { target: HTMLSelectElement }) => {
-    this.currentPage = 1;
-    this.setItemsPerPage(Number(event.target.value));
-  };
-
-  changePage = (event: Event & { target: HTMLSelectElement }) =>
-    this.setCurrentPage(Number(event.target.value));
-
-  pageBack = () => {
-    this.currentPage -= 1;
-    this.pageChanged();
-  };
-
-  pageForward = () => {
-    this.currentPage += 1;
-    this.pageChanged();
-  };
-
-  pageChanged = () => {
+  focusLater(button: 'backwardButton' | 'forwardButton') {
     afterRender(this, () => {
-      this.args.onPageChanged(this.currentSlice);
+      const element = this[button];
+      if (element && !(element as HTMLButtonElement).disabled) {
+        element.focus();
+      }
     });
+  }
+
+  changePageSize = (event: Event & { target: HTMLSelectElement }) => {
+    const pageSize = Number(event.target.value);
+    this.setPage(1);
+    this.setPageSize(pageSize);
+    this.args.onChange?.({ page: 1, pageSize });
   };
 
-  lengthChanged = () => {
-    if (this.currentPage > this.pages) {
-      this.currentPage = this.pages;
-      this.pageChanged();
+  changePage = (event: Event & { target: HTMLSelectElement }) => {
+    const page = Number(event.target.value);
+    const { totalItems } = this.args;
+    if (page > 0 && totalItems && page <= this.totalPages) {
+      this.setPage(page);
+      this.args.onChange?.({ page, pageSize: this.pageSize });
     }
   };
 
-  notifyInitialPage = modifier(() => {
-    this.pageChanged();
-  });
+  setPageFromCustomSelect = (nextPage: number | string) => {
+    if (this.args.disabled || this.args.pageInputDisabled) return;
+    const numeric = Number(nextPage);
+    if (!Number.isInteger(numeric)) return;
+    const page = Math.min(Math.max(numeric, 1), this.totalPages);
+    if (page === this.page) return;
+    this.setPage(page);
+    this.args.onChange?.({ page, pageSize: this.pageSize });
+  };
 
-  // Re-runs when `@state` or `@length` change, as it reads both. Applying
-  // them is scheduled: reading this component's own page here would re-run
-  // it on every page change and reset the page to the (stale) `@state`.
-  syncedInitialState = false;
+  pageBack = () => {
+    const page = this.page - 1;
+    this.setPage(page);
+    if (page === 1) this.focusLater('forwardButton');
+    this.args.onChange?.({ page, pageSize: this.pageSize });
+  };
 
-  syncedState?: State;
+  pageForward = () => {
+    const page = this.page + 1;
+    this.setPage(page);
+    if (page === this.totalPages) this.focusLater('backwardButton');
+    this.args.onChange?.({ page, pageSize: this.pageSize });
+  };
 
-  syncState = modifier(
+  // Drops the user's choice once its argument changes, and, as React does,
+  // goes back to page 1 and reports it when new `pageSizes` drop the current
+  // page size.
+  syncArgs = modifier(
     (
       _element: HTMLElement,
-      [state, length]: [state: State | undefined, length: number],
+      [page, pageSize, sizes]: [
+        number | undefined,
+        number | undefined,
+        PaginationPageSize[] | undefined,
+      ],
     ) => {
-      // `lengthChanged` reads it; destructuring it is what tracks it.
-      void length;
-      const stateChanged = state !== this.syncedState;
-      this.syncedState = state;
-      if (!this.syncedInitialState) {
-        this.syncedInitialState = true;
-        return;
-      }
+      const seen = this.seen;
+      const sizesKey = JSON.stringify(sizes ?? null);
+      this.seen = { page, pageSize, sizes, sizesKey };
+      if (!seen) return;
       afterRender(this, () => {
-        if (stateChanged && state) {
-          this.setState(state);
-        } else {
-          this.lengthChanged();
-        }
+        if (seen.page !== page) this.pageChoice = undefined;
+        if (seen.pageSize !== pageSize) this.pageSizeChoice = undefined;
+        if (seen.sizesKey !== sizesKey) this.sizesChanged(seen.sizes, sizes);
       });
     },
   );
 
-  get guid() {
-    return guidFor(this);
+  sizesChanged(
+    previous: PaginationPageSize[] | undefined,
+    sizes: PaginationPageSize[] | undefined,
+  ) {
+    // As in Carbon React, no sizes means `@pageSize` or 10 again.
+    if (!sizes) {
+      this.pageSizeChoice = undefined;
+      return;
+    }
+    const { pageSize: argPageSize } = this.args;
+    const before = resolvePageSize(
+      previous,
+      this.pageSizeChoice ?? argPageSize,
+    );
+    const page = this.page;
+    const hadSize = sizes.some((size) => size.value === before);
+    const nextPage = hadSize ? page : 1;
+    const nextPageSize = resolvePageSize(sizes, argPageSize ?? before);
+    if (!hadSize) this.setPage(nextPage);
+    if (nextPageSize !== before) this.setPageSize(nextPageSize);
+    const controlled =
+      argPageSize !== undefined &&
+      sizes.some((size) => size.value === argPageSize);
+    if (!controlled && (nextPage !== page || nextPageSize !== before)) {
+      this.args.onChange?.({ page: nextPage, pageSize: nextPageSize });
+    }
   }
+
+  // Whether `@renderPageSelect` rendered nothing, which React knows from its
+  // function returning null.
+  watchCustomSelect = modifier(
+    (
+      container: HTMLElement,
+      [custom, pagesUnknown, page, totalPages, pageSize, labelText]: [
+        unknown,
+        boolean | undefined,
+        number,
+        number,
+        number,
+        string,
+      ],
+    ) => {
+      // Everything the custom select is given can change what it renders.
+      void [page, totalPages, pageSize, labelText];
+      afterRender(this, () => {
+        const range = this.rangeElement;
+        let empty = !!custom && !pagesUnknown && !!range;
+        for (
+          let node = container.firstChild;
+          empty && node && node !== range;
+          node = node.nextSibling
+        ) {
+          if (node.nodeType === Node.ELEMENT_NODE) empty = false;
+          else if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim())
+            empty = false;
+        }
+        this.customSelectEmpty = empty;
+      });
+    },
+  );
+
+  captureRange = (element: HTMLElement) => {
+    this.rangeElement = element;
+  };
+
+  captureBackward = (element: HTMLElement) => {
+    this.backwardButton = element;
+  };
+
+  captureForward = (element: HTMLElement) => {
+    this.forwardButton = element;
+  };
 
   <template>
     <div
-      class="cds--pagination
-        {{concat 'cds--pagination--' (or @size 'md')}}
-        cds--ember-pagination
-        {{if @isLoading 'cds--skeleton'}}"
-      data-pagination
-      {{this.notifyInitialPage}}
-      {{this.syncState @state @length}}
+      class="cds--pagination cds--pagination--{{or @size 'md'}}
+        cds--layout--size-{{or @size 'md'}}"
+      {{this.syncArgs @page @pageSize this.pageSizes}}
       ...attributes
     >
-      {{#if @isLoading}}
-        <div class="cds--skeleton__text"></div>
-      {{else}}
-        <div class="cds--pagination__left">
+      <div
+        class="cds--pagination__left
+          {{unless this.pageSizes 'cds--pagination__left--no-sizer'}}"
+      >
+        {{#if this.pageSizes}}
           <label
             id="cds-pagination-select-{{this.guid}}-count-label"
             class="cds--pagination__text"
             for="cds-pagination-select-{{this.guid}}"
           >
-            Items per page:
+            {{~or @itemsPerPageText "Items per page:"~}}
           </label>
           <Select
             @id="cds-pagination-select-{{this.guid}}"
@@ -237,36 +444,49 @@ export default class Pagination extends Component<PaginationSignature> {
             @hideLabel={{true}}
             @noLabel={{true}}
             @inline={{true}}
-            @disabled={{@disabled}}
-            @value={{this.itemsPerPage}}
-            @onChange={{this.changeItemsPerPage}}
+            @disabled={{or @pageSizeInputDisabled @disabled}}
+            @value={{this.pageSize}}
+            @onChange={{this.changePageSize}}
             as |SelectItem|
           >
-            {{#each this.itemsPerPageOptions as |size|}}
-              <SelectItem @value={{size}} @text="{{size}}" />
+            {{#each this.pageSizes as |size|}}
+              <SelectItem @value={{size.value}} @text={{size.text}} />
             {{/each}}
           </Select>
-          <span class="cds--pagination__text cds--pagination__items-count">
-            <span data-displayed-item-range>
-              {{this.currentSlice.start}}
-              -
-              {{this.currentSlice.end}}
-            </span>
-            of
-            <span data-total-items>
-              {{@length}}
-            </span>
-            items
+        {{/if}}
+        <span class="cds--pagination__text cds--pagination__items-count">
+          {{~this.itemsText~}}
+        </span>
+      </div>
+      <div
+        class="cds--pagination__right
+          {{if
+            (if @pagesUnknown false @renderPageSelect)
+            'cds--pagination__right--no-content'
+          }}"
+        {{this.watchCustomSelect
+          @renderPageSelect
+          @pagesUnknown
+          this.page
+          this.totalPages
+          this.pageSize
+          this.pageSelectLabelText
+        }}
+      >
+        {{#if @pagesUnknown}}
+          <span
+            class="cds--pagination__text cds--pagination__page-text cds--pagination__unknown-pages-text"
+          >
+            {{~this.pageText~}}
           </span>
-        </div>
-        <div class="cds--pagination__right">
+        {{else}}
           {{#if @renderPageSelect}}
             <@renderPageSelect
-              @currentPage={{this.currentPage}}
-              @totalPages={{this.pages}}
-              @currentPageSize={{this.itemsPerPage}}
+              @currentPage={{this.page}}
+              @totalPages={{this.totalPages}}
+              @currentPageSize={{this.pageSize}}
               @pageSelectLabelText={{this.pageSelectLabelText}}
-              @onSetPage={{this.setCurrentPage}}
+              @onSetPage={{this.setPageFromCustomSelect}}
             />
           {{else}}
             <Select
@@ -275,62 +495,52 @@ export default class Pagination extends Component<PaginationSignature> {
               @labelText={{this.pageSelectLabelText}}
               @inline={{true}}
               @hideLabel={{true}}
-              @disabled={{@disabled}}
-              @value={{this.currentPage}}
+              @disabled={{or @pageInputDisabled @disabled}}
+              @value={{this.page}}
               @onChange={{this.changePage}}
               as |SelectItem|
             >
-              {{#each (range 1 this.pages true) as |page|}}
-                <SelectItem @value={{page}} @text="{{page}}" />
+              {{#each this.pageNumbers as |number|}}
+                <SelectItem @value={{number}} @text="{{number}}" />
               {{/each}}
             </Select>
           {{/if}}
-          <span class="cds--pagination__text">
-            {{this.currentPage}}
-            of
-            {{this.pages}}
-            pages
+          <span
+            class="cds--pagination__text"
+            {{captureElement this.captureRange}}
+          >
+            {{~this.pageRangeText~}}
           </span>
-          <div class="cds--pagination__control-buttons">
-            <Tooltip
-              @align={{or @backwardTextTooltipPosition "top"}}
-              @label={{this.backwardText}}
-            >
-              <button
-                disabled={{or (eq this.currentPage 1) @disabled}}
-                class="cds--btn--icon-only cds--pagination__button cds--pagination__button--backward cds--btn cds--btn--md cds--btn--ghost"
-                tabindex="0"
-                data-page-backward
-                aria-label={{this.backwardText}}
-                type="button"
-                {{on "click" this.pageBack}}
-              >
-                <CaretLeft />
-              </button>
-            </Tooltip>
-            <Tooltip
-              @align={{or @forwardTextTooltipPosition "top"}}
-              @label={{this.forwardText}}
-            >
-              <button
-                disabled={{or (eq this.currentPage this.pages) @disabled}}
-                class="cds--btn--icon-only cds--pagination__button cds--pagination__button--forward cds--btn cds--btn--md cds--btn--ghost"
-                tabindex="0"
-                data-page-forward
-                aria-label={{this.forwardText}}
-                type="button"
-                {{on "click" this.pageForward}}
-              >
-                <CaretRight />
-              </button>
-            </Tooltip>
-          </div>
+        {{/if}}
+        <div class="cds--pagination__control-buttons">
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @backwardText "Previous page"}}
+            @tooltipPosition={{or @backwardTextTooltipPosition "top"}}
+            @disabled={{this.backDisabled}}
+            @renderIcon={{CaretLeft}}
+            class="cds--pagination__button cds--pagination__button--backward
+              {{if this.backDisabled 'cds--pagination__button--no-index'}}"
+            aria-label={{or @backwardText "Previous page"}}
+            {{captureElement this.captureBackward}}
+            {{on "click" this.pageBack}}
+          />
+          <Button
+            @kind="ghost"
+            @hasIconOnly={{true}}
+            @iconDescription={{or @forwardText "Next page"}}
+            @tooltipPosition={{or @forwardTextTooltipPosition "top"}}
+            @disabled={{this.forwardDisabled}}
+            @renderIcon={{CaretRight}}
+            class="cds--pagination__button cds--pagination__button--forward
+              {{if this.forwardNoIndex 'cds--pagination__button--no-index'}}"
+            aria-label={{or @forwardText "Next page"}}
+            {{captureElement this.captureForward}}
+            {{on "click" this.pageForward}}
+          />
         </div>
-      {{/if}}
+      </div>
     </div>
   </template>
-}
-
-function range(min: number, max: number, inclusive: boolean) {
-  return [...Array(max + (inclusive ? 1 : 0)).keys()].slice(min);
 }

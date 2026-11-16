@@ -14,6 +14,7 @@ import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
 import SidePanel from '#src/components/side-panel.gts';
 import Close from '#src/components/icons/close.ts';
+import Tooltip from '#src/components/tooltip.gts';
 
 const PANEL = 'aside.cds--side-panel';
 
@@ -224,6 +225,33 @@ module('Integration | Component | SidePanel', function (hooks) {
 
       await triggerKeyEvent(document.body, 'keydown', 'Escape');
       assert.strictEqual(close.calls.length, 2);
+    });
+
+    test('an Escape a tooltip in it closed on does not ask to close', async function (assert) {
+      const close = spy();
+      await render(
+        <template>
+          <SidePanel
+            @open={{true}}
+            @title="Title"
+            @onRequestClose={{close.call}}
+          >
+            <Tooltip @label="Info" class="info">
+              <button type="button" class="inside">Inside</button>
+            </Tooltip>
+          </SidePanel>
+        </template>,
+      );
+
+      await focus('.inside');
+      assert.dom('.info').hasClass('cds--popover--open');
+
+      await triggerKeyEvent('.inside', 'keydown', 'Escape');
+      assert.dom('.info').doesNotHaveClass('cds--popover--open');
+      assert.strictEqual(close.calls.length, 0);
+
+      await triggerKeyEvent('.inside', 'keydown', 'Escape');
+      assert.strictEqual(close.calls.length, 1);
     });
 
     test('a slide-in panel ignores Escape', async function (assert) {
