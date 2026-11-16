@@ -16,6 +16,7 @@ import ActionableNotification from '#src/components/notification/actionable-noti
 import Popover from '#src/components/popover.gts';
 import Portal from '#src/components/portal.gts';
 import Toggletip from '#src/components/toggletip.gts';
+import Tooltip from '#src/components/tooltip.gts';
 
 const DIALOG = 'dialog.cds--modal';
 
@@ -522,6 +523,32 @@ module('Integration | Component | Modal', function (hooks) {
 
       // The next Escape, with nothing to close, reaches the modal.
       await triggerKeyEvent('.cds--toggletip-button', 'keydown', 'Escape');
+      cancel();
+      assert.strictEqual(onRequestClose.calls.length, 1);
+    });
+
+    test('an Escape a tooltip in it closed on does not ask to close', async function (assert) {
+      const onRequestClose = spy();
+      await render(
+        <template>
+          <Modal @open={{true}} @onRequestClose={{onRequestClose.call}}>
+            <Tooltip @label="Info" class="info">
+              <button type="button" id="trigger">Trigger</button>
+            </Tooltip>
+          </Modal>
+        </template>,
+      );
+
+      await focus('#trigger');
+      assert.dom('.info').hasClass('cds--popover--open');
+
+      // As in Carbon React, the first Escape closes only the tooltip.
+      await triggerKeyEvent('#trigger', 'keydown', 'Escape');
+      cancel();
+      assert.dom('.info').doesNotHaveClass('cds--popover--open');
+      assert.strictEqual(onRequestClose.calls.length, 0);
+
+      await triggerKeyEvent('#trigger', 'keydown', 'Escape');
       cancel();
       assert.strictEqual(onRequestClose.calls.length, 1);
     });
