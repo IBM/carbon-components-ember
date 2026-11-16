@@ -3,15 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import Theme from '#src/components/theme.gts';
 
-import type ThemeService from '#src/services/theme.ts';
-
 module('Integration | Component | Theme', (hooks) => {
   setupRenderingTest(hooks);
 
   test("without @theme it keeps the theme around it, and yields the app's", async function (assert) {
-    const globalTheme = this.owner.lookup(
-      'service:carbon.theme',
-    ) as ThemeService;
+    const globalTheme = this.owner.lookup('service:carbon.theme');
     globalTheme.theme = 'g90';
 
     await render(

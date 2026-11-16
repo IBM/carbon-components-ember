@@ -13,7 +13,6 @@ import { createApp } from './app.ts';
 import theme from './theme.ts';
 
 import type Owner from '@ember/owner';
-import type ThemeService from '../src/services/theme.ts';
 import type { CarbonTheme } from '../src/utils/theme.ts';
 
 // Testing Library's 1s default for `waitFor`/`findBy*` is too short on CI for
@@ -47,7 +46,7 @@ export default definePreview({
       // The toolbar's theme is the app's, as Carbon React's Storybook wraps
       // stories in its `GlobalTheme`.
       updateGlobals: (globals: Record<string, unknown>, owner: Owner) => {
-        const service = owner.lookup('service:carbon.theme') as ThemeService;
+        const service = owner.lookup('service:carbon.theme');
         service.theme = THEMES[globals.theme as string] ?? 'white';
       },
     },
