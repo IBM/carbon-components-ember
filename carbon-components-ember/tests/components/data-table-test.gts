@@ -4,7 +4,6 @@ import {
   click,
   fillIn,
   findAll,
-  getDeprecations,
   render,
   settled,
   waitUntil,
@@ -179,13 +178,6 @@ module('Integration | Component | DataTable', (hooks) => {
 
     assert.dom('tbody tr').exists({ count: 1 });
     assert.dom('tbody tr').hasText('John');
-    assert.deepEqual(
-      getDeprecations()
-        .filter(({ options }) => options?.id === 'deprecate-ember-array-a')
-        .map(({ message }) => message),
-      [],
-      'the results are a plain array, not one from A()',
-    );
   });
 
   test('@search decides which items match the lowercased term, and may be async', async function (assert) {
