@@ -1,0 +1,720 @@
+{
+  "component": "TableBatchActions",
+  "generatedAt": "2026-11-05T19:11:35.174Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--batch-actions"],
+        "attributes": {
+          "aria-hidden": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--batch-summary"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "p",
+                "classes": ["cds--batch-summary__para"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "0 items selected"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--action-list"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": ["cds--btn__icon"],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Add",
+                      "aria-hidden": "true",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--batch-summary__cancel",
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "tabindex": "-1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "active": {
+      "props": {
+        "shouldShowBatchActions": true,
+        "totalSelected": 2
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "attributes": {
+          "aria-hidden": "false"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--batch-summary"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "p",
+                "classes": ["cds--batch-summary__para"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "2 items selected"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--action-list"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": ["cds--btn__icon"],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Add",
+                      "aria-hidden": "true",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--batch-summary__cancel",
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "one-selected": {
+      "props": {
+        "shouldShowBatchActions": true,
+        "totalSelected": 1
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "attributes": {
+          "aria-hidden": "false"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--batch-summary"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "p",
+                "classes": ["cds--batch-summary__para"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "1 item selected"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--action-list"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": ["cds--btn__icon"],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Add",
+                      "aria-hidden": "true",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--batch-summary__cancel",
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "select-all": {
+      "props": {
+        "shouldShowBatchActions": true,
+        "totalSelected": 2,
+        "totalCount": 8
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "attributes": {
+          "aria-hidden": "false"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--batch-summary"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "p",
+                "classes": ["cds--batch-summary__para"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "2 items selected"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": ["cds--batch-summary__divider"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "|"
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Select all (8)"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--action-list"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": ["cds--btn__icon"],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Add",
+                      "aria-hidden": "true",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--batch-summary__cancel",
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "class-name": {
+      "props": {
+        "className": "custom-class",
+        "shouldShowBatchActions": true,
+        "totalSelected": 2
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--batch-actions",
+          "cds--batch-actions--active",
+          "custom-class"
+        ],
+        "attributes": {
+          "aria-hidden": "false"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--batch-summary"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "p",
+                "classes": ["cds--batch-summary__para"],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "2 items selected"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": ["cds--action-list"],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": ["cds--btn", "cds--btn--primary"],
+                "attributes": {
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": ["cds--btn__icon"],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "aria-label": "Add",
+                      "aria-hidden": "true",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "role": "img",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--batch-summary__cancel",
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
+                "attributes": {
+                  "tabindex": "0",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

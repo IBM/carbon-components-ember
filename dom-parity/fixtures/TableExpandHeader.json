@@ -1,0 +1,188 @@
+{
+  "component": "TableExpandHeader",
+  "generatedAt": "2026-11-05T19:10:25.331Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "header": {}
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-expand"
+        ],
+        "attributes": {
+          "scope": "col",
+          "id": "#1"
+        },
+        "style": {},
+        "children": []
+      }
+    },
+    "enable-toggle": {
+      "props": {
+        "header": {
+          "enableToggle": true,
+          "isExpanded": false,
+          "aria-label": "Expand all rows",
+          "aria-controls": "details",
+          "expandIconDescription": "Expand"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-expand"
+        ],
+        "attributes": {
+          "scope": "col",
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-expand__button"
+            ],
+            "attributes": {
+              "type": "button",
+              "title": "Expand",
+              "aria-label": "Expand all rows",
+              "aria-expanded": "false",
+              "aria-controls": "details"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--table-expand__svg"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "aria-label": "Expand",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "role": "img",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expanded": {
+      "props": {
+        "header": {
+          "enableToggle": true,
+          "isExpanded": true,
+          "aria-label": "Collapse all rows"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-expand"
+        ],
+        "attributes": {
+          "scope": "col",
+          "data-previous-value": "collapsed",
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--table-expand__button"
+            ],
+            "attributes": {
+              "type": "button",
+              "aria-label": "Collapse all rows",
+              "aria-expanded": "true"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--table-expand__svg"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "id": {
+      "props": {
+        "header": {
+          "id": "toggle"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "th",
+        "classes": [
+          "cds--table-expand"
+        ],
+        "attributes": {
+          "scope": "col",
+          "id": "#1"
+        },
+        "style": {},
+        "children": []
+      }
+    }
+  }
+}

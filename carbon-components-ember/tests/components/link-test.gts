@@ -127,6 +127,27 @@ module('Integration | Component | Link', (hooks) => {
     assert.dom('.cds--link__icon').doesNotExist();
   });
 
+  test('puts no whitespace around its text and icon, as Carbon React', async function (assert) {
+    await render(
+      <template>
+        <Link @href="/foo" id="plain">Link text</Link>
+        <Link @href="/foo" @renderIcon={{Add}} id="icon">Link text</Link>
+      </template>,
+    );
+
+    // A space would be underlined before what follows, such as a full stop.
+    assert.strictEqual(
+      document.querySelector('#plain')!.textContent,
+      'Link text',
+    );
+    assert.strictEqual(
+      document.querySelector('#icon')!.firstChild!.textContent,
+      'Link text',
+    );
+    assert.dom('#icon > .cds--link__icon').exists();
+    assert.strictEqual(document.querySelector('#icon')!.childNodes.length, 2);
+  });
+
   test('should render as a different element when @as is provided', async function (assert) {
     await render(
       <template>
@@ -159,6 +180,19 @@ module('Integration | Component | Link > with @route', function (hooks) {
     const router = this.owner.lookup('service:router');
     assert.strictEqual(router.currentURL, '/settings');
     assert.dom('#settings').hasClass('active');
+  });
+
+  test('puts no whitespace around its text', async function (assert) {
+    await visitWith(
+      this,
+      <template>
+        <Link @route="settings">Settings</Link>
+      </template>,
+    );
+    assert.strictEqual(
+      document.querySelector('a.cds--link')!.textContent,
+      'Settings',
+    );
   });
 
   test('a click handler can cancel the navigation, as in React Router', async function (assert) {

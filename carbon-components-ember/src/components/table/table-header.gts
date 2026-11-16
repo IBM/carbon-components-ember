@@ -151,7 +151,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
   }
 
   <template>
-    {{#if @isSortable}}
+    {{~#if @isSortable~}}
       <th
         id={{@id}}
         aria-sort={{this.ariaSort}}
@@ -181,9 +181,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
             <div
               class="cds--table-header-label"
               {{captureElement this.setLabel}}
-            >
-              {{yield}}
-            </div>
+            >{{yield}}</div>
             <ArrowUp @size="20" @svgClass="cds--table-sort__icon" />
             <ArrowsVertical
               @size="20"
@@ -197,7 +195,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
           </div>
         {{/if}}
       </th>
-    {{else}}
+    {{~else~}}
       <th
         id={{@id}}
         class={{@className}}
@@ -213,7 +211,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
                 'cds--table-header-label--slug cds--table-header-label--ai-label cds--table-header-label--decorator'
               }}"
           >
-            {{yield}}
+            {{~yield~}}
             <div class="cds--table-header-label--decorator-inner">
               {{#if (has-block "decorator")}}
                 {{yield (component AILabel size="mini") to="decorator"}}
@@ -222,6 +220,6 @@ export default class TableHeader extends Component<TableHeaderSignature> {
           </div>
         {{/if}}
       </th>
-    {{/if}}
+    {{~/if~}}
   </template>
 }

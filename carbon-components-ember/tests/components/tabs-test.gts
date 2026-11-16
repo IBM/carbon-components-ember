@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import {
   render,
   click,
@@ -24,6 +24,8 @@ import {
   disableCarbonStyles,
   enableCarbonStyles,
   nonce,
+  setupRoutes,
+  visitWith,
 } from '../helpers';
 
 module('Integration | Component | Tabs', (hooks) => {
@@ -355,6 +357,140 @@ module('Integration | Component | Tabs', (hooks) => {
     assert.dom(tabs()[1]).isDisabled();
     assert.dom(tabs()[1]).hasAttribute('aria-disabled', 'true');
     assert.dom(tabs()[0]).hasAttribute('aria-selected', 'true');
+  });
+
+  test('a tab with @href is a link that selects the tab when clicked', async function (assert) {
+    const changes: { selectedIndex: number }[] = [];
+    const onChange = (state: { selectedIndex: number }) => {
+      changes.push(state);
+    };
+    // Keeps the test page where it is.
+    const stay = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <Tabs @onChange={{onChange}} as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @href="#first">Tab 1</Tab>
+            <Tab @href="#second" class="mine" {{on "click" stay}}>Tab 2</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Content 1</TabPanel>
+            <TabPanel>Content 2</TabPanel>
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    assert.strictEqual(tabs()[1]!.tagName, 'A');
+    assert
+      .dom(tabs()[1])
+      .hasAttribute('href', '#second')
+      .hasAttribute('aria-selected', 'false')
+      .hasAttribute('aria-controls', panels()[1]!.id)
+      .hasAttribute('tabindex', '-1')
+      .hasClass('mine')
+      .hasClass('cds--tabs__nav-item')
+      .hasClass('cds--tabs__nav-link')
+      .doesNotHaveAttribute('type')
+      .doesNotHaveAttribute('aria-disabled');
+    assert.dom(tabs()[1]).hasText('Tab 2');
+
+    await click(tabs()[1]!);
+    assert
+      .dom(tabs()[1])
+      .hasAttribute('aria-selected', 'true')
+      .hasClass('cds--tabs__nav-item--selected')
+      .hasAttribute('tabindex', '0');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Content 2');
+    assert.deepEqual(changes, [{ selectedIndex: 1 }]);
+
+    await triggerKeyEvent(tabs()[1]!, 'keydown', 'ArrowRight');
+    assert.dom(tabs()[0]).isFocused().hasAttribute('aria-selected', 'true');
+  });
+
+  test("a link tab's label sits where a button tab's does", async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab @href="#second">Tab 2</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    const [button, link] = tabs().map((tab) => {
+      const label = tab.querySelector('.cds--tabs__nav-item-label')!;
+      return (
+        label.getBoundingClientRect().top - tab.getBoundingClientRect().top
+      );
+    });
+    assert.ok(button! > 0, 'the label is below the top of a button tab');
+    assert.strictEqual(link, button);
+  });
+
+  test('Space selects a link tab, as it does a button', async function (assert) {
+    // Keeps the test page where it is.
+    const stay = (event: MouseEvent) => event.preventDefault();
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" @activation="manual" as |Tab|>
+            <Tab @href="#first">Tab 1</Tab>
+            <Tab @href="#second" {{on "click" stay}}>Tab 2</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    await triggerKeyEvent(tabs()[0]!, 'keydown', 'ArrowRight');
+    assert.dom(tabs()[1]).isFocused().hasAttribute('aria-selected', 'false');
+
+    const space = new KeyboardEvent('keydown', {
+      key: ' ',
+      bubbles: true,
+      cancelable: true,
+    });
+    tabs()[1]!.dispatchEvent(space);
+    await settled();
+    assert.true(space.defaultPrevented, "Space doesn't scroll the page");
+    assert.dom(tabs()[1]).hasAttribute('aria-selected', 'true');
+  });
+
+  test('a disabled tab with @href stays a disabled button', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab>Tab 1</Tab>
+            <Tab @href="#second" @disabled={{true}}>Tab 2</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    assert.strictEqual(tabs()[1]!.tagName, 'BUTTON');
+    assert.dom(tabs()[1]).isDisabled().doesNotHaveAttribute('href');
+  });
+
+  test('@as renders another element in place of the button, given @href', async function (assert) {
+    await render(
+      <template>
+        <Tabs as |TabList|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @as="a" @href="#first">Tab 1</Tab>
+            <Tab @as="div">Tab 2</Tab>
+          </TabList>
+        </Tabs>
+      </template>,
+    );
+
+    assert.strictEqual(tabs()[0]!.tagName, 'A');
+    assert.dom(tabs()[0]).hasAttribute('href', '#first');
+    assert.strictEqual(tabs()[1]!.tagName, 'DIV');
+    assert.dom(tabs()[1]).hasAttribute('role', 'tab');
   });
 
   test('ArrowRight/ArrowLeft/Home/End move focus and (in automatic mode) selection', async function (assert) {
@@ -1043,5 +1179,42 @@ module('Integration | Component | Tabs', (hooks) => {
     assert
       .dom('.cds--tab--overflow-nav-button--next')
       .hasAttribute('aria-label', 'Scroll left');
+  });
+});
+
+module('Integration | Component | Tabs > with @route', function (hooks) {
+  setupApplicationTest(hooks);
+  setupRoutes(hooks);
+
+  test('a tab links to the route, and clicking it selects the tab and navigates there', async function (assert) {
+    const models = ['42'];
+    const query = { tab: 'profile' };
+    await visitWith(
+      this,
+      <template>
+        <Tabs as |TabList TabPanels|>
+          <TabList aria-label="Tabs" as |Tab|>
+            <Tab @route="user" @models={{models}} @query={{query}}>Ada</Tab>
+            <Tab @route="settings">Settings</Tab>
+          </TabList>
+          <TabPanels as |TabPanel|>
+            <TabPanel>Profile</TabPanel>
+            <TabPanel>Settings</TabPanel>
+          </TabPanels>
+        </Tabs>
+      </template>,
+    );
+
+    const tab = (href: string) => `[role="tab"][href="${href}"]`;
+    assert
+      .dom(tab('/users/42?tab=profile'))
+      .hasAttribute('aria-selected', 'true');
+    assert.dom(tab('/settings')).hasAttribute('aria-selected', 'false');
+
+    await click(tab('/settings'));
+    const router = this.owner.lookup('service:router');
+    assert.strictEqual(router.currentURL, '/settings');
+    assert.dom(tab('/settings')).hasAttribute('aria-selected', 'true');
+    assert.dom('[role="tabpanel"]:not([hidden])').hasText('Settings');
   });
 });

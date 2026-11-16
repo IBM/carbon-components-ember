@@ -1,0 +1,8 @@
+// A `<button>` centers its content, which Carbon's tab styles rely on to
+// center the label. A tab rendered as another element, such as a link's
+// `<a>`, centers it here, over Carbon's `.cds--tabs .cds--tabs__nav-link`.
+.cds--tabs .cds--ember-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

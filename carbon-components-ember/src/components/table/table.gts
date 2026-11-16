@@ -107,20 +107,16 @@ export default class Table extends Component<TableSignature> {
   }
 
   <template>
-    {{#if @stickyHeader}}
-      <section class="cds--data-table_inner-container">
-        <Content
+    {{~#if @stickyHeader~}}
+      <section class="cds--data-table_inner-container"><Content
           @container={{@container}}
           @classes={{this.classes}}
           @experimentalAutoAlign={{@experimentalAutoAlign}}
           @size={{@size}}
           @onAlign={{this.align}}
           ...attributes
-        >
-          {{yield}}
-        </Content>
-      </section>
-    {{else}}
+        >{{yield}}</Content></section>
+    {{~else~}}
       <Content
         @container={{@container}}
         @classes={{this.classes}}
@@ -128,10 +124,8 @@ export default class Table extends Component<TableSignature> {
         @size={{@size}}
         @onAlign={{this.align}}
         ...attributes
-      >
-        {{yield}}
-      </Content>
-    {{/if}}
+      >{{yield}}</Content>
+    {{~/if~}}
   </template>
 }
 
