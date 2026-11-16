@@ -25,7 +25,7 @@ const StructuredListCell: TOC<StructuredListCellSignature> = <template>
   {{! Matches @carbon/react, which renders both cells through its Text
     component: a head cell uses Text's default span tag, a body cell passes
     as div, and both get Text's default dir auto. }}
-  {{#if @head}}
+  {{#if @head~}}
     <span
       role="columnheader"
       dir="auto"
@@ -33,9 +33,9 @@ const StructuredListCell: TOC<StructuredListCellSignature> = <template>
         {{if @noWrap 'cds--structured-list-content--nowrap'}}"
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </span>
-  {{else}}
+  {{~else~}}
     <div
       role="cell"
       dir="auto"
@@ -43,9 +43,9 @@ const StructuredListCell: TOC<StructuredListCellSignature> = <template>
         {{if @noWrap 'cds--structured-list-content--nowrap'}}"
       ...attributes
     >
-      {{yield}}
+      {{~yield~}}
     </div>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default StructuredListCell;

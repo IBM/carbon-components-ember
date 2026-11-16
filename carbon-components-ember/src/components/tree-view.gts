@@ -91,7 +91,7 @@ function parentItem(node: HTMLElement) {
 const NodeLabel: TOC<{
   Args: { node: TreeNode; hasChildren: boolean };
 }> = <template>
-  {{! eslint-disable-next-line ember/template-require-splattributes -- part of a TreeNode, which takes the attributes }}
+  {{! eslint-disable-next-line ember/template-require-splattributes -- part of a TreeNode, which takes the attributes ~}}
   <div
     class="cds--tree-node__label"
     {{style (if @hasChildren @node.parentLabelStyles @node.leafLabelStyles)}}
@@ -122,7 +122,7 @@ const NodeLabel: TOC<{
         <@node.args.icon @size="16" @svgClass="cds--tree-node__icon" />
       {{/if}}
       <span id="{{@node.nodeId}}__label" class="cds--tree-node__label__text">
-        {{@node.args.label}}
+        {{~@node.args.label~}}
       </span>
     </span>
   </div>
@@ -261,7 +261,7 @@ class TreeNode extends Component<TreeNodeSignature> {
 
   <template>
     {{#if this.isLink}}
-      {{! As Carbon React's: the treeitem is the link, and its group sits beside it. }}
+      {{! As Carbon React's: the treeitem is the link, and its group sits beside it. ~}}
       <li role="none" class={{if (has-block) "cds--tree-node-link-parent"}}>
         {{! eslint-disable-next-line ember/template-require-mandatory-role-attributes -- as Carbon React's, a link node navigates, so it has no aria-selected }}
         <RouterLink
@@ -299,7 +299,7 @@ class TreeNode extends Component<TreeNodeSignature> {
             class="cds--tree-node__children
               {{unless this.expanded 'cds--tree-node--hidden'}}"
           >
-            {{yield
+            {{~yield
               (component
                 TreeNode
                 treeView=@treeView
@@ -308,11 +308,11 @@ class TreeNode extends Component<TreeNodeSignature> {
                 underIcon=this.childUnderIcon
                 iconIndents=this.childIconIndents
               )
-            }}
+            ~}}
           </ul>
         {{/if}}
       </li>
-    {{else}}
+    {{~else~}}
       <li
         role="treeitem"
         id={{this.nodeId}}
@@ -341,7 +341,7 @@ class TreeNode extends Component<TreeNodeSignature> {
             class="cds--tree-node__children
               {{unless this.expanded 'cds--tree-node--hidden'}}"
           >
-            {{yield
+            {{~yield
               (component
                 TreeNode
                 treeView=@treeView
@@ -350,11 +350,11 @@ class TreeNode extends Component<TreeNodeSignature> {
                 underIcon=this.childUnderIcon
                 iconIndents=this.childIconIndents
               )
-            }}
+            ~}}
           </ul>
         {{/if}}
       </li>
-    {{/if}}
+    {{~/if}}
   </template>
 }
 
@@ -415,9 +415,9 @@ export default class TreeView extends Component<TreeViewSignature> {
   };
 
   <template>
-    {{#unless @hideLabel}}
+    {{#unless @hideLabel~}}
       <label id={{this.labelId}} class="cds--label">{{@label}}</label>
-    {{/unless}}
+    {{~/unless~}}
     <ul
       role="tree"
       aria-label={{if @hideLabel @label}}
@@ -427,7 +427,7 @@ export default class TreeView extends Component<TreeViewSignature> {
       {{this.rovingFocus.container}}
       ...attributes
     >
-      {{yield (component TreeNode treeView=this depth=0)}}
+      {{~yield (component TreeNode treeView=this depth=0)~}}
     </ul>
   </template>
 }

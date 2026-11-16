@@ -1,6 +1,6 @@
 {
   "component": "FullPageError",
-  "generatedAt": "2026-10-28T12:15:56.332Z",
+  "generatedAt": "2026-11-06T04:58:52.333Z",
   "carbonReactVersion": "1.119.0",
   "ibmProductsVersion": "2.101.0",
   "reactVersion": "19.3.1",
@@ -85,7 +85,8 @@
                                 "children": [
                                   {
                                     "type": "text",
-                                    "text": "↳"
+                                    "text": "↳",
+                                    "whitespace": "trailing"
                                   }
                                 ]
                               },
@@ -1986,7 +1987,8 @@
                                 "children": [
                                   {
                                     "type": "text",
-                                    "text": "↳"
+                                    "text": "↳",
+                                    "whitespace": "trailing"
                                   }
                                 ]
                               },
@@ -3676,7 +3678,8 @@
                                 "children": [
                                   {
                                     "type": "text",
-                                    "text": "↳"
+                                    "text": "↳",
+                                    "whitespace": "trailing"
                                   }
                                 ]
                               },

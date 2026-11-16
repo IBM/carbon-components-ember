@@ -126,11 +126,10 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
       {{on "click" this.handleButtonClick}}
       {{captureElement this.setButtonElement}}
       ...attributes
-    >{{this.label}}</button>
-    <label class="cds--visually-hidden" for={{this.inputId}}>
-      <span>{{this.label}}</span>
-    </label>
-    <input
+    >{{this.label}}</button><label
+      class="cds--visually-hidden"
+      for={{this.inputId}}
+    ><span>{{this.label}}</span></label><input
       class="cds--visually-hidden"
       id={{this.inputId}}
       type="file"

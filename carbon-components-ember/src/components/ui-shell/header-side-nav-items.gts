@@ -29,7 +29,7 @@ const HeaderSideNavItems: TOC<HeaderSideNavItemsSignature> = <template>
     class="cds--side-nav__header-navigation
       {{if @hasDivider 'cds--side-nav__header-divider'}}"
   >
-    {{yield}}
+    {{~yield~}}
   </ul>
 </template>;
 

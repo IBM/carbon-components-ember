@@ -104,7 +104,7 @@ export default class Icon extends Component<IconSignature> {
 
   // eslint-disable-next-line ember/template-require-splattributes -- the svg comes from a helper; use @svgClass
   <template>
-    {{#if @loading}}
+    {{#if @loading~}}
       <span class="cds--ember-icon__loading">
         <Loading
           @small={{true}}
@@ -112,15 +112,15 @@ export default class Icon extends Component<IconSignature> {
           class={{this.classes}}
         />
       </span>
-    {{else}}
-      {{renderSvgPart
+    {{~else}}
+      {{~renderSvgPart
         this.svg
         class=(array @svgClass this.classes)
         fill=(or @fill "currentColor")
         size=this.size
         title=@title
         ariaLabel=@ariaLabel
-      }}
+      ~}}
     {{/if}}
   </template>
 }

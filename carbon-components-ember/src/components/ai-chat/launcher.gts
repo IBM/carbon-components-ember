@@ -138,7 +138,7 @@ export default class Launcher extends Component<LauncherSignature> {
           </span>
           {{#if this.showBadge}}
             <div class="cds-aichat-launcher__count-indicator">
-              {{this.badgeText}}
+              {{~this.badgeText~}}
             </div>
           {{/if}}
         </button>

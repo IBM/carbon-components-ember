@@ -20,7 +20,7 @@ const clearSelection = (table: DataTableContext) =>
   table.state.selectedItems.clear();
 
 const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
-  {{#if @table.state.selectedItems.size}}
+  {{#if @table.state.selectedItems.size~}}
     <div
       class="cds--batch-actions cds--batch-actions--active"
       aria-label="Table Action Bar"
@@ -35,13 +35,13 @@ const TableBatchActions: TOC<TableBatchActionsSignature> = <template>
       <div class="cds--batch-summary">
         <p class="cds--batch-summary__para">
           <span data-items-selected>
-            {{@table.state.selectedItems.size}}
+            {{~@table.state.selectedItems.size~}}
           </span>
           items selected
         </p>
       </div>
     </div>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default TableBatchActions;

@@ -37,7 +37,7 @@ const SideNavFooter: TOC<SideNavFooterSignature> = <template>
       @assistiveText
     )
     as |text|
-  }}
+  ~}}
     <footer ...attributes class="cds--side-nav__footer">
       <button
         class="cds--side-nav__toggle"
@@ -55,7 +55,7 @@ const SideNavFooter: TOC<SideNavFooterSignature> = <template>
         <span class="cds--assistive-text">{{text}}</span>
       </button>
     </footer>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default SideNavFooter;

@@ -13,10 +13,11 @@ module('Integration | Component | FormGroup', (hooks) => {
       </template>,
     );
 
-    assert.dom('fieldset.cds--fieldset').exists();
-    assert
-      .dom('fieldset.cds--fieldset')
-      .hasText('FormGroup Legend Form content');
+    // As in Carbon React, nothing separates the legend from the content.
+    assert.strictEqual(
+      document.querySelector('fieldset.cds--fieldset')!.textContent,
+      'FormGroup LegendForm content',
+    );
     assert.dom('legend.cds--label').hasText('FormGroup Legend');
   });
 

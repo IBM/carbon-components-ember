@@ -88,10 +88,10 @@ export default class Layer extends Component<LayerSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag class={{this.classes}} ...attributes>
-        {{yield (component Layer level=this.nextLevel)}}
+        {{~yield (component Layer level=this.nextLevel)~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

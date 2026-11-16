@@ -45,7 +45,7 @@ const FullPageError: TOC<FullPageErrorSignature> = <template>
           <h1 class="c4p--full-page-error__title">
             <span class="c4p--full-page-error__label">
               <span aria-hidden="true">↳ </span>
-              {{@label}}
+              {{~@label~}}
             </span>
             <span>{{@title}}</span>
           </h1>

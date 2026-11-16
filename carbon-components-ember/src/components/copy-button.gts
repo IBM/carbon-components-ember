@@ -115,7 +115,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
   };
 
   <template>
-    {{#if @inline}}
+    {{#if @inline~}}
       <CopyTrigger
         @align={{this.align}}
         @autoAlign={{@autoAlign}}
@@ -132,7 +132,7 @@ export default class CopyButton extends Component<CopyButtonSignature> {
           {{~yield~}}
         </code>
       </CopyTrigger>
-    {{else}}
+    {{~else~}}
       <LayoutConstraint @size={{SIZE}}>
         <CopyTrigger
           @align={{this.align}}
@@ -157,6 +157,6 @@ export default class CopyButton extends Component<CopyButtonSignature> {
           <CopyIcon @svgClass="cds--snippet__icon" />
         </CopyTrigger>
       </LayoutConstraint>
-    {{/if}}
+    {{~/if}}
   </template>
 }

@@ -102,13 +102,13 @@ const PageHeaderContent: TOC<PageHeaderContentSignature> = <template>
             </div>
             {{#if (has-block "contextualActions")}}
               <div class="c4p--page-header__content__contextual-actions">
-                {{yield to="contextualActions"}}
+                {{~yield to="contextualActions"~}}
               </div>
             {{/if}}
           </div>
-          {{yield @pageHeader.observerState to="pageActions"}}
+          {{~yield @pageHeader.observerState to="pageActions"~}}
         </div>
-        {{yield}}
+        {{~yield~}}
       </grid.Column>
     </Grid>
   </div>

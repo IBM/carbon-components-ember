@@ -50,11 +50,11 @@ export default class ChatHistorySearchItem extends Component<ChatHistorySearchIt
         {{on "click" this.handleClick}}
       >
         <span class="cds--side-nav__link-text">
-          {{#if (has-block)}}
+          {{~#if (has-block)~}}
             {{yield}}
-          {{else}}
+          {{~else~}}
             {{@name}}
-          {{/if}}
+          {{~/if~}}
         </span>
         {{#if @date}}
           <span class="cds--side-nav__link-subtitle">{{@date}}</span>

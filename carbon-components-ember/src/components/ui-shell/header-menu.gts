@@ -95,7 +95,7 @@ export default class HeaderMenu extends Component<HeaderMenuSignature> {
   };
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, the item handles its menu's clicks, Escape and focus }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, the item handles its menu's clicks, Escape and focus ~}}
     <li
       ...attributes
       class="cds--header__submenu"
@@ -115,12 +115,12 @@ export default class HeaderMenu extends Component<HeaderMenuSignature> {
         {{captureElement this.setButton}}
         {{on "keydown" this.toggleOnKey}}
       >
-        {{@menuLinkName}}
-        {{#if @renderMenuContent}}
+        {{~@menuLinkName~}}
+        {{~#if @renderMenuContent~}}
           <@renderMenuContent />
-        {{else}}
+        {{~else~}}
           <ChevronDown @svgClass="cds--header__menu-arrow" />
-        {{/if}}
+        {{~/if~}}
       </a>
       <ul
         aria-label={{@ariaLabel}}
@@ -128,7 +128,7 @@ export default class HeaderMenu extends Component<HeaderMenuSignature> {
         class="cds--header__menu"
         {{captureElement this.setList}}
       >
-        {{yield (component HeaderMenuItem menu=this)}}
+        {{~yield (component HeaderMenuItem menu=this)~}}
       </ul>
     </li>
   </template>

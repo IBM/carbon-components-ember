@@ -24,7 +24,7 @@ const SideNavItem: TOC<SideNavItemSignature> = <template>
     ...attributes
     class="cds--side-nav__item {{if @large 'cds--side-nav__item--large'}}"
   >
-    {{yield}}
+    {{~yield~}}
   </li>
 </template>;
 

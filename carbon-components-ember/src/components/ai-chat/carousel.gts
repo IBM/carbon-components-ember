@@ -151,9 +151,9 @@ export default class Carousel extends Component<CarouselSignature> {
           <ChevronLeft @size={{16}} @fill="currentColor" />
         </Button>
         <span class="cds-aichat-carousel__indicator">
-          {{this.displayCurrentIndex}}
+          {{~this.displayCurrentIndex}}
           /
-          {{this.displayLastIndex}}
+          {{this.displayLastIndex~}}
         </span>
         <Button
           @kind="ghost"

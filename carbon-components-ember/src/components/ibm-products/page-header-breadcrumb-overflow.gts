@@ -117,12 +117,12 @@ export default class PageHeaderBreadcrumbOverflow extends Component<PageHeaderBr
       {{this.manage this.last}}
       ...attributes
     >
-      {{yield
+      {{~yield
         (component PageHeaderOverflowBreadcrumbItem overflow=this)
         (component
           PageHeaderTitleBreadcrumb pageHeader=@pageHeader overflow=this
         )
-      }}
+      ~}}
     </Breadcrumb>
   </template>
 }

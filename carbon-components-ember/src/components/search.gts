@@ -187,7 +187,7 @@ export default class Search extends Component<SearchSignature> {
         for={{this.inputId}}
         class="cds--label"
       >
-        {{@labelText}}
+        {{~@labelText~}}
       </label>
       <input
         ...attributes

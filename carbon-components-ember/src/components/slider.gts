@@ -395,7 +395,7 @@ export default class Slider extends Component<SliderSignature> {
         id="{{this.id}}-label"
         dir="auto"
       >
-        {{@labelText}}
+        {{~@labelText~}}
       </label>
       <div
         class="cds--slider-container
@@ -519,14 +519,14 @@ export default class Slider extends Component<SliderSignature> {
           class="cds--slider__validation-msg cds--slider__validation-msg--invalid cds--form-requirement"
           dir="auto"
         >
-          {{@invalidText}}
+          {{~@invalidText~}}
         </div>
       {{else if @warn}}
         <div
           class="cds--slider__validation-msg cds--form-requirement"
           dir="auto"
         >
-          {{@warnText}}
+          {{~@warnText~}}
         </div>
       {{/if}}
     </div>

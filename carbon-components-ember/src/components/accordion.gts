@@ -108,7 +108,7 @@ class AccordionItem extends Component<AccordionItemSignature> {
           id="accordion-item-{{this.itemId}}"
           class="cds--accordion__content"
         >
-          {{yield}}
+          {{~yield~}}
         </div>
       </div>
     </li>
@@ -136,7 +136,7 @@ export default class Accordion extends Component<AccordionSignature> {
         {{if @size (concat 'cds--accordion--' @size)}}"
       ...attributes
     >
-      {{yield (component AccordionItem accordion=this)}}
+      {{~yield (component AccordionItem accordion=this)~}}
     </ul>
   </template>
 }

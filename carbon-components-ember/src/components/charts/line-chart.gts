@@ -37,7 +37,7 @@ export default class LineChart extends Component<LineChartSignature> {
       ...attributes
       as |chart|
     >
-      {{yield chart}}
+      {{~yield chart~}}
     </Chart>
   </template>
 }

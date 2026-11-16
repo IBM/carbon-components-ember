@@ -58,7 +58,7 @@ export default class TableExpandHeader extends Component<TableExpandHeaderSignat
       id={{if @id @id "expand"}}
       ...attributes
     >
-      {{#if this.showButton}}
+      {{~#if this.showButton~}}
         <button
           type="button"
           class="cds--table-expand__button"
@@ -74,8 +74,8 @@ export default class TableExpandHeader extends Component<TableExpandHeaderSignat
             @ariaLabel={{@expandIconDescription}}
           />
         </button>
-      {{/if}}
-      {{yield}}
+      {{~/if~}}
+      {{~yield~}}
     </th>
   </template>
 }

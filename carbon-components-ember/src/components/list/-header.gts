@@ -12,7 +12,7 @@ const ListHeader: TOC<ListHeaderSignature> = <template>
     <div class="cds--structured-list-row cds--structured-list-row--header-row">
       {{#each @headers as |h|}}
         <div class="cds--structured-list-th">
-          {{h}}
+          {{~h~}}
         </div>
       {{/each}}
     </div>

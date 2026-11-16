@@ -98,7 +98,7 @@ export default class HeaderPanel extends Component<HeaderPanelSignature> {
   });
 
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, the panel closes on Escape and when focus leaves it }}
+    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- as in Carbon React, the panel closes on Escape and when focus leaves it ~}}
     <div
       ...attributes
       class="cds--header-panel
@@ -107,7 +107,7 @@ export default class HeaderPanel extends Component<HeaderPanelSignature> {
       {{on "keydown" this.closeOnEscape}}
       {{this.closeOnOutsideClick}}
     >
-      {{yield (component Switcher panel=this)}}
+      {{~yield (component Switcher panel=this)~}}
     </div>
   </template>
 }

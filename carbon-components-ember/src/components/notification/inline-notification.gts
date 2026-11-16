@@ -52,7 +52,7 @@ export default class InlineNotification extends Component<InlineNotificationSign
   };
 
   <template>
-    {{#if this.isOpen}}
+    {{#if this.isOpen~}}
       <div
         role="status"
         class="cds--inline-notification cds--inline-notification--{{this.kind}}
@@ -69,12 +69,12 @@ export default class InlineNotification extends Component<InlineNotificationSign
           <div class="cds--inline-notification__text-wrapper">
             {{#if @title}}
               <Text @as="div" class="cds--inline-notification__title">
-                {{@title}}
+                {{~@title~}}
               </Text>
             {{/if}}
             {{#if @subtitle}}
               <Text @as="div" class="cds--inline-notification__subtitle">
-                {{@subtitle}}
+                {{~@subtitle~}}
               </Text>
             {{/if}}
             {{yield}}
@@ -88,6 +88,6 @@ export default class InlineNotification extends Component<InlineNotificationSign
           />
         {{/unless}}
       </div>
-    {{/if}}
+    {{~/if}}
   </template>
 }

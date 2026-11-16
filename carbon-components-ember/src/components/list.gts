@@ -109,16 +109,16 @@ export default class List<T> extends Component<ListSignature<T>> {
   };
 
   <template>
-    {{#if @loading}}
+    {{#if @loading~}}
       <ListSkeletonComponent ...attributes />
-    {{else}}
+    {{~else~}}
       <section
         class="cds--structured-list cds--ember-list
           {{if @selectable 'cds--structured-list--selection'}}"
         {{this.delayItems}}
         ...attributes
       >
-        {{yield
+        {{~yield
           (hash
             items=this.currentItems
             SearchInput=(component
@@ -140,8 +140,8 @@ export default class List<T> extends Component<ListSignature<T>> {
             )
             Header=ListHeaderComponent
           )
-        }}
+        ~}}
       </section>
-    {{/if}}
+    {{~/if}}
   </template>
 }

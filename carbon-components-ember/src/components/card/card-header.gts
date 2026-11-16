@@ -60,7 +60,7 @@ export default class CardHeader extends Component<CardHeaderSignature> {
           role="presentation"
           {{this.setUpDecorator}}
         >
-          {{yield AILabel to="decorator"}}
+          {{~yield AILabel to="decorator"~}}
         </div>
       {{/if}}
     </div>

@@ -76,7 +76,7 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
   }
 
   <template>
-    {{#if this.isLink}}
+    {{#if this.isLink~}}
       <RouterLink
         @href={{@href}}
         @route={{@route}}
@@ -86,19 +86,19 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
         class={{this.classes}}
         ...attributes
       >
-        {{! Carbon React keeps the description in a link, without aria-describedby. }}
-        {{#if this.dangerDescriptionId}}
+        {{~! Carbon React keeps the description in a link, without aria-describedby. ~}}
+        {{~#if this.dangerDescriptionId~}}
           <span id={{this.dangerDescriptionId}} class="cds--visually-hidden">
-            {{@dangerDescription}}
+            {{~@dangerDescription~}}
           </span>
-        {{/if}}
-        {{yield}}
-        {{#if @renderIcon}}
+        {{~/if~}}
+        {{~yield~}}
+        {{~#if @renderIcon~}}
           <@renderIcon @size={{16}} @svgClass="cds--btn__icon" />
-        {{/if}}
+        {{~/if~}}
       </RouterLink>
-    {{else}}
-      {{#let (element this.tag) as |Tag|}}
+    {{~else~}}
+      {{#let (element this.tag) as |Tag|~}}
         <Tag
           class={{this.classes}}
           disabled={{@disabled}}
@@ -108,17 +108,17 @@ export default class ButtonBase extends Component<ButtonBaseSignature> {
           aria-pressed={{this.ariaPressed}}
           ...attributes
         >
-          {{#if this.dangerDescriptionId}}
+          {{~#if this.dangerDescriptionId~}}
             <span id={{this.dangerDescriptionId}} class="cds--visually-hidden">
-              {{@dangerDescription}}
+              {{~@dangerDescription~}}
             </span>
-          {{/if}}
-          {{yield}}
-          {{#if @renderIcon}}
+          {{~/if~}}
+          {{~yield~}}
+          {{~#if @renderIcon~}}
             <@renderIcon @size={{16}} @svgClass="cds--btn__icon" />
-          {{/if}}
+          {{~/if~}}
         </Tag>
-      {{/let}}
-    {{/if}}
+      {{~/let}}
+    {{~/if}}
   </template>
 }

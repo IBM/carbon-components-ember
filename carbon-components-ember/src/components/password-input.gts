@@ -166,11 +166,11 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
             {{if @hideLabel 'cds--visually-hidden'}}
             {{if @disabled 'cds--label--disabled'}}"
         >
-          {{#if (has-block "labelText")}}
+          {{~#if (has-block "labelText")~}}
             {{yield to="labelText"}}
-          {{else}}
+          {{~else~}}
             {{@labelText}}
-          {{/if}}
+          {{~/if~}}
         </label>
       {{/if}}
       <div

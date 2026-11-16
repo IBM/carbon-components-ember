@@ -123,28 +123,28 @@ export default class PromptLineShell extends Component<PromptLineShellSignature>
         >
           {{#if (has-block "fileUploads")}}
             <div class="cds-aichat-prompt-line-shell__file-uploads">
-              {{yield to="fileUploads"}}
+              {{~yield to="fileUploads"~}}
             </div>
           {{/if}}
           {{#if (has-block "autocompleteContent")}}
             <div class="cds-aichat-prompt-line-shell__autocomplete-content">
-              {{yield to="autocompleteContent"}}
+              {{~yield to="autocompleteContent"~}}
             </div>
           {{/if}}
         </div>
         <div class="cds-aichat-prompt-line-shell__field-messaging">
-          {{yield to="fieldMessaging"}}
+          {{~yield to="fieldMessaging"~}}
         </div>
         <div class="cds-aichat-prompt-line-shell__text-and-actions">
           <div class="cds-aichat-prompt-line-shell__message-actions">
-            {{yield to="messageActions"}}
+            {{~yield to="messageActions"~}}
           </div>
           <div class="cds-aichat-prompt-line-shell__text-area">
-            {{yield to="editor"}}
+            {{~yield to="editor"~}}
           </div>
         </div>
         <div class="cds-aichat-prompt-line-shell__send-control">
-          {{yield to="sendControl"}}
+          {{~yield to="sendControl"~}}
         </div>
       </div>
     </div>

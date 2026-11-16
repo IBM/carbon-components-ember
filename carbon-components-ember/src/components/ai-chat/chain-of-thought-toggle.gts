@@ -92,7 +92,7 @@ export default class ChainOfThoughtToggle extends Component<ChainOfThoughtToggle
         class="cds-aichat-chain-of-thought-toggle__label"
         title={{this.labelText}}
       >
-        {{this.labelText}}
+        {{~this.labelText~}}
       </span>
     </button>
   </template>

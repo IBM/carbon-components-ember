@@ -160,7 +160,7 @@ export default class MenuItem
   };
 
   <template>
-    {{#let (has-block) as |hasChildren|}}
+    {{#let (has-block) as |hasChildren|~}}
       <li
         role={{this.role}}
         class={{this.classesFor hasChildren}}
@@ -177,14 +177,14 @@ export default class MenuItem
         ...attributes
       >
         <div class="cds--menu-item__selection-icon">
-          {{#if @ariaChecked}}
+          {{~#if @ariaChecked~}}
             <Checkmark />
-          {{/if}}
+          {{~/if~}}
         </div>
         <div class="cds--menu-item__icon">
-          {{#if @renderIcon}}
+          {{~#if @renderIcon~}}
             <@renderIcon />
-          {{/if}}
+          {{~/if~}}
         </div>
         <div class="cds--menu-item__label">{{@label}}</div>
         {{#if (this.isDanger hasChildren)}}
@@ -193,7 +193,7 @@ export default class MenuItem
               id="menu-item-danger-{{this.guid}}"
               class="cds--visually-hidden"
             >
-              {{@dangerDescription}}
+              {{~@dangerDescription~}}
             </span>
           {{/if}}
         {{/if}}
@@ -214,10 +214,10 @@ export default class MenuItem
             @onClose={{this.closeSubmenu}}
             as |Item Selectable RadioGroup|
           >
-            {{yield Item Selectable RadioGroup}}
+            {{~yield Item Selectable RadioGroup~}}
           </@menu.Submenu>
         {{/if}}
       </li>
-    {{/let}}
+    {{~/let}}
   </template>
 }

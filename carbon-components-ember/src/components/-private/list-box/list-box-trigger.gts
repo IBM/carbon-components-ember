@@ -20,7 +20,7 @@ export interface ListBoxTriggerSignature {
  * `ListBoxTrigger`.
  */
 const ListBoxTrigger: TOC<ListBoxTriggerSignature> = <template>
-  {{#let (if @isOpen "Close" "Open") as |description|}}
+  {{#let (if @isOpen "Close" "Open") as |description|~}}
     <button
       ...attributes
       type="button"
@@ -32,7 +32,7 @@ const ListBoxTrigger: TOC<ListBoxTriggerSignature> = <template>
     >
       <ChevronDown @size="16" />
     </button>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default ListBoxTrigger;

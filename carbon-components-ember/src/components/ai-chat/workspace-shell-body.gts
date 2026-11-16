@@ -23,7 +23,7 @@ export interface WorkspaceShellBodySignature {
  */
 const WorkspaceShellBody: TOC<WorkspaceShellBodySignature> = <template>
   <div class="cds-aichat-workspace-shell__body" ...attributes>
-    {{yield}}
+    {{~yield~}}
   </div>
 </template>;
 

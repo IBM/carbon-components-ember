@@ -36,20 +36,20 @@ const mediaStyles = (mediaWidth?: string) => ({
  * a horizontal card, its full height beside the content.
  */
 const CardMedia: TOC<CardMediaSignature> = <template>
-  {{#if @horizontal}}
+  {{#if @horizontal~}}
     <div
       class="cds--card__media cds--card__media--horizontal"
       ...attributes
       {{style (mediaStyles @mediaWidth)}}
     >{{yield}}</div>
-  {{else}}
+  {{~else~}}
     <AspectRatio
       @as={{@as}}
       @ratio={{@ratio}}
       class="cds--card__media"
       ...attributes
     >{{yield}}</AspectRatio>
-  {{/if}}
+  {{~/if}}
 </template>;
 
 export default CardMedia;

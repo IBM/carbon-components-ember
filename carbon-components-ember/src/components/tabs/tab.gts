@@ -171,7 +171,7 @@ export default class Tab extends Component<TabSignature> {
             </div>
           {{/if}}
           <span class="cds--tabs__nav-item-label" dir="auto" {{this.readLabel}}>
-            {{yield}}
+            {{~yield~}}
           </span>
           {{#if (and (not @tabs.args.dismissable) @renderIcon)}}
             <div class="cds--tabs__nav-item--icon">
@@ -185,7 +185,7 @@ export default class Tab extends Component<TabSignature> {
             title={{@secondaryLabel}}
             dir="auto"
           >
-            {{@secondaryLabel}}
+            {{~@secondaryLabel~}}
           </div>
         {{/if}}
       </RouterLink>
@@ -219,7 +219,7 @@ export default class Tab extends Component<TabSignature> {
               dir="auto"
               {{this.readLabel}}
             >
-              {{yield}}
+              {{~yield~}}
             </span>
             {{#if (and (not @tabs.args.dismissable) @renderIcon)}}
               <div class="cds--tabs__nav-item--icon">
@@ -233,7 +233,7 @@ export default class Tab extends Component<TabSignature> {
               title={{@secondaryLabel}}
               dir="auto"
             >
-              {{@secondaryLabel}}
+              {{~@secondaryLabel~}}
             </div>
           {{/if}}
         </Tag>

@@ -150,16 +150,16 @@ export default class AILabel extends Component<AILabelSignature> {
             <span class="cds--ai-label__text">{{this.aiText}}</span>
             {{#if this.inlineText}}
               <span class="cds--ai-label__additional-text">
-                {{this.inlineText}}
+                {{~this.inlineText~}}
               </span>
             {{/if}}
           </toggletip.Button>
-          {{yield
+          {{~yield
             (hash
               Content=(component AILabelContent Content=toggletip.Content)
               Actions=AILabelActions
             )
-          }}
+          ~}}
         </Toggletip>
       {{/if}}
     </div>

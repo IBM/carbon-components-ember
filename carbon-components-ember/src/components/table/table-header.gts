@@ -191,7 +191,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         </button>
         {{#if (has-block "decorator")}}
           <div class="cds--table-header-label--decorator-inner">
-            {{yield (component AILabel size="mini") to="decorator"}}
+            {{~yield (component AILabel size="mini") to="decorator"~}}
           </div>
         {{/if}}
       </th>
@@ -213,9 +213,9 @@ export default class TableHeader extends Component<TableHeaderSignature> {
           >
             {{~yield~}}
             <div class="cds--table-header-label--decorator-inner">
-              {{#if (has-block "decorator")}}
+              {{~#if (has-block "decorator")~}}
                 {{yield (component AILabel size="mini") to="decorator"}}
-              {{/if}}
+              {{~/if~}}
             </div>
           </div>
         {{/if}}

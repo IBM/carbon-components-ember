@@ -48,12 +48,11 @@ const FormGroup: TOC<FormGroupSignature> = <template>
     data-invalid={{if @invalid ""}}
     aria-labelledby={{@legendId}}
     ...attributes
-  >
-    <legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
-    {{yield}}
-    {{#if @message}}
+  ><legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
+    {{~yield~}}
+    {{#if @message~}}
       <div class="cds--form__requirements">{{@messageText}}</div>
-    {{/if}}
+    {{/if~}}
   </fieldset>
 </template>;
 

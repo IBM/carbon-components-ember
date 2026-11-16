@@ -45,7 +45,7 @@ const HeaderGlobalAction: TOC<HeaderGlobalActionSignature> = <template>
     @tooltipDropShadow={{@tooltipDropShadow}}
     @tooltipHighContrast={{@tooltipHighContrast}}
   >
-    {{yield}}
+    {{~yield~}}
   </Button>
 </template>;
 

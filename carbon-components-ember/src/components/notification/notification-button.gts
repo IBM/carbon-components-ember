@@ -39,7 +39,7 @@ const NotificationButton: TOC<NotificationButtonSignature> = <template>
   {{#let
     (or @notificationType "toast") (or @ariaLabel "close notification")
     as |type label|
-  }}
+  ~}}
     <button
       type="button"
       aria-label={{label}}
@@ -59,7 +59,7 @@ const NotificationButton: TOC<NotificationButtonSignature> = <template>
         />
       {{/if}}
     </button>
-  {{/let}}
+  {{~/let}}
 </template>;
 
 export default NotificationButton;

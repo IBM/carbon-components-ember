@@ -57,10 +57,10 @@ export default class Stack extends Component<StackSignature> {
   }
 
   <template>
-    {{#let (element this.tag) as |Tag|}}
+    {{#let (element this.tag) as |Tag|~}}
       <Tag class={{this.classes}} {{style this.styles}} ...attributes>
-        {{yield}}
+        {{~yield~}}
       </Tag>
-    {{/let}}
+    {{~/let}}
   </template>
 }

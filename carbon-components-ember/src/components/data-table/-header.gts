@@ -103,7 +103,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
             {{else if h.sortable}}
               <Button @kind="primary" class="cds--table-sort" title={{h.label}}>
                 <span class="cds--table-header-label">
-                  {{h.label}}
+                  {{~h.label~}}
                 </span>
                 <svg
                   focusable="false"
@@ -139,7 +139,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
                 class="cds--table-header-label
                   {{if h.hideLabel 'cds--visually-hidden'}}"
               >
-                {{h.label}}
+                {{~h.label~}}
               </span>
             {{/if}}
           </th>

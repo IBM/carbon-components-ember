@@ -281,7 +281,7 @@ export default class Select extends Component<SelectSignature> {
                 {{on "mousedown" this.handleMouseDown}}
                 {{on "keydown" this.handleKeyDown}}
               >
-                {{yield (component SelectItem select=this)}}
+                {{~yield (component SelectItem select=this)~}}
               </select>
               <ChevronDown @size="16" @svgClass="cds--select__arrow" />
               {{#if this.invalid}}
@@ -298,7 +298,7 @@ export default class Select extends Component<SelectSignature> {
               {{#if (has-block "decorator")}}
                 {{#unless @inline}}
                   <div class="cds--select__inner-wrapper--decorator">
-                    {{yield (component AILabel size="mini") to="decorator"}}
+                    {{~yield (component AILabel size="mini") to="decorator"~}}
                   </div>
                 {{/unless}}
               {{/if}}

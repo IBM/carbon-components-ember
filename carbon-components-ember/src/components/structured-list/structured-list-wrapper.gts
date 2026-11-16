@@ -61,7 +61,7 @@ export default class StructuredListWrapper extends Component<StructuredListWrapp
         {{if @isCondensed 'cds--structured-list--condensed'}}
         {{if (and @isFlush (not @selection)) 'cds--structured-list--flush'}}"
     >
-      {{yield (component StructuredListRow wrapper=this)}}
+      {{~yield (component StructuredListRow wrapper=this)~}}
     </div>
   </template>
 }
