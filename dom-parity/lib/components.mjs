@@ -420,8 +420,8 @@
  *    root drops the non-upstream `cds--form-item--invalid` class, and the
  *    thumb icons gained upstream's invisible hit-box path; and both
  *    IconIndicator's and ShapeIndicator's `compact` mode now render
- *    through a private port of `DefinitionTooltip`
- *    (`components/-private/definition-tooltip.gts`) with upstream's exact
+ *    through `DefinitionTooltip`
+ *    (`components/definition-tooltip.gts`) with upstream's exact
  *    `<button class="cds--definition-term">` trigger and panel markup.
  *    The svg root `preserveAspectRatio`/`xmlns`/`aria-hidden`/
  *    `will-change` gap was fixed addon-wide in `render-svg-part.ts` (#911),
@@ -608,6 +608,32 @@ const tag = (name, props) => ({
   createElement: (React, Carbon) =>
     React.createElement(Carbon.Tag, props, 'Tag content'),
 });
+
+const definitionTooltip = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.DefinitionTooltip,
+      { definition: 'Uniform Resource Locator', ...props },
+      'URL',
+    ),
+});
+
+// DismissibleTag, OperationalTag and SelectableTag take their text as `text`.
+const interactiveTag = (component) => (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon[component], {
+      text: 'Tag content',
+      ...props,
+      ...(props.renderIcon && { renderIcon: Add }),
+    }),
+});
+const dismissibleTag = interactiveTag('DismissibleTag');
+const operationalTag = interactiveTag('OperationalTag');
+const selectableTag = interactiveTag('SelectableTag');
 
 const link = (name, props) => ({
   name,
@@ -835,6 +861,18 @@ const checkbox = (name, props) => ({
     }),
 });
 
+const inlineCheckbox = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.InlineCheckbox, {
+      id: 'inline-checkbox-1',
+      name: 'inline-checkbox',
+      'aria-label': 'Select row',
+      ...props,
+    }),
+});
+
 const radioButton = (name, props) => ({
   name,
   props,
@@ -967,6 +1005,17 @@ const select = (name, props) => ({
         text: 'Option 2',
       }),
     ),
+});
+
+const pagination = (name, props) => ({
+  name,
+  props: { id: 'pagination-1', totalItems: 103, ...props },
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Pagination, {
+      id: 'pagination-1',
+      totalItems: 103,
+      ...props,
+    }),
 });
 
 // Carbon React's Modal wraps its container in an overlay <div>; this addon's
@@ -1417,6 +1466,298 @@ const structuredList = (name, props) => ({
   },
 });
 
+// Hand-built tables. `table(...)` renders the parts in a small table; the
+// header, row and cell variants render one table around the part under
+// test, and the fixture's root is that part's own element (or the table's
+// wrapper for `Table`).
+const tableBody = (React, Carbon, rowProps = {}, cellProps = {}) => [
+  React.createElement(
+    Carbon.TableHead,
+    { key: 'head' },
+    React.createElement(
+      Carbon.TableRow,
+      null,
+      React.createElement(Carbon.TableHeader, null, 'Name'),
+      React.createElement(Carbon.TableHeader, null, 'Role'),
+    ),
+  ),
+  React.createElement(
+    Carbon.TableBody,
+    { key: 'body' },
+    React.createElement(
+      Carbon.TableRow,
+      rowProps,
+      React.createElement(Carbon.TableCell, cellProps, 'Ada'),
+      React.createElement(Carbon.TableCell, null, 'Engineer'),
+    ),
+    React.createElement(
+      Carbon.TableRow,
+      null,
+      React.createElement(Carbon.TableCell, null, 'Grace'),
+      React.createElement(Carbon.TableCell, null, 'Admiral'),
+    ),
+  ),
+];
+
+const table = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Table, props, ...tableBody(React, Carbon)),
+});
+
+const tableContainer = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableContainer,
+      props,
+      React.createElement(
+        Carbon.Table,
+        props.stickyHeader ? { stickyHeader: true } : null,
+        ...tableBody(React, Carbon),
+      ),
+    ),
+});
+
+// A header's own element: the `<th>` in a table around it.
+const tableHeader = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableHeader, props, 'Name'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('th'),
+});
+
+const tableRow = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Table, null, ...tableBody(React, Carbon, props)),
+  pickRoot: (container) => container.querySelector('tbody > tr'),
+});
+
+const tableCell = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      ...tableBody(React, Carbon, {}, props),
+    ),
+  pickRoot: (container) => container.querySelector('tbody td'),
+});
+
+// The toolbar and batch-action parts. The toolbar variants render the part
+// in the toolbar it belongs in; `pickRoot` finds the part's own element.
+const tableToolbar = (name, props, children = () => []) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbar,
+      props,
+      React.createElement(
+        Carbon.TableToolbarContent,
+        null,
+        ...children(React, Carbon),
+      ),
+    ),
+});
+
+const tableToolbarPart = (name, props, root) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbar,
+      props.toolbar ?? null,
+      React.createElement(
+        Carbon.TableToolbarContent,
+        null,
+        React.createElement(Carbon[root.part], root.props ?? {}),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector(root.selector),
+});
+
+const tableToolbarMenu = (name, props, { root = 'trigger' } = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableToolbarMenu,
+      { 'aria-label': 'Toolbar menu', ...props },
+      React.createElement(
+        Carbon.TableToolbarAction,
+        { key: 'a', onClick: () => {} },
+        'Refresh data',
+      ),
+      React.createElement(
+        Carbon.TableToolbarAction,
+        { key: 'b', onClick: () => {} },
+        'Download',
+      ),
+    ),
+  pickRoot: (container) =>
+    container.ownerDocument.querySelector(
+      root === 'trigger'
+        ? 'button.cds--overflow-menu'
+        : root === 'action'
+          ? '.cds--overflow-menu-options li'
+          : '.cds--overflow-menu-options',
+    ),
+  idScope: (container) => container.ownerDocument.body,
+});
+
+const tableBatchActions = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.TableBatchActions,
+      { onCancel: () => {}, totalSelected: 0, ...props },
+      React.createElement(Carbon.TableBatchAction, { key: 'a' }, 'Add'),
+    ),
+});
+
+const tableBatchAction = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TableBatchAction, props, 'Add'),
+});
+
+const tableActionList = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.TableActionList, props, 'Actions'),
+});
+
+// The selection cells, each in the table around it: the `<th>` of a header
+// row, and the first `<td>` of a body row.
+const tableSelectAll = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableSelectAll, {
+            id: 'select-all',
+            name: 'select-all',
+            onSelect: () => {},
+            ...props,
+          }),
+          React.createElement(Carbon.TableHeader, null, 'Name'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('th'),
+});
+
+const tableSelectRow = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableBody,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableSelectRow, {
+            id: 'select-row',
+            name: 'select-row',
+            onSelect: () => {},
+            ...props,
+          }),
+          React.createElement(Carbon.TableCell, null, 'Ada'),
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector('td'),
+});
+
+// The expansion parts, each in a table with an expand header, an expandable
+// row and the row it expands; the fixture's root is the part under test.
+const tableExpansion = (name, pick, { header, row, expanded, decorator }) => ({
+  name,
+  props: { header, row, expanded, decorator },
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.Table,
+      null,
+      React.createElement(
+        Carbon.TableHead,
+        null,
+        React.createElement(
+          Carbon.TableRow,
+          null,
+          React.createElement(Carbon.TableExpandHeader, header ?? null),
+          React.createElement(Carbon.TableHeader, null, 'Name'),
+        ),
+      ),
+      React.createElement(
+        Carbon.TableBody,
+        null,
+        React.createElement(
+          Carbon.TableExpandRow,
+          { onExpand: () => {}, ...row },
+          decorator
+            ? React.createElement(Carbon.TableDecoratorRow, {
+                decorator: React.createElement(Carbon.AILabel, {
+                  'aria-label': 'AI',
+                }),
+              })
+            : null,
+          React.createElement(Carbon.TableCell, null, 'Ada'),
+        ),
+        React.createElement(
+          Carbon.TableExpandedRow,
+          { colSpan: 3, ...expanded },
+          'Details',
+        ),
+      ),
+    ),
+  pickRoot: (container) => container.querySelector(pick),
+});
+
+const tableExpandHeader = (name, header) =>
+  tableExpansion(name, 'thead th.cds--table-expand', { header });
+const tableExpandRow = (name, row, decorator) =>
+  tableExpansion(name, 'tbody tr[data-parent-row]', { row, decorator });
+const tableExpandedRow = (name, expanded) =>
+  tableExpansion(name, 'tbody tr[data-child-row]', { expanded });
+const tableDecoratorRow = (name) =>
+  tableExpansion(name, 'tbody td.cds--table-column-decorator', {
+    decorator: true,
+  });
+
 // `Tabs` itself is a context provider with no DOM of its own - it renders
 // `TabList` (the `cds--tabs` root Ember's `Tabs` compares against, picked
 // via `pickRoot`) followed by `TabPanels`' sibling panel `<div>`s. Every
@@ -1583,6 +1924,54 @@ export const COMPONENTS = [
       tag('disabled', { type: 'gray', disabled: true }),
       tag('size-sm', { type: 'gray', size: 'sm' }),
       tag('size-lg', { type: 'gray', size: 'lg' }),
+    ],
+  },
+  {
+    name: 'DismissibleTag',
+    variants: [
+      dismissibleTag('default', { type: 'red' }),
+      dismissibleTag('disabled', { type: 'gray', disabled: true }),
+      dismissibleTag('size-sm', { type: 'gray', size: 'sm' }),
+      dismissibleTag('with-icon', { type: 'blue', renderIcon: 'Add' }),
+      dismissibleTag('custom-title', {
+        type: 'gray',
+        title: 'Remove filter',
+        tagTitle: 'Full tag title',
+      }),
+    ],
+  },
+  {
+    name: 'OperationalTag',
+    variants: [
+      operationalTag('default', {}),
+      operationalTag('red', { type: 'red' }),
+      operationalTag('disabled', { disabled: true }),
+      operationalTag('size-sm', { size: 'sm' }),
+      operationalTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'SelectableTag',
+    variants: [
+      selectableTag('default', {}),
+      selectableTag('selected', { selected: true }),
+      selectableTag('disabled', { disabled: true }),
+      selectableTag('size-sm', { size: 'sm' }),
+      selectableTag('with-icon', { renderIcon: 'Add' }),
+    ],
+  },
+  {
+    name: 'DefinitionTooltip',
+    variants: [
+      definitionTooltip('default', {}),
+      definitionTooltip('default-open', { defaultOpen: true }),
+      definitionTooltip('align-top', { align: 'top' }),
+      definitionTooltip('auto-align', { autoAlign: true }),
+      definitionTooltip('class-names', {
+        className: 'custom-popover',
+        triggerClassName: 'custom-trigger',
+      }),
+      definitionTooltip('id', { id: 'url-definition' }),
     ],
   },
   {
@@ -2093,6 +2482,16 @@ export const COMPONENTS = [
     ],
   },
   {
+    name: 'InlineCheckbox',
+    variants: [
+      inlineCheckbox('default', {}),
+      inlineCheckbox('checked', { checked: true }),
+      inlineCheckbox('indeterminate', { indeterminate: true }),
+      inlineCheckbox('disabled', { disabled: true }),
+      inlineCheckbox('title', { title: 'Select this row' }),
+    ],
+  },
+  {
     name: 'RadioButton',
     variants: [
       radioButton('default', {}),
@@ -2150,6 +2549,52 @@ export const COMPONENTS = [
       ),
       breadcrumb('custom-link', {}, { link: '#b' }),
       breadcrumb('overflow-menu', {}, { overflowMenu: true }),
+    ],
+  },
+  {
+    name: 'Pagination',
+    variants: [
+      pagination('default', { pageSizes: [10, 20, 30] }),
+      pagination('no-page-sizes', {}),
+      pagination('page-2', { pageSizes: [10, 20, 30], page: 2 }),
+      pagination('last-page', { pageSizes: [10, 20, 30], page: 11 }),
+      pagination('page-size-20', { pageSizes: [10, 20, 30], pageSize: 20 }),
+      pagination('custom-page-sizes', {
+        pageSizes: [
+          { text: 'Ten', value: 10 },
+          { text: 'Twenty', value: 20 },
+        ],
+      }),
+      pagination('pages-unknown', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        totalItems: undefined,
+        page: 2,
+      }),
+      pagination('is-last-page', {
+        pageSizes: [10, 20, 30],
+        pagesUnknown: true,
+        isLastPage: true,
+        totalItems: undefined,
+      }),
+      pagination('no-items', { totalItems: 0 }),
+      pagination('disabled', { pageSizes: [10, 20, 30], disabled: true }),
+      pagination('page-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageInputDisabled: true,
+      }),
+      pagination('page-size-input-disabled', {
+        pageSizes: [10, 20, 30],
+        pageSizeInputDisabled: true,
+      }),
+      pagination('size-sm', { pageSizes: [10, 20, 30], size: 'sm' }),
+      pagination('size-lg', { pageSizes: [10, 20, 30], size: 'lg' }),
+      pagination('custom-texts', {
+        pageSizes: [10, 20, 30],
+        backwardText: 'Back',
+        forwardText: 'Forward',
+        itemsPerPageText: 'Rows:',
+      }),
     ],
   },
   {
@@ -2611,6 +3056,263 @@ export const COMPONENTS = [
         selectedInitialRow: 'row-2',
       }),
     ],
+  },
+  {
+    name: 'TableContainer',
+    variants: [
+      tableContainer('default', {}),
+      tableContainer('title', { title: 'Team' }),
+      tableContainer('description', { description: 'Who works here' }),
+      tableContainer('title-description', {
+        title: 'Team',
+        description: 'Who works here',
+      }),
+      tableContainer('sticky-header', { title: 'Team', stickyHeader: true }),
+      tableContainer('static-width', { title: 'Team', useStaticWidth: true }),
+      tableContainer('ai-enabled', { title: 'Team', aiEnabled: true }),
+    ],
+  },
+  {
+    name: 'Table',
+    variants: [
+      table('default', {}),
+      table('size-xs', { size: 'xs' }),
+      table('size-sm', { size: 'sm' }),
+      table('size-md', { size: 'md' }),
+      table('size-lg', { size: 'lg' }),
+      table('size-xl', { size: 'xl' }),
+      table('zebra', { useZebraStyles: true }),
+      table('sortable', { isSortable: true }),
+      table('static-width', { useStaticWidth: true }),
+      table('sticky-header', { stickyHeader: true }),
+      table('overflow-menu-visible', { overflowMenuOnHover: false }),
+    ],
+  },
+  {
+    name: 'TableHeader',
+    variants: [
+      tableHeader('default', {}),
+      tableHeader('scope-row', { scope: 'row' }),
+      tableHeader('col-span', { colSpan: 2 }),
+      tableHeader('sortable', { isSortable: true }),
+      tableHeader('sortable-none', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'NONE',
+      }),
+      tableHeader('sortable-ascending', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'ASC',
+      }),
+      tableHeader('sortable-descending', {
+        isSortable: true,
+        isSortHeader: true,
+        sortDirection: 'DESC',
+      }),
+    ],
+  },
+  {
+    name: 'TableRow',
+    variants: [
+      tableRow('default', {}),
+      tableRow('selected', { isSelected: true }),
+    ],
+  },
+  {
+    name: 'TableCell',
+    variants: [
+      tableCell('default', {}),
+      tableCell('col-span', { colSpan: 2 }),
+      tableCell('headers', { headers: 'name' }),
+    ],
+  },
+  {
+    name: 'TableToolbar',
+    variants: [
+      tableToolbar('default', {}),
+      tableToolbar('size-xs', { size: 'xs' }),
+      tableToolbar('size-sm', { size: 'sm' }),
+      tableToolbar('size-lg', { size: 'lg' }),
+      tableToolbar('aria-label', { 'aria-label': 'Load balancer actions' }),
+    ],
+  },
+  {
+    name: 'TableToolbarContent',
+    variants: [
+      tableToolbarPart(
+        'default',
+        {},
+        { part: 'TableActionList', selector: '.cds--toolbar-content' },
+      ),
+    ],
+  },
+  {
+    name: 'TableActionList',
+    variants: [tableActionList('default', {})],
+  },
+  {
+    name: 'TableToolbarSearch',
+    variants: [
+      ...[
+        ['default', {}],
+        ['persistent', { persistent: true }],
+        ['expanded', { expanded: true }],
+        ['default-expanded', { defaultExpanded: true }],
+        ['disabled', { disabled: true }],
+        ['default-value', { defaultValue: 'Load' }],
+        ['size-sm', { size: 'sm' }],
+        ['label-text', { labelText: 'Filter balancers' }],
+        ['placeholder', { placeholder: 'Find a balancer' }],
+        ['id', { id: 'filter' }],
+        ['search-container-class', { searchContainerClass: 'custom-search' }],
+        ['class-name', { className: 'custom-class' }],
+      ].map(([name, props]) =>
+        tableToolbarPart(name, props, {
+          part: 'TableToolbarSearch',
+          props,
+          selector: '.cds--search',
+        }),
+      ),
+      tableToolbarPart(
+        'in-toolbar-size-sm',
+        { toolbar: { size: 'sm' } },
+        { part: 'TableToolbarSearch', selector: '.cds--search' },
+      ),
+    ],
+  },
+  {
+    name: 'TableToolbarMenu',
+    variants: [
+      tableToolbarMenu('trigger', {}),
+      tableToolbarMenu('trigger-size-sm', { size: 'sm' }),
+      tableToolbarMenu('trigger-icon-description', {
+        iconDescription: 'Table settings',
+      }),
+      tableToolbarMenu('trigger-class-name', { className: 'custom-class' }),
+      tableToolbarMenu('trigger-disabled', { disabled: true }),
+      tableToolbarMenu('open', { open: true }, { root: 'menu' }),
+      tableToolbarMenu(
+        'open-menu-options-class',
+        { open: true, menuOptionsClass: 'custom-menu' },
+        { root: 'menu' },
+      ),
+    ],
+  },
+  {
+    name: 'TableToolbarAction',
+    variants: [tableToolbarMenu('default', { open: true }, { root: 'action' })],
+  },
+  {
+    name: 'TableBatchActions',
+    variants: [
+      tableBatchActions('default', {}),
+      tableBatchActions('active', {
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+      }),
+      tableBatchActions('one-selected', {
+        shouldShowBatchActions: true,
+        totalSelected: 1,
+      }),
+      tableBatchActions('select-all', {
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+        totalCount: 8,
+        onSelectAll: () => {},
+      }),
+      tableBatchActions('class-name', {
+        className: 'custom-class',
+        shouldShowBatchActions: true,
+        totalSelected: 2,
+      }),
+    ],
+  },
+  {
+    name: 'TableBatchAction',
+    variants: [
+      tableBatchAction('default', {}),
+      tableBatchAction('kind-secondary', { kind: 'secondary' }),
+      tableBatchAction('size-sm', { size: 'sm' }),
+      tableBatchAction('disabled', { disabled: true }),
+      tableBatchAction('icon-description', {
+        hasIconOnly: true,
+        iconDescription: 'Add item',
+      }),
+    ],
+  },
+  {
+    name: 'TableSelectAll',
+    variants: [
+      tableSelectAll('default', {}),
+      tableSelectAll('checked', { checked: true }),
+      tableSelectAll('indeterminate', { indeterminate: true }),
+      tableSelectAll('disabled', { disabled: true }),
+      tableSelectAll('aria-label', { 'aria-label': 'Select every row' }),
+      tableSelectAll('class-name', { className: 'mine' }),
+    ],
+  },
+  {
+    name: 'TableSelectRow',
+    variants: [
+      tableSelectRow('default', {}),
+      tableSelectRow('checked', { checked: true }),
+      tableSelectRow('disabled', { disabled: true }),
+      tableSelectRow('aria-label', { 'aria-label': 'Select Ada' }),
+      tableSelectRow('class-name', { className: 'mine' }),
+      tableSelectRow('radio', { radio: true }),
+      tableSelectRow('radio-checked', { radio: true, checked: true }),
+      tableSelectRow('radio-aria-label', {
+        radio: true,
+        'aria-label': 'Select Ada',
+      }),
+    ],
+  },
+  {
+    name: 'TableExpandHeader',
+    variants: [
+      tableExpandHeader('default', {}),
+      tableExpandHeader('enable-toggle', {
+        enableToggle: true,
+        isExpanded: false,
+        onExpand: () => {},
+        'aria-label': 'Expand all rows',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandHeader('expanded', {
+        enableToggle: true,
+        isExpanded: true,
+        onExpand: () => {},
+        'aria-label': 'Collapse all rows',
+      }),
+      tableExpandHeader('id', { id: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandRow',
+    variants: [
+      tableExpandRow('default', {}),
+      tableExpandRow('expanded', { isExpanded: true }),
+      tableExpandRow('selected', { isSelected: true }),
+      tableExpandRow('labelled', {
+        'aria-label': 'Expand Ada',
+        'aria-controls': 'details',
+        expandIconDescription: 'Expand',
+      }),
+      tableExpandRow('expand-header', { expandHeader: 'toggle' }),
+    ],
+  },
+  {
+    name: 'TableExpandedRow',
+    variants: [
+      tableExpandedRow('default', {}),
+      tableExpandedRow('class-name', { className: 'mine' }),
+    ],
+  },
+  {
+    name: 'TableDecoratorRow',
+    variants: [tableDecoratorRow('ai-label')],
   },
   {
     name: 'Tabs',

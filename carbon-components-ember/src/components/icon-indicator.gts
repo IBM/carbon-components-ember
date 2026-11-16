@@ -6,7 +6,7 @@
  */
 
 import Component from '@glimmer/component';
-import DefinitionTooltip from './-private/definition-tooltip.gts';
+import DefinitionTooltip from './definition-tooltip.gts';
 import type { PopoverAlignment } from './popover.gts';
 import ErrorFilled from './icons/error-filled.ts';
 import CheckmarkFilled from './icons/checkmark-filled.ts';

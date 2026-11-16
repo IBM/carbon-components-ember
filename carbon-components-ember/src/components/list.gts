@@ -4,7 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import SearchComponent from '../components/search.gts';
 import type { WithBoundArgs } from '@glint/template';
-import CarbonPagination from '../components/pagination.gts';
+import ItemsPagination from './-private/items-pagination.gts';
+import type { ItemsSlice } from './-private/items-pagination.gts';
 import ListColumnComponent from '../components/list/-column.gts';
 import ListBodyComponent from '../components/list/-body.gts';
 import ListHeaderComponent from '../components/list/-header.gts';
@@ -28,8 +29,8 @@ export interface ListSignature<T> {
           'value' | 'onChange' | 'light' | 'size'
         >;
         Pagination: WithBoundArgs<
-          typeof CarbonPagination,
-          'length' | 'onPageChanged'
+          typeof ItemsPagination,
+          'totalItems' | 'slice' | 'onSliceChange'
         >;
         Column: typeof ListColumnComponent;
         BodyRows: WithBoundArgs<typeof ListBodyComponent<T>, 'list' | 'items'>;
@@ -41,7 +42,7 @@ export interface ListSignature<T> {
 
 export default class List<T> extends Component<ListSignature<T>> {
   @tracked currentSearch?: string;
-  @tracked currentItemsSlice: { start: number; end?: number } | null = null;
+  @tracked currentItemsSlice?: ItemsSlice;
   @tracked currentItem?: T;
 
   filter(items: T[], term: string) {
@@ -73,18 +74,27 @@ export default class List<T> extends Component<ListSignature<T>> {
     );
   }
 
+  get totalItems() {
+    return this.args.items?.length ?? 0;
+  }
+
   setCurrentSearch = (event: Event & { target: HTMLInputElement }) => {
     this.currentSearch = event.target.value;
   };
 
-  setCurrentItemsSlice = (slice: { start: number; end: number }) => {
+  setCurrentItemsSlice = (slice: ItemsSlice) => {
     this.currentItemsSlice = slice;
   };
 
   showAllItems = task(async () => {
     await timeout(200);
     if (!this.currentItemsSlice) {
-      this.currentItemsSlice = { start: 0, end: undefined };
+      this.currentItemsSlice = {
+        page: 0,
+        itemsPerPage: 0,
+        start: 0,
+        end: undefined,
+      };
     }
   });
 
@@ -119,9 +129,10 @@ export default class List<T> extends Component<ListSignature<T>> {
               size="sm"
             )
             Pagination=(component
-              CarbonPagination
-              length=@items.length
-              onPageChanged=this.setCurrentItemsSlice
+              ItemsPagination
+              totalItems=this.totalItems
+              slice=this.currentItemsSlice
+              onSliceChange=this.setCurrentItemsSlice
             )
             Column=ListColumnComponent
             BodyRows=(component

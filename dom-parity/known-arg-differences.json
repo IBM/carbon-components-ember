@@ -212,30 +212,6 @@
       "tooltipLeaveDelayMs"
     ]
   },
-  "Pagination": {
-    "missing": [
-      "id",
-      "isLastPage",
-      "itemRangeText",
-      "itemText",
-      "itemsPerPageText",
-      "onChange",
-      "page",
-      "pageInputDisabled",
-      "pageNumberText",
-      "pageRangeText",
-      "pageSelectLabelText",
-      "pageSize",
-      "pageSizeInputDisabled",
-      "pageSizes",
-      "pageText",
-      "pagesUnknown",
-      "totalItems"
-    ],
-    "extra": [
-      "itemsPerPageOptions"
-    ]
-  },
   "PasswordInput": {
     "missing": [
       "enableCounter",
@@ -275,7 +251,6 @@
   },
   "Search": {
     "missing": [
-      "isExpanded",
       "onExpand",
       "renderIcon"
     ],
@@ -305,10 +280,26 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "Tab": {
+  "Table": {
     "missing": [
-      "as",
-      "renderButton"
+      "experimentalAutoAlign"
+    ]
+  },
+  "TableHeader": {
+    "missing": [
+      "decorator"
+    ]
+  },
+  "TableToolbarSearch": {
+    "missing": [
+      "isExpanded",
+      "renderIcon"
+    ]
+  },
+  "TableToolbarMenu": {
+    "missing": [
+      "badgeCount",
+      "isSelected"
     ]
   },
   "TabList": {

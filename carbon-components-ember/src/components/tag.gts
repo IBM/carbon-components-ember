@@ -4,10 +4,11 @@ import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import type { IconComponent } from './icon.gts';
 import AILabel from './ai-label.gts';
-import DefinitionTooltip from './-private/definition-tooltip.gts';
+import DefinitionTooltip from './definition-tooltip.gts';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import { observeTruncation } from '../utils/truncation.ts';
+import { tagClasses } from './-private/tag-classes.ts';
 import './tag.scss';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -94,13 +95,7 @@ export default class Tag extends Component<TagSignature> {
   }
 
   get classes() {
-    const classes = ['cds--tag', `cds--tag--${this.type}`];
-    if (this.args.disabled) classes.push('cds--tag--disabled');
-    if (this.args.size) {
-      classes.push(`cds--tag--${this.args.size}`);
-      classes.push(`cds--layout--size-${this.args.size}`);
-    }
-    return classes.join(' ');
+    return tagClasses({ ...this.args, type: this.type });
   }
 
   // A disabled one is no link.
@@ -183,7 +178,7 @@ export default class Tag extends Component<TagSignature> {
           {{! As in Carbon React, the tooltip shows the block again. }}
           <DefinitionTooltip
             @openOnHover={{false}}
-            class="cds--definition--tooltip--tag"
+            @className="cds--definition--tooltip--tag"
           >
             <:default>
               <span

@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import Search from '../search.gts';
 import Pagination from '../pagination.gts';
+import type { PaginationChange } from '../pagination.gts';
 import Button from '../button.gts';
 import Download from '../icons/download.ts';
 import { stringifyCSV } from './-csv.ts';
@@ -44,10 +45,7 @@ export interface TableSignature {
     previousPageText?: string;
     nextPageText?: string;
     /**
-     * Text for the pagination's "items per page" label. Accepted for parity
-     * with upstream, but not wired: the shared `Pagination` component this
-     * addon already has hardcodes that label rather than accepting an
-     * override, and changing `Pagination` itself is out of scope here.
+     * Text for the pagination's "items per page" label.
      */
     itemsPerPageText?: string;
     downloadLabelText?: string;
@@ -59,9 +57,9 @@ export interface TableSignature {
      * DOM-measurement heuristic and simply defaults to `5`.
      */
     defaultPageSize?: number;
-    /** Accepted for parity; not wired, see `itemsPerPageText` above. */
+    /** Accepted for parity; not wired: the pagination uses Carbon React's range texts. */
     getPaginationSupplementalText?: (info: { count: number }) => string;
-    /** Accepted for parity; not wired, see `itemsPerPageText` above. */
+    /** Accepted for parity; not wired: the pagination uses Carbon React's range texts. */
     getPaginationStatusText?: (info: {
       start: number;
       end: number;
@@ -148,7 +146,7 @@ export default class Table extends Component<TableSignature> {
     );
   }
 
-  get itemsPerPageOptions() {
+  get pageSizes() {
     const total = this.rows.length;
     const options = PAGE_SIZE_OPTIONS.filter((size) => size < total);
     return total > 0 ? [...options, total] : options;
@@ -177,11 +175,17 @@ export default class Table extends Component<TableSignature> {
     };
   };
 
-  changePage = (slice: Slice) => {
-    if (slice.itemsPerPage !== this.currentSlice.itemsPerPage) {
+  changePage = ({ page, pageSize }: PaginationChange) => {
+    if (pageSize !== this.currentSlice.itemsPerPage) {
       this.rowsPerPageChanged = true;
     }
-    this.currentSlice = slice;
+    const start = (page - 1) * pageSize;
+    this.currentSlice = {
+      page,
+      itemsPerPage: pageSize,
+      start,
+      end: start + pageSize,
+    };
   };
 
   sortBy = (index: number) => {
@@ -311,10 +315,12 @@ export default class Table extends Component<TableSignature> {
           </table>
           {{#if this.showPagination}}
             <Pagination
-              @length={{this.filteredRows.length}}
-              @state={{this.currentSlice}}
-              @onPageChanged={{this.changePage}}
-              @itemsPerPageOptions={{this.itemsPerPageOptions}}
+              @totalItems={{this.filteredRows.length}}
+              @page={{this.currentSlice.page}}
+              @pageSize={{this.currentSlice.itemsPerPage}}
+              @pageSizes={{this.pageSizes}}
+              @onChange={{this.changePage}}
+              @itemsPerPageText={{@itemsPerPageText}}
               @backwardText={{@previousPageText}}
               @forwardText={{@nextPageText}}
             />

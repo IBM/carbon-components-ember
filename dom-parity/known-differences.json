@@ -103,11 +103,52 @@
       "reason": "Same as the div[0] > div[1] inert entry above, for the second step."
     }
   ],
+  "Pagination": [
+    {
+      "path": "div > div[1] > div[2] > span[0] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[2] > span[0] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[1] > div[2] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[2] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[0] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[0] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside is checked in pagination-test."
+    },
+    {
+      "path": "div > div[1] > div[1] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    }
+  ],
   "RadioTile": [
     {
       "path": "div > input[0].attributes.checked",
       "variant": "checked",
       "reason": "Harness limitation, not a functional gap: Glimmer sets a bound `checked={{...}}` on an `<input>` as the DOM `checked` IDL property, not a reflected HTML attribute - confirmed by this addon's own `tile-group-test.gts`, which already asserts `assert.dom('input.cds--tile-input').isChecked()` (a property-based check) and passes. `normalizeElement` only inspects `el.attributes` (real attribute nodes), which can't see property-only state, so React's copy (which jsdom does reflect onto the attribute) shows as present and Ember's as absent even though both render a genuinely checked radio button."
+    }
+  ],
+  "TableDecoratorRow": [
+    {
+      "path": "td > div[0]",
+      "reason": "The cell's AI label is this addon's AILabel, whose popover markup and button label differ from Carbon React's (auto-align classes, the generated id and the label's wording). The comparison stops at that tag; ai-label-test checks the label.",
+      "variant": "ai-label"
     }
   ],
   "TileGroup": [
@@ -733,6 +774,166 @@
     {
       "path": "div.attributes.data-carbon-devtools-id",
       "reason": "Carbon for IBM Products marks its components for its React devtools; nothing else reads it."
+    }
+  ],
+  "DefinitionTooltip": [
+    {
+      "path": "span > span[1] > span[0].style.position",
+      "variant": "auto-align",
+      "reason": "Popover positions floating content (`@autoAlign`) only while it is open. Carbon React's `useFloating` also writes its initial styles on a closed one, which Carbon's CSS hides either way."
+    },
+    {
+      "path": "span > span[1] > span[0].style.left",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.top",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.visibility",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    },
+    {
+      "path": "span > span[1] > span[0].style.transform",
+      "variant": "auto-align",
+      "reason": "The `style.position` entry above."
+    }
+  ],
+  "DismissibleTag": [
+    {
+      "path": "div > span[0] > div[0] > span[1] > div[0]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps the dismiss button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`. The button inside matches."
+    },
+    {
+      "path": "div > span[0] > div[0] > span[1] > span[1]",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    },
+    {
+      "path": "div > span[1] > div[0] > span[1] > div[0]",
+      "variant": "with-icon",
+      "reason": "The `div > span[0] > div[0] > span[1] > div[0]` entry, after the icon."
+    },
+    {
+      "path": "div > span[1] > div[0] > span[1] > span[1]",
+      "variant": "with-icon",
+      "reason": "The `div > span[0] > div[0] > span[1] > span[1]` entry, after the icon."
+    }
+  ],
+  "InlineCheckbox": [
+    {
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    }
+  ],
+  "TableSelectAll": [
+    {
+      "path": "th > div[0] > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    }
+  ],
+  "TableSelectRow": [
+    {
+      "path": "td > div[0] > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.checked",
+      "variant": "radio-checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio-checked",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > input[0].attributes.value",
+      "variant": "radio-aria-label",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the selection cell passes no value, so this addon's RadioButton renders no `value` attribute. Nothing reads it."
+    },
+    {
+      "path": "td > div[0] > label[1] > span[1]",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton renders its label text only when `labelText` is not empty, and the selection cell passes an empty one without an `aria-label`; this addon's RadioButton always renders the (visually hidden) text span, empty. Applies to the variants with no `aria-label`."
+    },
+    {
+      "path": "td > div[0] > label[1] > span[1]",
+      "variant": "radio-checked",
+      "reason": "Carbon React's RadioButton renders its label text only when `labelText` is not empty, and the selection cell passes an empty one without an `aria-label`; this addon's RadioButton always renders the (visually hidden) text span, empty. Applies to the variants with no `aria-label`."
+    }
+  ],
+  "TableBatchActions": [
+    {
+      "path": "div > div[1] > button[0] > svg[1].attributes.aria-label",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "div > div[1] > button[0] > svg[1].attributes.role",
+      "reason": "The other half of the `aria-label` entry above."
+    }
+  ],
+  "TableBatchAction": [
+    {
+      "path": "button > svg[1].attributes.aria-label",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "button > svg[1].attributes.role",
+      "reason": "The other half of the `aria-label` entry above."
+    },
+    {
+      "path": "span > div[0]",
+      "variant": "icon-description",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` wraps an icon-only button in a `<span class=\"cds--tooltip-trigger__wrapper\">`, where @carbon/react's uses a `<div>`."
+    },
+    {
+      "path": "span > span[1]",
+      "variant": "icon-description",
+      "reason": "Same Tooltip internals as Button's entries: Ember's `Tooltip` puts `role=\"tooltip\"`, the `id` and `aria-hidden` on the popover's content span, where @carbon/react's puts them on the popover span."
+    }
+  ],
+  "TableToolbarSearch": [
+    {
+      "path": "div.classes[cds--toolbar-search-container-persistent]",
+      "reason": "Ember-only class (search.gts always renders either `--expandable` or `--persistent` depending on `@expandable`) with no counterpart in @carbon/react's plain `Search` - that behavior belongs entirely to a separate upstream component, `ExpandableSearch`, not exercised by this fixture. Applies to every variant."
+    },
+    {
+      "path": "div.attributes.data-search",
+      "reason": "Ember-only marker attribute (see search.gts's `data-search`) with no React counterpart - used internally, not part of the rendered-markup contract this harness checks. Applies to every variant."
+    },
+    {
+      "path": "div > div[0].attributes.tabindex",
+      "reason": "@carbon/react's Search always sets `tabIndex={isExpandableCollapsed ? 0 : -1}` on the magnifier div (resolving to `-1` here, since this fixture never sets `onExpand`); Ember's `<div class='cds--search-magnifier'>` in search.gts has no `tabindex` at all. Both are equally correct for the non-expandable case (a `-1` value contributes nothing to the tab order either), but the attribute's mere presence differs. Applies to every variant."
+    },
+    {
+      "path": "div > input[2].attributes.value",
+      "reason": "Harness limitation, not a functional gap: Carbon React's TableToolbarSearch always controls the input's value, which renders as an attribute there, where Glimmer's bound `value` sets the property (as for TextInput's `input[0].attributes.value`). Applies to every variant."
+    },
+    {
+      "path": "div > button[3]",
+      "reason": "@carbon/react's Search always renders the clear `<button>`, toggling a `cds--search-close--hidden` modifier class when there's no content to clear; Ember's `{{#if this.hasInput}}` in search.gts omits the element from the DOM entirely instead. Visually equivalent (both hide the button when there's nothing to clear), but a real structural difference. Applies to every variant without a value (default, disabled, light, size-sm, size-lg)."
+    }
+  ],
+  "TableToolbarMenu": [
+    {
+      "path": "ul.attributes.popover",
+      "reason": "Deliberate: the menu shows in the top layer (popover=\"manual\"), positioned by Floating UI, rather than as FloatingMenu's absolutely positioned portal."
+    },
+    {
+      "path": "ul.style",
+      "reason": "Same as the `ul.attributes.popover` entry: Floating UI writes a fixed position with left and top, where FloatingMenu writes absolute offsets (hidden in jsdom, which it can't measure)."
     }
   ]
 }

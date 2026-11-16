@@ -1,0 +1,922 @@
+{
+  "component": "DismissibleTag",
+  "generatedAt": "2026-11-06T08:19:47.659Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {
+        "type": "red"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--filter",
+          "cds--tag--red"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [],
+            "attributes": {
+              "title": "",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--interactive--tag-children"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--tag__label"
+                    ],
+                    "attributes": {
+                      "title": "Tag content",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Tag content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--tag-label-tooltip",
+                      "cds--tooltip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--tooltip-trigger__wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "button",
+                            "classes": [
+                              "cds--tag__close-icon"
+                            ],
+                            "attributes": {
+                              "type": "button",
+                              "aria-label": "Dismiss",
+                              "aria-labelledby": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "svg",
+                                "classes": [],
+                                "attributes": {
+                                  "focusable": "false",
+                                  "preserveAspectRatio": "xMidYMid meet",
+                                  "fill": "currentColor",
+                                  "width": "16",
+                                  "height": "16",
+                                  "viewBox": "0 0 32 32",
+                                  "aria-hidden": "true",
+                                  "xmlns": "http://www.w3.org/2000/svg"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "path",
+                                    "classes": [],
+                                    "attributes": {
+                                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "id": "#2",
+                          "role": "tooltip"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-content",
+                              "cds--tooltip-content"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Dismiss"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "type": "gray",
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--disabled",
+          "cds--tag--filter",
+          "cds--tag--gray"
+        ],
+        "attributes": {
+          "disabled": true,
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [],
+            "attributes": {
+              "title": "",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--interactive--tag-children"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--tag__label"
+                    ],
+                    "attributes": {
+                      "title": "Tag content",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Tag content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--tag-label-tooltip",
+                      "cds--tooltip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--tooltip-trigger__wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "button",
+                            "classes": [
+                              "cds--tag__close-icon"
+                            ],
+                            "attributes": {
+                              "type": "button",
+                              "disabled": true,
+                              "aria-label": "Dismiss",
+                              "aria-labelledby": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "svg",
+                                "classes": [],
+                                "attributes": {
+                                  "focusable": "false",
+                                  "preserveAspectRatio": "xMidYMid meet",
+                                  "fill": "currentColor",
+                                  "width": "16",
+                                  "height": "16",
+                                  "viewBox": "0 0 32 32",
+                                  "aria-hidden": "true",
+                                  "xmlns": "http://www.w3.org/2000/svg"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "path",
+                                    "classes": [],
+                                    "attributes": {
+                                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "id": "#2",
+                          "role": "tooltip"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-content",
+                              "cds--tooltip-content"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Dismiss"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "type": "gray",
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--layout--size-sm",
+          "cds--tag",
+          "cds--tag--filter",
+          "cds--tag--gray",
+          "cds--tag--sm"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [],
+            "attributes": {
+              "title": "",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--interactive--tag-children"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--tag__label"
+                    ],
+                    "attributes": {
+                      "title": "Tag content",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Tag content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--tag-label-tooltip",
+                      "cds--tooltip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--tooltip-trigger__wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "button",
+                            "classes": [
+                              "cds--tag__close-icon"
+                            ],
+                            "attributes": {
+                              "type": "button",
+                              "aria-label": "Dismiss",
+                              "aria-labelledby": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "svg",
+                                "classes": [],
+                                "attributes": {
+                                  "focusable": "false",
+                                  "preserveAspectRatio": "xMidYMid meet",
+                                  "fill": "currentColor",
+                                  "width": "16",
+                                  "height": "16",
+                                  "viewBox": "0 0 32 32",
+                                  "aria-hidden": "true",
+                                  "xmlns": "http://www.w3.org/2000/svg"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "path",
+                                    "classes": [],
+                                    "attributes": {
+                                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "id": "#2",
+                          "role": "tooltip"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-content",
+                              "cds--tooltip-content"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Dismiss"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "with-icon": {
+      "props": {
+        "type": "blue",
+        "renderIcon": "Add"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--blue",
+          "cds--tag--filter"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tag__custom-icon"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [],
+            "attributes": {
+              "title": "",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--interactive--tag-children"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--tag__label"
+                    ],
+                    "attributes": {
+                      "title": "Tag content",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Tag content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--tag-label-tooltip",
+                      "cds--tooltip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--tooltip-trigger__wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "button",
+                            "classes": [
+                              "cds--tag__close-icon"
+                            ],
+                            "attributes": {
+                              "type": "button",
+                              "aria-label": "Dismiss",
+                              "aria-labelledby": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "svg",
+                                "classes": [],
+                                "attributes": {
+                                  "focusable": "false",
+                                  "preserveAspectRatio": "xMidYMid meet",
+                                  "fill": "currentColor",
+                                  "width": "16",
+                                  "height": "16",
+                                  "viewBox": "0 0 32 32",
+                                  "aria-hidden": "true",
+                                  "xmlns": "http://www.w3.org/2000/svg"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "path",
+                                    "classes": [],
+                                    "attributes": {
+                                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "id": "#2",
+                          "role": "tooltip"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-content",
+                              "cds--tooltip-content"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Dismiss"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "custom-title": {
+      "props": {
+        "type": "gray",
+        "title": "Remove filter",
+        "tagTitle": "Full tag title"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--tag",
+          "cds--tag--filter",
+          "cds--tag--gray"
+        ],
+        "attributes": {
+          "id": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [],
+            "attributes": {
+              "title": "",
+              "dir": "auto"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--interactive--tag-children"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--tag__label"
+                    ],
+                    "attributes": {
+                      "title": "Full tag title",
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Tag content"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--icon-tooltip",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--tag-label-tooltip",
+                      "cds--tooltip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "div",
+                        "classes": [
+                          "cds--tooltip-trigger__wrapper"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "button",
+                            "classes": [
+                              "cds--tag__close-icon"
+                            ],
+                            "attributes": {
+                              "type": "button",
+                              "aria-label": "Remove filter",
+                              "aria-labelledby": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "svg",
+                                "classes": [],
+                                "attributes": {
+                                  "focusable": "false",
+                                  "preserveAspectRatio": "xMidYMid meet",
+                                  "fill": "currentColor",
+                                  "width": "16",
+                                  "height": "16",
+                                  "viewBox": "0 0 32 32",
+                                  "aria-hidden": "true",
+                                  "xmlns": "http://www.w3.org/2000/svg"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "path",
+                                    "classes": [],
+                                    "attributes": {
+                                      "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover"
+                        ],
+                        "attributes": {
+                          "aria-hidden": "true",
+                          "id": "#2",
+                          "role": "tooltip"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-content",
+                              "cds--tooltip-content"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Remove filter"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

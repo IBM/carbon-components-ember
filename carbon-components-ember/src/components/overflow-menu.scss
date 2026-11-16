@@ -9,17 +9,12 @@
   color: inherit;
 }
 
-// An item with an icon after its text, as Carbon's web components draw
-// them (AI Chat's history items). `@carbon/styles` models the React variant,
-// which has no icon, so it doesn't lay one out.
-.cds--overflow-menu-options__btn {
-  justify-content: space-between;
-}
-
-// `inline-flex`, so a CSS reset that makes every `svg` a block (Tailwind's
-// Preflight) can't move the icon.
+// An icon after an item's text, as Carbon's web components draw it (AI
+// Chat's history items), goes to the item's end. `inline-flex`, so a CSS
+// reset that makes every `svg` a block (Tailwind's Preflight) can't move it.
 .cds--overflow-menu-options__option-icon {
   display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
+  margin-inline-start: auto;
 }
