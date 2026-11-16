@@ -251,7 +251,6 @@
   },
   "Search": {
     "missing": [
-      "isExpanded",
       "onExpand",
       "renderIcon"
     ],
@@ -289,6 +288,18 @@
   "TableHeader": {
     "missing": [
       "decorator"
+    ]
+  },
+  "TableToolbarSearch": {
+    "missing": [
+      "isExpanded",
+      "renderIcon"
+    ]
+  },
+  "TableToolbarMenu": {
+    "missing": [
+      "badgeCount",
+      "isSelected"
     ]
   },
   "TabList": {

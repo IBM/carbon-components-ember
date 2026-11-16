@@ -33,6 +33,14 @@ export interface SearchSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     isLoading?: boolean;
     expandable?: boolean;
+    /**
+     * Whether the search is expanded. Collapsed, it hides its clear button,
+     * as in Carbon React. An expandable search shows it as expanded; when
+     * set, that is yours to keep, and without it, pressing the search
+     * expands it, and pressing outside it collapses it again while it is
+     * empty.
+     */
+    isExpanded?: boolean;
     light?: boolean;
     disabled?: boolean;
     id?: string;
@@ -63,6 +71,10 @@ export default class Search extends Component<SearchSignature> {
   // An empty initial value renders no `value` attribute, as in Carbon React.
   get boundValue() {
     return this.value === '' ? undefined : this.value;
+  }
+
+  get isExpanded() {
+    return this.args.isExpanded ?? this.isActive;
   }
 
   get hasInput() {
@@ -164,7 +176,7 @@ export default class Search extends Component<SearchSignature> {
           'cds--toolbar-search-container-expandable'
           'cds--toolbar-search-container-persistent'
         }}
-        {{if this.isActive 'cds--toolbar-search-container-active'}}
+        {{if this.isExpanded 'cds--toolbar-search-container-active'}}
         {{@className}}"
     >
       <div class="cds--search-magnifier">
@@ -195,7 +207,8 @@ export default class Search extends Component<SearchSignature> {
       />
       {{#if this.hasInput}}
         <button
-          class="cds--search-close"
+          class="cds--search-close
+            {{if (eq @isExpanded false) 'cds--search-close--hidden'}}"
           title={{or @closeButtonLabelText "Clear search input"}}
           aria-label={{or @closeButtonLabelText "Clear search input"}}
           type="button"
