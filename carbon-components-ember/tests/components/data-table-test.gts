@@ -4,6 +4,7 @@ import {
   click,
   fillIn,
   findAll,
+  getDeprecations,
   render,
   settled,
   waitUntil,
@@ -175,6 +176,44 @@ module('Integration | Component | DataTable', (hooks) => {
 
     // settled() waits for the search's debounce.
     await fillIn('input.cds--search-input', 'john');
+
+    assert.dom('tbody tr').exists({ count: 1 });
+    assert.dom('tbody tr').hasText('John');
+    assert.deepEqual(
+      getDeprecations()
+        .filter(({ options }) => options?.id === 'deprecate-ember-array-a')
+        .map(({ message }) => message),
+      [],
+      'the results are a plain array, not one from A()',
+    );
+  });
+
+  test('@search decides which items match the lowercased term, and may be async', async function (assert) {
+    const search = async (item: (typeof items)[number], term: string) => {
+      await Promise.resolve();
+      return item.b === term;
+    };
+
+    await render(
+      <template>
+        <DataTable @items={{items}} @search={{search}} as |table|>
+          <table.Toolbar as |toolbar|>
+            <toolbar.Content>
+              <table.SearchInput />
+            </toolbar.Content>
+          </table.Toolbar>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    await fillIn('input.cds--search-input', 'ASD');
 
     assert.dom('tbody tr').exists({ count: 1 });
     assert.dom('tbody tr').hasText('John');
