@@ -732,6 +732,21 @@ const NOTIFICATION_CONTENT = {
   subtitle: 'Notification subtitle',
 };
 
+// Renders an entry inside Carbon's `<FeatureFlags>`, for a variant with
+// flags on: `withFlags({ enableV12Release: true }, progressBar(…))`. The
+// fixture records them, and the Ember side turns the same flags on through
+// the carbon.feature-flags service.
+const withFlags = (flags, entry) => ({
+  ...entry,
+  flags,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.FeatureFlags,
+      flags,
+      entry.createElement(React, Carbon),
+    ),
+});
+
 const notification = (component) => (name, props) => ({
   name,
   props,
@@ -741,16 +756,11 @@ const notification = (component) => (name, props) => ({
 const toastNotification = notification('ToastNotification');
 const inlineNotification = notification('InlineNotification');
 const callout = notification('Callout');
-const actionableNotification = (name, props) => ({
-  name,
-  props,
-  createElement: (React, Carbon) =>
-    React.createElement(
-      Carbon.FeatureFlags,
-      { enableFocusWrapWithoutSentinels: true },
-      React.createElement(Carbon.ActionableNotification, props),
-    ),
-});
+const actionableNotification = (name, props) =>
+  withFlags(
+    { enableFocusWrapWithoutSentinels: true },
+    notification('ActionableNotification')(name, props),
+  );
 
 const tile = (name, props) => ({
   name,
@@ -2909,6 +2919,10 @@ export const COMPONENTS = [
       // `size = 'big'`, so both sides render `cds--progress-bar--big` with
       // nothing explicit needed here.
       progressBar('default', { value: 50 }),
+      withFlags(
+        { enableV12Release: true },
+        progressBar('v12-release', { value: 50 }),
+      ),
       progressBar('size-small', { size: 'small', value: 50 }),
       progressBar('type-inline', { type: 'inline', value: 30 }),
       progressBar('type-indented', { type: 'indented', value: 30 }),

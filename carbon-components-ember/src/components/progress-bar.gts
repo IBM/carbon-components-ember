@@ -1,9 +1,11 @@
 import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import CheckmarkFilled from '../components/icons/checkmark-filled.ts';
 import ErrorFilled from '../components/icons/error-filled.ts';
 import { concat } from '@ember/helper';
 import style from 'ember-style-modifier';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 
 export interface ProgressBarSignature {
   Element: HTMLDivElement;
@@ -27,6 +29,8 @@ export interface ProgressBarSignature {
 }
 
 export default class ProgressBar extends Component<ProgressBarSignature> {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
+
   get guid() {
     return guidFor(this);
   }
@@ -94,7 +98,11 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
     ) {
       return undefined;
     }
-    return { transform: `scaleX(${this.cappedValue / this.max})` };
+    const fraction = this.cappedValue / this.max;
+    // v12 sizes the bar instead of scaling it, as Carbon React does.
+    return this.featureFlags.enabled('enable-v12-release')
+      ? { 'inline-size': `${fraction * 100}%` }
+      : { transform: `scaleX(${fraction})` };
   }
 
   <template>

@@ -5531,6 +5531,23 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
+    test('v12-release', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <ProgressBar @label="Uploading file" @value={{50}} />
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        progressBarFixture,
+        'v12-release',
+        this.element.firstElementChild,
+      );
+    });
+
     test('size-small', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
@@ -5636,6 +5653,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, progressBarFixture, [
         'default',
+        'v12-release',
         'size-small',
         'type-inline',
         'type-indented',

@@ -67,11 +67,14 @@ recorded per component.
    component for that variant. A Carbon for IBM Products component is marked
    `ibmProducts: true` and rendered from `@carbon/ibm-products`, the third
    argument `createElement` gets; its fixture records that version too.
+   A variant with Carbon's feature flags on is wrapped in `withFlags()`;
+   its fixture records the flags.
 2. Run `pnpm --filter dom-parity generate` to (re)write its fixture.
 3. Add a matching render case to
    `carbon-components-ember/tests/components/dom-parity-test.gts`, passing the same props
    on the Ember side, and add the variant's name to that component's
-   "every fixture variant is covered" list.
+   "every fixture variant is covered" list. For a variant with flags, turn
+   them on first through the `carbon.feature-flags` service.
 4. Run the addon's test suite (`pnpm test`). Genuine, intentional gaps (not test bugs) go in
    `known-differences.json` with a `path` (matching the diff output's
    `path`) and a `reason` - don't silently drop a real difference just to

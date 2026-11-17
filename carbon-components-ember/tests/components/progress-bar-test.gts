@@ -130,4 +130,30 @@ module('Integration | Component | ProgressBar', (hooks) => {
       .dom('.cds--progress-bar__bar')
       .hasAttribute('style', 'transform: scaleX(0.75);');
   });
+
+  test('enable-v12-release sizes the bar instead of scaling it', async function (assert) {
+    const flags = this.owner.lookup('service:carbon.feature-flags');
+    const status = tracked<'active' | 'error'>('active');
+    await render(
+      <template>
+        <ProgressBar @label="L" @value={{50}} @status={{status.value}} />
+      </template>,
+    );
+    assert
+      .dom('.cds--progress-bar__bar')
+      .hasAttribute('style', 'transform: scaleX(0.5);');
+
+    flags.enable('enable-v12-release');
+    await rerender();
+    assert
+      .dom('.cds--progress-bar__bar')
+      .hasAttribute('style', 'inline-size: 50%;');
+
+    status.value = 'error';
+    await rerender();
+    assert
+      .dom('.cds--progress-bar__bar')
+      .doesNotHaveStyle({ inlineSize: '50%' });
+    assert.dom('.cds--progress-bar__bar').hasAttribute('style', '');
+  });
 });
