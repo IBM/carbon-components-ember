@@ -14,6 +14,20 @@ module('Integration | Component | TextInput', (hooks) => {
     assert.dom('label.cds--label').hasText('Name');
   });
 
+  test('passes placeholder, disabled and readonly attributes to the input', async function (assert) {
+    await render(
+      <template>
+        <TextInput @labelText="Name" placeholder="Search" disabled readonly />
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--text-input')
+      .hasAttribute('placeholder', 'Search')
+      .hasAttribute('readonly')
+      .isDisabled();
+  });
+
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
       <template>

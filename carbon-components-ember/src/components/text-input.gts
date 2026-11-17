@@ -169,6 +169,9 @@ export default class TextInput extends Component<TextInputSignature> {
           <input
             aria-describedby={{this.describedBy}}
             aria-errormessage={{if this.isInvalid this.field.invalidId}}
+            placeholder={{@placeholder}}
+            disabled={{this.field.disabled}}
+            readonly={{@readOnly}}
             ...attributes
             id={{this.id}}
             type={{this.type}}
@@ -178,9 +181,6 @@ export default class TextInput extends Component<TextInputSignature> {
               {{if @light 'cds--text-input--light'}}
               {{if this.isInvalid 'cds--text-input--invalid'}}
               {{if this.isWarn 'cds--text-input--warning'}}"
-            placeholder={{@placeholder}}
-            disabled={{this.field.disabled}}
-            readonly={{@readOnly}}
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}
             value={{this.boundValue}}
