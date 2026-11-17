@@ -11,7 +11,7 @@ import type { RouteArgs } from './-private/router-link.gts';
 import type { IconComponent } from './icon.gts';
 
 export interface LinkSignature {
-  Element: HTMLElement;
+  Element: HTMLAnchorElement;
   Args: RouteArgs & {
     /**
      * Provide a custom element or component to render the top-level node for
@@ -59,8 +59,10 @@ export interface LinkSignature {
 }
 
 export default class Link extends Component<LinkSignature> {
-  get tag(): keyof HTMLElementTagNameMap {
-    return this.args.as ?? 'a';
+  // Typed as the link `@as` stands in for, so callers can pass an `<a>`'s
+  // attributes.
+  get tag() {
+    return (this.args.as ?? 'a') as 'a';
   }
 
   get rel() {
