@@ -153,6 +153,7 @@ for (const component of COMPONENTS) {
 
     variants[variant.name] = {
       props: variant.props,
+      ...(variant.flags && { flags: variant.flags }),
       dom: normalizeElement(root, scope),
     };
 

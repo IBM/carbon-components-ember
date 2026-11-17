@@ -1,6 +1,6 @@
 {
   "component": "ActionableNotification",
-  "generatedAt": "2026-10-28T11:06:02.555Z",
+  "generatedAt": "2026-11-17T10:36:37.584Z",
   "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -10,6 +10,9 @@
         "caption": "Notification caption",
         "title": "Notification title",
         "subtitle": "Notification subtitle"
+      },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
       },
       "dom": {
         "type": "element",
@@ -266,6 +269,9 @@
         "title": "Notification title",
         "subtitle": "Notification subtitle"
       },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
+      },
       "dom": {
         "type": "element",
         "tag": "div",
@@ -503,6 +509,9 @@
         "kind": "info",
         "title": "Notification title",
         "subtitle": "Notification subtitle"
+      },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
       },
       "dom": {
         "type": "element",
@@ -742,6 +751,9 @@
         "title": "Notification title",
         "subtitle": "Notification subtitle"
       },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
+      },
       "dom": {
         "type": "element",
         "tag": "div",
@@ -932,6 +944,9 @@
       "props": {
         "title": "Notification title",
         "subtitle": "Notification subtitle"
+      },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
       },
       "dom": {
         "type": "element",
@@ -1146,6 +1161,9 @@
       "props": {
         "subtitle": "Notification subtitle",
         "role": "status"
+      },
+      "flags": {
+        "enableFocusWrapWithoutSentinels": true
       },
       "dom": {
         "type": "element",
