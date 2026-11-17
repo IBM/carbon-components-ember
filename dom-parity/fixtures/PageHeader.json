@@ -1,7 +1,7 @@
 {
   "component": "PageHeader",
-  "generatedAt": "2026-10-28T12:39:44.624Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.444Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "ibmProductsVersion": "2.101.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -994,7 +994,6 @@
               "cds--autoalign",
               "cds--icon-tooltip",
               "cds--popover--auto-align",
-              "cds--popover--caret",
               "cds--popover--high-contrast",
               "cds--popover--top",
               "cds--popover-container",
@@ -1494,6 +1493,7 @@
                                         "type": "element",
                                         "tag": "div",
                                         "classes": [
+                                          "cds--autoalign",
                                           "cds--overflow-menu__container"
                                         ],
                                         "attributes": {
@@ -1505,8 +1505,9 @@
                                             "type": "element",
                                             "tag": "span",
                                             "classes": [
+                                              "cds--autoalign",
                                               "cds--icon-tooltip",
-                                              "cds--popover--caret",
+                                              "cds--popover--auto-align",
                                               "cds--popover--high-contrast",
                                               "cds--popover--top",
                                               "cds--popover-container",
@@ -1626,23 +1627,30 @@
                                                       "cds--tooltip-content"
                                                     ],
                                                     "attributes": {},
-                                                    "style": {},
+                                                    "style": {
+                                                      "position": "fixed",
+                                                      "left": "0px",
+                                                      "top": "0px",
+                                                      "visibility": "visible",
+                                                      "transform": "translate(0px, 0px)"
+                                                    },
                                                     "children": [
                                                       {
                                                         "type": "text",
-                                                        "text": "Options"
+                                                        "text": "More"
+                                                      },
+                                                      {
+                                                        "type": "element",
+                                                        "tag": "span",
+                                                        "classes": [
+                                                          "cds--popover--auto-align",
+                                                          "cds--popover-caret"
+                                                        ],
+                                                        "attributes": {},
+                                                        "style": {},
+                                                        "children": []
                                                       }
                                                     ]
-                                                  },
-                                                  {
-                                                    "type": "element",
-                                                    "tag": "span",
-                                                    "classes": [
-                                                      "cds--popover-caret"
-                                                    ],
-                                                    "attributes": {},
-                                                    "style": {},
-                                                    "children": []
                                                   }
                                                 ]
                                               }
@@ -1780,8 +1788,9 @@
                                 "classes": [
                                   "c4p--page-header--tag-overflow-popover",
                                   "c4p--page-header--tag-overflow-popover__hidden",
+                                  "cds--autoalign",
+                                  "cds--popover--auto-align",
                                   "cds--popover--bottom",
-                                  "cds--popover--caret",
                                   "cds--popover--drop-shadow",
                                   "cds--popover-container"
                                 ],
@@ -1824,7 +1833,13 @@
                                           "cds--popover-content"
                                         ],
                                         "attributes": {},
-                                        "style": {},
+                                        "style": {
+                                          "position": "fixed",
+                                          "left": "0px",
+                                          "top": "0px",
+                                          "visibility": "visible",
+                                          "transform": "translate(0px, 0px)"
+                                        },
                                         "children": [
                                           {
                                             "type": "element",
@@ -1837,18 +1852,19 @@
                                             },
                                             "style": {},
                                             "children": []
+                                          },
+                                          {
+                                            "type": "element",
+                                            "tag": "span",
+                                            "classes": [
+                                              "cds--popover--auto-align",
+                                              "cds--popover-caret"
+                                            ],
+                                            "attributes": {},
+                                            "style": {},
+                                            "children": []
                                           }
                                         ]
-                                      },
-                                      {
-                                        "type": "element",
-                                        "tag": "span",
-                                        "classes": [
-                                          "cds--popover-caret"
-                                        ],
-                                        "attributes": {},
-                                        "style": {},
-                                        "children": []
                                       }
                                     ]
                                   }

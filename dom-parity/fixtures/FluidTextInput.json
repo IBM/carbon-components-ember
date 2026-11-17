@@ -1,7 +1,7 @@
 {
   "component": "FluidTextInput",
-  "generatedAt": "2026-10-28T11:06:02.721Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.203Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -757,9 +757,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom-end",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--toggle-password-tooltip",
@@ -859,23 +860,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Show password"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }
@@ -1018,9 +1026,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom-end",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--toggle-password-tooltip",
@@ -1120,23 +1129,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Show password"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }

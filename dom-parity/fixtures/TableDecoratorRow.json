@@ -1,7 +1,7 @@
 {
   "component": "TableDecoratorRow",
-  "generatedAt": "2026-11-05T19:10:25.342Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.361Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "ai-label": {
@@ -36,7 +36,6 @@
                   "cds--autoalign",
                   "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--toggletip"
@@ -55,7 +54,7 @@
                     ],
                     "attributes": {
                       "aria-expanded": "false",
-                      "aria-controls": "id-_r_f7_",
+                      "aria-controls": "id-_r_p9_",
                       "aria-label": "AI Show information",
                       "type": "button"
                     },

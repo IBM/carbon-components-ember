@@ -1,7 +1,7 @@
 {
   "component": "MenuButton",
-  "generatedAt": "2026-10-28T12:07:18.954Z",
-  "carbonReactVersion": "1.114.0",
+  "generatedAt": "2026-11-17T09:38:01.222Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

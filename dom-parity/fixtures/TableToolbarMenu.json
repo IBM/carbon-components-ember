@@ -1,7 +1,7 @@
 {
   "component": "TableToolbarMenu",
-  "generatedAt": "2026-11-05T19:11:35.165Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.330Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "trigger": {
@@ -13,13 +13,13 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--overflow-menu",
-          "cds--toolbar-action"
+          "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -27,16 +27,18 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 16 16",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -77,16 +79,15 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--btn--sm",
           "cds--layout--size-sm",
           "cds--overflow-menu",
-          "cds--overflow-menu--sm",
-          "cds--toolbar-action"
+          "cds--overflow-menu--sm"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -94,16 +95,18 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 16 16",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -144,13 +147,13 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--overflow-menu",
-          "cds--toolbar-action"
+          "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -158,16 +161,18 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Table settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 16 16",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -208,14 +213,13 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--overflow-menu",
-          "cds--toolbar-action",
-          "custom-class"
+          "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -223,16 +227,18 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 16 16",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -274,13 +280,13 @@
           "cds--btn--disabled",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--overflow-menu",
-          "cds--toolbar-action"
+          "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "disabled": true,
           "type": "button"
         },
@@ -289,16 +295,18 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 16 16",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -332,211 +340,14 @@
       "props": {
         "open": true
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu--flip",
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open",
-          "cds--toolbar-action__menu"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Toolbar menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Refresh data"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Download"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     },
     "open-menu-options-class": {
       "props": {
         "open": true,
         "menuOptionsClass": "custom-menu"
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu--flip",
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open",
-          "cds--toolbar-action__menu",
-          "custom-menu"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Toolbar menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Refresh data"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Download"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     }
   }
 }

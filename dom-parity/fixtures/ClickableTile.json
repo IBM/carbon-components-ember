@@ -1,7 +1,7 @@
 {
   "component": "ClickableTile",
-  "generatedAt": "2026-10-28T11:06:02.562Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.996Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -24,6 +24,36 @@
           {
             "type": "text",
             "text": "Clickable tile content"
+          },
+          {
+            "type": "element",
+            "tag": "svg",
+            "classes": [
+              "cds--tile--icon"
+            ],
+            "attributes": {
+              "focusable": "false",
+              "preserveAspectRatio": "xMidYMid meet",
+              "fill": "currentColor",
+              "aria-hidden": "true",
+              "width": "16",
+              "height": "16",
+              "viewBox": "0 0 16 16",
+              "xmlns": "http://www.w3.org/2000/svg"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "path",
+                "classes": [],
+                "attributes": {
+                  "d": "M9.3 3.7 13.1 7.5 1 7.5 1 8.5 13.1 8.5 9.3 12.3 10 13 15 8 10 3z"
+                },
+                "style": {},
+                "children": []
+              }
+            ]
           }
         ]
       }

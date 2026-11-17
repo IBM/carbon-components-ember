@@ -1,7 +1,7 @@
 {
   "component": "DismissibleTag",
-  "generatedAt": "2026-11-06T08:19:47.659Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.883Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -62,9 +62,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--tag-label-tooltip",
@@ -148,23 +149,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Dismiss"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }
@@ -238,9 +246,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--tag-label-tooltip",
@@ -325,23 +334,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Dismiss"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }
@@ -415,9 +431,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--tag-label-tooltip",
@@ -501,23 +518,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Dismiss"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }
@@ -628,9 +652,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--tag-label-tooltip",
@@ -714,23 +739,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Dismiss"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }
@@ -803,9 +835,10 @@
                     "type": "element",
                     "tag": "span",
                     "classes": [
+                      "cds--autoalign",
                       "cds--icon-tooltip",
+                      "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--tag-label-tooltip",
@@ -889,23 +922,30 @@
                               "cds--tooltip-content"
                             ],
                             "attributes": {},
-                            "style": {},
+                            "style": {
+                              "position": "fixed",
+                              "left": "0px",
+                              "top": "0px",
+                              "visibility": "visible",
+                              "transform": "translate(0px, 0px)"
+                            },
                             "children": [
                               {
                                 "type": "text",
                                 "text": "Remove filter"
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover--auto-align",
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
                               }
                             ]
-                          },
-                          {
-                            "type": "element",
-                            "tag": "span",
-                            "classes": [
-                              "cds--popover-caret"
-                            ],
-                            "attributes": {},
-                            "style": {},
-                            "children": []
                           }
                         ]
                       }

@@ -1,7 +1,7 @@
 {
   "component": "CodeSnippet",
-  "generatedAt": "2026-10-28T11:06:02.510Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.952Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "single": {
@@ -68,9 +68,10 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -94,7 +95,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -170,23 +170,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -270,9 +277,10 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -295,7 +303,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -372,23 +379,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -407,9 +421,10 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
           "cds--icon-tooltip",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container",
           "cds--tooltip"
@@ -484,23 +499,30 @@
                   "cds--tooltip-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Copy to clipboard"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -573,10 +595,11 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
                   "cds--icon-tooltip--disabled",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -601,7 +624,6 @@
                           "cds--btn--disabled",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -678,23 +700,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -779,10 +808,11 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
                   "cds--icon-tooltip--disabled",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -806,7 +836,6 @@
                           "cds--btn",
                           "cds--btn--disabled",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -884,23 +913,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -920,10 +956,11 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
           "cds--icon-tooltip",
           "cds--icon-tooltip--disabled",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container",
           "cds--tooltip"
@@ -1000,23 +1037,30 @@
                   "cds--tooltip-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Copy to clipboard"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -1188,9 +1232,10 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -1213,7 +1258,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -1290,23 +1334,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1383,9 +1434,10 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -1409,7 +1461,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -1485,23 +1536,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1578,9 +1636,10 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
+                  "cds--popover--auto-align",
                   "cds--popover--bottom",
-                  "cds--popover--caret",
                   "cds--popover--high-contrast",
                   "cds--popover-container",
                   "cds--tooltip"
@@ -1604,7 +1663,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -1680,23 +1738,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy the command"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1781,8 +1846,9 @@
                 "type": "element",
                 "tag": "span",
                 "classes": [
+                  "cds--autoalign",
                   "cds--icon-tooltip",
-                  "cds--popover--caret",
+                  "cds--popover--auto-align",
                   "cds--popover--high-contrast",
                   "cds--popover--top",
                   "cds--popover-container",
@@ -1806,7 +1872,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -1883,23 +1948,30 @@
                           "cds--tooltip-content"
                         ],
                         "attributes": {},
-                        "style": {},
+                        "style": {
+                          "position": "fixed",
+                          "left": "0px",
+                          "top": "0px",
+                          "visibility": "visible",
+                          "transform": "translate(0px, 0px)"
+                        },
                         "children": [
                           {
                             "type": "text",
                             "text": "Copy to clipboard"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover--auto-align",
+                              "cds--popover-caret"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": []
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "span",
-                        "classes": [
-                          "cds--popover-caret"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
