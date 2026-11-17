@@ -399,6 +399,27 @@ module('Integration | Component | FilterableMultiSelect', function (hooks) {
     ];
     const [editor, owner] = roles as [Item, Item];
 
+    test('enable-v12-release separates it from the other items', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <FilterableMultiSelect
+            @items={{roles}}
+            @itemToString={{itemToString}}
+          />
+        </template>,
+      );
+
+      await click(INPUT);
+      assert.deepEqual(listed(), ['All roles', 'Editor', 'Owner', 'Reader']);
+      assert
+        .dom(`${OPTION}[aria-label="All roles"] + .cds--list-box__menu-divider`)
+        .exists()
+        .hasAttribute('aria-hidden', 'true');
+    });
+
     test('stays first, and checks or clears every enabled item listed', async function (assert) {
       const onChange = spy<FilterableMultiSelectChange<Item>>();
       await render(

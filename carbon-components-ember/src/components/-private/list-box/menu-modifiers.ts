@@ -39,6 +39,8 @@ export const positionMenu = modifier(
 /** Keeps the highlighted item in view, as Carbon React does. */
 export const scrollToHighlighted = modifier(
   (menu: HTMLElement, [index]: [index: number]) => {
-    menu.children[index]?.scrollIntoView({ block: 'nearest' });
+    menu
+      .querySelectorAll(':scope > :not(.cds--list-box__menu-divider)')
+      [index]?.scrollIntoView({ block: 'nearest' });
   },
 );

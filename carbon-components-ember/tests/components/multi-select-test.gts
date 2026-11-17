@@ -460,6 +460,57 @@ module('Integration | Component | MultiSelect', function (hooks) {
     ];
     const [editor, owner] = roles as [Item, Item];
 
+    test('enable-v12-release separates it from the other items', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <MultiSelect
+            @label="Choose roles"
+            @items={{roles}}
+            @itemToString={{itemToString}}
+          />
+        </template>,
+      );
+
+      await click(FIELD);
+      assert.deepEqual(listed(), ['All roles', 'Editor', 'Owner', 'Reader']);
+      assert
+        .dom(`${OPTION}[aria-label="All roles"] + .cds--list-box__menu-divider`)
+        .exists()
+        .hasAttribute('aria-hidden', 'true');
+      assert.dom('.cds--list-box__menu-divider').exists({ count: 1 });
+    });
+
+    test('keeps the highlighted option in view past the divider', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      const many: Item[] = [
+        { id: 'all', text: 'All', isSelectAll: true },
+        ...Array.from({ length: 20 }, (_, i) => ({
+          id: `item-${i}`,
+          text: `Item ${i}`,
+        })),
+      ];
+      await render(
+        <template>
+          <MultiSelect
+            @label="Choose"
+            @items={{many}}
+            @itemToString={{itemToString}}
+          />
+        </template>,
+      );
+
+      await click(FIELD);
+      await triggerKeyEvent(FIELD, 'keydown', 'End');
+      const menu = find('.cds--list-box__menu')!.getBoundingClientRect();
+      const last = find(`${OPTION}:last-of-type`)!.getBoundingClientRect();
+      assert.true(last.bottom <= menu.bottom + 1, 'the last option is in view');
+    });
+
     test('checks every enabled item, and unchecks them all', async function (assert) {
       const onChange = spy<MultiSelectChange<Item>>();
       await render(

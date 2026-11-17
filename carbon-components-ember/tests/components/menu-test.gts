@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import type { TestContext } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
@@ -673,6 +674,30 @@ module('Integration | Component | Menu', (hooks) => {
     assert
       .dom('[role="menu"]', this.container)
       .hasClass('cds--menu--box-shadow-top');
+  });
+
+  test('enable-v12-release gives it a border', async function (this: TestContext & {
+    container: HTMLElement;
+  }, assert) {
+    this.owner
+      .lookup('service:carbon.feature-flags')
+      .enable('enable-v12-release');
+    const target = this.container;
+    await render(
+      <template>
+        <Menu
+          @label="Test menu"
+          @open={{true}}
+          @target={{target}}
+          as |MenuItem|
+        >
+          <MenuItem @label="Cut" />
+        </Menu>
+      </template>,
+    );
+
+    await waitForAnimationFrame();
+    assert.dom('[role="menu"]', this.container).hasClass('cds--menu--border');
   });
 
   test('ArrowDown/ArrowUp move roving focus between items and wrap around', async function (this: {

@@ -14,6 +14,7 @@ import MenuItem from './menu/menu-item.gts';
 import MenuItemRadioGroup from './menu/menu-item-radio-group.gts';
 import MenuItemSelectable from './menu/menu-item-selectable.gts';
 import type LayersService from '../services/layers.ts';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
 
@@ -48,7 +49,8 @@ export interface MenuSignature {
      */
     backgroundToken?: 'layer' | 'background';
     /**
-     * Specify whether a border should be rendered on the menu.
+     * Specify whether a border should be rendered on the menu. With the
+     * `enable-v12-release` feature flag, it always is.
      */
     border?: boolean;
     /**
@@ -151,6 +153,7 @@ const MenuList: TOC<MenuListSignature> = <template>
 
 export default class Menu extends Component<MenuSignature> {
   @service('carbon.layers') declare layers: LayersService;
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
 
   @tracked items: readonly MenuItemFeatures[] = [];
   @tracked shown = false;
@@ -213,7 +216,9 @@ export default class Menu extends Component<MenuSignature> {
     if (this.hasSelectableItems) {
       classes.push('cds--menu--with-selectable-items');
     }
-    if (this.args.border) classes.push('cds--menu--border');
+    if (this.args.border || this.featureFlags.enabled('enable-v12-release')) {
+      classes.push('cds--menu--border');
+    }
     if (this.args.backgroundToken === 'background') {
       classes.push('cds--menu--background-token__background');
     }

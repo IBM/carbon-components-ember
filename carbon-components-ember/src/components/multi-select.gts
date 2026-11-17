@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import { rawTimeout, task } from 'ember-concurrency';
 import { modifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
@@ -40,6 +41,7 @@ import {
   scrollToHighlighted,
 } from './-private/list-box/menu-modifiers.ts';
 import { afterRender } from '../utils/after-render.ts';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 import { typeaheadIndex } from '../utils/roving-focus.ts';
 import type {
   CompareItems,
@@ -193,6 +195,8 @@ export interface MultiSelectSignature<T> {
  * ```
  */
 export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
+
   @tracked isOpen: boolean;
   @tracked highlightedIndex = -1;
   @tracked isFocused = false;
@@ -266,6 +270,10 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
   get hasSelectAll() {
     return this.availableItems.some(isSelectAllItem);
   }
+
+  // v12 separates the select-all option from the rest.
+  dividesAfter = (item: T): boolean =>
+    isSelectAllItem(item) && this.featureFlags.enabled('enable-v12-release');
 
   // The items in the order the menu lists them, which the keyboard follows.
   @cached
@@ -799,6 +807,9 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
                   {{~/if~}}
                 </ListBoxCheckbox>
               </ListBoxMenuItem>
+              {{#if (this.dividesAfter item)}}
+                <li class="cds--list-box__menu-divider" aria-hidden="true"></li>
+              {{/if}}
             {{/each}}
           {{~/if~}}
         </ListBoxMenu>
