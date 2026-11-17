@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import type { ComponentLike } from '@glint/template';
 import type { NotificationKind } from '../components/notification/-notification-icon.gts';
 
 /**
@@ -37,6 +38,17 @@ export interface Toast {
   onActionButtonClick?: (event: MouseEvent) => void;
   /** ActionableNotification only. */
   closeOnEscape?: boolean;
+  /**
+   * Attributes for the toast's element, such as an `id` or a `data-test-`
+   * attribute to find it by. A `class` adds to the toast's classes; its
+   * role is `role`'s.
+   */
+  attributes?: Record<string, string>;
+  /**
+   * A component to render in the toast, after its text, as Carbon React's
+   * children: rich text, or a link in a toast with an action.
+   */
+  content?: ComponentLike<object>;
 }
 
 const PERSISTENT_KINDS = new Set<NotificationKind | undefined>([
