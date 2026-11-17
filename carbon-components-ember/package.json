@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@carbon/charts": "^1.27.25",
+    "@carbon/feature-flags": "catalog:carbon",
     "@carbon/grid": "catalog:carbon",
     "@carbon/icon-helpers": "catalog:carbon",
     "@carbon/icons": "catalog:carbon",
@@ -176,6 +177,7 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./services/carbon/ai-chat-session.js": "./dist/_app_/services/carbon/ai-chat-session.js",
+      "./services/carbon/feature-flags.js": "./dist/_app_/services/carbon/feature-flags.js",
       "./services/carbon/layers.js": "./dist/_app_/services/carbon/layers.js",
       "./services/carbon/notifications.js": "./dist/_app_/services/carbon/notifications.js"
     }

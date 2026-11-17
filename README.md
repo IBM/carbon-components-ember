@@ -94,6 +94,26 @@ claude mcp add carbon-components-ember -- npx --no carbon-components-ember-mcp
 
 `--no` makes npx run the installed server and never download one. The server's README covers VS Code and Cursor.
 
+## Feature flags
+
+Carbon's feature flags, which Carbon React sets with `<FeatureFlags>`, are the `carbon.feature-flags` service here, and the components that support a flag read it from there. They apply to the whole app. The `enable-v12-*` flags preview Carbon v12's behaviour, and `enable-v12-release` turns them all on. Set them before the app renders, in the application route:
+
+```ts
+import Route from '@ember/routing/route';
+import { service } from '@ember/service';
+import type FeatureFlagsService from 'carbon-components-ember/services/feature-flags';
+
+export default class ApplicationRoute extends Route {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
+
+  beforeModel() {
+    this.featureFlags.enable('enable-v12-release');
+  }
+}
+```
+
+The service also has `disable()` and `merge()`, and starts from `@carbon/feature-flags`' global scope, so flags set there before it's first used apply too. Some flags change Carbon's styles too, and `@carbon/styles/css/styles.css` has them compiled in at their defaults: for those, build Carbon's styles from its Sass with the same flags, as [`@carbon/feature-flags`' README](https://github.com/carbon-design-system/carbon/tree/main/packages/feature-flags#readme) shows.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). [AGENTS.md](AGENTS.md) holds the conventions the codebase follows, for people and AI agents alike.

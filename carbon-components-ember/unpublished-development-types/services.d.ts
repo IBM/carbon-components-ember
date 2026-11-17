@@ -1,4 +1,5 @@
 import type ChatSessionService from '../src/services/ai-chat-session.ts';
+import type FeatureFlagsService from '../src/services/feature-flags.ts';
 import type LayersService from '../src/services/layers.ts';
 import type NotificationService from '../src/services/notifications.ts';
 
@@ -7,6 +8,7 @@ import type NotificationService from '../src/services/notifications.ts';
 declare module '@ember/service' {
   interface Registry {
     'carbon.ai-chat-session': ChatSessionService;
+    'carbon.feature-flags': FeatureFlagsService;
     'carbon.layers': LayersService;
     'carbon.notifications': NotificationService;
   }
