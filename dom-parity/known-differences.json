@@ -238,25 +238,9 @@
   ],
   "Toggle": [
     {
-      "path": "div > button[0].attributes.aria-labelledby",
-      "reason": "@carbon/react's Toggle links its `<button role=\"switch\">` to its own label via `aria-labelledby={ariaLabelledby ?? (labelText ? labelId : undefined)}`, where `labelId` is a real, upstream-generated `{id}_label` id on the label element (see the `div > label[1].attributes.id` entry below). Ember's `toggle.gts` has no equivalent wiring - the button and the visible label text are never connected via ARIA at all, even though `@name` is Ember's direct analog of `labelText`. A real, disclosed accessibility gap (screen readers get no accessible name from the label association upstream provides), out of scope for a DOM-parity-only pass. Applies to every variant."
-    },
-    {
-      "path": "div > label[1].attributes.id",
-      "reason": "Same gap as the `aria-labelledby` entry above - the `{id}_label` id upstream generates for this exact linking purpose has no counterpart in Ember's `toggle.gts`, which renders its `<label>` with no `id` at all. Applies to every variant."
-    },
-    {
-      "path": "div > label[1] > span[0].attributes.dir",
-      "reason": "@carbon/react wraps the visible label text in its own `Text` component (default `as='span'`), which sets `dir='auto'` on itself (see this file's other `Text`-wrapper entries, e.g. Notification's). Ember's `<span class='cds--toggle__label-text'>` is a plain span with no `dir` attribute. Applies to every variant."
-    },
-    {
-      "path": "div > label[1] > div[1] > span[1].attributes.dir",
-      "reason": "Same `Text`-wrapper `dir='auto'` gap as the entry above, on the On/Off side-label span (`cds--toggle__text`) instead of the main label text span. Applies to every variant."
-    },
-    {
-      "path": "div > label[1] > div[1] > div[0] > svg[0]",
-      "variant": "size-sm",
-      "reason": "Upstream's Toggle renders a small checkmark `<svg>` inside the switch thumb whenever `size='sm'` (and not `readOnly`) - a real, purely decorative detail of the small variant (`Toggle.js`'s `isSm && !readOnly` branch). Ember's `toggle.gts` has no equivalent - it renders the same empty `cds--toggle__switch` div regardless of size. A real, undocumented-until-now gap, out of scope for a DOM-parity-only pass."
+      "path": "div > div[1].attributes.for",
+      "variant": "aria-labelledby",
+      "reason": "Carbon React leaves out the label's `for` when given `aria-labelledby`. Here that's an attribute, which the component can't read, so the label keeps it; on the `<div>` it renders without `@labelText` it does nothing."
     }
   ],
   "TextInput": [
