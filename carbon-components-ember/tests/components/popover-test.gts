@@ -851,4 +851,257 @@ module('Integration | Component | Popover', (hooks) => {
       assert.dom('.cds--popover-content').doesNotHaveAttribute('popover');
     });
   });
+
+  module('v12 feature flags', () => {
+    test('enable-v12-autoalign floats it unless @autoAlign is false', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-autoalign');
+      const autoAlign = tracked<boolean | undefined>(undefined);
+      await render(
+        <template>
+          <Popover
+            @open={{true}}
+            @autoAlign={{autoAlign.value}}
+            as |PopoverContent trigger|
+          >
+            <button type="button" {{trigger}}>Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align');
+      assert.true(find('.cds--popover-content')!.matches(':popover-open'));
+
+      autoAlign.value = false;
+      await settled();
+      assert
+        .dom('.cds--popover-container')
+        .doesNotHaveClass('cds--popover--auto-align');
+    });
+
+    test('enable-v12-dynamic-floating-styles floats it without auto-aligning', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      await render(
+        <template>
+          <Popover @open={{true}} as |PopoverContent trigger|>
+            <button type="button" {{trigger}}>Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align')
+        .hasClass('cds--popover--caret');
+      assert.true(find('.cds--popover-content')!.matches(':popover-open'));
+    });
+
+    test('enable-v12-release drops the caret', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <Popover @open={{true}} @caret={{true}} as |PopoverContent trigger|>
+            <button type="button" {{trigger}}>Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      assert
+        .dom('.cds--popover-container')
+        .doesNotHaveClass('cds--popover--caret');
+    });
+
+    test('floats without flipping under enable-v12-dynamic-floating-styles', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      const boundary = tracked<HTMLElement | undefined>(undefined);
+      const setBoundary = modifier((element: HTMLElement) => {
+        boundary.value = element;
+      });
+
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .flip-test__boundary {
+              width: 16rem;
+              height: 20rem;
+            }
+            .flip-test__popover {
+              display: block;
+            }
+            .flip-test__trigger {
+              display: block;
+              width: 100%;
+              height: 2rem;
+            }
+            .flip-test__content {
+              width: 4rem;
+              height: 4rem;
+            }
+          </style>
+          <div class="flip-test__boundary" {{setBoundary}}>
+            {{#if boundary.value}}
+              <Popover
+                class="flip-test__popover"
+                @open={{true}}
+                @align="top"
+                @autoAlignBoundary={{boundary.value}}
+                as |PopoverContent trigger|
+              >
+                <button
+                  class="flip-test__trigger"
+                  type="button"
+                  {{trigger}}
+                >Trigger</button>
+                <PopoverContent class="flip-test__content">
+                  Content
+                </PopoverContent>
+              </Popover>
+            {{/if}}
+          </div>
+        </template>,
+      );
+
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align')
+        .hasClass('cds--popover--top');
+    });
+
+    test('@autoAlign={{false}} floats without flipping under enable-v12-release', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      const boundary = tracked<HTMLElement | undefined>(undefined);
+      const setBoundary = modifier((element: HTMLElement) => {
+        boundary.value = element;
+      });
+
+      await render(
+        <template>
+          <style nonce={{nonce}}>
+            .flip-test__boundary {
+              width: 16rem;
+              height: 20rem;
+            }
+            .flip-test__popover {
+              display: block;
+            }
+            .flip-test__trigger {
+              display: block;
+              width: 100%;
+              height: 2rem;
+            }
+            .flip-test__content {
+              width: 4rem;
+              height: 4rem;
+            }
+          </style>
+          <div class="flip-test__boundary" {{setBoundary}}>
+            {{#if boundary.value}}
+              <Popover
+                class="flip-test__popover"
+                @open={{true}}
+                @align="top"
+                @autoAlign={{false}}
+                @autoAlignBoundary={{boundary.value}}
+                as |PopoverContent trigger|
+              >
+                <button
+                  class="flip-test__trigger"
+                  type="button"
+                  {{trigger}}
+                >Trigger</button>
+                <PopoverContent class="flip-test__content">
+                  Content
+                </PopoverContent>
+              </Popover>
+            {{/if}}
+          </div>
+        </template>,
+      );
+
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align')
+        .hasClass('cds--popover--top');
+    });
+
+    test('floats against its first child when no trigger is marked', async function (assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      await render(
+        <template>
+          <Popover @open={{true}} as |PopoverContent|>
+            <button type="button">Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+
+      const content = find('.cds--popover-content') as HTMLElement;
+      assert.true(content.matches(':popover-open'));
+      assert.true(
+        content.getBoundingClientRect().top >=
+          find('button')!.getBoundingClientRect().bottom,
+      );
+    });
+
+    test('follows a flag turned on after it renders', async function (assert) {
+      await render(
+        <template>
+          <Popover @open={{true}} as |PopoverContent trigger|>
+            <button type="button" {{trigger}}>Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      assert.false(find('.cds--popover-content')!.matches(':popover-open'));
+
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      await settled();
+      assert
+        .dom('.cds--popover-container')
+        .hasClass('cds--popover--auto-align');
+      assert.true(find('.cds--popover-content')!.matches(':popover-open'));
+    });
+
+    test('a floating tab tip sits 4px below its trigger under enable-v12-release', async function (assert) {
+      const flags = this.owner.lookup('service:carbon.feature-flags');
+      flags.enable('enable-v12-dynamic-floating-styles');
+      await render(
+        <template>
+          <Popover
+            @open={{true}}
+            @isTabTip={{true}}
+            as |PopoverContent trigger|
+          >
+            <button type="button" {{trigger}}>Trigger</button>
+            <PopoverContent>Content</PopoverContent>
+          </Popover>
+        </template>,
+      );
+      const gap = () =>
+        Math.round(
+          find('.cds--popover-content')!.getBoundingClientRect().top -
+            find('button')!.getBoundingClientRect().bottom,
+        );
+      assert.strictEqual(gap(), 0);
+
+      flags.enable('enable-v12-release');
+      await settled();
+      assert.strictEqual(gap(), 4);
+    });
+  });
 });

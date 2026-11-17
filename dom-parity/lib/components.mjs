@@ -1920,6 +1920,24 @@ export const COMPONENTS = [
         kind: 'ghost',
         isSelected: true,
       }),
+      withFlags(
+        { enableV12Release: true },
+        button('icon-only-v12-release', {
+          hasIconOnly: true,
+          renderIcon: 'Add',
+          iconDescription: 'Add',
+          kind: 'ghost',
+        }),
+      ),
+      withFlags(
+        { enableV12DynamicFloatingStyles: true },
+        button('icon-only-floating-styles', {
+          hasIconOnly: true,
+          renderIcon: 'Add',
+          iconDescription: 'Add',
+          kind: 'ghost',
+        }),
+      ),
     ],
   },
   {
@@ -1983,6 +2001,18 @@ export const COMPONENTS = [
       definitionTooltip('default-open', { defaultOpen: true }),
       definitionTooltip('align-top', { align: 'top' }),
       definitionTooltip('auto-align', { autoAlign: true }),
+      withFlags(
+        { enableV12Autoalign: true },
+        definitionTooltip('v12-autoalign', {}),
+      ),
+      withFlags(
+        { enableV12Release: true },
+        definitionTooltip('v12-release', {}),
+      ),
+      withFlags(
+        { enableV12DynamicFloatingStyles: true },
+        definitionTooltip('floating-styles', {}),
+      ),
       definitionTooltip('class-names', {
         className: 'custom-popover',
         triggerClassName: 'custom-trigger',

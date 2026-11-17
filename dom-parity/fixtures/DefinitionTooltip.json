@@ -1,6 +1,6 @@
 {
   "component": "DefinitionTooltip",
-  "generatedAt": "2026-11-06T10:14:21.349Z",
+  "generatedAt": "2026-11-17T10:59:01.093Z",
   "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -240,6 +240,269 @@
     "auto-align": {
       "props": {
         "autoAlign": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "v12-autoalign": {
+      "props": {},
+      "flags": {
+        "enableV12Autoalign": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
+          "cds--popover--bottom",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "v12-release": {
+      "props": {},
+      "flags": {
+        "enableV12Release": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
+          "cds--popover--bottom",
+          "cds--popover--high-contrast",
+          "cds--popover-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "button",
+            "classes": [
+              "cds--definition-term"
+            ],
+            "attributes": {
+              "aria-controls": "#1",
+              "aria-describedby": "#1",
+              "aria-expanded": "false",
+              "type": "button"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "URL"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--definition-tooltip",
+                  "cds--popover-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "floating-styles": {
+      "props": {},
+      "flags": {
+        "enableV12DynamicFloatingStyles": true
       },
       "dom": {
         "type": "element",

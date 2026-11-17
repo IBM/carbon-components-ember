@@ -8,9 +8,12 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import Popover from './popover.gts';
 import type { PopoverAlignment } from './popover.gts';
 import { isActivationKey } from '../utils/keyboard.ts';
+import { floats } from '../utils/auto-align.ts';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 
 export interface DefinitionTooltipSignature {
   Element: HTMLButtonElement;
@@ -22,7 +25,7 @@ export interface DefinitionTooltipSignature {
     align?: PopoverAlignment;
     /**
      * Keep the tooltip within the viewport, moving it to another side when it
-     * would overflow.
+     * would overflow. Defaults to the `enable-v12-autoalign` feature flag.
      */
     autoAlign?: boolean;
     /**
@@ -71,6 +74,13 @@ export interface DefinitionTooltipSignature {
  * `class` landing there, so changing it isn't an option.
  */
 export default class DefinitionTooltip extends Component<DefinitionTooltipSignature> {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
+
+  // Floating content holds its caret, as in PopoverContent.
+  get floating() {
+    return floats(this.featureFlags, this.args.autoAlign);
+  }
+
   @tracked isOpen = this.args.defaultOpen ?? false;
 
   get tooltipId() {
@@ -148,11 +158,11 @@ export default class DefinitionTooltip extends Component<DefinitionTooltipSignat
           {{~else~}}
             {{@definition}}
           {{~/if~}}
-          {{#if @autoAlign~}}
+          {{#if this.floating~}}
             <span class="cds--popover-caret cds--popover--auto-align"></span>
           {{~/if~}}
         </span>
-        {{#unless @autoAlign}}
+        {{#unless this.floating}}
           <span class="cds--popover-caret"></span>
         {{/unless}}
       </span>

@@ -10,7 +10,7 @@ export interface Difference {
 export interface KnownDifference {
   path: string;
   reason: string;
-  variant?: string;
+  variant?: string | string[];
 }
 
 /** Returns a flat array of the differences between the two trees. */

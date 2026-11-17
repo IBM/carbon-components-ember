@@ -79,7 +79,7 @@ recorded per component.
    `known-differences.json` with a `path` (matching the diff output's
    `path`) and a `reason` - don't silently drop a real difference just to
    get a green suite. An entry applies to every variant of the component by
-   default; add a `variant` field to scope it to just one when the gap only
+   default; add a `variant` field (one name or a list) to scope it when the gap only
    reproduces there (e.g. a class name that embeds the variant's own arg
    value, like `cds--btn--lg`, only needs one entry per distinct value, not
    one per variant that happens to use that value).

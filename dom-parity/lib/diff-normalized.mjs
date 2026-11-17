@@ -159,11 +159,11 @@ export function diffNormalized(reactTree, emberTree) {
  * given component/variant. An entry matches when its `path` is an exact
  * match or a prefix (`path + " "` or `path + "."`) of the difference's
  * path, and either carries no `variant` (applies to every variant of the
- * component) or names this exact `variant`.
+ * component) or names this `variant`, alone or in a list.
  */
 export function applyKnownDifferences(differences, knownDifferences, variant) {
   const applicable = knownDifferences.filter(
-    (known) => !known.variant || known.variant === variant,
+    (known) => !known.variant || [known.variant].flat().includes(variant),
   );
   return differences.filter((diff) => {
     return !applicable.some((known) => {

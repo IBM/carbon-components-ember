@@ -19,7 +19,8 @@ export interface ToggletipSignature {
     align?: PopoverAlignment;
     /**
      * **Experimental:** Keeps the toggletip within the viewport, as
-     * `Popover`'s `autoAlign` does.
+     * `Popover`'s `autoAlign` does. Defaults to the `enable-v12-autoalign`
+     * feature flag.
      */
     autoAlign?: boolean;
     /**

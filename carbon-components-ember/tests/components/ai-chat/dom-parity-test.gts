@@ -101,7 +101,7 @@ function assertAiChatDomParity(
     (
       knownDifferences as Record<
         string,
-        Array<{ path: string; reason: string; variant?: string }>
+        Array<{ path: string; reason: string; variant?: string | string[] }>
       >
     )[component] ?? [];
   const unexpected = applyKnownDifferences(differences, known, variant);
