@@ -183,9 +183,9 @@ export const TabTip = meta.story({
             <hr />
             <fieldset class="cds--fieldset">
               <legend class="cds--label">Edit columns</legend>
-              <Checkbox @label="Name" @checked={{true}} />
-              <Checkbox @label="Type" @checked={{true}} />
-              <Checkbox @label="Location" @checked={{true}} />
+              <Checkbox @labelText="Name" @checked={{true}} />
+              <Checkbox @labelText="Type" @checked={{true}} />
+              <Checkbox @labelText="Location" @checked={{true}} />
             </fieldset>
           </PopoverContent>
         </Popover>
@@ -220,9 +220,9 @@ export const TabTip = meta.story({
             <hr />
             <fieldset class="cds--fieldset">
               <legend class="cds--label">Testing</legend>
-              <Checkbox @label="Name" @checked={{true}} />
-              <Checkbox @label="Type" @checked={{true}} />
-              <Checkbox @label="Location" @checked={{true}} />
+              <Checkbox @labelText="Name" @checked={{true}} />
+              <Checkbox @labelText="Type" @checked={{true}} />
+              <Checkbox @labelText="Location" @checked={{true}} />
             </fieldset>
           </PopoverContent>
         </Popover>

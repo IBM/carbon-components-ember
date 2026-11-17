@@ -39,6 +39,7 @@ import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
 import FileUploaderSkeleton from '#src/components/file-uploader/file-uploader-skeleton.gts';
 import Checkbox from '#src/components/checkbox.gts';
+import type { CheckboxSignature } from '#src/components/checkbox.gts';
 import InlineCheckbox from '#src/components/inline-checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
@@ -2993,65 +2994,51 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Checkbox', function () {
-    test('default', async function (this: RenderingTestContext, assert) {
-      await render(<template><Checkbox @label="Checkbox label" /></template>);
-      assertDomParity(
-        assert,
-        checkboxFixture,
-        'default',
-        this.element.firstElementChild,
-      );
-    });
+    // The props dom-parity/lib/components.mjs renders each variant with,
+    // besides its `id` and `labelText`.
+    const variants: Record<string, CheckboxSignature['Args']> = {
+      default: {},
+      checked: { checked: true },
+      indeterminate: { indeterminate: true },
+      disabled: { disabled: true },
+      'read-only': { readOnly: true },
+      'hide-label': { hideLabel: true },
+      'helper-text': { helperText: 'Helper text' },
+      invalid: { invalid: true, invalidText: 'Invalid selection' },
+      warn: { warn: true, warnText: 'Warning message' },
+    };
 
-    test('checked', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Checkbox @label="Checkbox label" @checked={{true}} />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        checkboxFixture,
-        'checked',
-        this.element.firstElementChild,
-      );
-    });
-
-    test('indeterminate', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Checkbox @label="Checkbox label" @indeterminate={{true}} />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        checkboxFixture,
-        'indeterminate',
-        this.element.firstElementChild,
-      );
-    });
-
-    test('disabled', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Checkbox @label="Checkbox label" @disabled={{true}} />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        checkboxFixture,
-        'disabled',
-        this.element.firstElementChild,
-      );
-    });
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <Checkbox
+              @id="checkbox-1"
+              @labelText="Checkbox label"
+              @checked={{props.checked}}
+              @indeterminate={{props.indeterminate}}
+              @disabled={{props.disabled}}
+              @readOnly={{props.readOnly}}
+              @hideLabel={{props.hideLabel}}
+              @helperText={{props.helperText}}
+              @invalid={{props.invalid}}
+              @invalidText={{props.invalidText}}
+              @warn={{props.warn}}
+              @warnText={{props.warnText}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          checkboxFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, checkboxFixture, [
-        'default',
-        'checked',
-        'indeterminate',
-        'disabled',
-      ]);
+      assertFullCoverage(assert, checkboxFixture, Object.keys(variants));
     });
   });
 

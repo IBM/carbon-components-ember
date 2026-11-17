@@ -1,5 +1,5 @@
 import Button from '../button.gts';
-import Checkbox from '../checkbox.gts';
+import InlineCheckbox from '../inline-checkbox.gts';
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
@@ -32,7 +32,7 @@ export default class TableHeader extends Component<TableHeaderSignature> {
     return guidFor(this);
   }
 
-  toggleSelectAll = (_event: Event, { checked }: { checked: boolean }) => {
+  toggleSelectAll = (checked: boolean) => {
     this.args.table.toggleSelectAllItems(checked);
   };
 
@@ -84,11 +84,13 @@ export default class TableHeader extends Component<TableHeaderSignature> {
         {{#if @isCheckable}}
           <th class="cds--table-column-checkbox">
             {{#unless @table.isLoading}}
-              <Checkbox
+              <InlineCheckbox
+                @ariaLabel="Select all rows in the table"
+                @id="data-table-{{this.guid}}__select-all"
+                @name="data-table-{{this.guid}}__select-all"
                 @checked={{@table.allChecked}}
+                @indeterminate={{@table.someChecked}}
                 @onChange={{this.toggleSelectAll}}
-                @label="Select all rows in the table"
-                @hideLabel={{true}}
               />
             {{/unless}}
           </th>

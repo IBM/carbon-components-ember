@@ -10,6 +10,13 @@ import { modifier } from 'ember-modifier';
 /** Sets a checkbox's `indeterminate` property, which has no attribute. */
 export default modifier(
   (element: HTMLInputElement, [indeterminate]: [boolean | undefined]) => {
-    element.indeterminate = indeterminate ?? false;
+    // A click clears it; it stays while the argument says so, as in Carbon
+    // React, which sets it on every render.
+    const apply = () => {
+      element.indeterminate = indeterminate ?? false;
+    };
+    apply();
+    element.addEventListener('change', apply);
+    return () => element.removeEventListener('change', apply);
   },
 );

@@ -1,4 +1,4 @@
-import Checkbox from '../checkbox.gts';
+import InlineCheckbox from '../inline-checkbox.gts';
 import Component from '@glimmer/component';
 import type Owner from '@ember/owner';
 import { guidFor } from '@ember/object/internals';
@@ -50,7 +50,7 @@ export default class DataTableRow<T> extends Component<
     }
   }
 
-  toggleSelection = (_event: Event, { checked }: { checked: boolean }) => {
+  toggleSelection = (checked: boolean) => {
     this.args.table.toggleItemSelection(this.args.item, checked);
   };
 
@@ -70,6 +70,10 @@ export default class DataTableRow<T> extends Component<
     if (this.isExpanded) classes.push('cds--expandable-row');
     if (this.isSelected) classes.push('cds--data-table--selected');
     return classes.join(' ');
+  }
+
+  get selectId() {
+    return `${guidFor(this)}-select`;
   }
 
   get expandedRowId() {
@@ -135,11 +139,12 @@ export default class DataTableRow<T> extends Component<
       {{#if @isCheckable}}
         <td class="cds--table-column-checkbox">
           {{#unless @table.isLoading}}
-            <Checkbox
+            <InlineCheckbox
+              @ariaLabel="Select row"
+              @id={{this.selectId}}
+              @name={{this.selectId}}
               @checked={{this.isSelected}}
               @onChange={{this.toggleSelection}}
-              @label="Select row"
-              @hideLabel={{true}}
             />
           {{/unless}}
         </td>
