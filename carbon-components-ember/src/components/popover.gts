@@ -7,14 +7,17 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import { arrow, flip, hide, offset } from '@floating-ui/dom';
 import closeOnOutsideClick from '../modifiers/close-on-outside-click.ts';
+import { floats, resolveAutoAlign } from '../utils/auto-align.ts';
 import { clippingBoundary, float } from '../utils/floating.ts';
 import './popover.scss';
 
 import type { Boundary, Placement } from '@floating-ui/dom';
 import type { ModifierLike, WithBoundArgs } from '@glint/template';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 
 /** Carbon React's `NewPopoverAlignment` values. */
 export const NewPopoverAlignments = [
@@ -136,7 +139,8 @@ export interface PopoverSignature {
     align?: PopoverAlignment;
     /**
      * **Experimental:** Provide an offset value for alignment axis. Only takes
-     * effect when `autoAlign` is enabled.
+     * effect when the content floats: with `autoAlign`, or Carbon's v12
+     * floating flags.
      */
     alignmentAxisOffset?: number;
     /**
@@ -147,7 +151,8 @@ export interface PopoverSignature {
      * **Experimental:** Positions the content with Floating UI and keeps it
      * within the viewport (or `autoAlignBoundary`, if provided), flipping it
      * to another side when it doesn't fit. The content renders in the top
-     * layer, so overflowing ancestors don't clip it.
+     * layer, so overflowing ancestors don't clip it. Defaults to the
+     * `enable-v12-autoalign` feature flag.
      */
     autoAlign?: boolean;
     /**
@@ -164,7 +169,8 @@ export interface PopoverSignature {
      */
     border?: boolean;
     /**
-     * Specify whether a caret should be rendered.
+     * Specify whether a caret should be rendered. With the
+     * `enable-v12-release` feature flag, there's none.
      */
     caret?: boolean;
     /**
@@ -194,8 +200,9 @@ export interface PopoverSignature {
   Blocks: {
     /**
      * The trigger, with the yielded `trigger` modifier on it, then the
-     * yielded `PopoverContent`. `@autoAlign` positions against the element
-     * `trigger` marks and `@isTabTip` styles it, so both need it.
+     * yielded `PopoverContent`. Floating content positions against the
+     * element `trigger` marks (else the first other child, as in Carbon
+     * React), and `@isTabTip` styles it.
      */
     default: [
       PopoverContent: WithBoundArgs<typeof PopoverContent, 'popover'>,
@@ -220,6 +227,7 @@ export interface PopoverSignature {
  * ```
  */
 export default class Popover extends Component<PopoverSignature> {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
   @tracked placement?: Placement;
   // Registered by PopoverContent; content rendered by hand is looked up.
   // tracked() skips equal writes, so re-registering doesn't re-position.
@@ -262,7 +270,16 @@ export default class Popover extends Component<PopoverSignature> {
     return this.args.as ?? 'span';
   }
 
+  get v12Release() {
+    return this.featureFlags.enabled('enable-v12-release');
+  }
+
+  get autoAlign() {
+    return resolveAutoAlign(this.featureFlags, this.args.autoAlign);
+  }
+
   get caret() {
+    if (this.v12Release) return false;
     return this.args.caret ?? !this.args.isTabTip;
   }
 
@@ -271,7 +288,7 @@ export default class Popover extends Component<PopoverSignature> {
   }
 
   get floating() {
-    return Boolean(this.args.autoAlign);
+    return floats(this.featureFlags, this.args.autoAlign);
   }
 
   get baseAlign(): NewPopoverAlignment {
@@ -328,12 +345,15 @@ export default class Popover extends Component<PopoverSignature> {
   }
 
   /**
-   * Floating mode (`@autoAlign`), configured like Carbon React's
-   * `useFloating` call. The reference is the element `trigger` marks.
+   * Floating mode, configured like Carbon React's `useFloating` call: only
+   * `autoAlign` flips and hides it. The reference is the element `trigger`
+   * marks, else the first child that isn't the content, as in Carbon React.
    */
   positionContent = modifier((container: HTMLElement) => {
     if (!this.floating || !this.args.open) return;
-    const reference = this.#triggerElement.value;
+    const reference =
+      this.#triggerElement.value ??
+      container.querySelector<HTMLElement>(':scope > :not(.cds--popover)');
     const content =
       this.contentElement ??
       container.querySelector<HTMLElement>(
@@ -344,7 +364,7 @@ export default class Popover extends Component<PopoverSignature> {
       this.caretElement ??
       content.querySelector<HTMLElement>(':scope > .cds--popover-caret');
 
-    const { caret, baseAlign } = this;
+    const { autoAlign, caret, baseAlign, v12Release } = this;
     const isTabTip = Boolean(this.args.isTabTip);
     const side = baseAlign.includes('bottom') ? 'bottom' : 'top';
 
@@ -370,24 +390,28 @@ export default class Popover extends Component<PopoverSignature> {
       middleware: [
         offset(
           isTabTip
-            ? 0
+            ? v12Release
+              ? 4
+              : 0
             : {
                 alignmentAxis: this.args.alignmentAxisOffset,
                 mainAxis: caret ? popoverOffset : 4,
               },
         ),
-        flip({
-          fallbackPlacements: (isTabTip
-            ? tabTipFallbackPlacements
-            : fallbackPlacements)[side],
-          fallbackStrategy: 'initialPlacement',
-          fallbackAxisSideDirection: 'start',
-          boundary: this.args.autoAlignBoundary,
-        }),
-        caretElement && arrow({ element: caretElement, padding: 16 }),
+        autoAlign &&
+          flip({
+            fallbackPlacements: (isTabTip
+              ? tabTipFallbackPlacements
+              : fallbackPlacements)[side],
+            fallbackStrategy: 'initialPlacement',
+            fallbackAxisSideDirection: 'start',
+            boundary: this.args.autoAlignBoundary,
+          }),
+        caretElement &&
+          arrow({ element: caretElement, padding: v12Release ? 3 : 16 }),
         // Derived on each update: a Modal opening in the same render isn't
         // in the top layer yet when this runs.
-        hide(() => ({ boundary: clippingBoundary(reference) })),
+        autoAlign && hide(() => ({ boundary: clippingBoundary(reference) })),
       ],
       onUpdate: ({ placement, middlewareData }) => {
         if (this.placement !== placement) {

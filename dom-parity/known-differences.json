@@ -779,27 +779,52 @@
   "DefinitionTooltip": [
     {
       "path": "span > span[1] > span[0].style.position",
-      "variant": "auto-align",
-      "reason": "Popover positions floating content (`@autoAlign`) only while it is open. Carbon React's `useFloating` also writes its initial styles on a closed one, which Carbon's CSS hides either way."
+      "variant": [
+        "auto-align",
+        "v12-autoalign",
+        "v12-release",
+        "floating-styles"
+      ],
+      "reason": "Popover positions floating content (`@autoAlign`, or the v12 flags) only while it is open. Carbon React's `useFloating` also writes its initial styles on a closed one, which Carbon's CSS hides either way."
     },
     {
       "path": "span > span[1] > span[0].style.left",
-      "variant": "auto-align",
+      "variant": [
+        "auto-align",
+        "v12-autoalign",
+        "v12-release",
+        "floating-styles"
+      ],
       "reason": "The `style.position` entry above."
     },
     {
       "path": "span > span[1] > span[0].style.top",
-      "variant": "auto-align",
+      "variant": [
+        "auto-align",
+        "v12-autoalign",
+        "v12-release",
+        "floating-styles"
+      ],
       "reason": "The `style.position` entry above."
     },
     {
       "path": "span > span[1] > span[0].style.visibility",
-      "variant": "auto-align",
+      "variant": [
+        "auto-align",
+        "v12-autoalign",
+        "v12-release",
+        "floating-styles"
+      ],
       "reason": "The `style.position` entry above."
     },
     {
       "path": "span > span[1] > span[0].style.transform",
-      "variant": "auto-align",
+      "variant": [
+        "auto-align",
+        "v12-autoalign",
+        "v12-release",
+        "floating-styles"
+      ],
       "reason": "The `style.position` entry above."
     }
   ],

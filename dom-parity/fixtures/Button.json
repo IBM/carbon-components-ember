@@ -1,6 +1,6 @@
 {
   "component": "Button",
-  "generatedAt": "2026-10-28T11:06:02.449Z",
+  "generatedAt": "2026-11-17T10:47:23.489Z",
   "carbonReactVersion": "1.119.0",
   "reactVersion": "19.3.1",
   "variants": {
@@ -833,6 +833,269 @@
                 "attributes": {},
                 "style": {},
                 "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "icon-only-v12-release": {
+      "props": {
+        "hasIconOnly": true,
+        "renderIcon": "Add",
+        "iconDescription": "Add",
+        "kind": "ghost"
+      },
+      "flags": {
+        "enableV12Release": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--icon-tooltip",
+          "cds--popover--auto-align",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--ghost",
+                  "cds--btn--icon-only"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "icon-only-floating-styles": {
+      "props": {
+        "hasIconOnly": true,
+        "renderIcon": "Add",
+        "iconDescription": "Add",
+        "kind": "ghost"
+      },
+      "flags": {
+        "enableV12DynamicFloatingStyles": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "span",
+        "classes": [
+          "cds--autoalign",
+          "cds--icon-tooltip",
+          "cds--popover--auto-align",
+          "cds--popover--caret",
+          "cds--popover--high-contrast",
+          "cds--popover--top",
+          "cds--popover-container",
+          "cds--tooltip"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "button",
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--ghost",
+                  "cds--btn--icon-only"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1",
+                  "type": "button"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "span",
+            "classes": [
+              "cds--popover"
+            ],
+            "attributes": {
+              "aria-hidden": "true",
+              "id": "#1",
+              "role": "tooltip"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "span",
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
+                "attributes": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Add"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
               }
             ]
           }

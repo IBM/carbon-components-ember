@@ -276,7 +276,7 @@ function assertDomParity(
     (
       knownDifferences as Record<
         string,
-        Array<{ path: string; reason: string; variant?: string }>
+        Array<{ path: string; reason: string; variant?: string | string[] }>
       >
     )[fixture.component] ?? [];
   const unexpected = applyKnownDifferences(differences, known, variant);
@@ -636,6 +636,50 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
+    test('icon-only-v12-release', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <Button
+            @hasIconOnly={{true}}
+            @renderIcon={{Add}}
+            @iconDescription="Add"
+            @kind="ghost"
+          >Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'icon-only-v12-release',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('icon-only-floating-styles', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      await render(
+        <template>
+          <Button
+            @hasIconOnly={{true}}
+            @renderIcon={{Add}}
+            @iconDescription="Add"
+            @kind="ghost"
+          >Button</Button>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        buttonFixture,
+        'icon-only-floating-styles',
+        this.element.firstElementChild,
+      );
+    });
+
     test('icon-only-selected', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
@@ -681,6 +725,8 @@ module('DOM parity | Carbon React', function (hooks) {
         'with-icon',
         'icon-only',
         'icon-only-selected',
+        'icon-only-v12-release',
+        'icon-only-floating-styles',
       ]);
     });
   });
@@ -1076,6 +1122,63 @@ module('DOM parity | Carbon React', function (hooks) {
       );
     });
 
+    test('v12-autoalign', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-autoalign');
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'v12-autoalign',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('v12-release', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-release');
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'v12-release',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('floating-styles', async function (this: RenderingTestContext, assert) {
+      this.owner
+        .lookup('service:carbon.feature-flags')
+        .enable('enable-v12-dynamic-floating-styles');
+      await render(
+        <template>
+          <DefinitionTooltip
+            @definition="Uniform Resource Locator"
+          >URL</DefinitionTooltip>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        definitionTooltipFixture,
+        'floating-styles',
+        this.element.firstElementChild,
+      );
+    });
+
     test('class-names', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
@@ -1117,6 +1220,9 @@ module('DOM parity | Carbon React', function (hooks) {
         'default-open',
         'align-top',
         'auto-align',
+        'v12-autoalign',
+        'v12-release',
+        'floating-styles',
         'class-names',
         'id',
       ]);

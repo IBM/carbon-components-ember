@@ -74,6 +74,7 @@ export interface TooltipSignature {
     /**
      * **Experimental:** Keeps the tooltip within the viewport (or
      * `autoAlignBoundary`, if provided), as `Popover`'s `autoAlign` does.
+     * Defaults to the `enable-v12-autoalign` feature flag.
      */
     autoAlign?: boolean;
     /**
