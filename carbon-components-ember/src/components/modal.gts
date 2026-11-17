@@ -6,25 +6,15 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { concat } from '@ember/helper';
 import { guidFor } from '@ember/object/internals';
-import { service } from '@ember/service';
-import { buildWaiter } from '@ember/test-waiters';
-import { modifier } from 'ember-modifier';
 import AILabel from './ai-label.gts';
 import InlineLoading from './inline-loading.gts';
-import Tooltip from './tooltip.gts';
-import Close from './icons/close.ts';
-import { afterRender } from '../utils/after-render.ts';
-import { observeResize } from '../utils/resize-observer.ts';
-import type LayersService from '../services/layers.ts';
+import ModalCloseButton from './-private/modal-close-button.gts';
+import ModalContentSize from './-private/modal-content-size.ts';
+import ModalDialog from './-private/modal-dialog.gts';
 import type { InlineLoadingSignature } from './inline-loading.gts';
-import type { TOC } from '@ember/component/template-only';
 import type { WithBoundArgs } from '@glint/template';
-import './modal.scss';
-
-const waiter = buildWaiter('carbon-components-ember:modal');
 
 export interface ModalSecondaryButton {
   buttonText?: string;
@@ -161,56 +151,10 @@ export interface ModalSignature {
   };
 }
 
-// Carbon React's IconButton, with its tooltip.
-const CloseButton: TOC<{
-  Element: HTMLDivElement;
-  Args: { label: string; onClick: (event: MouseEvent) => void };
-}> = <template>
-  <div class="cds--modal-close-button" ...attributes>
-    <Tooltip @label={{@label}} @align="left" class="cds--icon-tooltip">
-      <button
-        class="cds--modal-close cds--btn cds--btn--primary cds--btn--icon-only"
-        type="button"
-        aria-label={{@label}}
-        {{on "click" @onClick}}
-      >
-        <Close @size="20" @svgClass="cds--modal-close__icon" />
-      </button>
-    </Tooltip>
-  </div>
-</template>;
-
 export default class Modal extends Component<ModalSignature> {
-  @service('carbon.layers') declare layers: LayersService;
-
-  /** The modal's content is taller than its box. */
-  @tracked scrollable = false;
-
-  @tracked contentHeight = 0;
+  content = new ModalContentSize();
 
   guid = guidFor(this);
-
-  dialog?: HTMLDialogElement;
-
-  // The element focused when the modal opened, for focus to go back to.
-  opener?: HTMLElement;
-
-  pressedInside = false;
-
-  // Closes we started whose `close` events are on their way, so they
-  // aren't taken for the browser's.
-  closing = 0;
-
-  // An Escape pressed in the modal, and whether it got back up to the
-  // dialog: a component in it that closes on Escape, such as an open menu,
-  // stops it on the way, as in Carbon React.
-  escape?: { reached: boolean };
-
-  // The browser closes the dialog on an Escape that a component in it used.
-  keepOpen = false;
-
-  // Where focus was when the browser closed it, for when it opens again.
-  refocus?: HTMLElement;
 
   get closeButtonLabel() {
     return this.args.closeButtonLabel ?? 'Close';
@@ -251,16 +195,22 @@ export default class Modal extends Component<ModalSignature> {
   }
 
   get scrollContent() {
-    return !!this.args.hasScrollingContent || this.scrollable;
+    return !!this.args.hasScrollingContent || this.content.scrollable;
   }
 
   get threeButtons() {
     return this.args.secondaryButtons?.length === 2;
   }
 
+  // An array of at most two replaces `@secondaryButtonText`, even an empty
+  // one, as in Carbon React.
   get secondaryButtons() {
     const buttons = this.args.secondaryButtons;
-    return buttons && buttons.length <= 2 ? buttons : undefined;
+    return Array.isArray(buttons) && buttons.length <= 2 ? buttons : undefined;
+  }
+
+  get hasSecondaryButtons() {
+    return this.secondaryButtons !== undefined;
   }
 
   get closesOnOutsideClick() {
@@ -270,48 +220,11 @@ export default class Modal extends Component<ModalSignature> {
       : preventCloseOnClickOutside === false;
   }
 
-  // Opens and closes the <dialog> with `@open`. Closing it, also when it
-  // goes away, returns focus to where it was. While it's open, menus,
-  // portals and toasts render into it.
-  syncOpen = modifier(
-    (dialog: HTMLDialogElement, [open]: [open: boolean | undefined]) => {
-      this.dialog = dialog;
-      if (open && !dialog.open) {
-        this.opener =
-          document.activeElement instanceof HTMLElement
-            ? document.activeElement
-            : undefined;
-        dialog.showModal();
-        afterRender(this, this.focusInitial);
-      } else if (!open && dialog.open) {
-        this.close(dialog);
-      }
-      const removeLayer = open ? this.layers.addModal(dialog) : undefined;
-      return () => {
-        removeLayer?.();
-        if (dialog.open) this.close(dialog);
-      };
-    },
-  );
-
-  close(dialog: HTMLDialogElement) {
-    const token = waiter.beginAsync();
-    dialog.addEventListener('close', () => waiter.endAsync(token), {
-      once: true,
-    });
-    this.closing += 1;
-    dialog.close();
-    // A dialog removed while open doesn't return focus by itself.
-    if (document.activeElement === document.body && this.opener?.isConnected) {
-      this.opener.focus();
-    }
-  }
-
   // As in Carbon React: the `@selectorPrimaryFocus` match, a danger modal's
   // secondary button, or else the close button.
-  focusInitial = () => {
-    const container = this.container;
-    if (!this.dialog?.open || !container) return;
+  focusTarget = (dialog: HTMLDialogElement) => {
+    const container = dialog.querySelector('.cds--modal-container');
+    if (!container) return;
     const selector =
       this.args.selectorPrimaryFocus ?? '[data-modal-primary-focus]';
     const target =
@@ -320,90 +233,19 @@ export default class Modal extends Component<ModalSignature> {
         ? container.querySelector<HTMLElement>('.cds--btn--secondary')
         : null) ??
       container.querySelector<HTMLElement>('.cds--modal-close');
-    target?.focus();
+    return target;
   };
-
-  noteEscape = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') this.escape = { reached: false };
-  };
-
-  // Escape asks to close; `@open` decides.
-  handleCancel = (event: Event) => {
-    event.preventDefault();
-    const escape = this.escape;
-    this.escape = undefined;
-    const used = !!escape && !escape.reached;
-    // One the browser won't let us prevent is followed by `close`.
-    if (!event.cancelable) {
-      this.keepOpen = used;
-      this.refocus =
-        document.activeElement instanceof HTMLElement
-          ? document.activeElement
-          : undefined;
-    } else if (!used) {
-      this.args.onRequestClose?.(event);
-    }
-  };
-
-  // The browser can still close it: a second Escape skips a cancelled
-  // `cancel`, and so does a form with `method="dialog"`. Ask to close, and
-  // open it again if `@open` stays true.
-  handleClose = (event: Event) => {
-    if (this.closing > 0) {
-      this.closing -= 1;
-      return;
-    }
-    if (this.keepOpen) this.keepOpen = false;
-    else this.args.onRequestClose?.(event);
-    const dialog = event.currentTarget as HTMLDialogElement;
-    const refocus = this.refocus;
-    this.refocus = undefined;
-    if (this.args.open && dialog.isConnected && !dialog.open) {
-      dialog.showModal();
-      if (refocus && dialog.contains(refocus)) refocus.focus();
-      else this.focusInitial();
-    }
-  };
-
-  // A press that starts in the modal and ends outside it, as when selecting
-  // text, isn't a click outside.
-  handlePointerDown = (event: PointerEvent) => {
-    this.pressedInside = this.isInside(event.target);
-  };
-
-  handleClick = (event: MouseEvent) => {
-    const pressedInside = this.pressedInside && event.detail > 0;
-    this.pressedInside = false;
-    if (
-      this.closesOnOutsideClick &&
-      !pressedInside &&
-      !this.isInside(event.target)
-    ) {
-      this.args.onRequestClose?.(event);
-    }
-  };
-
-  get container() {
-    return this.dialog?.querySelector<HTMLElement>('.cds--modal-container');
-  }
-
-  // Around the modal's box is the dialog itself. A menu or toast rendered
-  // into it is inside.
-  isInside(target: EventTarget | null) {
-    const dialog = this.dialog;
-    return (
-      target instanceof Node && target !== dialog && !!dialog?.contains(target)
-    );
-  }
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.escape) this.escape.reached = true;
     const target = event.target;
+    const container = (event.currentTarget as HTMLElement).querySelector(
+      '.cds--modal-container',
+    );
     if (
       event.key === 'Enter' &&
       this.args.shouldSubmitOnEnter &&
       target instanceof Element &&
-      this.container?.contains(target) &&
+      container?.contains(target) &&
       !this.isCloseButton(target) &&
       !target.closest('.cds--modal-footer .cds--btn:last-child')
     ) {
@@ -440,37 +282,20 @@ export default class Modal extends Component<ModalSignature> {
     button.onClick?.(event);
   };
 
-  // Content taller than its box scrolls, which Carbon marks with a fade. A
-  // dead zone keeps the 2px border the class adds from flipping it back.
-  measureContent = modifier((content: HTMLElement) =>
-    observeResize(content, () => {
-      const overflow = content.scrollHeight - content.clientHeight;
-      if (overflow > 5) this.scrollable = true;
-      else if (overflow < -5) this.scrollable = false;
-      this.contentHeight = content.getBoundingClientRect().height;
-    }),
-  );
-
   <template>
-    {{! eslint-disable-next-line ember/template-no-invalid-interactive -- a modal dialog's cancel, close and backdrop clicks are its own ~}}
-    <dialog
+    <ModalDialog
+      @open={{@open}}
+      @onRequestClose={{@onRequestClose}}
+      @closesOnOutsideClick={{this.closesOnOutsideClick}}
+      @focusTarget={{this.focusTarget}}
       id={{@id}}
-      class="cds--modal cds--ember-modal cds--layer-one
-        {{unless @passiveModal 'cds--modal-tall'}}
-        {{if @open 'is-visible'}}
+      class="{{unless @passiveModal 'cds--modal-tall'}}
         {{if @danger 'cds--modal--danger'}}
         {{if (has-block 'decorator') 'cds--modal--decorator'}}"
       role={{this.role}}
       aria-label={{this.ariaLabel}}
       aria-describedby={{if this.role this.bodyId}}
       ...attributes
-      {{this.syncOpen @open}}
-      {{on "cancel" this.handleCancel}}
-      {{on "close" this.handleClose}}
-      {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- only the press shows a drag out of the modal, which isn't a click outside }}
-      {{on "pointerdown" this.handlePointerDown}}
-      {{on "click" this.handleClick}}
-      {{on "keydown" this.noteEscape capture=true}}
       {{on "keydown" this.handleKeyDown}}
     ><div
         class="cds--modal-container
@@ -481,7 +306,7 @@ export default class Modal extends Component<ModalSignature> {
         <div class="cds--modal-header">
           {{! A passive modal has its close button first, as in Carbon React. }}
           {{#if @passiveModal}}
-            <CloseButton
+            <ModalCloseButton
               @label={{this.closeButtonLabel}}
               @onClick={{this.handleCloseClick}}
             />
@@ -504,7 +329,7 @@ export default class Modal extends Component<ModalSignature> {
             </div>
           {{/if}}
           {{#unless @passiveModal}}
-            <CloseButton
+            <ModalCloseButton
               @label={{this.closeButtonLabel}}
               @onClick={{this.handleCloseClick}}
             />
@@ -515,7 +340,7 @@ export default class Modal extends Component<ModalSignature> {
           class="cds--modal-content cds--layer-two
             {{if this.scrollContent 'cds--modal-scroll-content'}}
             {{if
-              (lte this.contentHeight 300)
+              (lte this.content.height 300)
               'cds--modal-scroll-content--no-fade'
             }}"
           tabindex={{if this.scrollContent "0"}}
@@ -525,7 +350,7 @@ export default class Modal extends Component<ModalSignature> {
             this.scrollContent
             (if @modalLabel this.labelId this.headingId)
           }}
-          {{this.measureContent}}
+          {{this.content.measure}}
         >
           {{~yield~}}
         </div>
@@ -535,7 +360,7 @@ export default class Modal extends Component<ModalSignature> {
               {{if this.threeButtons 'cds--modal-footer--three-button'}}"
             aria-busy={{if this.loading "true" "false"}}
           >
-            {{#if this.secondaryButtons}}
+            {{#if this.hasSecondaryButtons}}
               {{#each this.secondaryButtons as |secondary|}}
                 <button
                   class="cds--btn cds--btn--secondary"
@@ -583,6 +408,6 @@ export default class Modal extends Component<ModalSignature> {
             </button>
           </div>
         {{/unless}}
-      </div></dialog>
+      </div></ModalDialog>
   </template>
 }
