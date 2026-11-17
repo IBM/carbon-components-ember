@@ -12,7 +12,7 @@ module('Integration | Component | Tile', (hooks) => {
   test('plain Tile renders content', async function (assert) {
     await render(
       <template>
-        <Tile><:content>Plain content</:content></Tile>
+        <Tile>Plain content</Tile>
       </template>,
     );
 
@@ -26,7 +26,7 @@ module('Integration | Component | Tile', (hooks) => {
     await render(
       <template>
         <Tile @clickable={{true}} class="my-tile" {{on "click" onClick}}>
-          <:content>Go</:content>
+          Go
         </Tile>
       </template>,
     );
@@ -39,7 +39,7 @@ module('Integration | Component | Tile', (hooks) => {
   test('a clickable tile links to @href, as Carbon React', async function (assert) {
     await render(
       <template>
-        <Tile @clickable={{true}} @href="/docs"><:content>Docs</:content></Tile>
+        <Tile @clickable={{true}} @href="/docs">Docs</Tile>
       </template>,
     );
     assert
@@ -54,7 +54,7 @@ module('Integration | Component | Tile', (hooks) => {
     await render(
       <template>
         <Tile @clickable={{true}} {{on "click" onClick}}>
-          <:content>Open</:content>
+          Open
         </Tile>
       </template>,
     );
@@ -77,7 +77,7 @@ module('Integration | Component | Tile', (hooks) => {
           @disabled={{true}}
           {{on "click" onClick}}
         >
-          <:content>Docs</:content>
+          Docs
         </Tile>
       </template>,
     );
@@ -94,7 +94,7 @@ module('Integration | Component | Tile', (hooks) => {
   test('@clickable renders an anchor tile', async function (assert) {
     await render(
       <template>
-        <Tile @clickable={{true}}><:content>Click me</:content></Tile>
+        <Tile @clickable={{true}}>Click me</Tile>
       </template>,
     );
 
@@ -105,7 +105,7 @@ module('Integration | Component | Tile', (hooks) => {
   test('@selectable renders a role=checkbox div with its checkmark icon carrying the tile-specific class, not the default icon margin class', async function (assert) {
     await render(
       <template>
-        <Tile @selectable={{true}}><:content>Selectable</:content></Tile>
+        <Tile @selectable={{true}}>Selectable</Tile>
       </template>,
     );
 
@@ -120,7 +120,7 @@ module('Integration | Component | Tile', (hooks) => {
   test('@selectable toggles selection on click, without a native checkbox input', async function (assert) {
     await render(
       <template>
-        <Tile @selectable={{true}}><:content>Selectable</:content></Tile>
+        <Tile @selectable={{true}}>Selectable</Tile>
       </template>,
     );
 
@@ -135,8 +135,7 @@ module('Integration | Component | Tile', (hooks) => {
   test("@selectable renders @id on its root and matches the content label's `for`, and renders neither when omitted", async function (assert) {
     await render(
       <template>
-        <Tile @selectable={{true}} @id="my-tile"><:content
-          >Selectable</:content></Tile>
+        <Tile @selectable={{true}} @id="my-tile">Selectable</Tile>
       </template>,
     );
 
@@ -145,7 +144,7 @@ module('Integration | Component | Tile', (hooks) => {
 
     await render(
       <template>
-        <Tile @selectable={{true}}><:content>Selectable</:content></Tile>
+        <Tile @selectable={{true}}>Selectable</Tile>
       </template>,
     );
 
@@ -263,7 +262,7 @@ module('Integration | Component | Tile > with @route', function (hooks) {
       this,
       <template>
         <Tile @clickable={{true}} @route="settings">
-          <:content>Settings</:content>
+          Settings
         </Tile>
       </template>,
     );
@@ -278,7 +277,7 @@ module('Integration | Component | Tile > with @route', function (hooks) {
       this,
       <template>
         <Tile @clickable={{true}} @route="settings" @disabled={{true}}>
-          <:content>Settings</:content>
+          Settings
         </Tile>
       </template>,
     );
