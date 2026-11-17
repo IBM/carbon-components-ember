@@ -85,4 +85,20 @@ module('Integration | Component | Portal', (hooks) => {
       'the rest of the page is left in place',
     );
   });
+
+  test("without @container it renders into the carbon.layers service's root", async function (this: RenderingTestContext, assert) {
+    const root = document.querySelector('#ember-testing');
+    this.owner.lookup('service:carbon.layers').root = root;
+
+    await render(
+      <template>
+        <Portal><span data-test-root-portal>In root</span></Portal>
+      </template>,
+    );
+
+    assert.strictEqual(
+      document.querySelector('[data-test-root-portal]')?.parentElement,
+      root,
+    );
+  });
 });

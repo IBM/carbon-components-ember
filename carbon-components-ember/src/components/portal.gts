@@ -13,9 +13,10 @@ export interface PortalSignature {
   Args: {
     /**
      * Provide a DOM node to render the portal's content into. Defaults to
-     * the topmost open `Modal`, so the content can be used over it, else
-     * `document.body`. Without it, the content renders again whenever a
-     * modal opens or closes; pass one to keep it in place.
+     * the topmost open `Modal`, so the content can be used over it, else the
+     * `carbon.layers` service's `root`, else `document.body`. Without it, the
+     * content renders again whenever a modal opens or closes; pass one to
+     * keep it in place.
      */
     container?: HTMLElement;
   };
@@ -26,9 +27,10 @@ export interface PortalSignature {
 
 /**
  * Helper component for rendering content within a portal. By default, the
- * portal will render into the topmost open `Modal`, else `document.body`.
- * You can customize this behavior with the `@container` argument. Any content
- * yielded to this component will be rendered inside of the container.
+ * portal will render into the topmost open `Modal`, else the `carbon.layers`
+ * service's `root`, else `document.body`. You can customize this behavior
+ * with the `@container` argument. Any content yielded to this component will
+ * be rendered inside of the container.
  */
 export default class Portal extends Component<PortalSignature> {
   @service('carbon.layers') declare layers: LayersService;
