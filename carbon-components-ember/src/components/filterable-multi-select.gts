@@ -8,6 +8,7 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import type Owner from '@ember/owner';
 import WarningFilled from './icons/warning-filled.ts';
@@ -38,6 +39,7 @@ import {
   scrollToHighlighted,
 } from './-private/list-box/menu-modifiers.ts';
 import { afterRender } from '../utils/after-render.ts';
+import type FeatureFlagsService from '../services/feature-flags.ts';
 import type {
   CompareItems,
   SortItemsOptions,
@@ -212,6 +214,7 @@ function defaultFilterItems<T>(
 export default class FilterableMultiSelect<T> extends Component<
   FilterableMultiSelectSignature<T>
 > {
+  @service('carbon.feature-flags') declare featureFlags: FeatureFlagsService;
   @tracked isOpen: boolean;
   @tracked inputValue = '';
   @tracked highlightedIndex = -1;
@@ -294,6 +297,10 @@ export default class FilterableMultiSelect<T> extends Component<
   get hasSelectAll() {
     return this.filteredItems.some(isSelectAllItem);
   }
+
+  // v12 separates the select-all option from the rest.
+  dividesAfter = (item: T): boolean =>
+    isSelectAllItem(item) && this.featureFlags.enabled('enable-v12-release');
 
   get selectAllState() {
     const selectable = this.selectableItems;
@@ -868,6 +875,9 @@ export default class FilterableMultiSelect<T> extends Component<
                   {{~/if~}}
                 </ListBoxCheckbox>
               </ListBoxMenuItem>
+              {{#if (this.dividesAfter item)}}
+                <li class="cds--list-box__menu-divider" aria-hidden="true"></li>
+              {{/if}}
             {{/each}}
           {{~/if~}}
         </ListBoxMenu>

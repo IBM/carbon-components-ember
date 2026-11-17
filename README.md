@@ -112,7 +112,7 @@ export default class ApplicationRoute extends Route {
 }
 ```
 
-The service also has `disable()` and `merge()`, and starts from `@carbon/feature-flags`' global scope, so flags set there before it's first used apply too. Some flags change Carbon's styles too, and `@carbon/styles/css/styles.css` has them compiled in at their defaults: for those, build Carbon's styles from its Sass with the same flags (with the prebuilt stylesheet, `enable-v12-release` leaves ProgressBar's bar empty), as [`@carbon/feature-flags`' README](https://github.com/carbon-design-system/carbon/tree/main/packages/feature-flags#readme) shows.
+The service also has `disable()` and `merge()`, and starts from `@carbon/feature-flags`' global scope, so flags set there before it's first used apply too. Some flags change Carbon's styles too, and `@carbon/styles/css/styles.css` has them compiled in at their defaults: for those, build Carbon's styles from its Sass with the same flags (with the prebuilt stylesheet, `enable-v12-release` leaves ProgressBar's bar empty and the select-all divider of MultiSelect and FilterableMultiSelect unstyled), as [`@carbon/feature-flags`' README](https://github.com/carbon-design-system/carbon/tree/main/packages/feature-flags#readme) shows.
 
 ## Contributing
 
