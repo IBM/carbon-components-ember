@@ -1,8 +1,8 @@
 {
   "component": "ErrorEmptyState",
-  "generatedAt": "2026-10-28T12:15:56.295Z",
-  "carbonReactVersion": "1.119.0",
-  "ibmProductsVersion": "2.101.0",
+  "generatedAt": "2026-11-19T07:02:49.293Z",
+  "carbonReactVersion": "1.121.0",
+  "ibmProductsVersion": "2.103.0",
   "reactVersion": "19.3.1",
   "variants": {
     "light": {

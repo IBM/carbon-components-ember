@@ -18,7 +18,15 @@ export interface CardHeaderSignature {
     card?: Card;
   };
   Blocks: {
+    /** The header's `Title`. */
     default: [];
+    /**
+     * Carbon React's `headerMedia`: an icon, avatar or tag in a row above
+     * the title, beside the actions.
+     */
+    headerMedia: [];
+    /** Carbon React's `actions`: the card's `Actions`, at the header's end. */
+    actions: [];
     /**
      * Carbon React's `decorator` on `Card`, rendered here, where React's
      * header renders it, in the header's top corner. Put an `AILabel` in it:
@@ -53,7 +61,20 @@ export default class CardHeader extends Component<CardHeaderSignature> {
 
   <template>
     <div class="cds--card__header" ...attributes>
-      {{yield}}
+      {{#if (has-block "headerMedia")}}
+        <div class="cds--card__header-top-row">
+          <div class="cds--card__header-media">{{yield to="headerMedia"}}</div>
+          {{#if (has-block "actions")}}
+            <div class="cds--card__actions-slot">{{yield to="actions"}}</div>
+          {{/if}}
+        </div>
+        {{yield}}
+      {{else}}
+        {{yield}}
+        {{#if (has-block "actions")}}
+          <div class="cds--card__actions-slot">{{yield to="actions"}}</div>
+        {{/if}}
+      {{/if}}
       {{#if (has-block "decorator")}}
         <div
           class="cds--card__decorator"

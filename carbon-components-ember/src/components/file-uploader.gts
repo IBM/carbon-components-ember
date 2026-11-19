@@ -9,6 +9,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import FileUploaderButton from './file-uploader/file-uploader-button.gts';
+import type { FileUploaderButtonSignature } from './file-uploader/file-uploader-button.gts';
+import { layoutSize } from './file-uploader/-layout-size.ts';
 import FileUploaderStatusIcon from './file-uploader/-status-icon.gts';
 import type { FileUploaderAddedFile } from './file-uploader/file-uploader-drop-container.gts';
 
@@ -76,7 +78,7 @@ export interface FileUploaderSignature {
       },
     ) => void;
     /** Specify the size of the FileUploaderButton, from a list of available sizes */
-    size?: 'sm' | 'small' | 'md' | 'field' | 'lg';
+    size?: FileUploaderButtonSignature['Args']['size'];
   };
   Blocks: {
     /** Yields a `clearFiles`-style action that resets the selected-file list, e.g. after a successful upload */
@@ -105,8 +107,9 @@ export default class FileUploader extends Component<FileUploaderSignature> {
   }
 
   get selectedFileClasses() {
-    const size = this.args.size ?? 'md';
+    const { size } = this.args;
     const classes = ['cds--file__selected-file'];
+    if (size) classes.push(`cds--layout--size-${layoutSize(size)}`);
     if (size === 'field' || size === 'md')
       classes.push('cds--file__selected-file--md');
     if (size === 'small' || size === 'sm')

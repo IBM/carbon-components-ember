@@ -19,11 +19,12 @@ export interface PageHeaderScrollButtonSignature {
     pageHeader: PageHeader;
     /** Lets the tooltip stay in view. Defaults to `true`. */
     autoAlign?: boolean;
+    dangerDescription?: ButtonSignature['Args']['dangerDescription'];
     disabled?: boolean;
     href?: string;
     isSelected?: boolean;
     /** Defaults to `ghost`. */
-    kind?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
+    kind?: ButtonSignature['Args']['kind'];
     /** Defaults to `md`. */
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /** The button's label while the content is showing. Defaults to `Collapse`. */
@@ -61,6 +62,7 @@ export default class PageHeaderScrollButton extends Component<PageHeaderScrollBu
       @kind={{or @kind "ghost"}}
       @size={{or @size "md"}}
       @autoAlign={{if (eq @autoAlign false) false true}}
+      @dangerDescription={{@dangerDescription}}
       @disabled={{@disabled}}
       @href={{@href}}
       @isSelected={{@isSelected}}

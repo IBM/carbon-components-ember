@@ -1,7 +1,7 @@
 {
   "component": "TableToolbarContent",
-  "generatedAt": "2026-11-05T19:11:35.134Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.219Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -9,14 +9,18 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--toolbar-content"],
+        "classes": [
+          "cds--toolbar-content"
+        ],
         "attributes": {},
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": []

@@ -14,6 +14,10 @@ import { createOverflowHandler } from './-overflow-handler.ts';
 
 export interface PageHeaderTagOverflowSignature {
   Element: HTMLDivElement;
+  Args: {
+    /** Names the list of hidden tags in the popover. Defaults to "Hidden tags". */
+    hiddenTagsLabel?: string;
+  };
   Blocks: {
     /** The tags. Those that don't fit are hidden, and listed in the popover. */
     default: [];
@@ -106,7 +110,7 @@ export default class PageHeaderTagOverflow extends Component<PageHeaderTagOverfl
         <PopoverContent>
           <ul
             class="c4p--page-header__tags-popover-list"
-            aria-label="Hidden tags"
+            aria-label={{or @hiddenTagsLabel "Hidden tags"}}
           >
             {{~yield this.hiddenTags to="renderPopoverContent"~}}
           </ul>

@@ -1,7 +1,7 @@
 {
   "component": "TableBatchActions",
-  "generatedAt": "2026-11-05T19:11:35.174Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.243Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -9,7 +9,9 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--batch-actions"],
+        "classes": [
+          "cds--batch-actions"
+        ],
         "attributes": {
           "aria-hidden": "true"
         },
@@ -18,14 +20,18 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--batch-summary"],
+            "classes": [
+              "cds--batch-summary"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "p",
-                "classes": ["cds--batch-summary__para"],
+                "classes": [
+                  "cds--batch-summary__para"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -51,14 +57,19 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "type": "button"
                 },
@@ -71,7 +82,9 @@
                   {
                     "type": "element",
                     "tag": "svg",
-                    "classes": ["cds--btn__icon"],
+                    "classes": [
+                      "cds--btn__icon"
+                    ],
                     "attributes": {
                       "focusable": "false",
                       "preserveAspectRatio": "xMidYMid meet",
@@ -145,7 +158,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "classes": [
+          "cds--batch-actions",
+          "cds--batch-actions--active"
+        ],
         "attributes": {
           "aria-hidden": "false"
         },
@@ -154,14 +170,18 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--batch-summary"],
+            "classes": [
+              "cds--batch-summary"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "p",
-                "classes": ["cds--batch-summary__para"],
+                "classes": [
+                  "cds--batch-summary__para"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -187,14 +207,19 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "type": "button"
                 },
@@ -207,7 +232,9 @@
                   {
                     "type": "element",
                     "tag": "svg",
-                    "classes": ["cds--btn__icon"],
+                    "classes": [
+                      "cds--btn__icon"
+                    ],
                     "attributes": {
                       "focusable": "false",
                       "preserveAspectRatio": "xMidYMid meet",
@@ -281,7 +308,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "classes": [
+          "cds--batch-actions",
+          "cds--batch-actions--active"
+        ],
         "attributes": {
           "aria-hidden": "false"
         },
@@ -290,14 +320,18 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--batch-summary"],
+            "classes": [
+              "cds--batch-summary"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "p",
-                "classes": ["cds--batch-summary__para"],
+                "classes": [
+                  "cds--batch-summary__para"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -323,14 +357,19 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "type": "button"
                 },
@@ -343,7 +382,9 @@
                   {
                     "type": "element",
                     "tag": "svg",
-                    "classes": ["cds--btn__icon"],
+                    "classes": [
+                      "cds--btn__icon"
+                    ],
                     "attributes": {
                       "focusable": "false",
                       "preserveAspectRatio": "xMidYMid meet",
@@ -418,7 +459,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--batch-actions", "cds--batch-actions--active"],
+        "classes": [
+          "cds--batch-actions",
+          "cds--batch-actions--active"
+        ],
         "attributes": {
           "aria-hidden": "false"
         },
@@ -427,14 +471,18 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--batch-summary"],
+            "classes": [
+              "cds--batch-summary"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "p",
-                "classes": ["cds--batch-summary__para"],
+                "classes": [
+                  "cds--batch-summary__para"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -458,7 +506,9 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--batch-summary__divider"],
+                "classes": [
+                  "cds--batch-summary__divider"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -471,7 +521,10 @@
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "tabindex": "0",
                   "type": "button"
@@ -489,14 +542,19 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "type": "button"
                 },
@@ -509,7 +567,9 @@
                   {
                     "type": "element",
                     "tag": "svg",
-                    "classes": ["cds--btn__icon"],
+                    "classes": [
+                      "cds--btn__icon"
+                    ],
                     "attributes": {
                       "focusable": "false",
                       "preserveAspectRatio": "xMidYMid meet",
@@ -597,14 +657,18 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--batch-summary"],
+            "classes": [
+              "cds--batch-summary"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "p",
-                "classes": ["cds--batch-summary__para"],
+                "classes": [
+                  "cds--batch-summary__para"
+                ],
                 "attributes": {},
                 "style": {},
                 "children": [
@@ -630,14 +694,19 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--action-list"],
+            "classes": [
+              "cds--action-list"
+            ],
             "attributes": {},
             "style": {},
             "children": [
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--btn", "cds--btn--primary"],
+                "classes": [
+                  "cds--btn",
+                  "cds--btn--primary"
+                ],
                 "attributes": {
                   "type": "button"
                 },
@@ -650,7 +719,9 @@
                   {
                     "type": "element",
                     "tag": "svg",
-                    "classes": ["cds--btn__icon"],
+                    "classes": [
+                      "cds--btn__icon"
+                    ],
                     "attributes": {
                       "focusable": "false",
                       "preserveAspectRatio": "xMidYMid meet",

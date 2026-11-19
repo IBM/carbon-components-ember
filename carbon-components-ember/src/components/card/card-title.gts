@@ -32,6 +32,11 @@ export interface CardTitleSignature {
   };
   Blocks: {
     default: [];
+    /**
+     * Carbon React's `titleMedia`: an icon, avatar or image before the
+     * label, title and description.
+     */
+    titleMedia: [];
     /** An icon before the title, Carbon React's `titleStart`. */
     titleStart: [];
     /** An icon after the title, Carbon React's `titleEnd`. */
@@ -89,42 +94,49 @@ export default class CardTitle extends Component<CardTitleSignature> {
   }
 
   <template>
-    <div class="cds--card__title" ...attributes>
-      {{#if @label}}
-        <div
-          class="cds--card__label {{this.labelClass}}"
-          {{style this.labelStyles}}
-        >{{@label}}</div>
+    <div
+      class="cds--card__title
+        {{if (has-block 'titleMedia') 'cds--card__title--has-media'}}"
+      ...attributes
+    >
+      {{#if (has-block "titleMedia")}}
+        <div class="cds--card__title-media">{{yield to="titleMedia"}}</div>
       {{/if}}
-      <span
-        class="cds--card__title-text-row
-          {{this.textRowClass}}
-          {{if
-            (has-block 'titleStart')
-            'cds--card__title-text-row--with-start-icon'
-          }}
-          {{if
-            (has-block 'titleEnd')
-            'cds--card__title-text-row--with-end-icon'
-          }}"
-        {{style this.titleStyles}}
-      >
-        {{~#if (has-block "titleStart")~}}
-          <span class="cds--card__title-start-icon">{{yield
-              to="titleStart"
-            }}</span>
-        {{~/if~}}
-        {{yield}}
-        {{~#if (has-block "titleEnd")~}}
-          <span class="cds--card__title-end-icon">{{yield to="titleEnd"}}</span>
-        {{~/if~}}
-      </span>
-      {{#if @description}}
-        <div
-          class="cds--card__description {{this.descriptionClass}}"
-          {{style this.descriptionStyles}}
-        >{{@description}}</div>
-      {{/if}}
+      <div class="cds--card__title-text">
+        {{#if @label}}
+          <div
+            class="cds--card__label {{this.labelClass}}"
+            {{style this.labelStyles}}
+          >{{@label}}</div>
+        {{/if}}
+        <span
+          class="cds--card__title-text-row
+            {{this.textRowClass}}
+            {{if
+              (has-block 'titleStart')
+              'cds--card__title-text-row--with-start-icon'
+            }}"
+          {{style this.titleStyles}}
+        >
+          {{~#if (has-block "titleStart")~}}
+            <span class="cds--card__title-start-icon">{{yield
+                to="titleStart"
+              }}</span>
+          {{~/if~}}
+          {{yield}}
+          {{~#if (has-block "titleEnd")~}}
+            <span class="cds--card__title-end-icon">{{yield
+                to="titleEnd"
+              }}</span>
+          {{~/if~}}
+        </span>
+        {{#if @description}}
+          <div
+            class="cds--card__description {{this.descriptionClass}}"
+            {{style this.descriptionStyles}}
+          >{{@description}}</div>
+        {{/if}}
+      </div>
     </div>
   </template>
 }

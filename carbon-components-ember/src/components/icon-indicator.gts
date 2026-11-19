@@ -86,6 +86,8 @@ export interface IconIndicatorSignature {
      * Specify the size of the Icon Indicator. Defaults to 16.
      */
     size?: 16 | 20;
+    /** The tooltip trigger's tab order with `@compact`. */
+    tabIndex?: number;
   };
 }
 
@@ -137,6 +139,8 @@ export default class IconIndicator extends Component<IconIndicatorSignature> {
             @openOnHover={{true}}
             @definition={{@label}}
             @triggerClassName="cds--icon-indicator__button"
+            {{! eslint-disable-next-line ember/template-no-positive-tabindex -- the caller's tab order, as Carbon React's tabIndex }}
+            tabindex={{@tabIndex}}
           >
             <this.icon
               @size={{this.size}}

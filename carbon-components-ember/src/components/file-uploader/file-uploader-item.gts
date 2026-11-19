@@ -10,12 +10,17 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import Tooltip from '../tooltip.gts';
+import type { TooltipSignature } from '../tooltip.gts';
 import { isTruncated } from '../../utils/truncation.ts';
 import FileUploaderStatusIcon from './-status-icon.gts';
 
 export interface FileUploaderItemSignature {
   Element: HTMLSpanElement;
   Args: {
+    /** How the tooltip shown for a truncated file name aligns with it. Defaults to `"bottom"`. */
+    align?: TooltipSignature['Args']['align'];
+    /** **Experimental:** moves the tooltip shown for a truncated file name to keep it in view. */
+    autoAlign?: TooltipSignature['Args']['autoAlign'];
     /** Specify whether the file uploader item is disabled */
     disabled?: boolean;
     /** Error message body for an invalid file upload */
@@ -31,7 +36,7 @@ export interface FileUploaderItemSignature {
     /** Called after the item is removed, with the item's `uuid` */
     onDelete?: (event: Event, data: { uuid: string }) => void;
     /** Specify the size of the item, from a list of available sizes */
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
     /** Status of the file upload */
     status?: 'uploading' | 'edit' | 'complete';
     /** Unique identifier for the file, generated when omitted */
@@ -81,6 +86,7 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
 
   get classes() {
     const classes = ['cds--file__selected-file'];
+    if (this.args.size) classes.push(`cds--layout--size-${this.args.size}`);
     if (this.args.invalid) classes.push('cds--file__selected-file--invalid');
     if (this.args.size === 'md') classes.push('cds--file__selected-file--md');
     if (this.args.size === 'sm') classes.push('cds--file__selected-file--sm');
@@ -108,7 +114,8 @@ export default class FileUploaderItem extends Component<FileUploaderItemSignatur
         >
           <Tooltip
             @label={{@name}}
-            @align="bottom"
+            @align={{or @align "bottom"}}
+            @autoAlign={{@autoAlign}}
             class="cds--file-filename-tooltip"
           >
             <button type="button" class="cds--file-filename-button">
