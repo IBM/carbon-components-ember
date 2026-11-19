@@ -4,10 +4,13 @@ import {
   render,
   click,
   find,
+  rerender,
   triggerEvent,
   waitUntil,
 } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import FileUploader from '#src/components/file-uploader.gts';
+import type { FileUploaderSignature } from '#src/components/file-uploader.gts';
 
 function setInputFiles(input: HTMLInputElement, files: File[]) {
   Object.defineProperty(input, 'files', { value: files, configurable: true });
@@ -51,6 +54,28 @@ module('Integration | Component | FileUploader', (hooks) => {
     assert.dom('.cds--file-filename').hasText('report.pdf');
     await waitUntil(() => find('.cds--file-complete'));
     assert.dom('.cds--file-complete').exists();
+  });
+
+  test('@size sizes the selected files, which have no size by default', async function (assert) {
+    const size = tracked<FileUploaderSignature['Args']['size']>(undefined);
+    await render(
+      <template>
+        <FileUploader @filenameStatus="complete" @size={{size.value}} />
+      </template>,
+    );
+    await selectFiles([new File(['x'], 'report.pdf')]);
+
+    assert
+      .dom('.cds--file__selected-file')
+      .doesNotHaveClass('cds--file__selected-file--md')
+      .doesNotHaveClass('cds--layout--size-md');
+
+    size.value = 'field';
+    await rerender();
+    assert
+      .dom('.cds--file__selected-file')
+      .hasClass('cds--file__selected-file--md')
+      .hasClass('cds--layout--size-md');
   });
 
   test('@multiple accumulates files, single mode replaces the selection', async function (assert) {

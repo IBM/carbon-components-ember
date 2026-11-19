@@ -12,6 +12,7 @@ import type { IconComponent } from './icon.gts';
 import RouterLink from './-private/router-link.gts';
 import type { RouteArgs } from './-private/router-link.gts';
 import ArrowRight from './icons/arrow-right.ts';
+import ErrorIcon from './icons/error.ts';
 import CardAction from './card/card-action.gts';
 import CardActions from './card/card-actions.gts';
 import CardBody from './card/card-body.gts';
@@ -44,7 +45,7 @@ export interface CardSignature {
      * which go in the yielded `Content`.
      */
     horizontal?: boolean;
-    /** The icon in a clickable card's footer. Defaults to an arrow. */
+    /** The icon in a clickable card's footer. Defaults to an arrow; a disabled card shows an error icon. */
     renderFooterIcon?: IconComponent;
     /**
      * Makes the card a clickable link to this URL, as Carbon React's
@@ -96,7 +97,9 @@ export default class Card extends Component<CardSignature> {
     );
   }
 
+  // As Carbon React's, a disabled clickable card shows an error icon.
   get footerIcon() {
+    if (this.args.disabled) return ErrorIcon;
     return this.args.renderFooterIcon ?? ArrowRight;
   }
 

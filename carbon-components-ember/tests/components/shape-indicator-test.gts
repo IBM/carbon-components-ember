@@ -94,6 +94,22 @@ module('Integration | Component | ShapeIndicator', (hooks) => {
     assert.dom('.cds--shape-indicator').doesNotExist();
   });
 
+  test('@tabIndex goes on the compact tooltip trigger', async function (assert) {
+    await render(
+      <template>
+        <ShapeIndicator
+          @kind="failed"
+          @label="Failed"
+          @compact={{true}}
+          @tabIndex={{-1}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--shape-indicator__button').hasAttribute('tabindex', '-1');
+    assert.dom('.cds--shape-indicator').doesNotHaveAttribute('tabindex');
+  });
+
   test('should hide the label visually and expose it as an accessible tooltip in compact mode', async function (assert) {
     await render(
       <template>

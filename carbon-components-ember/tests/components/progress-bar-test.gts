@@ -105,6 +105,26 @@ module('Integration | Component | ProgressBar', (hooks) => {
       .hasText('Done');
   });
 
+  test('an error bar is not busy, and its sentinel says Error', async function (assert) {
+    await render(
+      <template>
+        <ProgressBar
+          @label="L"
+          @value={{50}}
+          @helperText="Helping"
+          @status="error"
+        />
+      </template>,
+    );
+    assert
+      .dom('.cds--progress-bar__track')
+      .hasAttribute('aria-busy', 'false')
+      .hasAttribute('aria-invalid', 'true');
+    assert
+      .dom('.cds--progress-bar__helper-text .cds--visually-hidden')
+      .hasText('Error');
+  });
+
   test('it renders the label, helper text and progress', async function (assert) {
     await render(
       <template>

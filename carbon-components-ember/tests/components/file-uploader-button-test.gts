@@ -1,7 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  click,
+  find,
+  rerender,
+  triggerEvent,
+} from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import FileUploaderButton from '#src/components/file-uploader/file-uploader-button.gts';
+import type { FileUploaderButtonSignature } from '#src/components/file-uploader/file-uploader-button.gts';
 
 function setInputFiles(input: HTMLInputElement, files: File[]) {
   Object.defineProperty(input, 'files', { value: files, configurable: true });
@@ -97,6 +105,41 @@ module('Integration | Component | FileUploaderButton', (hooks) => {
     );
 
     assert.dom('button').hasClass('cds--btn--ghost').hasClass('cds--btn--sm');
+  });
+
+  test('@size sets the layout size, with none by default', async function (assert) {
+    const size =
+      tracked<FileUploaderButtonSignature['Args']['size']>(undefined);
+    await render(
+      <template><FileUploaderButton @size={{size.value}} /></template>,
+    );
+
+    assert
+      .dom('button')
+      .hasClass('cds--file-uploader-button')
+      .doesNotHaveClass('cds--btn--md')
+      .doesNotHaveClass('cds--layout--size-md');
+
+    size.value = 'xs';
+    await rerender();
+    assert
+      .dom('button')
+      .hasClass('cds--btn--xs')
+      .hasClass('cds--layout--size-xs');
+
+    size.value = 'field';
+    await rerender();
+    assert
+      .dom('button')
+      .hasClass('cds--btn--md')
+      .hasClass('cds--layout--size-md');
+
+    size.value = 'small';
+    await rerender();
+    assert
+      .dom('button')
+      .hasClass('cds--btn--sm')
+      .hasClass('cds--layout--size-sm');
   });
 
   test('@onButtonInsert is called with the underlying button element', async function (assert) {

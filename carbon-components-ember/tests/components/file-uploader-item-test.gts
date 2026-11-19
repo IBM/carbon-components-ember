@@ -102,7 +102,8 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
 
     assert
       .dom('.cds--file__selected-file')
-      .hasClass('cds--file__selected-file--sm');
+      .hasClass('cds--file__selected-file--sm')
+      .hasClass('cds--layout--size-sm');
   });
 
   test('long filenames become ellipsis-truncated and wrapped in a tooltip trigger', async function (assert) {
@@ -120,5 +121,26 @@ module('Integration | Component | FileUploaderItem', (hooks) => {
     await waitUntil(() => find('.cds--file-filename-button'));
 
     assert.dom('.cds--file-filename-button').exists();
+    assert
+      .dom('.cds--file-filename-tooltip')
+      .hasClass('cds--popover--bottom', 'aligned below by default');
+  });
+
+  test('@align places the tooltip of a truncated name', async function (assert) {
+    await render(
+      <template>
+        <div {{style width="100px"}}>
+          <FileUploaderItem
+            @name="this-is-a-very-long-filename-that-will-definitely-overflow-its-container.txt"
+            @status="edit"
+            @align="top"
+          />
+        </div>
+      </template>,
+    );
+    await waitForAnimationFrame();
+    await waitUntil(() => find('.cds--file-filename-tooltip'));
+
+    assert.dom('.cds--file-filename-tooltip').hasClass('cds--popover--top');
   });
 });

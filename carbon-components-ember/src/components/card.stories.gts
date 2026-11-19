@@ -76,7 +76,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "A card holds content and actions about one subject. `Card` yields its parts: `Header` (with `Title`, `HeaderMedia`, `TitleMedia`, `Actions` and an AI label in its `<:decorator>` block), `Media`, `Body` and `Footer`, each action in an `Action`. `@density` picks the `productive` or `expressive` title, `@clickable` (or `@href`) makes the whole card clickable, and `@horizontal` puts the media beside a `Content` holding the header, body and footer. Don't put controls in a clickable card.",
+          "A card holds content and actions about one subject. `Card` yields its parts: `Header` (with a `Title`, media in its `<:headerMedia>` block, `Actions` in its `<:actions>` block and an AI label in its `<:decorator>` block), `Media`, `Body` and `Footer`, each action in an `Action`. `Title` takes media beside it in its `<:titleMedia>` block. `@density` picks the `productive` or `expressive` title, `@clickable` (or `@href`) makes the whole card clickable, and `@horizontal` puts the media beside a `Content` holding the header, body and footer. Don't put controls in a clickable card.",
       },
     },
   },
@@ -141,28 +141,41 @@ export const Default = meta.story({
             <img src="card/placeholder-16x9.svg" alt="" width="100%" />
           </card.Media>
           <card.Content>
-            <card.Header>
-              <card.Title
-                @label={{if args.label args.label}}
-                @description={{if args.description args.description}}
-                @titleTruncate={{args.titleTruncate}}
-              >{{args.title}}</card.Title>
-              {{#if args.actionCount}}
-                <card.Actions>
-                  {{#each (actionsFor args.actionCount) as |item|}}
-                    <card.Action>
-                      <Button
-                        @kind="ghost"
-                        @hasIconOnly={{true}}
-                        @iconDescription={{item.label}}
-                        @renderIcon={{item.icon}}
-                        @size="sm"
-                      />
-                    </card.Action>
-                  {{/each}}
-                </card.Actions>
-              {{/if}}
-            </card.Header>
+            {{! A named block can't be passed conditionally, so the header without actions is its own branch. }}
+            {{#if args.actionCount}}
+              <card.Header>
+                <:default>
+                  <card.Title
+                    @label={{if args.label args.label}}
+                    @description={{if args.description args.description}}
+                    @titleTruncate={{args.titleTruncate}}
+                  >{{args.title}}</card.Title>
+                </:default>
+                <:actions>
+                  <card.Actions>
+                    {{#each (actionsFor args.actionCount) as |item|}}
+                      <card.Action>
+                        <Button
+                          @kind="ghost"
+                          @hasIconOnly={{true}}
+                          @iconDescription={{item.label}}
+                          @renderIcon={{item.icon}}
+                          @size="sm"
+                        />
+                      </card.Action>
+                    {{/each}}
+                  </card.Actions>
+                </:actions>
+              </card.Header>
+            {{else}}
+              <card.Header>
+                <card.Title
+                  @label={{if args.label args.label}}
+                  @description={{if args.description args.description}}
+                  @titleTruncate={{args.titleTruncate}}
+                >{{args.title}}</card.Title>
+              </card.Header>
+            {{/if}}
             <card.Body>{{args.bodyText}}</card.Body>
           </card.Content>
         </Card>
@@ -472,10 +485,10 @@ export const WithAILabel = meta.story({
         <Card as |card|>
           <card.Header>
             <:default>
-              <card.HeaderMedia><Analytics /></card.HeaderMedia>
               <card.Title @description="AI-generated summary">Performance
                 Insights</card.Title>
             </:default>
+            <:headerMedia><Analytics /></:headerMedia>
             <:decorator as |AILabel|>
               <AILabel @align="bottom" @size="xs" as |label|>
                 <label.Content><AIExplanation /></label.Content>
@@ -490,6 +503,8 @@ export const WithAILabel = meta.story({
           <card.Header>
             <:default>
               <card.Title>Smart Recommendations Long title</card.Title>
+            </:default>
+            <:actions>
               <card.Actions>
                 <card.Action>
                   <Button
@@ -514,7 +529,7 @@ export const WithAILabel = meta.story({
                   />
                 </card.Action>
               </card.Actions>
-            </:default>
+            </:actions>
             <:decorator as |AILabel|>
               <AILabel @align="bottom" @size="xs" as |label|>
                 <label.Content><AIExplanation /></label.Content>
@@ -544,7 +559,7 @@ export const WithFlushBody = meta.story({
             <card.Title>Default body</card.Title>
           </card.Header>
           <card.Body>
-            <div class="card-story__flush-box">Content with 16px body padding</div>
+            <div class="card-story__flush-box">Body with default padding</div>
           </card.Body>
         </Card>
       </g.Column>
@@ -554,7 +569,7 @@ export const WithFlushBody = meta.story({
             <card.Title>Flush body</card.Title>
           </card.Header>
           <card.Body @isFlush={{true}}>
-            <div class="card-story__flush-box">Content fills edge-to-edge</div>
+            <div class="card-story__flush-box">Body flush to card edges</div>
           </card.Body>
         </Card>
       </g.Column>
@@ -569,32 +584,36 @@ export const WithHeaderActions = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card {{on "click" args.onClick}} as |card|>
           <card.Header>
-            <card.Title @label="Project" @description="Due in 3 days">Website
-              Redesign</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Edit"
-                  @renderIcon={{Edit}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Delete"
-                  @renderIcon={{TrashCan}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title @label="Project" @description="Due in 3 days">Website
+                Redesign</card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Edit"
+                    @renderIcon={{Edit}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Delete"
+                    @renderIcon={{TrashCan}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             This clickable card has action buttons in the header that prevent
@@ -628,41 +647,45 @@ export const WithHeaderActions = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.Title
-              @label="Category"
-              @description="Last updated 2 hours ago"
-            >Project dashboard</card.Title>
-            <card.Actions>
-              {{#each (actionsFor 8) as |item|}}
+            <:default>
+              <card.Title
+                @label="Category"
+                @description="Last updated 2 hours ago"
+              >Project dashboard</card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                {{#each (actionsFor 8) as |item|}}
+                  <card.Action>
+                    <Button
+                      @kind="ghost"
+                      @hasIconOnly={{true}}
+                      @iconDescription={{item.label}}
+                      @renderIcon={{item.icon}}
+                      @size="sm"
+                    />
+                  </card.Action>
+                {{/each}}
                 <card.Action>
                   <Button
                     @kind="ghost"
                     @hasIconOnly={{true}}
-                    @iconDescription={{item.label}}
-                    @renderIcon={{item.icon}}
+                    @iconDescription="Notification"
+                    @renderIcon={{Notification}}
                     @size="sm"
                   />
                 </card.Action>
-              {{/each}}
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Notification"
-                  @renderIcon={{Notification}}
-                  @size="sm"
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Analytics"
-                  @renderIcon={{Analytics}}
-                  @size="sm"
-                />
-              </card.Action>
-            </card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Analytics"
+                    @renderIcon={{Analytics}}
+                    @size="sm"
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             Multiple action buttons can be placed in the header alongside label,
@@ -674,12 +697,16 @@ export const WithHeaderActions = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.Title>Usage metrics</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button @kind="tertiary" @size="sm">Action</Button>
-              </card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title>Usage metrics</card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button @kind="tertiary" @size="sm">Action</Button>
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             Text actions use Carbon's small ghost button for actions that
@@ -690,18 +717,22 @@ export const WithHeaderActions = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.Title>Usage metrics</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button @kind="tertiary" @size="sm">Export</Button>
-              </card.Action>
-              <card.Action>
-                <Button @kind="tertiary" @size="sm">Share</Button>
-              </card.Action>
-              <card.Action>
-                <Button @kind="tertiary" @size="sm">View report</Button>
-              </card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title>Usage metrics</card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button @kind="tertiary" @size="sm">Export</Button>
+                </card.Action>
+                <card.Action>
+                  <Button @kind="tertiary" @size="sm">Share</Button>
+                </card.Action>
+                <card.Action>
+                  <Button @kind="tertiary" @size="sm">View report</Button>
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>Multiple text actions in the header.</card.Body>
         </Card>
@@ -709,43 +740,47 @@ export const WithHeaderActions = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.Title
-              @label="Category"
-              @labelTruncate={{true}}
-              @description="This is a lengthy description that will be clamped to exactly two lines using multi-line truncation so you can see how it interacts with the action buttons above"
-              @descriptionTruncate={{true}}
-              @titleTruncate={{2}}
-            >This is a very long card title that wraps across multiple lines in
-              a narrow container</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Edit"
-                  @renderIcon={{Edit}}
-                  @size="sm"
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Favorite"
-                  @renderIcon={{Favorite}}
-                  @size="sm"
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Share"
-                  @renderIcon={{Share}}
-                  @size="sm"
-                />
-              </card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title
+                @label="Category"
+                @labelTruncate={{true}}
+                @description="This is a lengthy description that will be clamped to exactly two lines using multi-line truncation so you can see how it interacts with the action buttons above"
+                @descriptionTruncate={{true}}
+                @titleTruncate={{2}}
+              >This is a very long card title that wraps across multiple lines
+                in a narrow container</card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Edit"
+                    @renderIcon={{Edit}}
+                    @size="sm"
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Favorite"
+                    @renderIcon={{Favorite}}
+                    @size="sm"
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Share"
+                    @renderIcon={{Share}}
+                    @size="sm"
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             Truncated label (single line ellipsis), long wrapping title, and
@@ -764,32 +799,36 @@ export const WithHeaderMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia><Analytics /></card.HeaderMedia>
-            <card.Actions>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Edit"
-                  @renderIcon={{Edit}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Delete"
-                  @renderIcon={{TrashCan}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-            </card.Actions>
-            <card.Title @description="Real-time metrics">Analytics Dashboard</card.Title>
+            <:default>
+              <card.Title @description="Real-time metrics">Analytics Dashboard</card.Title>
+            </:default>
+            <:headerMedia><Analytics /></:headerMedia>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Edit"
+                    @renderIcon={{Edit}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Delete"
+                    @renderIcon={{TrashCan}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             This card demonstrates the icon slot (first child) with action
@@ -800,14 +839,14 @@ export const WithHeaderMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia>
-              <img
+            <:default>
+              <card.Title>Card with Image</card.Title>
+            </:default>
+            <:headerMedia><img
                 class="card-story__header-image"
                 src="card/illustration-img-1.png"
                 alt="A sample illustration"
-              />
-            </card.HeaderMedia>
-            <card.Title>Card with Image</card.Title>
+              /></:headerMedia>
           </card.Header>
           <card.Body>The icon slot can contain an image element.</card.Body>
         </Card>
@@ -815,8 +854,10 @@ export const WithHeaderMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia><Tag @type="blue">New</Tag></card.HeaderMedia>
-            <card.Title>Card with Tag</card.Title>
+            <:default>
+              <card.Title>Card with Tag</card.Title>
+            </:default>
+            <:headerMedia><Tag @type="blue">New</Tag></:headerMedia>
           </card.Header>
           <card.Body>The icon slot can contain a Tag component.</card.Body>
         </Card>
@@ -824,14 +865,14 @@ export const WithHeaderMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia>
-              <IconIndicator
+            <:default>
+              <card.Title>Card with Status</card.Title>
+            </:default>
+            <:headerMedia><IconIndicator
                 @kind="succeeded"
                 @size={{16}}
                 @label="Succeeded"
-              />
-            </card.HeaderMedia>
-            <card.Title>Card with Status</card.Title>
+              /></:headerMedia>
           </card.Header>
           <card.Body>
             The icon slot can contain an IconIndicator component.
@@ -929,11 +970,11 @@ export const WithHorizontalMedia = meta.story({
         <Card @horizontal={{true}} @density="expressive" as |card|>
           <card.Content>
             <card.Header>
-              <card.HeaderMedia><DirectionFork
-                  @size={{32}}
-                /></card.HeaderMedia>
-              <card.Title @label="Prepare your data">Generate synthetic tabular
-                data</card.Title>
+              <:default>
+                <card.Title @label="Prepare your data">Generate synthetic
+                  tabular data</card.Title>
+              </:default>
+              <:headerMedia><DirectionFork @size={{32}} /></:headerMedia>
             </card.Header>
             <card.Footer>
               <div class="card-story__time"><Time /> 12:00 PM</div>
@@ -968,8 +1009,10 @@ export const WithIcon = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia><Analytics /></card.HeaderMedia>
-            <card.Title @description="Real-time metrics">Analytics Dashboard</card.Title>
+            <:default>
+              <card.Title @description="Real-time metrics">Analytics Dashboard</card.Title>
+            </:default>
+            <:headerMedia><Analytics /></:headerMedia>
           </card.Header>
           <card.Body>
             This card includes a small icon (16px) alongside the title.
@@ -1015,8 +1058,10 @@ export const WithIcon = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.HeaderMedia><Favorite @size={{32}} /></card.HeaderMedia>
-            <card.Title @description="Your saved content">Favorite Items</card.Title>
+            <:default>
+              <card.Title @description="Your saved content">Favorite Items</card.Title>
+            </:default>
+            <:headerMedia><Favorite @size={{32}} /></:headerMedia>
           </card.Header>
           <card.Body>
             This card includes a larger icon (32px) for more prominence.
@@ -1160,18 +1205,18 @@ export const WithTitleMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.TitleMedia>
-              <img
-                src="card/classic-rebus.png"
-                alt="IBM Classic Rebus"
-                width="48"
-                height="48"
-              />
-            </card.TitleMedia>
             <card.Title
               @label="Label"
               @description="The title media slot positions an icon to the left of the title text"
-            >Card with title icon</card.Title>
+            >
+              <:titleMedia><img
+                  src="card/classic-rebus.png"
+                  alt="IBM Classic Rebus"
+                  width="48"
+                  height="48"
+                /></:titleMedia>
+              <:default>Card with title icon</:default>
+            </card.Title>
           </card.Header>
           <card.Body>
             CardTitleMedia provides a media slot positioned to the left of the
@@ -1183,18 +1228,18 @@ export const WithTitleMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.TitleMedia>
-              <img
-                src="card/classic-rebus.png"
-                alt="IBM Classic Rebus"
-                width="64"
-                height="64"
-              />
-            </card.TitleMedia>
             <card.Title
               @label="Label"
               @description="The title media slot positions an icon to the left of the title text"
-            >Card with title icon</card.Title>
+            >
+              <:titleMedia><img
+                  src="card/classic-rebus.png"
+                  alt="IBM Classic Rebus"
+                  width="64"
+                  height="64"
+                /></:titleMedia>
+              <:default>Card with title icon</:default>
+            </card.Title>
           </card.Header>
           <card.Body>
             CardTitleMedia provides a media slot positioned to the left of the
@@ -1206,42 +1251,46 @@ export const WithTitleMedia = meta.story({
       <g.Column @sm={{4}} @md={{4}} @lg={{4}}>
         <Card as |card|>
           <card.Header>
-            <card.TitleMedia>
-              <img
-                src="card/classic-rebus.png"
-                alt="IBM Classic Rebus"
-                width="48"
-                height="48"
-              />
-            </card.TitleMedia>
-            <card.Title
-              @label="Label"
-              @description="The title media slot positions an icon to the left of the title text"
-            >Card with title icon</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Edit"
-                  @renderIcon={{Edit}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Delete"
-                  @renderIcon={{TrashCan}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title
+                @label="Label"
+                @description="The title media slot positions an icon to the left of the title text"
+              >
+                <:titleMedia><img
+                    src="card/classic-rebus.png"
+                    alt="IBM Classic Rebus"
+                    width="48"
+                    height="48"
+                  /></:titleMedia>
+                <:default>Card with title icon</:default>
+              </card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Edit"
+                    @renderIcon={{Edit}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Delete"
+                    @renderIcon={{TrashCan}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             CardTitleMedia provides a media slot positioned to the left of the
@@ -1260,49 +1309,51 @@ export const WithTitleMedia = meta.story({
             />
           </card.Media>
           <card.Header>
-            <card.HeaderMedia>
-              <IconIndicator
+            <:default>
+              <card.Title
+                @label="Label"
+                @description="The title media slot positions an icon to the left of the title text"
+              >
+                <:titleMedia><img
+                    src="card/classic-rebus.png"
+                    alt="IBM Classic Rebus"
+                    width="48"
+                    height="48"
+                  /></:titleMedia>
+                <:default>Card with title icon</:default>
+              </card.Title>
+            </:default>
+            <:headerMedia><IconIndicator
                 @kind="succeeded"
                 @size={{16}}
                 @label="Succeeded"
-              />
-            </card.HeaderMedia>
-            <card.TitleMedia>
-              <img
-                src="card/classic-rebus.png"
-                alt="IBM Classic Rebus"
-                width="48"
-                height="48"
-              />
-            </card.TitleMedia>
-            <card.Title
-              @label="Label"
-              @description="The title media slot positions an icon to the left of the title text"
-            >Card with title icon</card.Title>
-            <card.Actions>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Edit"
-                  @renderIcon={{Edit}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-              <card.Action>
-                <Button
-                  @kind="ghost"
-                  @hasIconOnly={{true}}
-                  @iconDescription="Delete"
-                  @renderIcon={{TrashCan}}
-                  @size="sm"
-                  {{on "click" stopPropagation}}
-                  {{on "click" args.onActionClick}}
-                />
-              </card.Action>
-            </card.Actions>
+              /></:headerMedia>
+            <:actions>
+              <card.Actions>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Edit"
+                    @renderIcon={{Edit}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+                <card.Action>
+                  <Button
+                    @kind="ghost"
+                    @hasIconOnly={{true}}
+                    @iconDescription="Delete"
+                    @renderIcon={{TrashCan}}
+                    @size="sm"
+                    {{on "click" stopPropagation}}
+                    {{on "click" args.onActionClick}}
+                  />
+                </card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>
             CardTitleMedia provides a media slot positioned to the left of the

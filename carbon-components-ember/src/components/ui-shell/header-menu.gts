@@ -115,7 +115,7 @@ export default class HeaderMenu extends Component<HeaderMenuSignature> {
         {{captureElement this.setButton}}
         {{on "keydown" this.toggleOnKey}}
       >
-        {{~@menuLinkName~}}
+        <span class="cds--text-truncate--end">{{@menuLinkName}}</span>
         {{~#if @renderMenuContent~}}
           <@renderMenuContent />
         {{~else~}}
