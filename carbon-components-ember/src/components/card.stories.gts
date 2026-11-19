@@ -1408,8 +1408,7 @@ export const WithTitleTrailingIcon = meta.story({
             </card.Title>
           </card.Header>
           <card.Body>
-            When the title wraps to multiple lines, the icon stays inline with
-            the text on the last line with 8px gap.
+            Backup completed successfully. Next run in 23 hours.
           </card.Body>
         </Card>
       </g.Column>
