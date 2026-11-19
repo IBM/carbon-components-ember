@@ -1,7 +1,7 @@
 {
   "component": "CodeSnippet",
-  "generatedAt": "2026-10-28T11:06:02.510Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:48.889Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "single": {
@@ -94,7 +94,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -295,7 +294,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -601,7 +599,6 @@
                           "cds--btn--disabled",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -806,7 +803,6 @@
                           "cds--btn",
                           "cds--btn--disabled",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -1213,7 +1209,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",
@@ -1409,7 +1404,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -1604,7 +1598,6 @@
                           "cds--btn",
                           "cds--btn--icon-only",
                           "cds--btn--md",
-                          "cds--btn--primary",
                           "cds--copy",
                           "cds--copy-btn",
                           "cds--layout--size-md"
@@ -1806,7 +1799,6 @@
                         "classes": [
                           "cds--btn",
                           "cds--btn--icon-only",
-                          "cds--btn--primary",
                           "cds--btn--sm",
                           "cds--copy",
                           "cds--copy-btn",

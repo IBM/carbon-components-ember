@@ -1,7 +1,7 @@
 {
   "component": "TableSelectRow",
-  "generatedAt": "2026-11-05T19:09:37.027Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.253Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

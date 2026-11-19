@@ -1,7 +1,7 @@
 {
   "component": "TableToolbarMenu",
-  "generatedAt": "2026-11-05T19:11:35.165Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.238Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "trigger": {
@@ -27,7 +27,10 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -94,7 +97,10 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -158,7 +164,10 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -223,7 +232,10 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -289,7 +301,10 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon", "cds--overflow-menu__icon"],
+            "classes": [
+              "cds--btn__icon",
+              "cds--overflow-menu__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -358,7 +373,9 @@
           {
             "type": "element",
             "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
             "attributes": {
               "role": "none",
               "dir": "auto"
@@ -368,7 +385,9 @@
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
                 "attributes": {
                   "role": "menuitem",
                   "tabindex": "-1"
@@ -378,7 +397,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -395,7 +416,9 @@
           {
             "type": "element",
             "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
             "attributes": {
               "role": "none",
               "dir": "auto"
@@ -405,7 +428,9 @@
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
                 "attributes": {
                   "role": "menuitem",
                   "tabindex": "-1"
@@ -415,7 +440,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -464,7 +491,9 @@
           {
             "type": "element",
             "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
             "attributes": {
               "role": "none",
               "dir": "auto"
@@ -474,7 +503,9 @@
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
                 "attributes": {
                   "role": "menuitem",
                   "tabindex": "-1"
@@ -484,7 +515,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [
@@ -501,7 +534,9 @@
           {
             "type": "element",
             "tag": "li",
-            "classes": ["cds--overflow-menu-options__option"],
+            "classes": [
+              "cds--overflow-menu-options__option"
+            ],
             "attributes": {
               "role": "none",
               "dir": "auto"
@@ -511,7 +546,9 @@
               {
                 "type": "element",
                 "tag": "button",
-                "classes": ["cds--overflow-menu-options__btn"],
+                "classes": [
+                  "cds--overflow-menu-options__btn"
+                ],
                 "attributes": {
                   "role": "menuitem",
                   "tabindex": "-1"
@@ -521,7 +558,9 @@
                   {
                     "type": "element",
                     "tag": "div",
-                    "classes": ["cds--overflow-menu-options__option-content"],
+                    "classes": [
+                      "cds--overflow-menu-options__option-content"
+                    ],
                     "attributes": {},
                     "style": {},
                     "children": [

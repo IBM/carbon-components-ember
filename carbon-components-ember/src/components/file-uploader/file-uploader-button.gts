@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
 import { guidFor } from '@ember/object/internals';
 import type Owner from '@ember/owner';
 import captureElement from '../../modifiers/capture-element.ts';
+import { layoutSize } from './-layout-size.ts';
 
 export interface FileUploaderButtonSignature {
   Element: HTMLButtonElement;
@@ -43,7 +44,7 @@ export interface FileUploaderButtonSignature {
     /** Called with the underlying `<button>` element once it's inserted, so a caller can drive it imperatively (e.g. restoring focus) */
     onButtonInsert?: (element: HTMLButtonElement) => void;
     /** Specify the size of the FileUploaderButton, from a list of available sizes */
-    size?: 'sm' | 'small' | 'md' | 'field' | 'lg';
+    size?: 'xs' | 'sm' | 'small' | 'md' | 'field' | 'lg';
   };
 }
 
@@ -79,15 +80,17 @@ export default class FileUploaderButton extends Component<FileUploaderButtonSign
   }
 
   get classes() {
-    const size = this.args.size ?? 'md';
+    const { size } = this.args;
     const classes = [
       'cds--btn',
+      'cds--file-uploader-button',
       `cds--btn--${this.args.buttonKind ?? 'primary'}`,
     ];
     if (this.args.disabled) classes.push('cds--btn--disabled');
+    if (size === 'xs') classes.push('cds--btn--xs');
     if (size === 'field' || size === 'md') classes.push('cds--btn--md');
     if (size === 'small' || size === 'sm') classes.push('cds--btn--sm');
-    classes.push(`cds--layout--size-${size}`);
+    if (size) classes.push(`cds--layout--size-${layoutSize(size)}`);
     return classes.join(' ');
   }
 
