@@ -1,7 +1,7 @@
 {
   "component": "TableRow",
-  "generatedAt": "2026-11-05T12:02:59.000Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.304Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

@@ -1,7 +1,7 @@
 {
   "component": "NumberInput",
-  "generatedAt": "2026-10-28T11:06:02.713Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.196Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -126,16 +126,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -180,16 +170,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -327,16 +307,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -382,16 +352,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -573,16 +533,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -627,16 +577,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -845,16 +785,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -899,16 +829,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1065,16 +985,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -1120,16 +1030,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1265,16 +1165,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -1319,16 +1209,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }
@@ -1539,16 +1419,6 @@
                       },
                       {
                         "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
                         "tag": "button",
                         "classes": [
                           "cds--number__control-btn",
@@ -1593,16 +1463,6 @@
                             ]
                           }
                         ]
-                      },
-                      {
-                        "type": "element",
-                        "tag": "div",
-                        "classes": [
-                          "cds--number__rule-divider"
-                        ],
-                        "attributes": {},
-                        "style": {},
-                        "children": []
                       }
                     ]
                   }

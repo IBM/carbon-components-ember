@@ -1,7 +1,7 @@
 {
   "component": "DefinitionTooltip",
-  "generatedAt": "2026-11-06T10:14:21.349Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.900Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -10,8 +10,9 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container"
         ],
@@ -57,23 +58,30 @@
                   "cds--popover-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -88,8 +96,9 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover--open",
           "cds--popover-container"
@@ -136,23 +145,30 @@
                   "cds--popover-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -167,7 +183,8 @@
         "type": "element",
         "tag": "span",
         "classes": [
-          "cds--popover--caret",
+          "cds--autoalign",
+          "cds--popover--auto-align",
           "cds--popover--high-contrast",
           "cds--popover--top",
           "cds--popover-container"
@@ -214,23 +231,30 @@
                   "cds--popover-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -248,7 +272,6 @@
           "cds--autoalign",
           "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container"
         ],
@@ -333,8 +356,9 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container",
           "custom-popover"
@@ -382,23 +406,30 @@
                   "cds--popover-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }
@@ -413,8 +444,9 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
+          "cds--popover--auto-align",
           "cds--popover--bottom",
-          "cds--popover--caret",
           "cds--popover--high-contrast",
           "cds--popover-container"
         ],
@@ -460,23 +492,30 @@
                   "cds--popover-content"
                 ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Uniform Resource Locator"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": [
-                  "cds--popover-caret"
-                ],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }

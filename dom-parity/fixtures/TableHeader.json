@@ -1,7 +1,7 @@
 {
   "component": "TableHeader",
-  "generatedAt": "2026-11-05T19:08:12.660Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.302Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -773,7 +773,6 @@
                           "cds--autoalign",
                           "cds--popover--auto-align",
                           "cds--popover--bottom",
-                          "cds--popover--caret",
                           "cds--popover--high-contrast",
                           "cds--popover-container",
                           "cds--toggletip"
@@ -792,7 +791,7 @@
                             ],
                             "attributes": {
                               "aria-expanded": "false",
-                              "aria-controls": "id-_r_ej_",
+                              "aria-controls": "id-_r_ku_",
                               "aria-label": "AI Show information",
                               "type": "button"
                             },
@@ -998,7 +997,6 @@
                       "cds--autoalign",
                       "cds--popover--auto-align",
                       "cds--popover--bottom",
-                      "cds--popover--caret",
                       "cds--popover--high-contrast",
                       "cds--popover-container",
                       "cds--toggletip"
@@ -1017,7 +1015,7 @@
                         ],
                         "attributes": {
                           "aria-expanded": "false",
-                          "aria-controls": "id-_r_en_",
+                          "aria-controls": "id-_r_l2_",
                           "aria-label": "AI Show information",
                           "type": "button"
                         },

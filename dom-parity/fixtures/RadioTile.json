@@ -1,7 +1,7 @@
 {
   "component": "RadioTile",
-  "generatedAt": "2026-10-28T11:06:02.565Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.999Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -64,7 +64,7 @@
                       "fill": "currentColor",
                       "width": "16",
                       "height": "16",
-                      "viewBox": "0 0 16 16",
+                      "viewBox": "0 0 32 32",
                       "aria-hidden": "true",
                       "xmlns": "http://www.w3.org/2000/svg"
                     },
@@ -75,19 +75,7 @@
                         "tag": "path",
                         "classes": [],
                         "attributes": {
-                          "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
-                        },
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
-                        "tag": "path",
-                        "classes": [],
-                        "attributes": {
-                          "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
-                          "data-icon-path": "inner-path",
-                          "opacity": "0"
+                          "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
                         },
                         "style": {},
                         "children": []
@@ -181,7 +169,7 @@
                       "fill": "currentColor",
                       "width": "16",
                       "height": "16",
-                      "viewBox": "0 0 16 16",
+                      "viewBox": "0 0 32 32",
                       "aria-hidden": "true",
                       "xmlns": "http://www.w3.org/2000/svg"
                     },
@@ -192,7 +180,7 @@
                         "tag": "path",
                         "classes": [],
                         "attributes": {
-                          "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
+                          "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
                         },
                         "style": {},
                         "children": []
@@ -202,9 +190,7 @@
                         "tag": "path",
                         "classes": [],
                         "attributes": {
-                          "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
-                          "data-icon-path": "inner-path",
-                          "opacity": "0"
+                          "d": "M16,10a6,6,0,1,0,6,6A6,6,0,0,0,16,10Z"
                         },
                         "style": {},
                         "children": []
@@ -297,7 +283,7 @@
                       "fill": "currentColor",
                       "width": "16",
                       "height": "16",
-                      "viewBox": "0 0 16 16",
+                      "viewBox": "0 0 32 32",
                       "aria-hidden": "true",
                       "xmlns": "http://www.w3.org/2000/svg"
                     },
@@ -308,19 +294,7 @@
                         "tag": "path",
                         "classes": [],
                         "attributes": {
-                          "d": "M8,1C4.1,1,1,4.1,1,8c0,3.9,3.1,7,7,7s7-3.1,7-7C15,4.1,11.9,1,8,1z M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z"
-                        },
-                        "style": {},
-                        "children": []
-                      },
-                      {
-                        "type": "element",
-                        "tag": "path",
-                        "classes": [],
-                        "attributes": {
-                          "d": "M7,11L4.3,8.3l0.9-0.8L7,9.3l4-3.9l0.9,0.8L7,11z",
-                          "data-icon-path": "inner-path",
-                          "opacity": "0"
+                          "d": "M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
                         },
                         "style": {},
                         "children": []

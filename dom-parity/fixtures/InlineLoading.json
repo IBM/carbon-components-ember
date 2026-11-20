@@ -1,7 +1,7 @@
 {
   "component": "InlineLoading",
-  "generatedAt": "2026-10-28T11:06:02.514Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.956Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "active": {
@@ -290,10 +290,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "finished",
                   "width": "16",
                   "height": "16",
                   "viewBox": "0 0 16 16",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},
@@ -390,10 +391,11 @@
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
                   "fill": "currentColor",
+                  "aria-label": "error",
                   "width": "16",
                   "height": "16",
                   "viewBox": "0 0 16 16",
-                  "aria-hidden": "true",
+                  "role": "img",
                   "xmlns": "http://www.w3.org/2000/svg"
                 },
                 "style": {},

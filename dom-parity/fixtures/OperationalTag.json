@@ -1,7 +1,7 @@
 {
   "component": "OperationalTag",
-  "generatedAt": "2026-11-06T08:19:47.663Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:00.886Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

@@ -168,8 +168,8 @@ catalogs:
       specifier: 1.11.0
       version: 1.11.0
     '@carbon/grid':
-      specifier: ^11.65.0
-      version: 11.65.0
+      specifier: 12.0.0-alpha.5
+      version: 12.0.0-alpha.5
     '@carbon/ibm-products':
       specifier: 2.101.0
       version: 2.101.0
@@ -177,23 +177,23 @@ catalogs:
       specifier: 2.97.0
       version: 2.97.0
     '@carbon/icon-helpers':
-      specifier: ^10.84.0
-      version: 10.84.0
+      specifier: 11.0.0-alpha.2
+      version: 11.0.0-alpha.2
     '@carbon/icons':
-      specifier: ^11.91.0
-      version: 11.91.0
+      specifier: 12.0.0-alpha.4
+      version: 12.0.0-alpha.4
     '@carbon/layout':
-      specifier: ^11.62.0
-      version: 11.62.0
+      specifier: 12.0.0-alpha.5
+      version: 12.0.0-alpha.5
     '@carbon/react':
-      specifier: 1.119.0
-      version: 1.119.0
+      specifier: 2.0.0-alpha.8
+      version: 2.0.0-alpha.8
     '@carbon/styles':
-      specifier: ^1.118.0
-      version: 1.118.0
+      specifier: 2.0.0-alpha.7
+      version: 2.0.0-alpha.7
     '@carbon/themes':
-      specifier: 11.84.0
-      version: 11.84.0
+      specifier: 12.0.0-alpha.7
+      version: 12.0.0-alpha.7
     '@carbon/utilities':
       specifier: 0.28.0
       version: 0.28.0
@@ -231,7 +231,7 @@ importers:
         version: 0.24.0(supports-color@8.1.1)
       node:
         specifier: runtime:^24
-        version: runtime:24.22.1
+        version: runtime:24.22.3
       release-plan:
         specifier: ^0.20.1
         version: 0.20.1(supports-color@8.1.1)
@@ -243,19 +243,19 @@ importers:
         version: 1.27.25
       '@carbon/grid':
         specifier: catalog:carbon
-        version: 11.65.0
+        version: 12.0.0-alpha.5
       '@carbon/icon-helpers':
         specifier: catalog:carbon
-        version: 10.84.0
+        version: 11.0.0-alpha.2
       '@carbon/icons':
         specifier: catalog:carbon
-        version: 11.91.0
+        version: 12.0.0-alpha.4
       '@carbon/layout':
         specifier: catalog:carbon
-        version: 11.62.0
+        version: 12.0.0-alpha.5
       '@carbon/styles':
         specifier: catalog:carbon
-        version: 1.118.0(sass@1.107.1)
+        version: 2.0.0-alpha.7(sass@1.107.1)
       '@carbon/utilities':
         specifier: catalog:carbon
         version: 0.28.0
@@ -364,10 +364,10 @@ importers:
         version: 1.11.0(@floating-ui/dom@1.8.0)(@types/react@19.3.0)(react@19.3.1)(sass@1.107.1)
       '@carbon/ibm-products-styles':
         specifier: catalog:carbon
-        version: 2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)
+        version: 2.97.0(@carbon/grid@12.0.0-alpha.5)(@carbon/layout@12.0.0-alpha.5)(@carbon/motion@11.55.0)(@carbon/themes@12.0.0-alpha.7)(@carbon/type@11.70.0)
       '@carbon/themes':
         specifier: catalog:carbon
-        version: 11.84.0
+        version: 12.0.0-alpha.7
       '@ember/app-tsconfig':
         specifier: ^2.1.0
         version: 2.1.0
@@ -584,10 +584,10 @@ importers:
     devDependencies:
       '@carbon/ibm-products':
         specifier: catalog:carbon
-        version: 2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)
+        version: 2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@2.0.0-alpha.8(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)
       '@carbon/react':
         specifier: catalog:carbon
-        version: 1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)
+        version: 2.0.0-alpha.8(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))
@@ -1331,11 +1331,20 @@ packages:
   '@carbon/colors@11.61.0':
     resolution: {integrity: sha512-pEDtZ0jPGyjbxcnzBxFCIB05oIJSbfT2E+z9TY+txqRfHmXe+QCEDD4fQPaFkxq60ToJ7KWfCb/SjnhF5/aq8A==}
 
+  '@carbon/colors@12.0.0-alpha.4':
+    resolution: {integrity: sha512-Ec85H/svVkqeOAPGhoYSbA/uah3yyeVINiqfaElUFZltkNRakbU38HvakpDE7UJk4Xf55EP6ReSxsTLCLy54ng==}
+
   '@carbon/feature-flags@1.11.0':
     resolution: {integrity: sha512-HN8bzIwPubG53xSlOZGFcCghL3zspj/LzA+LOfkoLwpagYIpZsOddpvqmCpOh3JOumNb5Cxq9qmjJL9yEiVYNA==}
 
+  '@carbon/feature-flags@2.0.0-alpha.3':
+    resolution: {integrity: sha512-N9kMYX2BHDXkkLBhoPAsL+nV9ETfu2snPLRf+yOjJtLKoiKIeSySF+mdnqmndA8VdtlpM4KBAtTY0uC0OfiTKQ==}
+
   '@carbon/grid@11.65.0':
     resolution: {integrity: sha512-zuHs9oDYd/gMZQPKV0a/PNJXK/iaYmnMFqcwgbm4zYJ3MnD3kWgJKoqFSSPGuks8xKrg722exFYW4yDdwImIDQ==}
+
+  '@carbon/grid@12.0.0-alpha.5':
+    resolution: {integrity: sha512-BbvF4LPhpRJ+vZfOWwRdaIvxl48JKrpCcIs+1L8NxZYZ5NSjiZDnWT7rezixDVMAAtfP+vhz6FH8tVoJVyOrIQ==}
 
   '@carbon/ibm-products-styles@2.97.0':
     resolution: {integrity: sha512-VNAVsKiu3x+FE4Grd8myljD+ceE9RQ9eBGuEaRaopH7Rq/bveQTkRbMB2tVK7sExd03RnUeV94QF9rRMJrwDVg==}
@@ -1365,22 +1374,34 @@ packages:
   '@carbon/icon-helpers@10.84.0':
     resolution: {integrity: sha512-G+LVR42568CbluBzu7uV+ZMmI5tT2ojnWCmRgDB8Z3xKls1D5DU6fQHyiAg10JjLo+zBGUih6eEVSCqq9oXkEw==}
 
-  '@carbon/icons-react@11.91.0':
-    resolution: {integrity: sha512-kaYUe1rQCmYJswXBniXDJpnCo7t7IF0ucKd0Bml4O3oyOdzKmNHYCaAbaYlq+3/VzUMstc7llfEbPyPsAKntVg==}
+  '@carbon/icon-helpers@11.0.0-alpha.2':
+    resolution: {integrity: sha512-bN2nov0vGrVXyaJoLnpnnEg+VeR4PKXr68mcI4oFLjY2BpzeSxZ27Acppph37ufvoGoiX+5XwP3qPyajuemmcg==}
+
+  '@carbon/icons-react@12.0.0-alpha.4':
+    resolution: {integrity: sha512-g5yy5eO9UKhFukvRgC/ocRZ+NiI3hPNOLmduHJ3AQea01jyjjhe7VgBd5z5c64UMcC/dOVO77Irmv3qyoV8dtg==}
     peerDependencies:
       react: '>=16'
 
   '@carbon/icons@11.91.0':
     resolution: {integrity: sha512-XMFcuwdUHrrI+GK3ZB8TjueZoe2hD6ThCfMKT4ZO64aEvEYgqtpkQ+FvLs1KCWDysQbsMEnKdrheBx54vHTY4w==}
 
+  '@carbon/icons@12.0.0-alpha.4':
+    resolution: {integrity: sha512-J+MY6Q0IRp49gicDi0gMYRyy+jbM9KdzHlEj864oJ3mbSDaO/pRunucWF5cuSu1f2OWBZ19GcUmpjUHU5QjMjA==}
+
   '@carbon/layout@11.62.0':
     resolution: {integrity: sha512-MBXjxBkY9DNbdDmSPhPF5t+rBUJffxk/hlLlTawX901X84BFBKVtbCYy/UfFl5IytCN8mXXuCdOJ3rPOEwEX1Q==}
+
+  '@carbon/layout@12.0.0-alpha.5':
+    resolution: {integrity: sha512-4LXm2RSap5g5i4mEdGwn/kB881oB9cqSK5t6Y3O6Q6u+D563FeSzP3J570kj9W70IPpragyfExSfNMFlOPFaoA==}
 
   '@carbon/motion@11.55.0':
     resolution: {integrity: sha512-jBjLagm+DvFPcVpZUYuS+lY3FkZWolA69apKe+Oh8Ezulm3Q1DQMkG9Ky+VOa0rptgFTnafP6L6y8vmZ3LJa5g==}
 
-  '@carbon/react@1.119.0':
-    resolution: {integrity: sha512-nEkv9O1Kff1lioe2yPwMCpHnl+7M/8jNTntEfw3alYXcEKOuGR7At8BV7d7q6FsoB/lJh0UE/krdqNLUNvvQOw==}
+  '@carbon/motion@12.0.0-alpha.5':
+    resolution: {integrity: sha512-ObRAuTpFD1cZ1OoEm5Ydkyzn1LJl/j3WSwntTNTtbuhsiZYCMnfH2cqFM4Lk8bzmIPHKLuDWxRiwezF4wO3Buw==}
+
+  '@carbon/react@2.0.0-alpha.8':
+    resolution: {integrity: sha512-3dO1Cn8DlhTByA1B7ILT/nSQfWWCuZfXIx/LqKKIcz2kNk9oMfTO+VZc8nNalJOgg7H+xmP3X+b66RY8v/flkg==}
     peerDependencies:
       react: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
       react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0 || ^19.0.0
@@ -1398,6 +1419,14 @@ packages:
       sass:
         optional: true
 
+  '@carbon/styles@2.0.0-alpha.7':
+    resolution: {integrity: sha512-KERILnB/fO6Hl4pXzlrqJfI3Mh/7CuSd8wLeNHqn6JD4T7fWkL6r5C3MvF+cqpUKoLwCXtEOfozqlcOG8hD03w==}
+    peerDependencies:
+      sass: ^1.33.0
+    peerDependenciesMeta:
+      sass:
+        optional: true
+
   '@carbon/telemetry@0.1.0':
     resolution: {integrity: sha512-kNWt0bkgPwGW0i5h7HFuljbKRXPvIhsKbB+1tEURAYLXoJg9iJLF1eGvWN5iVoFCS2zje4GR3OGOsvvKVe7Hlg==}
     hasBin: true
@@ -1406,8 +1435,15 @@ packages:
     resolution: {integrity: sha512-SQI2Zq7bRC9+VOI6wPpoIt+k2nuzq47or76749h8xZTkjIYVMPKUh4OtUYI0+VZK3K4abeHCuUexQSqoAb54Gg==}
     engines: {node: '>=22'}
 
+  '@carbon/themes@12.0.0-alpha.7':
+    resolution: {integrity: sha512-+mhXz3OX4z8MSNnkFmrfqocoksrO/tAklk1e7iIJ+i3aA1uIZhACdYgM5LtZERN64kaathl4Q68DBXXG6ay6mw==}
+    engines: {node: '>=22'}
+
   '@carbon/type@11.70.0':
     resolution: {integrity: sha512-cmxwwhlVD/8L/J6k1N4/U6AhNldrpLynCQ4+Z7wSeGO6Ki0wE1Iczza8PAPa2eMoIw7frzk1q8jrwnI0zHBftw==}
+
+  '@carbon/type@12.0.0-alpha.5':
+    resolution: {integrity: sha512-rVMhX0GhvzsXcnOAEx+6/1k3UEEHQGTVK0kvmwVugSLCD9PKbnoHEM8DpIlfAv4OUwXm/U8eHCTKry7z9UkBCQ==}
 
   '@carbon/utilities-react@0.28.0':
     resolution: {integrity: sha512-Ia+XOdH/0Ily/3ATLMe+YcHWnpD2sbio4wcUct7SlnHBS8yl2qMM6+U0tt7/uMPRfdpCm8m77vq1WRU9nEswSA==}
@@ -1419,6 +1455,9 @@ packages:
 
   '@carbon/utilities@0.25.0':
     resolution: {integrity: sha512-00zsQ3ldFKQUb1CrQ47pMZHDDigY9gR5OiusxdugyGBJmZUMg2FhycHQD94W35YYv28sG7ILNQJQ/x1tehDQzQ==}
+
+  '@carbon/utilities@0.27.0':
+    resolution: {integrity: sha512-wjQ33XDkuvrQxaSf1v72JYIEieYZjLz3jfNs/hFzEIaK8xlo56ie/VU48oJhpjfjcBlU6TtLbLrOO64pzQ2q5Q==}
 
   '@carbon/utilities@0.28.0':
     resolution: {integrity: sha512-I24KN06PLNAR1kGaixwVq3eJ0BkgC+KGV4wT1oNNAkP5197aIjPlUZrYLvhLOEXLBH0BLx7cUgFr8pRawkXYcw==}
@@ -6925,7 +6964,7 @@ packages:
     resolution: {integrity: sha512-RinNxoz4W1cep1b928fuFhvAQ5ag/+1UlMDV7rbyGthBIgsiEouS4kvRayvvboxii4m8eolKOIBo3OjDqbc+uQ==}
     engines: {node: '>=6'}
 
-  node@runtime:24.22.1:
+  node@runtime:24.22.3:
     resolution:
       type: variations
       variants:
@@ -6933,9 +6972,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-9ie20HmCnmSKS4AP+oidN9viORNQcDADDbhaqGFZGiY=
+            integrity: sha256-aT/ojEqF5+Fy7BMvdg5ns5JbLWRCyxyzp0tz/Pgx9wo=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-aix-ppc64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-aix-ppc64.tar.gz
           targets:
             - cpu: ppc64
               os: aix
@@ -6943,9 +6982,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-icaCWT12zUQjP6U7FWMmTn3py7GJytFpE1xbT637wKc=
+            integrity: sha256-/24X1IdLdtJyISuQjMAg1ugV+6Wmx+qqBq3XJYQDB/0=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-darwin-arm64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-darwin-arm64.tar.gz
           targets:
             - cpu: arm64
               os: darwin
@@ -6953,9 +6992,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-0TJVfn7iuFrwiwyMNDOOZcZDDyI40B9ydyjvQtyDsDU=
+            integrity: sha256-l3YUrwUEyBBF5/2FWW28oOX5UblmgVFtra/tzKjER/c=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-darwin-x64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-darwin-x64.tar.gz
           targets:
             - cpu: x64
               os: darwin
@@ -6963,9 +7002,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-M8N74jS6i+4EGWEEexkWD019DxZOjiRveL3RD+/xSLM=
+            integrity: sha256-JhryryUN/X6fJc8VHRsnE6Ct+PEKmtEWxJR/aGJ6/+g=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-arm64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-arm64.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -6973,9 +7012,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-nOVyhEUBaynkmtCY96M2Bhql93DRd9knJ4vCb9Ym5kM=
+            integrity: sha256-uksmreH3s/W6Z1aFaBXeWONTdGAE5+RsyDgkOmy/Mpk=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-ppc64le.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-ppc64le.tar.gz
           targets:
             - cpu: ppc64le
               os: linux
@@ -6983,9 +7022,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-cZea6xw4W8jugxANODo7HsClIC4D35+ZanBAMwnK/7U=
+            integrity: sha256-2PhDl8FHjA7QwbKTQ2Ju0PXxoJhd8MWXXDDwwDg2Yx8=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-s390x.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-s390x.tar.gz
           targets:
             - cpu: s390x
               os: linux
@@ -6993,9 +7032,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-myUNKdariuON0jAZ4sBKbWspFqsdrXIcX24dorKQHGo=
+            integrity: sha256-VJm2Y/Yscgk3FdqY9K6m+DQnrYurnPnHXwkk4ORWzhQ=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-x64-musl.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -7004,9 +7043,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-62co53xXajUWLBIsRcyt8iTYn/AKvI2uRswol8YALXw=
+            integrity: sha256-Bh7D4wYhFXBbVrUfqcwzCrUNNLaWk4fU5LGlDGgJrMI=
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-x64.tar.gz
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -7014,10 +7053,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-oMgHMZ/t4kxKDY+EVkyCphm9MTsWsQwAfDg8JgnpkXE=
-            prefix: node-v24.22.1-win-arm64
+            integrity: sha256-s8x0opWznU8nMnHpb1jAbdKzV1fKEqvsZMfQWYtDTxQ=
+            prefix: node-v24.22.3-win-arm64
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-win-arm64.zip
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-win-arm64.zip
           targets:
             - cpu: arm64
               os: win32
@@ -7025,10 +7064,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-0gRtKMLD3NIRrFFFwL8w4gR++d+zBmk8jG4uzNi5X6U=
-            prefix: node-v24.22.1-win-x64
+            integrity: sha256-5hKvmfYmq0FeoiWva85clx/rRIy1yuJQuxw/pQxffZ8=
+            prefix: node-v24.22.3-win-x64
             type: binary
-            url: https://nodejs.org/download/release/v24.22.1/node-v24.22.1-win-x64.zip
+            url: https://nodejs.org/download/release/v24.22.3/node-v24.22.3-win-x64.zip
           targets:
             - cpu: x64
               os: win32
@@ -7036,9 +7075,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-glQSWCWj5eg0vYomDatMgwP3IEZKdBUG7CeYm5uhdps=
+            integrity: sha256-JIyWqE9sgzhka5/XO/ElEkZ4+PsI218jAj9GIFXg7tw=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-arm64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-arm64-musl.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -7047,14 +7086,14 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-Cp7dzi0ujzrdvpT6RtdRMlstdPf9HOYylhZNNrbfxuU=
+            integrity: sha256-LbT4pAq+X1tdEZlkIj/tycTHxefGMpAa6GCvUix4RLI=
             type: binary
-            url: https://unofficial-builds.nodejs.org/download/release/v24.22.1/node-v24.22.1-linux-x64-musl.tar.gz
+            url: https://unofficial-builds.nodejs.org/download/release/v24.22.3/node-v24.22.3-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
               libc: musl
-    version: 24.22.1
+    version: 24.22.3
     hasBin: true
 
   npm-install-checks@9.0.0:
@@ -10522,13 +10561,26 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
+  '@carbon/colors@12.0.0-alpha.4':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+
   '@carbon/feature-flags@1.11.0':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/feature-flags@2.0.0-alpha.3':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/grid@11.65.0':
     dependencies:
       '@carbon/layout': 11.62.0
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/grid@12.0.0-alpha.5':
+    dependencies:
+      '@carbon/layout': 12.0.0-alpha.5
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/ibm-products-styles@2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)':
@@ -10540,7 +10592,16 @@ snapshots:
       '@carbon/type': 11.70.0
       '@ibm/telemetry-js': 1.11.0
 
-  '@carbon/ibm-products@2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)':
+  '@carbon/ibm-products-styles@2.97.0(@carbon/grid@12.0.0-alpha.5)(@carbon/layout@12.0.0-alpha.5)(@carbon/motion@11.55.0)(@carbon/themes@12.0.0-alpha.7)(@carbon/type@11.70.0)':
+    dependencies:
+      '@carbon/grid': 12.0.0-alpha.5
+      '@carbon/layout': 12.0.0-alpha.5
+      '@carbon/motion': 11.55.0
+      '@carbon/themes': 12.0.0-alpha.7
+      '@carbon/type': 11.70.0
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/ibm-products@2.101.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/react@2.0.0-alpha.8(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1))(@carbon/themes@11.84.0)(@carbon/type@11.70.0)(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)':
     dependencies:
       '@babel/runtime': 7.29.7
       '@carbon-labs/react-resizer': 0.25.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -10549,7 +10610,7 @@ snapshots:
       '@carbon/ibm-products-styles': 2.97.0(@carbon/grid@11.65.0)(@carbon/layout@11.62.0)(@carbon/motion@11.55.0)(@carbon/themes@11.84.0)(@carbon/type@11.70.0)
       '@carbon/layout': 11.62.0
       '@carbon/motion': 11.55.0
-      '@carbon/react': 1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)
+      '@carbon/react': 2.0.0-alpha.8(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)
       '@carbon/telemetry': 0.1.0
       '@carbon/themes': 11.84.0
       '@carbon/type': 11.70.0
@@ -10575,9 +10636,13 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
-  '@carbon/icons-react@11.91.0(react@19.3.1)':
+  '@carbon/icon-helpers@11.0.0-alpha.2':
     dependencies:
-      '@carbon/icon-helpers': 10.84.0
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/icons-react@12.0.0-alpha.4(react@19.3.1)':
+    dependencies:
+      '@carbon/icon-helpers': 11.0.0-alpha.2
       '@ibm/telemetry-js': 1.11.0
       prop-types: 15.8.1
       react: 19.3.1
@@ -10586,7 +10651,15 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
+  '@carbon/icons@12.0.0-alpha.4':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+
   '@carbon/layout@11.62.0':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/layout@12.0.0-alpha.5':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
@@ -10594,15 +10667,19 @@ snapshots:
     dependencies:
       '@ibm/telemetry-js': 1.11.0
 
-  '@carbon/react@1.119.0(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)':
+  '@carbon/motion@12.0.0-alpha.5':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/react@2.0.0-alpha.8(react-dom@19.3.1(react@19.3.1))(react-is@18.3.1)(react@19.3.1)(sass@1.107.1)':
     dependencies:
       '@babel/runtime': 8.1.0
-      '@carbon/feature-flags': 1.11.0
-      '@carbon/icons-react': 11.91.0(react@19.3.1)
-      '@carbon/layout': 11.62.0
-      '@carbon/motion': 11.55.0
-      '@carbon/styles': 1.118.0(sass@1.107.1)
-      '@carbon/utilities': 0.28.0
+      '@carbon/feature-flags': 2.0.0-alpha.3
+      '@carbon/icons-react': 12.0.0-alpha.4(react@19.3.1)
+      '@carbon/layout': 12.0.0-alpha.5
+      '@carbon/motion': 12.0.0-alpha.5
+      '@carbon/styles': 2.0.0-alpha.7(sass@1.107.1)
+      '@carbon/utilities': 0.27.0
       '@floating-ui/react': 0.27.20(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@ibm/telemetry-js': 1.11.0
       classnames: 2.5.1
@@ -10643,6 +10720,28 @@ snapshots:
     optionalDependencies:
       sass: 1.107.1
 
+  '@carbon/styles@2.0.0-alpha.7(sass@1.107.1)':
+    dependencies:
+      '@carbon/colors': 12.0.0-alpha.4
+      '@carbon/feature-flags': 2.0.0-alpha.3
+      '@carbon/grid': 12.0.0-alpha.5
+      '@carbon/layout': 12.0.0-alpha.5
+      '@carbon/motion': 12.0.0-alpha.5
+      '@carbon/themes': 12.0.0-alpha.7
+      '@carbon/type': 12.0.0-alpha.5
+      '@ibm/plex': 6.4.1
+      '@ibm/plex-mono': 2.5.0
+      '@ibm/plex-sans': 1.1.0
+      '@ibm/plex-sans-arabic': 1.1.0
+      '@ibm/plex-sans-devanagari': 1.1.0
+      '@ibm/plex-sans-hebrew': 1.1.0
+      '@ibm/plex-sans-thai': 1.1.0
+      '@ibm/plex-sans-thai-looped': 1.1.0
+      '@ibm/plex-serif': 2.0.0
+      '@ibm/telemetry-js': 1.11.0
+    optionalDependencies:
+      sass: 1.107.1
+
   '@carbon/telemetry@0.1.0': {}
 
   '@carbon/themes@11.84.0':
@@ -10653,10 +10752,24 @@ snapshots:
       '@ibm/telemetry-js': 1.11.0
       color: 4.2.3
 
+  '@carbon/themes@12.0.0-alpha.7':
+    dependencies:
+      '@carbon/colors': 12.0.0-alpha.4
+      '@carbon/layout': 12.0.0-alpha.5
+      '@carbon/type': 12.0.0-alpha.5
+      '@ibm/telemetry-js': 1.11.0
+      color: 4.2.3
+
   '@carbon/type@11.70.0':
     dependencies:
       '@carbon/grid': 11.65.0
       '@carbon/layout': 11.62.0
+      '@ibm/telemetry-js': 1.11.0
+
+  '@carbon/type@12.0.0-alpha.5':
+    dependencies:
+      '@carbon/grid': 12.0.0-alpha.5
+      '@carbon/layout': 12.0.0-alpha.5
       '@ibm/telemetry-js': 1.11.0
 
   '@carbon/utilities-react@0.28.0(react@19.3.1)':
@@ -10671,6 +10784,12 @@ snapshots:
       '@internationalized/number': 3.6.8
 
   '@carbon/utilities@0.25.0':
+    dependencies:
+      '@ibm/telemetry-js': 1.11.0
+      '@internationalized/number': 3.6.8
+      temporal-polyfill: 1.0.4
+
+  '@carbon/utilities@0.27.0':
     dependencies:
       '@ibm/telemetry-js': 1.11.0
       '@internationalized/number': 3.6.8
@@ -16832,7 +16951,7 @@ snapshots:
 
   node-watch@0.7.4: {}
 
-  node@runtime:24.22.1: {}
+  node@runtime:24.22.3: {}
 
   npm-install-checks@9.0.0:
     dependencies:

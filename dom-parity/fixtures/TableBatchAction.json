@@ -1,7 +1,7 @@
 {
   "component": "TableBatchAction",
-  "generatedAt": "2026-11-05T19:11:35.182Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.338Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -9,7 +9,10 @@
       "dom": {
         "type": "element",
         "tag": "button",
-        "classes": ["cds--btn", "cds--btn--primary"],
+        "classes": [
+          "cds--btn",
+          "cds--btn--primary"
+        ],
         "attributes": {
           "type": "button"
         },
@@ -22,7 +25,9 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon"],
+            "classes": [
+              "cds--btn__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -71,7 +76,10 @@
       "dom": {
         "type": "element",
         "tag": "button",
-        "classes": ["cds--btn", "cds--btn--secondary"],
+        "classes": [
+          "cds--btn",
+          "cds--btn--secondary"
+        ],
         "attributes": {
           "type": "button"
         },
@@ -84,7 +92,9 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon"],
+            "classes": [
+              "cds--btn__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -151,7 +161,9 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon"],
+            "classes": [
+              "cds--btn__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -200,7 +212,11 @@
       "dom": {
         "type": "element",
         "tag": "button",
-        "classes": ["cds--btn", "cds--btn--disabled", "cds--btn--primary"],
+        "classes": [
+          "cds--btn",
+          "cds--btn--disabled",
+          "cds--btn--primary"
+        ],
         "attributes": {
           "disabled": true,
           "type": "button"
@@ -214,7 +230,9 @@
           {
             "type": "element",
             "tag": "svg",
-            "classes": ["cds--btn__icon"],
+            "classes": [
+              "cds--btn__icon"
+            ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
@@ -265,8 +283,9 @@
         "type": "element",
         "tag": "span",
         "classes": [
+          "cds--autoalign",
           "cds--icon-tooltip",
-          "cds--popover--caret",
+          "cds--popover--auto-align",
           "cds--popover--high-contrast",
           "cds--popover--top",
           "cds--popover-container",
@@ -278,7 +297,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--tooltip-trigger__wrapper"],
+            "classes": [
+              "cds--tooltip-trigger__wrapper"
+            ],
             "attributes": {},
             "style": {},
             "children": [
@@ -343,7 +364,9 @@
           {
             "type": "element",
             "tag": "span",
-            "classes": ["cds--popover"],
+            "classes": [
+              "cds--popover"
+            ],
             "attributes": {
               "aria-hidden": "true",
               "id": "#1",
@@ -354,23 +377,35 @@
               {
                 "type": "element",
                 "tag": "span",
-                "classes": ["cds--popover-content", "cds--tooltip-content"],
+                "classes": [
+                  "cds--popover-content",
+                  "cds--tooltip-content"
+                ],
                 "attributes": {},
-                "style": {},
+                "style": {
+                  "position": "fixed",
+                  "left": "0px",
+                  "top": "0px",
+                  "visibility": "visible",
+                  "transform": "translate(0px, 0px)"
+                },
                 "children": [
                   {
                     "type": "text",
                     "text": "Add item"
+                  },
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--popover--auto-align",
+                      "cds--popover-caret"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
                   }
                 ]
-              },
-              {
-                "type": "element",
-                "tag": "span",
-                "classes": ["cds--popover-caret"],
-                "attributes": {},
-                "style": {},
-                "children": []
               }
             ]
           }

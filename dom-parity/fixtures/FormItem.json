@@ -1,7 +1,7 @@
 {
   "component": "FormItem",
-  "generatedAt": "2026-10-28T11:06:02.735Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.216Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

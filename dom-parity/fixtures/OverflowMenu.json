@@ -1,26 +1,30 @@
 {
   "component": "OverflowMenu",
-  "generatedAt": "2026-10-28T11:06:02.659Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-17T09:38:01.145Z",
+  "carbonReactVersion": "2.0.0-alpha.8",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
       "props": {},
       "dom": {
         "type": "element",
-        "tag": "span",
+        "tag": "div",
         "classes": [
-          "cds--overflow-menu__wrapper"
+          "cds--autoalign",
+          "cds--overflow-menu__container"
         ],
-        "attributes": {},
+        "attributes": {
+          "aria-label": "Overflow menu"
+        },
         "style": {},
         "children": [
           {
             "type": "element",
             "tag": "span",
             "classes": [
+              "cds--autoalign",
               "cds--icon-tooltip",
-              "cds--popover--caret",
+              "cds--popover--auto-align",
               "cds--popover--high-contrast",
               "cds--popover--top",
               "cds--popover-container",
@@ -48,9 +52,10 @@
                       "cds--overflow-menu"
                     ],
                     "attributes": {
-                      "aria-haspopup": "true",
                       "aria-expanded": "false",
+                      "aria-haspopup": "true",
                       "aria-labelledby": "#1",
+                      "tabindex": "0",
                       "type": "button"
                     },
                     "style": {},
@@ -66,11 +71,10 @@
                           "focusable": "false",
                           "preserveAspectRatio": "xMidYMid meet",
                           "fill": "currentColor",
-                          "aria-label": "Options",
                           "width": "16",
                           "height": "16",
                           "viewBox": "0 0 32 32",
-                          "role": "img",
+                          "aria-hidden": "true",
                           "xmlns": "http://www.w3.org/2000/svg"
                         },
                         "style": {},
@@ -138,23 +142,30 @@
                       "cds--tooltip-content"
                     ],
                     "attributes": {},
-                    "style": {},
+                    "style": {
+                      "position": "fixed",
+                      "left": "0px",
+                      "top": "0px",
+                      "visibility": "visible",
+                      "transform": "translate(0px, 0px)"
+                    },
                     "children": [
                       {
                         "type": "text",
-                        "text": "Options"
+                        "text": "Overflow menu"
+                      },
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--popover--auto-align",
+                          "cds--popover-caret"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": []
                       }
                     ]
-                  },
-                  {
-                    "type": "element",
-                    "tag": "span",
-                    "classes": [
-                      "cds--popover-caret"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": []
                   }
                 ]
               }
@@ -175,9 +186,10 @@
           "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -193,11 +205,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -254,15 +265,15 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--btn--sm",
           "cds--layout--size-sm",
           "cds--overflow-menu",
           "cds--overflow-menu--sm"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -278,11 +289,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -339,15 +349,15 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--btn--lg",
           "cds--layout--size-lg",
           "cds--overflow-menu",
           "cds--overflow-menu--lg"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -363,11 +373,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -427,9 +436,10 @@
           "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -445,11 +455,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Settings",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -509,9 +518,10 @@
           "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -521,18 +531,16 @@
             "tag": "svg",
             "classes": [
               "cds--btn__icon",
-              "cds--overflow-menu__icon",
-              "custom-icon"
+              "cds--overflow-menu__icon"
             ],
             "attributes": {
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -593,9 +601,10 @@
           "cds--overflow-menu"
         ],
         "attributes": {
-          "aria-haspopup": "true",
           "aria-expanded": "false",
+          "aria-haspopup": "true",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "disabled": true,
           "type": "button"
         },
@@ -612,11 +621,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -673,14 +681,13 @@
           "cds--btn",
           "cds--btn--ghost",
           "cds--btn--icon-only",
-          "cds--overflow-menu",
-          "cds--overflow-menu--open"
+          "cds--overflow-menu"
         ],
         "attributes": {
+          "aria-expanded": "false",
           "aria-haspopup": "true",
-          "aria-expanded": "true",
-          "aria-controls": "#2",
           "aria-labelledby": "#1",
+          "tabindex": "0",
           "type": "button"
         },
         "style": {},
@@ -696,11 +703,10 @@
               "focusable": "false",
               "preserveAspectRatio": "xMidYMid meet",
               "fill": "currentColor",
-              "aria-label": "Options",
               "width": "16",
               "height": "16",
               "viewBox": "0 0 32 32",
-              "role": "img",
+              "aria-hidden": "true",
               "xmlns": "http://www.w3.org/2000/svg"
             },
             "style": {},
@@ -750,589 +756,35 @@
       "props": {
         "open": true
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Overflow menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu-options__option"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Stop app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu--divider",
-              "cds--overflow-menu-options__option",
-              "cds--overflow-menu-options__option--danger"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Delete app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     },
     "open-flipped": {
       "props": {
         "open": true,
         "flipped": true
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu--flip",
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Overflow menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu-options__option"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Stop app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu--divider",
-              "cds--overflow-menu-options__option",
-              "cds--overflow-menu-options__option--danger"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Delete app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     },
     "open-top": {
       "props": {
         "open": true,
         "direction": "top"
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Overflow menu",
-          "id": "#2",
-          "data-floating-menu-direction": "top"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu-options__option"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Stop app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu--divider",
-              "cds--overflow-menu-options__option",
-              "cds--overflow-menu-options__option--danger"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Delete app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     },
     "open-size-sm": {
       "props": {
         "open": true,
         "size": "sm"
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--layout--size-sm",
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open",
-          "cds--overflow-menu-options--sm"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Overflow menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu-options__option"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Stop app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu--divider",
-              "cds--overflow-menu-options__option",
-              "cds--overflow-menu-options__option--danger"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Delete app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     },
     "open-menu-options-class": {
       "props": {
         "open": true,
         "menuOptionsClass": "custom-menu"
       },
-      "dom": {
-        "type": "element",
-        "tag": "ul",
-        "classes": [
-          "cds--overflow-menu-options",
-          "cds--overflow-menu-options--open",
-          "custom-menu"
-        ],
-        "attributes": {
-          "tabindex": "-1",
-          "role": "menu",
-          "aria-label": "Overflow menu",
-          "id": "#2",
-          "data-floating-menu-direction": "bottom"
-        },
-        "style": {
-          "visibility": "hidden",
-          "top": "0px",
-          "position": "absolute",
-          "opacity": "1"
-        },
-        "children": [
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu-options__option"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Stop app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "element",
-            "tag": "li",
-            "classes": [
-              "cds--overflow-menu--divider",
-              "cds--overflow-menu-options__option",
-              "cds--overflow-menu-options__option--danger"
-            ],
-            "attributes": {
-              "role": "none",
-              "dir": "auto"
-            },
-            "style": {},
-            "children": [
-              {
-                "type": "element",
-                "tag": "button",
-                "classes": [
-                  "cds--overflow-menu-options__btn"
-                ],
-                "attributes": {
-                  "role": "menuitem",
-                  "tabindex": "-1"
-                },
-                "style": {},
-                "children": [
-                  {
-                    "type": "element",
-                    "tag": "div",
-                    "classes": [
-                      "cds--overflow-menu-options__option-content"
-                    ],
-                    "attributes": {},
-                    "style": {},
-                    "children": [
-                      {
-                        "type": "text",
-                        "text": "Delete app"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "dom": null
     }
   }
 }
