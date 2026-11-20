@@ -523,6 +523,29 @@
       "reason": "The close button's tooltip is this addon's Tooltip, whose markup differs from Carbon React's (a <span> trigger wrapper, and the tooltip's id and role on its content rather than the .cds--popover). Tooltip's own; its move onto Popover reworks this markup. A passive modal's close button comes first in its header, as in Carbon React."
     }
   ],
+  "ComposedModal": [
+    {
+      "path": "div.attributes.role",
+      "reason": "Deliberate: this addon's overlay is the native <dialog> itself (opened with showModal()), so the dialog role, its label and modality are the <dialog>'s, not the container's. Carbon React's default ComposedModal puts role=\"dialog\", aria-label and aria-modal on this container <div>."
+    },
+    {
+      "path": "div.attributes.aria-modal",
+      "reason": "Deliberate: this addon's overlay is the native <dialog> itself (opened with showModal()), so the dialog role, its label and modality are the <dialog>'s, not the container's. Carbon React's default ComposedModal puts role=\"dialog\", aria-label and aria-modal on this container <div>."
+    },
+    {
+      "path": "div.attributes.aria-label",
+      "reason": "Deliberate: this addon's overlay is the native <dialog> itself (opened with showModal()), so the dialog role, its label and modality are the <dialog>'s, not the container's. Carbon React's default ComposedModal puts role=\"dialog\", aria-label and aria-modal on this container <div>."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[2] > span[0]",
+      "reason": "The close button's tooltip is this addon's Tooltip, whose markup differs from Carbon React's (a <span> trigger wrapper, and the tooltip's id and role on its content rather than the .cds--popover). Tooltip's own; its move onto Popover reworks this markup."
+    },
+    {
+      "path": "div > div[0] > div[0] > div[1] > span[0]",
+      "variant": "title-only",
+      "reason": "The close button's tooltip is this addon's Tooltip, whose markup differs from Carbon React's (a <span> trigger wrapper, and the tooltip's id and role on its content rather than the .cds--popover). Tooltip's own; its move onto Popover reworks this markup."
+    }
+  ],
   "OverflowMenu": [
     {
       "path": "span > span[0] > div[0]",
