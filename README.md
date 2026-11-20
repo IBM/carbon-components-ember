@@ -23,6 +23,43 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
+Carbon defines its colours only under a theme's class, which the `carbon.theme` service, Carbon React's `GlobalTheme`, puts on `<html>`. Configure it when the app starts, in the application route:
+
+```ts
+import Route from '@ember/routing/route';
+import { service } from '@ember/service';
+import type ThemeService from 'carbon-components-ember/services/theme';
+
+export default class ApplicationRoute extends Route {
+  @service('carbon.theme') declare carbonTheme: ThemeService;
+
+  beforeModel() {
+    this.carbonTheme.configure({ light: 'white', dark: 'g100', preference: 'system' });
+  }
+}
+```
+
+Those are the defaults: it follows the system's light or dark mode until the user picks one. A theme switcher sets `preference` to `'light'`, `'dark'` or `'system'`, and the service saves it in local storage. An app with only one theme puts its class on `<html>` in `index.html` and sets `theme` (`this.carbonTheme.theme = 'g10'`) instead of configuring it.
+
+So a dark theme doesn't flash light while the app loads, an app that configures the service puts this in `index.html`'s `<head>`. Before the page first paints, it applies the saved theme, or on a first visit the defaults on its second line, which have to match the app's `configure()`. Under a strict CSP, allow it by its `'sha256-…'` hash in `script-src`, or give it the page's nonce: Vite adds a placeholder for one when you set `html.cspNonce`, which your server fills in for each response.
+
+```html
+<script>
+try {
+  const { light = 'white', dark = 'g100', preference = 'system' } =
+    JSON.parse(localStorage.getItem('cds-theme')) ?? {};
+  const isDark = preference === 'dark' ||
+    (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  const theme = isDark ? dark : light;
+  if (['white', 'g10', 'g90', 'g100'].includes(theme)) {
+    const { classList } = document.documentElement;
+    classList.remove('cds--white', 'cds--g10', 'cds--g90', 'cds--g100');
+    classList.add('cds--' + theme);
+  }
+} catch {}
+</script>
+```
+
 ## Use
 
 Import components into your `.gts` templates, from the package or from each component's own module. In a classic ember-cli build, use the modules (`carbon-components-ember/components/button`): ember-auto-import bundles everything `carbon-components-ember/components` exports, whichever components you use.
@@ -64,6 +101,8 @@ class Save extends Component {
 ```
 
 That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal.
+
+An [ember-engines](https://ember-engines.com) engine shares them with its host, as it does the router: list `carbon.layers`, `carbon.notifications` and `carbon.theme` in its `dependencies.services`.
 
 ## Use with AI agents
 
