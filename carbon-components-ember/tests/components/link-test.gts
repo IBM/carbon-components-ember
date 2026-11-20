@@ -73,6 +73,27 @@ module('Integration | Component | Link', (hooks) => {
     assert.dom('a.cds--link').hasAttribute('rel', 'noopener');
   });
 
+  test("passes an anchor's attributes to the anchor", async function (assert) {
+    await render(
+      <template>
+        <Link
+          @href="/report.csv"
+          download="report.csv"
+          hreflang="en"
+          referrerpolicy="no-referrer"
+          rel="external"
+        >Report</Link>
+      </template>,
+    );
+
+    assert
+      .dom('a.cds--link')
+      .hasAttribute('download', 'report.csv')
+      .hasAttribute('hreflang', 'en')
+      .hasAttribute('referrerpolicy', 'no-referrer')
+      .hasAttribute('rel', 'external');
+  });
+
   test('should call onClick when clicked', async function (assert) {
     let called = false;
     const onClick = (event: MouseEvent) => {
