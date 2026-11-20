@@ -1,0 +1,1 @@
+.cds--snippet--multi .cds--snippet-container pre:focus{outline:2px solid var(--cds-focus,#0f62fe);outline-offset:-2px}@media screen and (prefers-contrast){.cds--snippet--multi .cds--snippet-container pre:focus{outline-style:dotted}}

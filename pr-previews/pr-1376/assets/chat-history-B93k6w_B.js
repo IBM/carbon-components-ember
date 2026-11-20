@@ -1,0 +1,1 @@
+import{n as r}from"./rolldown-runtime-BpgvRg6H.js";function n(){return(n=r(()=>{}))()}export{n as t};
