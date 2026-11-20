@@ -63,7 +63,7 @@ class Save extends Component {
 }
 ```
 
-That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal.
+That service shows toasts in a `ToastNotificationList`, which you render once in the application template. While a `Modal` is open, the list moves into it, so its toasts can be used over the modal. A toast's `attributes` go on its element, such as an `id` your tests find it by, and its `content` is a component rendered in it: rich text, or a link in a toast with an action.
 
 ## Use with AI agents
 
