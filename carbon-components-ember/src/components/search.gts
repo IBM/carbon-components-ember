@@ -190,14 +190,14 @@ export default class Search extends Component<SearchSignature> {
         {{~@labelText~}}
       </label>
       <input
+        placeholder={{this.placeholder}}
+        disabled={{@disabled}}
         ...attributes
         class="cds--search-input"
         type={{or @type "search"}}
         id={{this.inputId}}
-        placeholder={{this.placeholder}}
         autocomplete={{or @autoComplete "off"}}
         value={{this.boundValue}}
-        disabled={{@disabled}}
         {{this.registerInput}}
         {{this.followValue @value}}
         {{on "input" this.handleInput}}

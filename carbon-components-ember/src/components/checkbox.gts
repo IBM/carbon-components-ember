@@ -82,8 +82,8 @@ export default class Checkbox extends Component<CheckboxSignature> {
         data-contained-checkbox-state="{{if @indeterminate 'mixed' @checked}}"
       >
         <input
-          ...attributes
           disabled={{if @disabled true false}}
+          ...attributes
           id="checkbox-{{this.guid}}"
           readonly={{@readonly}}
           class="cds--checkbox"

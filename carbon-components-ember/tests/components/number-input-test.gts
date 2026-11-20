@@ -267,4 +267,12 @@ module('Integration | Component | NumberInput', (hooks) => {
       .hasAttribute('aria-invalid', 'true')
       .hasAttribute('aria-describedby', find('.cds--form-requirement')!.id);
   });
+
+  test('passes disabled and readonly attributes to the input', async function (assert) {
+    await render(
+      <template><NumberInput @label="Quantity" disabled readonly /></template>,
+    );
+
+    assert.dom('input[type="number"]').hasAttribute('readonly').isDisabled();
+  });
 });
