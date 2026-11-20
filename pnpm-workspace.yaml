@@ -79,37 +79,19 @@ overrides:
   # socket.io-adapter (via testem) pins ws with a ~ range.
   ws@8: ^8.21.0
 
-packageExtensions:
-  # The patch below makes ember-storybook import @mdx-js/react instead of a
-  # bundled copy; this declares the dependency (as its fix upstream does).
-  ember-storybook@0.4.2:
-    dependencies:
-      '@mdx-js/react': ^3.1.0
 patchedDependencies:
-  # Unreleased ember-storybook fixes: a build of upstream main with these
-  # merged, diffed against the published 0.4.2 (dist/*.mjs only):
+  # Unreleased ember-storybook fixes: a build of the 0.5.1 tag with these
+  # merged, diffed against the published 0.5.1 (dist/*.mjs only):
   # - CSF `subcomponents` in the docs Args table
-  #   (ember-integrations/ember-storybook#81)
-  # - `storybook build` waits for the story index, so the docs data (args
-  #   tables, "Show code") isn't empty (ember-integrations/ember-storybook#86)
-  # - one @mdx-js/react shared with the MDX pages, so their code blocks,
-  #   links and headings get Storybook's components
-  #   (ember-integrations/ember-storybook#87)
-  # - "Show code" for stories with a multi-word export name
-  #   (ember-integrations/ember-storybook#78)
-  # - "Show code" for stories that inherit their render from the meta or
-  #   from the story they extend(), or use a helper's
-  #   (ember-integrations/ember-storybook#85)
+  #   (ember-integrations/ember-storybook#81, closed; see #121)
   # - "Show code" for default-exported components uses their own signature
   #   (ember-integrations/ember-storybook#88)
   # - a components manifest for Storybook's MCP addon
   #   (ember-integrations/ember-storybook#89)
   # - the params of a block typed by reference, as one forwarding another
   #   component's block is (ember-integrations/ember-storybook#117)
-  # - block descriptions and yielded components' names in the docs page's
-  #   Blocks table (ember-integrations/ember-storybook#118)
   # Drop once all are released.
-  ember-storybook@0.4.2: patches/ember-storybook@0.4.2.patch
+  ember-storybook@0.5.1: patches/ember-storybook@0.5.1.patch
   # Vite's dependency optimizer hashes every discovered dependency again each
   # time its scan finds another one, so the work grows with the square of the
   # count: minutes on CI for the ~11k @carbon/icons modules our stories import,
@@ -117,3 +99,7 @@ patchedDependencies:
   # is being proposed to Vite; drop this patch, and the exact `vite` pin and
   # Dependabot ignore that go with it, once a release has it (#1057).
   vite@8.3.4: patches/vite@8.3.4.patch
+
+# Newer than pnpm's minimum release age when we moved to it; drop once it's older.
+minimumReleaseAgeExclude:
+  - ember-storybook@0.5.1
