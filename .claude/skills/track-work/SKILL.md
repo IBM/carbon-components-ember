@@ -55,5 +55,5 @@ Projects need the token's `project` scope: `gh auth refresh -s project`.
 
 - Workflows (closed → Done, merged → Done, auto-add, auto-archive) can only be switched on in the project's settings. The API lists and deletes them.
 - Views: `POST /orgs/IBM/projectsV2/<n>/views` creates one (`filter`, `group_by`, `sort_by` and `visible_fields`, by field database id). GraphQL's `updateProjectV2View` renames one and `deleteProjectV2View` deletes one. Views can't be reordered.
-- Replacing a single-select field's options gives them new ids, and workflows that set the old ones stop working. Add or rename options in the UI.
+- GraphQL's `updateProjectV2Field` replaces a single-select field's options with its `singleSelectOptions`. Give each option you keep its `id` to rename or reorder it with its values; an option without one gets a new id, which clears it from items and breaks workflows that set the old one.
 - A new draft item can take a minute to appear in `gh project item-list`.
