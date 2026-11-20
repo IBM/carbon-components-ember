@@ -27,23 +27,6 @@
       "ariaLabel"
     ]
   },
-  "Checkbox": {
-    "missing": [
-      "defaultChecked",
-      "helperText",
-      "id",
-      "invalid",
-      "invalidText",
-      "labelText",
-      "warn",
-      "warnText"
-    ],
-    "extra": [
-      "label",
-      "readonly",
-      "state"
-    ]
-  },
   "ComboBox": {
     "missing": [
       "downshiftActions",

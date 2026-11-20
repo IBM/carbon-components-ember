@@ -2485,6 +2485,11 @@ export const COMPONENTS = [
       checkbox('checked', { checked: true }),
       checkbox('indeterminate', { indeterminate: true }),
       checkbox('disabled', { disabled: true }),
+      checkbox('read-only', { readOnly: true }),
+      checkbox('hide-label', { hideLabel: true }),
+      checkbox('helper-text', { helperText: 'Helper text' }),
+      checkbox('invalid', { invalid: true, invalidText: 'Invalid selection' }),
+      checkbox('warn', { warn: true, warnText: 'Warning message' }),
     ],
   },
   {

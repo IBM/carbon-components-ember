@@ -255,7 +255,7 @@ export default class Feedback extends Component<FeedbackSignature> {
               @disabled={{@isReadonly}}
               @checked={{this.disclaimerChecked}}
               @onChange={{this.handleDisclaimerCheckboxChange}}
-              @label={{@disclaimerCheckbox}}
+              @labelText={{@disclaimerCheckbox}}
             />
           {{/if}}
         </div>

@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, find, rerender } from '@ember/test-helpers';
+import { render, click, find, settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import Checkbox from '#src/components/checkbox.gts';
 
 module('Integration | Component | Checkbox', (hooks) => {
   setupRenderingTest(hooks);
 
   test('renders with a stable, non-empty id linking the label and input on first render', async function (assert) {
-    await render(<template><Checkbox @label="Accept" /></template>);
+    await render(<template><Checkbox @labelText="Accept" /></template>);
 
     const input = find('input.cds--checkbox') as HTMLInputElement;
     const label = find('label.cds--checkbox-label') as HTMLLabelElement;
@@ -26,7 +27,9 @@ module('Integration | Component | Checkbox', (hooks) => {
     };
 
     await render(
-      <template><Checkbox @label="Accept" @onChange={{onChange}} /></template>,
+      <template>
+        <Checkbox @labelText="Accept" @onChange={{onChange}} />
+      </template>,
     );
 
     await click('input.cds--checkbox');
@@ -44,7 +47,11 @@ module('Integration | Component | Checkbox', (hooks) => {
 
     await render(
       <template>
-        <Checkbox @label="Accept" @readonly={{true}} @onChange={{onChange}} />
+        <Checkbox
+          @labelText="Accept"
+          @readOnly={{true}}
+          @onChange={{onChange}}
+        />
       </template>,
     );
 
@@ -54,28 +61,196 @@ module('Integration | Component | Checkbox', (hooks) => {
     assert.strictEqual(calls, 0);
   });
 
-  test('toggles the focus class on the label when the input is focused/blurred', async function (assert) {
-    await render(<template><Checkbox @label="Accept" /></template>);
+  test('takes one tab stop, the input', async function (assert) {
+    await render(<template><Checkbox @labelText="Accept" /></template>);
+
+    assert.dom('label.cds--checkbox-label').doesNotHaveAttribute('tabindex');
+    assert
+      .dom('input.cds--checkbox')
+      .doesNotHaveAttribute('tabindex', 'the input sits beside its label');
+    assert.dom('label.cds--checkbox-label input').doesNotExist();
+  });
+
+  test('@id names the input, which its label points at', async function (assert) {
+    await render(
+      <template><Checkbox @id="terms" @labelText="Accept" /></template>,
+    );
+
+    assert.dom('input.cds--checkbox').hasAttribute('id', 'terms');
+    assert.dom('label.cds--checkbox-label').hasAttribute('for', 'terms');
+  });
+
+  test('@defaultChecked checks it at first, and leaves the rest to it', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @labelText="Accept" @defaultChecked={{true}} />
+      </template>,
+    );
+
+    assert.dom('input.cds--checkbox').isChecked();
+    await click('input.cds--checkbox');
+    assert.dom('input.cds--checkbox').isNotChecked();
+  });
+
+  test('@indeterminate makes it indeterminate', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @labelText="Accept" @indeterminate={{true}} />
+      </template>,
+    );
+
+    assert.true(
+      (find('input.cds--checkbox') as HTMLInputElement).indeterminate,
+    );
+  });
+
+  test('a read-only checkbox is marked so', async function (assert) {
+    await render(
+      <template><Checkbox @labelText="Accept" @readOnly={{true}} /></template>,
+    );
 
     assert
-      .dom('.cds--checkbox-label')
-      .doesNotHaveClass('cds--checkbox-label__focus');
+      .dom('.cds--checkbox-wrapper')
+      .hasClass('cds--checkbox-wrapper--readonly');
+    assert.dom('input.cds--checkbox').hasAttribute('aria-readonly', 'true');
+  });
 
-    find('label.cds--checkbox-label')!.dispatchEvent(new FocusEvent('focus'));
-    await rerender();
-    assert.dom('.cds--checkbox-label').hasClass('cds--checkbox-label__focus');
+  test('@helperText shows under it', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @labelText="Accept" @helperText="You can change it later" />
+      </template>,
+    );
 
-    find('label.cds--checkbox-label')!.dispatchEvent(new FocusEvent('blur'));
-    await rerender();
+    assert.dom('.cds--form__helper-text').hasText('You can change it later');
+  });
+
+  test('@invalid shows @invalidText in place of the helper text', async function (assert) {
+    await render(
+      <template>
+        <Checkbox
+          @labelText="Accept"
+          @helperText="You can change it later"
+          @invalid={{true}}
+          @invalidText="Accept the terms to go on"
+        />
+      </template>,
+    );
+
     assert
-      .dom('.cds--checkbox-label')
-      .doesNotHaveClass('cds--checkbox-label__focus');
+      .dom('.cds--checkbox-wrapper')
+      .hasClass('cds--checkbox-wrapper--invalid');
+    assert.dom('input.cds--checkbox').hasAttribute('data-invalid', 'true');
+    assert
+      .dom('.cds--checkbox__validation-msg .cds--form-requirement')
+      .hasText('Accept the terms to go on');
+    assert.dom('.cds--checkbox__invalid-icon').exists();
+    assert.dom('.cds--form__helper-text').doesNotExist();
+  });
+
+  test('@warn shows @warnText', async function (assert) {
+    await render(
+      <template>
+        <Checkbox
+          @labelText="Accept"
+          @warn={{true}}
+          @warnText="You can't undo this"
+        />
+      </template>,
+    );
+
+    assert
+      .dom('.cds--checkbox-wrapper')
+      .hasClass('cds--checkbox-wrapper--warning');
+    assert
+      .dom('.cds--checkbox__validation-msg .cds--form-requirement')
+      .hasText("You can't undo this");
+    assert.dom('.cds--checkbox__invalid-icon--warning').exists();
+  });
+
+  test('a read-only or disabled checkbox shows no validation message', async function (assert) {
+    await render(
+      <template>
+        <Checkbox
+          @labelText="Accept"
+          @readOnly={{true}}
+          @invalid={{true}}
+          @invalidText="Accept the terms to go on"
+        />
+        <Checkbox
+          @labelText="Accept"
+          @disabled={{true}}
+          @warn={{true}}
+          @warnText="You can't undo this"
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--form-requirement').doesNotExist();
+  });
+
+  test('@indeterminate stays after a click, while it says so', async function (assert) {
+    await render(
+      <template>
+        <Checkbox @labelText="Accept" @indeterminate={{true}} />
+      </template>,
+    );
+
+    await click('input.cds--checkbox');
+    assert.true(
+      (find('input.cds--checkbox') as HTMLInputElement).indeterminate,
+    );
+  });
+
+  test('@checked follows its argument', async function (assert) {
+    const checked = tracked(false);
+    await render(
+      <template>
+        <Checkbox @labelText="Accept" @checked={{checked.value}} />
+      </template>,
+    );
+
+    assert.dom('input.cds--checkbox').isNotChecked();
+    checked.value = true;
+    await settled();
+    assert.dom('input.cds--checkbox').isChecked();
+  });
+
+  test('@title is the label tooltip, and @hideLabel hides the label text', async function (assert) {
+    await render(
+      <template>
+        <Checkbox
+          @labelText="Accept"
+          @title="Accept the terms"
+          @hideLabel={{true}}
+        />
+      </template>,
+    );
+
+    assert
+      .dom('label.cds--checkbox-label')
+      .hasAttribute('title', 'Accept the terms');
+    assert
+      .dom('.cds--checkbox-label-text')
+      .hasClass('cds--visually-hidden')
+      .hasText('Accept');
+  });
+
+  test('the block is the label, in place of @labelText', async function (assert) {
+    await render(
+      <template>
+        <Checkbox>I accept the <strong>terms</strong></Checkbox>
+      </template>,
+    );
+
+    assert.dom('.cds--checkbox-label-text').hasText('I accept the terms');
+    assert.dom('.cds--checkbox-label-text strong').hasText('terms');
   });
 
   test('renders an AI label after its label', async function (assert) {
     await render(
       <template>
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|><AILabel /></:decorator>
         </Checkbox>
       </template>,
@@ -97,7 +272,7 @@ module('Integration | Component | Checkbox', (hooks) => {
   test('the yielded AI label takes the arguments it is given', async function (assert) {
     await render(
       <template>
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|>
             <AILabel @kind="inline" @size="md" />
           </:decorator>
@@ -117,7 +292,7 @@ module('Integration | Component | Checkbox', (hooks) => {
     await render(
       <template>
         <Checkbox
-          @label="Accept"
+          @labelText="Accept"
           @className="my-field"
           class="my-input"
           name="terms"
