@@ -30,6 +30,15 @@ const carbonStylesDependencies = resolve(
 
 let componentStyles = '';
 
+const sassOptions = {
+  loadPaths: [resolve(rootDirectory, 'node_modules'), carbonStylesDependencies],
+  // The files are concatenated, so a `@charset` would land mid-file.
+  charset: false,
+};
+
+// Carbon's own styles for an app's markup, ahead of the components'.
+const carbonStyles = resolve(rootDirectory, 'src/styles.scss');
+
 export default {
   // This provides defaults that work well alongside `publicEntrypoints` below.
   // You can augment this if you need to.
@@ -100,14 +109,7 @@ export default {
       api: 'modern',
       // The Sass that Vite uses for the tests and Storybook.
       runtime: sassEmbedded,
-      options: {
-        loadPaths: [
-          resolve(rootDirectory, 'node_modules'),
-          carbonStylesDependencies,
-        ],
-        // The files are concatenated, so a `@charset` would land mid-file.
-        charset: false,
-      },
+      options: sassOptions,
       // In path order, so the cascade doesn't depend on build order.
       output(_css, styles) {
         componentStyles = styles
@@ -119,11 +121,18 @@ export default {
     {
       // As a Rollup asset, so addon.clean() keeps it.
       name: 'emit-component-styles',
-      generateBundle() {
+      buildStart() {
+        this.addWatchFile(carbonStyles);
+      },
+      async generateBundle() {
+        const { css } = await sassEmbedded.compileAsync(
+          carbonStyles,
+          sassOptions,
+        );
         this.emitFile({
           type: 'asset',
           fileName: 'styles.css',
-          source: componentStyles,
+          source: `${css}\n${componentStyles}`,
         });
       },
     },

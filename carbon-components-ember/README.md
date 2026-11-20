@@ -23,6 +23,8 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
+Besides the components' styles, `styles.css` has what your own markup uses from Carbon that its compiled stylesheet leaves out: the type classes, such as `cds--type-body-01`, and the spacing tokens on `:root`, such as `var(--cds-spacing-05)`. So your app needs no Sass for them. The components are sized in rem against the browser's root font size, 16px unless the user changes it, so don't set one: it would scale all of them.
+
 ## Use
 
 Import components into your `.gts` templates, from the package or from each component's own module. In a classic ember-cli build, use the modules (`carbon-components-ember/components/button`): ember-auto-import bundles everything `carbon-components-ember/components` exports, whichever components you use.

@@ -65,7 +65,7 @@ class="carbon-btn-set"
 
 ### 3. Component Styles
 
-Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass.
+Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass. It starts with `src/styles.scss`: what an app's own markup uses from Carbon that its compiled CSS leaves out (type classes, spacing tokens on `:root`).
 
 ### 4. Component Arguments vs Props
 

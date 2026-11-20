@@ -1,0 +1,19 @@
+/**
+ * Copyright IBM Corp. 2026
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// What an app's own CSS uses from Carbon that its compiled stylesheet leaves
+// out: the type classes, and the spacing tokens on `:root` (it sets them only
+// inside the components that use them).
+@use "@carbon/styles/scss/spacing";
+@use "@carbon/styles/scss/type";
+@include type.type-classes;
+
+:root {
+  @each $name, $value in spacing.$spacing {
+    --cds-#{$name}: #{$value};
+  }
+}
