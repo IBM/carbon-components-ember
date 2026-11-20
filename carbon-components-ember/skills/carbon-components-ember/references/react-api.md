@@ -17,3 +17,4 @@ Carbon's website, its Figma kits and most of what agents know about Carbon descr
 - **`useState`** is a `@tracked` property on a Glimmer component class.
 - **`useRef` and `useEffect`** on an element become a modifier on the component, which `...attributes` forwards to its element.
 - **Conditionals and lists**: `{isOpen && <X />}` is `{{#if this.isOpen}}<X />{{/if}}`, and `items.map((item) => …)` is `{{#each this.items as |item|}}…{{/each}}`.
+- **`<FeatureFlags>` and `useFeatureFlag()`** are the `carbon.feature-flags` service, whose flags apply to the whole app: its `enable('enable-v12-release')` in the application route's `beforeModel()`, and `enabled('enable-v12-autoalign')` to read one.
