@@ -2524,6 +2524,16 @@ export const COMPONENTS = [
       toggle('toggled', { toggled: true }),
       toggle('disabled', { disabled: true }),
       toggle('size-sm', { size: 'sm' }),
+      toggle('read-only', { readOnly: true }),
+      toggle('size-sm-read-only', { size: 'sm', readOnly: true }),
+      toggle('hide-label', { hideLabel: true }),
+      toggle('state-labels', { labelA: 'No', labelB: 'Yes' }),
+      toggle('no-label-text', { labelText: undefined }),
+      toggle('aria-labelledby', {
+        labelText: undefined,
+        hideLabel: true,
+        'aria-labelledby': 'external-label',
+      }),
     ],
   },
   {
