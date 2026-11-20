@@ -2621,7 +2621,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tile><:content>Tile content</:content></Tile>
+          <Tile>Tile content</Tile>
         </template>,
       );
       assertDomParity(
@@ -2641,7 +2641,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tile @clickable={{true}} @href="#"><:content>Clickable tile content</:content></Tile>
+          <Tile @clickable={{true}} @href="#">Clickable tile content</Tile>
         </template>,
       );
       assertDomParity(
@@ -2741,7 +2741,7 @@ module('DOM parity | Carbon React', function (hooks) {
     test('default', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Tile @selectable={{true}}><:content>Selectable tile content</:content></Tile>
+          <Tile @selectable={{true}}>Selectable tile content</Tile>
         </template>,
       );
       assertDomParity(
