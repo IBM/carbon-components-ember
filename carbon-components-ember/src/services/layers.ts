@@ -18,14 +18,24 @@ export default class LayersService extends Service {
   /** The open modals' dialogs, the topmost last. */
   @tracked modals: readonly HTMLDialogElement[] = [];
 
+  /**
+   * Where layers render while no modal is open, instead of `document.body`.
+   * An app's tests set it to their root, `#ember-testing`, so `click`,
+   * `find` and `assert.dom` find an open menu.
+   */
+  @tracked root: Element | null = null;
+
   /** The topmost open modal's dialog. */
   get modal(): HTMLDialogElement | undefined {
     return this.modals.at(-1);
   }
 
-  /** Where to render a layer: the topmost open modal, else `document.body`. */
-  get target(): HTMLElement {
-    return this.modal ?? document.body;
+  /**
+   * Where to render a layer: the topmost open modal, else `root`, else
+   * `document.body`.
+   */
+  get target(): Element {
+    return this.modal ?? this.root ?? document.body;
   }
 
   /**
