@@ -3,6 +3,12 @@ import { createRequire } from 'node:module';
 
 import { defineMain } from 'ember-storybook/node';
 
+import { getIbmAnalyticsHeads } from './ibm-analytics.ts';
+
+const { managerAnalyticsHead, previewAnalyticsHead } = getIbmAnalyticsHeads(
+  'CarbonEmberStorybook',
+);
+
 // The manager (sidebar, toolbar) uses IBM Plex, like @carbon/react's
 // Storybook. Carbon's stylesheet declares the Plex faces (served from IBM's
 // CDN); the preview loads all of it, the manager only needs these rules.
@@ -39,6 +45,7 @@ export default defineMain({
   managerHead: (head) => `${head}
     <link rel="icon" type="image/svg+xml" href="images/ember-carbon-components.svg" />
     <style>${plexFontFaces ?? ''}</style>
+    ${managerAnalyticsHead}
   `,
 
   previewHead: (head) => `${head}
@@ -79,6 +86,7 @@ export default defineMain({
         }
       }
     </style>
+    ${previewAnalyticsHead}
   `,
 
   core: {
