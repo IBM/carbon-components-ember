@@ -49,7 +49,7 @@ Carbon AI Chat's components follow [port-ai-chat-component](.claude/skills/port-
 
 1. Push a branch and open the pull request against `main`. Sign off each commit (`git commit -s`), or the DCO check fails.
 2. Title it as a Conventional Commit, such as `feat: add ButtonSet, as in Carbon React`, with a `!` for a breaking change (`fix!: …`). Pull requests are squash-merged, and the release notes use their titles.
-3. In the template, say what changed and why, with `Closes #N` for the issue it finishes. For an "Update" parity issue, mark the component synced on your branch first (step 11 of implement-component).
+3. In the template, say what changed and why, with `Closes #N` for the issue it finishes. For an "Update" parity issue, mark the component synced on your branch first (step 12 of implement-component).
 4. Give it the labels and milestone [track-work](.claude/skills/track-work/SKILL.md#pull-requests) lists, `preview` included if it changes what renders. Without write access, a maintainer adds them.
 
 CI runs on every push, and `main` needs Lint, Test, ember-latest and Docs to pass, and an approval. CI also compares each story with its screenshot from main, and fails on a difference unless the pull request has the `preview` label, which says the change is meant. A comment on the pull request then lists the stories that differ, each with what changed in it, and the label deploys a preview of the branch's Storybook. CI takes the screenshots on Linux, so locally there's nothing to compare with until you take your own: run `pnpm --filter carbon-components-ember test:storybook --update` on main, then `test:storybook` on your branch.

@@ -151,6 +151,10 @@ function kebabToPascalCase(name) {
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN || process.env.GH_TOKEN,
 });
+// GitHub deprecates creating issues on the default API version, 2022-11-28.
+octokit.hook.before('request', (options) => {
+  options.headers['x-github-api-version'] = '2026-03-10';
+});
 
 /**
  * Fetch the latest release version for a source's upstream repo

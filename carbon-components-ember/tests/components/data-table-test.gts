@@ -180,6 +180,37 @@ module('Integration | Component | DataTable', (hooks) => {
     assert.dom('tbody tr').hasText('John');
   });
 
+  test('@search decides which items match the lowercased term, and may be async', async function (assert) {
+    const search = async (item: (typeof items)[number], term: string) => {
+      await Promise.resolve();
+      return item.b === term;
+    };
+
+    await render(
+      <template>
+        <DataTable @items={{items}} @search={{search}} as |table|>
+          <table.Toolbar as |toolbar|>
+            <toolbar.Content>
+              <table.SearchInput />
+            </toolbar.Content>
+          </table.Toolbar>
+          <table.Table>
+            <table.EachBodyRows as |row|>
+              <row.Row>
+                <table.Column>{{row.item.name}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    await fillIn('input.cds--search-input', 'ASD');
+
+    assert.dom('tbody tr').exists({ count: 1 });
+    assert.dom('tbody tr').hasText('John');
+  });
+
   test('@isLoading renders the table as DataTableSkeleton does', async function (assert) {
     await render(
       <template>

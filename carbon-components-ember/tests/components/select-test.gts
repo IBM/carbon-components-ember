@@ -59,6 +59,20 @@ module('Integration | Component | Select', function (hooks) {
       assert.dom(SELECT).hasAttribute('data-test-id', 'test-id');
     });
 
+    test('passes a disabled attribute to the select', async function (assert) {
+      await render(<template><Select @id="select" disabled /></template>);
+
+      assert.dom(SELECT).isDisabled();
+    });
+
+    test('keeps its own aria-describedby', async function (assert) {
+      await render(
+        <template><Select @id="select" aria-describedby="hint" /></template>,
+      );
+
+      assert.dom(SELECT).hasAttribute('aria-describedby', 'hint');
+    });
+
     test('should render children as expected', async function (assert) {
       await render(
         <template>

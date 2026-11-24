@@ -188,6 +188,9 @@ export default class TimePicker extends Component<TimePickerSignature> {
       >
         <div class="cds--time-picker__input">
           <input
+            placeholder={{this.placeholder}}
+            disabled={{@disabled}}
+            readonly={{@readOnly}}
             ...attributes
             id={{this.id}}
             type={{this.type}}
@@ -198,9 +201,6 @@ export default class TimePicker extends Component<TimePickerSignature> {
               {{if this.isWarn 'cds--time-picker__input-field-error'}}"
             maxlength={{this.maxLength}}
             pattern={{this.pattern}}
-            placeholder={{this.placeholder}}
-            disabled={{@disabled}}
-            readonly={{@readOnly}}
             value={{this.value}}
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}

@@ -268,11 +268,11 @@ export default class Select extends Component<SelectSignature> {
               {{! The title goes first, so a title attribute replaces it. }}
               <select
                 title={{this.title}}
+                disabled={{this.disabled}}
+                aria-describedby={{this.describedBy}}
                 ...attributes
                 id={{this.id}}
                 class="cds--select-input"
-                disabled={{this.disabled}}
-                aria-describedby={{this.describedBy}}
                 aria-invalid={{if this.invalid "true"}}
                 aria-readonly={{if @readOnly "true"}}
                 {{this.syncValue @value}}

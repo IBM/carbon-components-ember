@@ -1,16 +1,11 @@
-import { trackedObject } from '@ember/reactive/collections';
 import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
+import Stack from './stack.gts';
 import Toggle from './toggle.gts';
 import ToggleSkeleton from './toggle-skeleton.gts';
+import '#storybook/styles/toggle.css';
 
-// Carbon React parity gaps (Components/Toggle):
-// - The label is `@name`; there is no `labelText`/`hideLabel`, and the
-//   state text is always "On"/"Off" (no `labelA`/`labelB`).
-// - `WithAccessibleLabels`: there's no `hideLabel`.
-// - React's `toggled`/`defaultToggled` + `onToggle` are a single controlled
-//   `@value` + `@onChange` here; there is no uncontrolled mode.
 const meta = preview.meta({
   title: 'Components/Toggle',
   component: Toggle,
@@ -18,7 +13,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'A toggle is used to quickly switch between two possible states.\n\nToggle is controlled: pass `@value` and update it from `@onChange`, which receives the new value. `@name` is the visible label.',
+          'A toggle is used to quickly switch between two possible states.\n\n`@labelText` labels it, and `@labelA` and `@labelB` name its off and on states. `@defaultToggled` sets its first state, and `@onToggle` is called with the new one; pass `@toggled` to control it instead.',
       },
     },
   },
@@ -26,48 +21,43 @@ const meta = preview.meta({
     size: { control: 'inline-radio', options: ['sm', 'md'] },
   },
   args: {
-    name: 'Label',
-    value: true,
-    onChange: fn(),
+    labelText: 'Label',
+    labelA: 'Off',
+    labelB: 'On',
+    defaultToggled: true,
+    onToggle: fn(),
   },
-  // Keep the value in story-local tracked state, seeded from the `value`
-  // arg, and report every change to the `onChange` action.
-  render: (args) => {
-    const state = trackedObject({ value: args.value });
-    const onChange = (value: boolean) => {
-      state.value = value;
-      args.onChange?.(value);
-    };
-
-    return <template>
-      <Toggle
-        @name={{args.name}}
-        @size={{args.size}}
-        @disabled={{args.disabled}}
-        @readonly={{args.readonly}}
-        @value={{state.value}}
-        @onChange={{onChange}}
-      />
-    </template>;
-  },
+  render: (args) => <template>
+    <Toggle
+      @labelText={{args.labelText}}
+      @labelA={{args.labelA}}
+      @labelB={{args.labelB}}
+      @defaultToggled={{args.defaultToggled}}
+      @hideLabel={{args.hideLabel}}
+      @size={{args.size}}
+      @disabled={{args.disabled}}
+      @readOnly={{args.readOnly}}
+      @onToggle={{args.onToggle}}
+    />
+  </template>,
 });
 
 export const Default = meta.story();
 
 Default.test(
-  'switches state and reports it through onChange',
+  'switches state and reports it through onToggle',
   async ({ canvas, userEvent, args }) => {
     const toggle = canvas.getByRole('switch', { name: 'Label' });
     await expect(toggle).toBeChecked();
 
     await userEvent.click(toggle);
     await expect(toggle).not.toBeChecked();
-    await expect(args.onChange).toHaveBeenLastCalledWith(false);
+    await expect(args.onToggle).toHaveBeenLastCalledWith(false);
     await expect(canvas.getByText('Off')).toBeInTheDocument();
 
     await userEvent.click(toggle);
     await expect(toggle).toBeChecked();
-    await expect(args.onChange).toHaveBeenLastCalledWith(true);
+    await expect(args.onToggle).toHaveBeenLastCalledWith(true);
   },
 );
 
@@ -77,41 +67,71 @@ export const SmallToggle = meta.story({
   },
 });
 
-export const Off = meta.story({
-  args: {
-    name: 'toggle is off',
-    value: false,
+export const WithAccessibleLabels = meta.story({
+  parameters: {
+    controls: { disable: true },
   },
+  render: () => <template>
+    <Stack @gap={{7}}>
+      <Toggle @id="toggle-4" @labelText="Label" />
+      <Toggle @id="toggle-5" @labelText="Label" @hideLabel={{true}} />
+      <div>
+        <div id="toggle-6-label" class="toggle-story__label">Internal aria-label
+          toggle</div>
+        <Toggle @id="toggle-6" aria-labelledby="toggle-6-label" />
+      </div>
+      <div>
+        <label
+          id="toggle-7-label"
+          for="toggle-7"
+          class="toggle-story__label toggle-story__label--block"
+        >External toggle label</label>
+        <Toggle @id="toggle-7" aria-labelledby="toggle-7-label" />
+      </div>
+    </Stack>
+  </template>,
+});
+
+WithAccessibleLabels.test('names each switch', async ({ canvas }) => {
+  await expect(canvas.getAllByRole('switch', { name: 'Label' })).toHaveLength(
+    2,
+  );
+  await expect(
+    canvas.getByRole('switch', { name: 'Internal aria-label toggle' }),
+  ).toBeInTheDocument();
+  await expect(
+    canvas.getByRole('switch', { name: 'External toggle label' }),
+  ).toBeInTheDocument();
 });
 
 export const Disabled = meta.story({
   args: {
-    name: 'toggle is disabled',
-    value: false,
+    labelText: 'toggle is disabled',
+    defaultToggled: false,
     disabled: true,
   },
 });
 
 export const ReadOnly = meta.story({
   args: {
-    name: 'toggle is readonly',
-    value: false,
-    readonly: true,
+    labelText: 'toggle is read-only',
+    defaultToggled: false,
+    readOnly: true,
   },
   parameters: {
     docs: {
       description: {
-        story: 'A read-only toggle ignores clicks and never calls `@onChange`.',
+        story: 'A read-only toggle ignores clicks and never calls `@onToggle`.',
       },
     },
   },
 });
 
 ReadOnly.test('ignores clicks', async ({ canvas, userEvent, args }) => {
-  const toggle = canvas.getByRole('switch', { name: 'toggle is readonly' });
+  const toggle = canvas.getByRole('switch', { name: 'toggle is read-only' });
   await userEvent.click(toggle);
   await expect(toggle).not.toBeChecked();
-  await expect(args.onChange).not.toHaveBeenCalled();
+  await expect(args.onToggle).not.toHaveBeenCalled();
 });
 
 export const Skeleton = meta.story({

@@ -257,14 +257,14 @@ export default class NumberInput extends Component<NumberInputSignature> {
         >
           <input
             aria-describedby={{this.describedBy}}
+            disabled={{this.field.disabled}}
+            readonly={{@readOnly}}
             ...attributes
             id={{this.id}}
             type="number"
             data-invalid={{if this.isInvalid "true"}}
             aria-invalid={{if this.isInvalid "true" "false"}}
             aria-readonly={{if @readOnly "true"}}
-            disabled={{this.field.disabled}}
-            readonly={{@readOnly}}
             min={{@min}}
             max={{@max}}
             step={{this.step}}

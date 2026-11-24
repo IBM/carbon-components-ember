@@ -5,13 +5,21 @@ import { expect, waitFor, within } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import Button from '../button.gts';
+import Link from '../link.gts';
 import Modal from '../modal.gts';
 import Stack from '../stack.gts';
 import ToastNotificationList from './toast-notification-list.gts';
 
 import type NotificationService from '../../services/notifications.ts';
+import type { TOC } from '@ember/component/template-only';
 
 // Ember-only: Carbon React leaves showing toasts to the app.
+
+// What a toast's `content` renders, after its text. A link goes in a toast
+// with an action, which takes focus.
+const TrashLink: TOC<object> = <template>
+  <Link @href="#" @inline={{true}}>Open the trash</Link>
+</template>;
 
 class ToastsDemo extends Component {
   @service('carbon.notifications') declare notifications: NotificationService;
@@ -20,6 +28,7 @@ class ToastsDemo extends Component {
     this.notifications.success({
       title: 'Changes saved',
       subtitle: 'Your settings are up to date.',
+      attributes: { 'data-test-toast': 'saved' },
     });
   };
 
@@ -34,6 +43,7 @@ class ToastsDemo extends Component {
     const toast = this.notifications.info({
       title: 'Project deleted',
       actionButtonLabel: 'Undo',
+      content: TrashLink,
       onActionButtonClick: () => this.notifications.remove(toast),
     });
   };
@@ -87,7 +97,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Shows toasts from anywhere in an app. Render a `ToastNotificationList` once, in the application template, and add toasts through the `carbon.notifications` service: `info`, `success`, `warning` and `error` take a `ToastNotification`'s arguments and return the toast, `add` takes its `kind` too, and `remove` and `clear` close toasts. A toast with an `actionButtonLabel` is an `ActionableNotification`, which takes focus. Toasts stack at the top right, newest first; while a `Modal` is open, the list moves into it. `info` and `success` toasts close after 5 seconds unless they set a `timeout`; errors, warnings and toasts with an action stay until closed.",
+          "Shows toasts from anywhere in an app. Render a `ToastNotificationList` once, in the application template, and add toasts through the `carbon.notifications` service: `info`, `success`, `warning` and `error` take a `ToastNotification`'s arguments and return the toast, `add` takes its `kind` too, and `remove` and `clear` close toasts. A toast with an `actionButtonLabel` is an `ActionableNotification`, which takes focus. A toast's `attributes` go on its element, for an `id` or a `data-test-` attribute to find it by, and its `content` is a component rendered in it, after its text, as Carbon React's children: rich text, or a link in a toast with an action. Toasts stack at the top right, newest first; while a `Modal` is open, the list moves into it. `info` and `success` toasts close after 5 seconds unless they set a `timeout`; errors, warnings and toasts with an action stay until closed.",
       },
       story: { inline: false, iframeHeight: '320px' },
     },
