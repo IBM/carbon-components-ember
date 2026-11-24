@@ -43,6 +43,7 @@ import InlineCheckbox from '#src/components/inline-checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
+import type { ToggleSignature } from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
@@ -3389,70 +3390,70 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Toggle', function () {
-    // @value={{false}} is passed explicitly (rather than left absent) on the
-    // non-toggled variants below because Glimmer's `aria-checked='{{@value}}'`
-    // binding omits the attribute entirely when the interpolated value is
-    // undefined - matching upstream's own `aria-checked` (which always
-    // reflects `checked`, defaulting to false) needs a real `false`, not an
-    // absent arg.
-    test('default', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template><Toggle @name="Toggle label" @value={{false}} /></template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'default',
-        this.element.firstElementChild,
-      );
-    });
+    // The props dom-parity/lib/components.mjs renders each variant with,
+    // besides its `id` and `labelText`.
+    const variants: Record<string, ToggleSignature['Args']> = {
+      default: {},
+      toggled: { toggled: true },
+      disabled: { disabled: true },
+      'size-sm': { size: 'sm' },
+      'read-only': { readOnly: true },
+      'size-sm-read-only': { size: 'sm', readOnly: true },
+      'hide-label': { hideLabel: true },
+      'state-labels': { labelA: 'No', labelB: 'Yes' },
+      'no-label-text': { labelText: undefined },
+    };
 
-    test('toggled', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template><Toggle @name="Toggle label" @value={{true}} /></template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'toggled',
-        this.element.firstElementChild,
-      );
-    });
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const labelText =
+          'labelText' in props ? props.labelText : 'Toggle label';
+        await render(
+          <template>
+            <Toggle
+              @id="toggle-1"
+              @labelText={{labelText}}
+              @toggled={{props.toggled}}
+              @disabled={{props.disabled}}
+              @size={{props.size}}
+              @readOnly={{props.readOnly}}
+              @hideLabel={{props.hideLabel}}
+              @labelA={{props.labelA}}
+              @labelB={{props.labelB}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          toggleFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
 
-    test('disabled', async function (this: RenderingTestContext, assert) {
+    test('aria-labelledby', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Toggle @name="Toggle label" @value={{false}} @disabled={{true}} />
+          <Toggle
+            @id="toggle-1"
+            @hideLabel={{true}}
+            aria-labelledby="external-label"
+          />
         </template>,
       );
       assertDomParity(
         assert,
         toggleFixture,
-        'disabled',
-        this.element.firstElementChild,
-      );
-    });
-
-    test('size-sm', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Toggle @name="Toggle label" @value={{false}} @size="sm" />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'size-sm',
+        'aria-labelledby',
         this.element.firstElementChild,
       );
     });
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, toggleFixture, [
-        'default',
-        'toggled',
-        'disabled',
-        'size-sm',
+        ...Object.keys(variants),
+        'aria-labelledby',
       ]);
     });
   });
