@@ -1032,6 +1032,48 @@ const modal = (name, props) => ({
   pickRoot: (container) => container.querySelector('.cds--modal-container'),
 });
 
+// ComposedModal from its parts, compared from the container in, as Modal is,
+// without the focus sentinels either side of its body: our native <dialog>
+// keeps focus in without them. `header`, `body` and `footer` hold its parts'
+// props; a `footer` of `null` leaves it out, which makes the modal passive.
+const composedModal = (name, { header, body, footer, ...props } = {}) => ({
+  name,
+  props: { ...props, header, body, footer },
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.ComposedModal,
+      { open: true, ...props },
+      React.createElement(Carbon.ModalHeader, {
+        label: 'Account resources',
+        title: 'Add a custom domain',
+        ...header,
+      }),
+      React.createElement(
+        Carbon.ModalBody,
+        body,
+        React.createElement('p', null, 'Content'),
+      ),
+      footer === null
+        ? null
+        : React.createElement(Carbon.ModalFooter, {
+            primaryButtonText: 'Add',
+            secondaryButtonText: 'Cancel',
+            ...footer,
+          }),
+    ),
+  pickRoot: (container) => {
+    const root = container
+      .querySelector('.cds--modal-container')
+      .cloneNode(true);
+    for (const sentinel of root.querySelectorAll(
+      ':scope > button.cds--visually-hidden',
+    )) {
+      sentinel.remove();
+    }
+    return root;
+  },
+});
+
 // Two items, the second a danger item after a divider. `trigger` variants
 // compare the button, which the tooltip's wrapper would hide (its tag
 // differs), and `menu` ones the open menu, which FloatingMenu portals out of
@@ -1236,21 +1278,11 @@ const layer = (name, props) => ({
     React.createElement(Carbon.Layer, props, 'Layer content'),
 });
 
-// Upstream's `theme` prop has no default of its own - a theme-less render
-// only ever applies `cds--layer-one` (none of the `cds--white`/`g10`/`g90`/
-// `g100` branches match `undefined`). Ember's `Theme` always defaults
-// `@theme` to `'white'`, so every variant here passes an explicit `theme`
-// (matching what Ember always effectively renders) rather than comparing
-// against upstream's genuinely different theme-less shape.
 const theme = (name, props) => ({
   name,
   props,
   createElement: (React, Carbon) =>
-    React.createElement(
-      Carbon.Theme,
-      { theme: 'white', ...props },
-      'Theme content',
-    ),
+    React.createElement(Carbon.Theme, props, 'Theme content'),
 });
 
 // Rendered standalone, with no ambient `TextDirectionContext` - matching
@@ -2529,6 +2561,16 @@ export const COMPONENTS = [
       toggle('toggled', { toggled: true }),
       toggle('disabled', { disabled: true }),
       toggle('size-sm', { size: 'sm' }),
+      toggle('read-only', { readOnly: true }),
+      toggle('size-sm-read-only', { size: 'sm', readOnly: true }),
+      toggle('hide-label', { hideLabel: true }),
+      toggle('state-labels', { labelA: 'No', labelB: 'Yes' }),
+      toggle('no-label-text', { labelText: undefined }),
+      toggle('aria-labelledby', {
+        labelText: undefined,
+        hideLabel: true,
+        'aria-labelledby': 'external-label',
+      }),
     ],
   },
   {
@@ -2695,6 +2737,30 @@ export const COMPONENTS = [
         hasScrollingContent: true,
         primaryButtonText: 'Add',
       }),
+    ],
+  },
+  {
+    name: 'ComposedModal',
+    variants: [
+      composedModal('default'),
+      composedModal('title-only', { header: { label: undefined } }),
+      composedModal('passive', { footer: null }),
+      composedModal('danger', {
+        danger: true,
+        footer: { primaryButtonText: 'Delete' },
+      }),
+      composedModal('three-buttons', {
+        footer: {
+          secondaryButtons: [
+            { buttonText: 'Keep both' },
+            { buttonText: 'Cancel' },
+          ],
+        },
+      }),
+      composedModal('size-sm', { size: 'sm' }),
+      composedModal('full-width', { isFullWidth: true }),
+      composedModal('form', { body: { hasForm: true } }),
+      composedModal('scrolling', { body: { hasScrollingContent: true } }),
     ],
   },
   {
@@ -2865,6 +2931,8 @@ export const COMPONENTS = [
   {
     name: 'Theme',
     variants: [
+      // Without a theme it keeps the one around it: only `cds--layer-one`.
+      theme('default', {}),
       theme('white', { theme: 'white' }),
       theme('g10', { theme: 'g10' }),
       theme('g90', { theme: 'g90' }),

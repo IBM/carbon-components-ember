@@ -84,6 +84,56 @@ module('Integration | Component | ToastNotificationList', (hooks) => {
     assert.dom('.cds--toast-notification').exists({ count: 1 });
   });
 
+  test("puts a toast's attributes on its element, and renders its content in it", async function (assert) {
+    const service = this.owner.lookup('service:carbon.notifications');
+    const Content = <template>
+      <strong>3 files</strong> saved
+    </template>;
+    await render(<template><ToastNotificationList /></template>);
+
+    service.success({
+      title: 'Changes saved',
+      timeout: 0,
+      attributes: {
+        id: 'saved',
+        'data-test-toast': 'saved',
+        class: 'my-toast',
+        role: 'alert',
+      },
+      content: Content,
+    });
+    await waitUntil(() => find('.cds--toast-notification'));
+
+    assert
+      .dom('#saved')
+      .hasClass('cds--toast-notification', 'its own classes stay')
+      .hasClass('my-toast')
+      .hasAttribute('data-test-toast', 'saved')
+      .hasAttribute('role', 'status', 'its role is the toast role');
+    assert
+      .dom('#saved .cds--toast-notification__details strong')
+      .hasText('3 files');
+  });
+
+  test('a toast with an action takes attributes and content too', async function (assert) {
+    const service = this.owner.lookup('service:carbon.notifications');
+    const Content = <template>
+      <a href="/trash">Open the trash</a>
+    </template>;
+    await render(<template><ToastNotificationList /></template>);
+
+    service.info({
+      title: 'Project deleted',
+      actionButtonLabel: 'Undo',
+      attributes: { id: 'deleted' },
+      content: Content,
+    });
+    await waitUntil(() => find('.cds--actionable-notification'));
+
+    assert.dom('#deleted').hasClass('cds--actionable-notification');
+    assert.dom('#deleted a').hasText('Open the trash');
+  });
+
   test('keeps a toast whose onClose returns false', async function (assert) {
     const service = this.owner.lookup('service:carbon.notifications');
     await render(<template><ToastNotificationList /></template>);

@@ -7,6 +7,7 @@ import {
   settled,
   triggerKeyEvent,
 } from '@ember/test-helpers';
+import type { RenderingTestContext } from '@ember/test-helpers/setup-rendering-context';
 import { tracked } from '@glimmer/tracking';
 import Menu from '#src/components/menu.gts';
 import Modal from '#src/components/modal.gts';
@@ -18,14 +19,11 @@ import { waitForAnimationFrame } from '../helpers';
 module('Integration | Component | Menu', (hooks) => {
   setupRenderingTest(hooks);
 
-  // Menu (the root Menu, at least) renders via `{{in-element}}` into
-  // `document.body` by default, which is outside `#ember-testing`'s
-  // rendering-test container - the same reason portal-test.gts avoids
-  // exercising its own `document.body` default. Rendering there directly via
-  // a real `render()` call corrupts `#qunit-fixture` on teardown and breaks
-  // later tests in the suite, so every test here points `@target` at a
-  // dedicated container appended to `document.body` instead, and queries
-  // scope to that container rather than the default rendering-test root.
+  // The root Menu renders via `{{in-element}}` into `document.body` by
+  // default, outside the rendering-test root, and rendering there corrupts
+  // `#qunit-fixture` on teardown. So tests point `@target` at a container of
+  // their own and query within it, or set the `carbon.layers` service's
+  // `root` to the rendering-test root.
   hooks.beforeEach(function (this: { container: HTMLElement }) {
     this.container = document.createElement('div');
     document.body.appendChild(this.container);
@@ -83,6 +81,23 @@ module('Integration | Component | Menu', (hooks) => {
     assert.dom('[role="menuitem"]', this.container).exists({ count: 2 });
     assert.dom('[role="separator"]', this.container).exists({ count: 1 });
     assert.dom('.cds--menu-item--danger', this.container).exists({ count: 1 });
+  });
+
+  test("renders in the carbon.layers service's root, where tests look", async function (this: RenderingTestContext, assert) {
+    const layers = this.owner.lookup('service:carbon.layers');
+    layers.root = document.querySelector('#ember-testing');
+
+    await render(
+      <template>
+        <Menu @label="Test menu" @open={{true}} as |MenuItem|>
+          <MenuItem @label="Cut" />
+        </Menu>
+      </template>,
+    );
+    await waitForAnimationFrame();
+
+    assert.dom('[role="menu"]').exists();
+    await click('[role="menuitem"]');
   });
 
   test('clicking an item invokes @onClick and closes the menu via @onClose', async function (this: {

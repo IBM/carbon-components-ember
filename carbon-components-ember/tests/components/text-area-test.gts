@@ -21,6 +21,27 @@ module('Integration | Component | TextArea', (hooks) => {
     assert.dom('label.cds--label').hasText('Comments');
   });
 
+  test('passes placeholder, cols, disabled and readonly attributes to the textarea', async function (assert) {
+    await render(
+      <template>
+        <TextArea
+          @labelText="Comments"
+          placeholder="Say more"
+          cols="20"
+          disabled
+          readonly
+        />
+      </template>,
+    );
+
+    assert
+      .dom('textarea.cds--text-area')
+      .hasAttribute('placeholder', 'Say more')
+      .hasAttribute('cols', '20')
+      .hasAttribute('readonly')
+      .isDisabled();
+  });
+
   test('should hide the label visually when hideLabel is set', async function (assert) {
     await render(
       <template><TextArea @labelText="Hidden" @hideLabel={{true}} /></template>,

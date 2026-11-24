@@ -179,6 +179,22 @@ module('Integration | Component | Modal', function (hooks) {
       assert.strictEqual(keep.calls.length, 0);
     });
 
+    test('an empty @secondaryButtons renders no secondary button, as Carbon React', async function (assert) {
+      const secondaryButtons: [] = [];
+      await render(
+        <template>
+          <Modal
+            @open={{true}}
+            @primaryButtonText="Add"
+            @secondaryButtonText="Cancel"
+            @secondaryButtons={{secondaryButtons}}
+          />
+        </template>,
+      );
+
+      assert.dom('.cds--btn--secondary').doesNotExist();
+    });
+
     test('@alert makes it an alertdialog described by its body', async function (assert) {
       await render(
         <template><Modal @open={{true}} @alert={{true}} /></template>,

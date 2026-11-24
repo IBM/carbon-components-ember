@@ -17,6 +17,12 @@ module('Integration | Component | Checkbox', (hooks) => {
     assert.strictEqual(label.getAttribute('for'), input.id);
   });
 
+  test('passes a disabled attribute to the input', async function (assert) {
+    await render(<template><Checkbox @labelText="Accept" disabled /></template>);
+
+    assert.dom('input.cds--checkbox').isDisabled();
+  });
+
   test('calls onChange with the change event, the checked state and the id, as Carbon React does', async function (assert) {
     let received: [Event, { checked: boolean; id: string }] | undefined;
     const onChange = (

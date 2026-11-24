@@ -198,4 +198,23 @@ module('Integration | Component | PasswordInput', (hooks) => {
       .hasAttribute('aria-errormessage', error.id)
       .hasAttribute('aria-describedby', error.id);
   });
+
+  test('passes placeholder, disabled and readonly attributes to the input', async function (assert) {
+    await render(
+      <template>
+        <PasswordInput
+          @labelText="Password"
+          placeholder="Your password"
+          disabled
+          readonly
+        />
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--password-input')
+      .hasAttribute('placeholder', 'Your password')
+      .hasAttribute('readonly')
+      .isDisabled();
+  });
 });

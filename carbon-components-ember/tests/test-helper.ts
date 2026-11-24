@@ -12,9 +12,11 @@ import {
   failOnCspViolations,
   installCarbonStyles,
 } from './helpers/index.ts';
+import '#src/styles.scss';
 
-// `@carbon/styles` itself, ahead of the components' own stylesheets (which
-// they import) as in an app.
+// `@carbon/styles` itself, ahead of the addon's stylesheets (its type
+// classes and spacing tokens above, and the ones its components import) as
+// in an app.
 // Style snapshots turn it off for their unstyled baseline; turn it back on
 // after every test in case one failed before doing so itself.
 installCarbonStyles();

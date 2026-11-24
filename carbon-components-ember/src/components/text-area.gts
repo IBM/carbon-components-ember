@@ -174,6 +174,10 @@ export default class TextArea extends Component<TextAreaSignature> {
           maxlength={{this.maxLength}}
           aria-describedby={{this.describedBy}}
           aria-errormessage={{if this.isInvalid this.field.invalidId}}
+          placeholder={{@placeholder}}
+          disabled={{@disabled}}
+          cols={{@cols}}
+          readonly={{@readOnly}}
           ...attributes
           id={{this.id}}
           class="cds--text-area
@@ -181,10 +185,6 @@ export default class TextArea extends Component<TextAreaSignature> {
             {{if this.isInvalid 'cds--text-area--invalid'}}
             {{if this.isWarn 'cds--text-area--warn'}}"
           rows={{this.rows}}
-          cols={{@cols}}
-          placeholder={{@placeholder}}
-          disabled={{@disabled}}
-          readonly={{@readOnly}}
           aria-invalid={{if this.isInvalid "true" "false"}}
           aria-readonly={{if @readOnly "true"}}
           data-invalid={{if this.isInvalid "true"}}
