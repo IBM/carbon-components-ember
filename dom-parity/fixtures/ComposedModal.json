@@ -1,0 +1,2510 @@
+{
+  "component": "ComposedModal",
+  "generatedAt": "2026-11-24T10:42:31.151Z",
+  "carbonReactVersion": "1.121.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "title-only": {
+      "props": {
+        "header": {}
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#2",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#2",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "passive": {
+      "props": {
+        "footer": null
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover--open",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "false",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "danger": {
+      "props": {
+        "danger": true,
+        "footer": {
+          "primaryButtonText": "Delete"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--danger"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Delete"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "three-buttons": {
+      "props": {
+        "footer": {
+          "secondaryButtons": [
+            {
+              "buttonText": "Keep both"
+            },
+            {
+              "buttonText": "Cancel"
+            }
+          ]
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer",
+                  "cds--modal-footer--three-button"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Keep both"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm": {
+      "props": {
+        "size": "sm"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container",
+          "cds--modal-container--sm"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "full-width": {
+      "props": {
+        "isFullWidth": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container",
+          "cds--modal-container--full-width"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "form": {
+      "props": {
+        "body": {
+          "hasForm": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-content--with-form",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "scrolling": {
+      "props": {
+        "body": {
+          "hasScrollingContent": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "div",
+        "classes": [
+          "cds--modal-container"
+        ],
+        "attributes": {
+          "role": "dialog",
+          "aria-modal": "true",
+          "aria-label": "Account resources"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--modal-container-body"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--modal-header"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__label",
+                      "cds--type-delta"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Account resources"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--modal-header__heading",
+                      "cds--type-beta"
+                    ],
+                    "attributes": {
+                      "id": "#2"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add a custom domain"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--modal-close-button"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "span",
+                        "classes": [
+                          "cds--icon-tooltip",
+                          "cds--popover--caret",
+                          "cds--popover--high-contrast",
+                          "cds--popover--left",
+                          "cds--popover-container",
+                          "cds--tooltip"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "div",
+                            "classes": [
+                              "cds--tooltip-trigger__wrapper"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--btn",
+                                  "cds--btn--icon-only",
+                                  "cds--btn--primary",
+                                  "cds--modal-close"
+                                ],
+                                "attributes": {
+                                  "aria-label": "Close",
+                                  "aria-labelledby": "#3",
+                                  "type": "button"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--modal-close__icon"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "aria-hidden": "true",
+                                      "width": "20",
+                                      "height": "20",
+                                      "viewBox": "0 0 32 32",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--popover"
+                            ],
+                            "attributes": {
+                              "aria-hidden": "true",
+                              "id": "#3",
+                              "role": "tooltip"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-content",
+                                  "cds--tooltip-content"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Close"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "span",
+                                "classes": [
+                                  "cds--popover-caret"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--layer-two",
+                  "cds--modal-content",
+                  "cds--modal-scroll-content",
+                  "cds--modal-scroll-content--no-fade"
+                ],
+                "attributes": {
+                  "tabindex": "0",
+                  "role": "region",
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "p",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Content"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--btn-set",
+                  "cds--modal-footer"
+                ],
+                "attributes": {
+                  "aria-busy": "false"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--secondary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Cancel"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "button",
+                    "classes": [
+                      "cds--btn",
+                      "cds--btn--primary"
+                    ],
+                    "attributes": {
+                      "type": "button"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Add"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

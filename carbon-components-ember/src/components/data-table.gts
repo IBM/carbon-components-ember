@@ -9,8 +9,6 @@ import Menu from './data-table/-menu.gts';
 import { modifier } from 'ember-modifier';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { A } from '@ember/array';
-import type { NativeArray } from '@ember/array';
 import { task } from 'ember-concurrency';
 import type TableToolbarComponent from '../components/data-table/-toolbar.gts';
 import type TableSearchComponent from '../components/data-table/-search-input.gts';
@@ -74,7 +72,7 @@ class TrackedSet<T> extends Set<T> {
 class State<T> {
   @tracked currentItemsSlice?: ItemsSlice = undefined;
   @tracked currentSearchTerm?: string = undefined;
-  @tracked currentSearch?: NativeArray<T> = undefined;
+  @tracked currentSearch?: T[] = undefined;
   @tracked selectedItems = new TrackedSet<T>();
 }
 
@@ -83,7 +81,8 @@ export interface DataTableSignature<T> {
   Args: {
     onSelectionChange?: (items: T[]) => void;
     registerState?: (state: State<T>) => void;
-    search?: () => Promise<boolean>;
+    /** Whether an item matches the search term; it may be async. */
+    search?: (item: T, term: string) => boolean | Promise<boolean>;
     state?: State<T>;
     items: T[];
     /**
@@ -198,7 +197,7 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
 
   get items(): T[] {
     if (this.state.currentSearch) {
-      return this.state.currentSearch.toArray();
+      return this.state.currentSearch;
     }
     return this.args.items;
   }
@@ -206,13 +205,16 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
   applySearch = task(
     { restartable: true },
     async (items: T[], term: string | undefined) => {
-      this.state.currentSearch = A([]);
+      const found: T[] = [];
+      this.state.currentSearch = found;
       term = term && term.toLowerCase();
       const f = this.searchFunction;
       for (const t of items) {
         const r = await f(t, term ?? '');
         if (r) {
-          this.state.currentSearch.pushObject(t);
+          found.push(t);
+          // Set again so the rows update as each match is found.
+          this.state.currentSearch = found;
         }
       }
     },

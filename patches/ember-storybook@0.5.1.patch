@@ -1,0 +1,1423 @@
+diff --git a/dist/annotations-Ba_8a7k3.mjs b/dist/annotations-Ba_8a7k3.mjs
+new file mode 100644
+index 0000000..fcd87ce
+--- /dev/null
++++ b/dist/annotations-Ba_8a7k3.mjs
+@@ -0,0 +1,148 @@
++import { i as __exportAll, n as isEmberStoryResult } from "./story-result-Ds8Z5TZx.mjs";
++import { n as mergeArgTypes, t as buildArgTypes } from "./extractArgTypes-DNDT7G5O.mjs";
++import { n as resolveTemplateArgs, t as componentSource } from "./source-code-BxKRCGI7.mjs";
++import { SourceType } from "storybook/internal/docs-tools";
++import emberData from "virtual:ember-storybook";
++import { emitTransformCode, useEffect, useRef } from "storybook/preview-api";
++//#region src/client/docs/source-decorator.ts
++const data$1 = emberData;
++function skipSourceRender(context) {
++	const sourceParams = context.parameters.docs?.source;
++	if (sourceParams?.type === SourceType.DYNAMIC) return false;
++	return (!context.parameters.__isArgsStory || sourceParams?.code) ?? sourceParams?.type === SourceType.CODE;
++}
++let byStoryId;
++function getByStoryId() {
++	if (byStoryId) return byStoryId;
++	byStoryId = {};
++	for (const entry of Object.values(data$1)) for (const [storyId, source] of Object.entries(entry.source ?? {})) byStoryId[storyId] = {
++		componentName: source.componentName,
++		signatureName: source.signatureName,
++		inlineTemplate: source.inlineTemplate,
++		componentFile: entry.component?.file
++	};
++	return byStoryId;
++}
++/**
++* The signature of the component a story renders, from that component's own
++* file: every default export has the same `__DEFAULT__` signature name.
++*/
++function signatureForStory(story, name) {
++	const file = story?.componentFile;
++	if (!file || !Object.hasOwn(data$1, file)) return void 0;
++	return data$1[file].signatures?.[story.signatureName ?? name];
++}
++function generateSource(component, args, argTypes, storyId) {
++	const meta = storyId ? getByStoryId()[storyId] : void 0;
++	if (meta?.inlineTemplate) return resolveTemplateArgs(meta.inlineTemplate, args);
++	const name = meta?.componentName ?? component.name;
++	if (!name || name === "(unknown template-only component)") return;
++	const sig = signatureForStory(meta, name);
++	return componentSource(name, sig, args, argTypes);
++}
++const sourceDecorator = (storyFn, context) => {
++	const source = useRef(void 0);
++	const story = storyFn();
++	useEffect(() => {
++		const rendered = context.originalStoryFn(context.args, context);
++		const renderedForSource = isEmberStoryResult(rendered) ? rendered.component : rendered;
++		if (!skipSourceRender(context)) {
++			const code = generateSource(renderedForSource, context.args, context.argTypes, context.id) ?? void 0;
++			emitTransformCode(code, context);
++			source.current = code;
++		}
++	});
++	return story;
++};
++//#endregion
++//#region src/client/docs/annotations.ts
++var annotations_exports = /* @__PURE__ */ __exportAll({
++	argTypesEnhancers: () => argTypesEnhancers,
++	decorators: () => decorators,
++	extractArgTypes: () => extractArgTypes,
++	parameters: () => parameters
++});
++const data = emberData;
++function signatureFor(ref) {
++	if (!ref?.signatureName) return void 0;
++	const compEntry = ref.file ? data[ref.file] : void 0;
++	if (!compEntry || !("signatures" in compEntry)) return void 0;
++	return compEntry.signatures[ref.signatureName];
++}
++function resolveSig(entry) {
++	if (!("component" in entry)) return void 0;
++	return signatureFor(entry.component);
++}
++/**
++* With `subcomponents`, the `Controls` block shows the main component as a tab
++* too, labelled `__docgenInfo.displayName ?? component.name`. A production
++* build minifies class names, so the tab would read e.g. `Pe`; label it with
++* the name the story file uses instead.
++*/
++function nameMainComponent(component, displayName) {
++	if (!displayName || typeof component !== "object" && typeof component !== "function") return;
++	if (component === null || Object.hasOwn(component, "__docgenInfo")) return;
++	Object.defineProperty(component, "__docgenInfo", {
++		value: { displayName },
++		configurable: true
++	});
++}
++/**
++* The signatures of the components listed in a meta's CSF `subcomponents`,
++* keyed by the component itself — the only handle Storybook passes to
++* `parameters.docs.extractArgTypes`.
++*/
++const subcomponentSignatures = /* @__PURE__ */ new WeakMap();
++function registerSubcomponents(context, entry) {
++	if (!("component" in entry) || !entry.subcomponents) return;
++	for (const [key, component] of Object.entries(context.subcomponents ?? {})) {
++		const sig = signatureFor(entry.subcomponents[key]);
++		if (sig && (typeof component === "object" || typeof component === "function")) subcomponentSignatures.set(component, sig);
++	}
++	nameMainComponent(context.component, entry.meta.component);
++}
++/**
++* Storybook's `Controls` / `ArgTypes` blocks build the tab of each CSF
++* `subcomponents` entry through `parameters.docs.extractArgTypes`, and throw
++* ("Args unsupported") when the framework doesn't provide it.
++*
++* Returns the args of a subcomponent registered by the argTypes enhancer, and
++* no args (an empty tab) for anything else, e.g. a component whose signature
++* could not be extracted.
++*/
++function extractArgTypes(component) {
++	const sig = component && (typeof component === "object" || typeof component === "function") ? subcomponentSignatures.get(component) : void 0;
++	return sig ? buildArgTypes(sig) : {};
++}
++/** Last path segment of a CSF title — used to match stories without `fileName`. */
++function titleLeaf(title) {
++	return title?.split("/").pop();
++}
++const argTypesEnhancers = [(context) => {
++	const filePath = context.parameters.fileName;
++	if (filePath && Object.hasOwn(data, filePath)) {
++		registerSubcomponents(context, data[filePath]);
++		const sig = resolveSig(data[filePath]);
++		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
++		return context.argTypes;
++	}
++	const leaf = titleLeaf(context.title);
++	if (leaf) for (const entry of Object.values(data)) {
++		if (!("meta" in entry)) continue;
++		if (titleLeaf(entry.meta.title) !== leaf) continue;
++		registerSubcomponents(context, entry);
++		const sig = resolveSig(entry);
++		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
++	}
++	return context.argTypes;
++}];
++const parameters = { docs: {
++	extractArgTypes,
++	source: {
++		type: SourceType.DYNAMIC,
++		language: "html"
++	}
++} };
++const decorators = [sourceDecorator];
++//#endregion
++export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
+diff --git a/dist/annotations-DRGjlECb.mjs b/dist/annotations-DRGjlECb.mjs
+deleted file mode 100644
+index 781b16c..0000000
+--- a/dist/annotations-DRGjlECb.mjs
++++ /dev/null
+@@ -1,143 +0,0 @@
+-import { i as __exportAll, n as isEmberStoryResult } from "./story-result-Ds8Z5TZx.mjs";
+-import { n as mergeArgTypes, t as buildArgTypes } from "./extractArgTypes-DNDT7G5O.mjs";
+-import { n as unwrapBlockParamsShallow } from "./block-params-wjiT2Ht6.mjs";
+-import { SourceType } from "storybook/internal/docs-tools";
+-import emberData from "virtual:ember-storybook";
+-import { emitTransformCode, useEffect, useRef } from "storybook/preview-api";
+-//#region src/client/docs/source-decorator.ts
+-const data$1 = emberData;
+-function skipSourceRender(context) {
+-	const sourceParams = context.parameters.docs?.source;
+-	if (sourceParams?.type === SourceType.DYNAMIC) return false;
+-	return (!context.parameters.__isArgsStory || sourceParams?.code) ?? sourceParams?.type === SourceType.CODE;
+-}
+-function toArgument(key, value, argTypes) {
+-	if (value !== void 0 && value !== null) {
+-		if (typeof value === "string") return `@${key}=${JSON.stringify(value)}`;
+-		if (typeof value === "number" || typeof value === "boolean") return `@${key}={{${String(value)}}}`;
+-		if (Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
+-		return;
+-	}
+-	if (value === void 0 && Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
+-}
+-function generateBlockContent(blockInfo) {
+-	if (blockInfo.params.length === 0) return "...";
+-	return `{{yield ${unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(", ")}}}`;
+-}
+-function generateBlockSourceCode(sig, args, indent) {
+-	const blockNames = Object.keys(sig.blocks);
+-	if (blockNames.length === 0) return "";
+-	const blocks = [];
+-	for (const blockName of blockNames) {
+-		const blockInfo = sig.blocks[blockName];
+-		if (args[blockName] === void 0 && blockInfo.params.length === 0) continue;
+-		const params = unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(" ");
+-		const slotBindings = params ? ` as |${params}|` : "";
+-		const content = generateBlockContent(blockInfo);
+-		if (blockName === "default" && !slotBindings) blocks.push(content);
+-		else blocks.push(`${indent}  <:${blockName}${slotBindings}>${content}</:${blockName}>`);
+-	}
+-	return blocks.join("\n");
+-}
+-let byStoryId;
+-function getByStoryId() {
+-	if (byStoryId) return byStoryId;
+-	byStoryId = {};
+-	for (const entry of Object.values(data$1)) for (const [storyId, source] of Object.entries(entry.source ?? {})) byStoryId[storyId] = {
+-		componentName: source.componentName,
+-		signatureName: source.signatureName,
+-		inlineTemplate: source.inlineTemplate
+-	};
+-	return byStoryId;
+-}
+-function signatureForComponent(name) {
+-	for (const entry of Object.values(data$1)) {
+-		const comp = entry.component;
+-		if (comp?.signatureName !== name) continue;
+-		return (comp.file ? data$1[comp.file] : void 0)?.signatures?.[comp.signatureName];
+-	}
+-}
+-function resolveTemplateArgs(template, args) {
+-	return template.replaceAll(/\{\{args\.(\w+)\}\}/g, (_match, key) => {
+-		const value = args[key];
+-		if (typeof value === "string") return JSON.stringify(value);
+-		if (typeof value === "number" || typeof value === "boolean") return `{{${String(value)}}}`;
+-		return `{{@${key}}}`;
+-	});
+-}
+-function generateSource(component, args, argTypes, storyId) {
+-	const meta = storyId ? getByStoryId()[storyId] : void 0;
+-	if (meta?.inlineTemplate) return resolveTemplateArgs(meta.inlineTemplate, args);
+-	const name = meta?.componentName ?? component.name;
+-	if (!name || name === "(unknown template-only component)") return;
+-	const sig = signatureForComponent(meta?.signatureName ?? name);
+-	const propsArray = Object.entries(args).filter(([k]) => !sig || !Object.hasOwn(sig.blocks, k)).map(([k, v]) => toArgument(k, v, argTypes)).filter(Boolean);
+-	const blockCode = sig ? generateBlockSourceCode(sig, args, "") : "";
+-	const propsStr = propsArray.join(" ");
+-	if (!blockCode) {
+-		if (propsArray.length === 0) return `<${name} />`;
+-		if (propsArray.length > 3) return `<${name}\n  ${propsArray.join("\n  ")}\n/>`;
+-		return `<${name} ${propsStr} />`;
+-	}
+-	if (propsArray.length === 0) return `<${name}>\n${blockCode}\n</${name}>`;
+-	return `<${name} ${propsStr}>\n${blockCode}\n</${name}>`;
+-}
+-const sourceDecorator = (storyFn, context) => {
+-	const source = useRef(void 0);
+-	const story = storyFn();
+-	useEffect(() => {
+-		const rendered = context.originalStoryFn(context.args, context);
+-		const renderedForSource = isEmberStoryResult(rendered) ? rendered.component : rendered;
+-		if (!skipSourceRender(context)) {
+-			const code = generateSource(renderedForSource, context.args, context.argTypes, context.id) ?? void 0;
+-			emitTransformCode(code, context);
+-			source.current = code;
+-		}
+-	});
+-	return story;
+-};
+-//#endregion
+-//#region src/client/docs/annotations.ts
+-var annotations_exports = /* @__PURE__ */ __exportAll({
+-	argTypesEnhancers: () => argTypesEnhancers,
+-	decorators: () => decorators,
+-	parameters: () => parameters
+-});
+-const data = emberData;
+-function resolveSig(entry) {
+-	if (!("component" in entry)) return void 0;
+-	const comp = entry.component;
+-	if (!comp.signatureName) return void 0;
+-	const compEntry = comp.file ? data[comp.file] : void 0;
+-	if (!compEntry || !("signatures" in compEntry)) return void 0;
+-	return compEntry.signatures[comp.signatureName];
+-}
+-/** Last path segment of a CSF title — used to match stories without `fileName`. */
+-function titleLeaf(title) {
+-	return title?.split("/").pop();
+-}
+-const argTypesEnhancers = [(context) => {
+-	const filePath = context.parameters.fileName;
+-	if (filePath && Object.hasOwn(data, filePath)) {
+-		const sig = resolveSig(data[filePath]);
+-		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
+-		return context.argTypes;
+-	}
+-	const leaf = titleLeaf(context.title);
+-	if (leaf) for (const entry of Object.values(data)) {
+-		if (!("meta" in entry)) continue;
+-		if (titleLeaf(entry.meta.title) !== leaf) continue;
+-		const sig = resolveSig(entry);
+-		if (sig) return mergeArgTypes(buildArgTypes(sig), context.argTypes);
+-	}
+-	return context.argTypes;
+-}];
+-const parameters = { docs: { source: {
+-	type: SourceType.DYNAMIC,
+-	language: "html"
+-} } };
+-const decorators = [sourceDecorator];
+-//#endregion
+-export { parameters as i, argTypesEnhancers as n, decorators as r, annotations_exports as t };
+-
+-//# sourceMappingURL=annotations-DRGjlECb.mjs.map
+\ No newline at end of file
+diff --git a/dist/client-Cxf4EUow.mjs b/dist/client-Cxf4EUow.mjs
+deleted file mode 100644
+index 23c2bae..0000000
+--- a/dist/client-Cxf4EUow.mjs
++++ /dev/null
+@@ -1,129 +0,0 @@
+-import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
+-import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-D68P22lO.mjs";
+-import { t as annotations_exports } from "./annotations-DRGjlECb.mjs";
+-import "./outlet-placeholder-CMOzKwEp.mjs";
+-import { definePreview } from "storybook/internal/csf";
+-import { renderComponent } from "@ember/renderer";
+-import { template } from "@ember/template-compiler";
+-import { setDefaultProjectAnnotations, setProjectAnnotations } from "storybook/preview-api";
+-import Component from "@glimmer/component";
+-import { getOwner } from "@ember/owner";
+-import { modifier } from "ember-modifier";
+-//#region src/client/globals.ts
+-globalThis.STORYBOOK_ENV = "ember";
+-//#endregion
+-//#region src/client/define-preview.ts
+-/**
+-* The component shapes whose args `preview.meta()` infers from:
+-*
+-* - template-only components (`TOC<S>` / `TemplateOnlyComponent<S>`)
+-* - class components (`Component<S>` — matched through the instance `args`)
+-*
+-* Anything else (untyped components, plain templates) falls back to loose
+-* args; `preview.type<{ args: … }>()` overrides the inference explicitly.
+-*/
+-/**
+-* The framework's own preview annotations.
+-*
+-* In CSF Next mode Storybook bypasses the preset `previewAnnotations` entirely
+-* (the generated iframe entry uses `preview.composed` alone), so `definePreview`
+-* must inject them here — the same way `@storybook/react` folds its
+-* `entry-preview` modules into the base factory.
+-*
+-* `./config` carries the renderer (`render`, `renderToCanvas`), the `renderer:
+-* 'ember'` parameter and the outlet global; `./docs/annotations` carries the
+-* docgen argTypes enhancers and the source decorator. The addon-docs-dependent
+-* pieces (the autodocs `Page`, the patched `DocsRenderer`) are NOT imported
+-* here: they arrive through the user's own `addonDocs()` registration, which
+-* the preset redirects to `./docs/addon-preview` — keeping `@storybook/addon-docs`
+-* out of this module's static import graph.
+-*/
+-const internalAnnotations = [config_exports, annotations_exports];
+-/**
+-* The renderer type parameter all `definePreview` factories carry: the Ember
+-* renderer merged with whatever types the registered addons contribute.
+-*
+-* `InferTypes` collapses to `never` when no addons are registered (the empty
+-* array case poisons the whole intersection), so it is neutralized here.
+-*/
+-/**
+-* Type-safe preview configuration for Ember (the CSF Next entry point).
+-*
+-* ```ts
+-* // .storybook/preview.ts
+-* import { definePreview } from 'ember-storybook';
+-* import addonDocs from '@storybook/addon-docs';
+-*
+-* export default definePreview({
+-*   addons: [addonDocs()],
+-*   parameters: {
+-*     ember: { app: createApp },
+-*   },
+-* });
+-* ```
+-*/
+-function definePreview$1(input) {
+-	return definePreview({
+-		...input,
+-		addons: [...input.addons ?? [], ...internalAnnotations]
+-	});
+-}
+-/**
+-* The CSF Next `Preview` specialized for Ember: `preview.meta()` infers story
+-* args from the component's signature.
+-*/
+-//#endregion
+-//#region src/client/portable-stories.ts
+-/**
+-* Function that sets the globalConfig of your storybook. The global config is the preview module of
+-* your .storybook folder.
+-*
+-* It should be run a single time, so that your global config (e.g. decorators) is applied to your
+-* stories when using `composeStories` or `composeStory`.
+-*
+-* Example:
+-*
+-* ```jsx
+-* // setup-file.js
+-* import { setProjectAnnotations } from '@storybook/preact';
+-* import projectAnnotations from './.storybook/preview';
+-*
+-* setProjectAnnotations(projectAnnotations);
+-* ```
+-*
+-* @param projectAnnotations - E.g. (import projectAnnotations from '../.storybook/preview')
+-*/
+-function setProjectAnnotations$1(projectAnnotations) {
+-	setDefaultProjectAnnotations(render_exports);
+-	return setProjectAnnotations(projectAnnotations);
+-}
+-//#endregion
+-//#region src/client/render-story.gts
+-var RenderStory = class extends Component {
+-	render = modifier((element) => {
+-		const story = this.args.story();
+-		const { component, args, route } = normalizeStoryResult(story, this.args.args);
+-		const owner = getOwner(this);
+-		if (route || templateUsesOutlet(component)) throw new Error("ember-storybook: this story renders a route template (it uses `{{outlet}}`), but route stories can only be rendered by `renderToCanvas`, not through <RenderStory> (portable stories).");
+-		const result = renderComponent(component, {
+-			args,
+-			into: element,
+-			owner
+-		});
+-		return () => {
+-			result.destroy();
+-		};
+-	});
+-	static {
+-		template(`<div {{this.render}}></div>`, {
+-			component: this,
+-			eval() {
+-				return eval(arguments[0]);
+-			}
+-		});
+-	}
+-};
+-//#endregion
+-export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
+-
+-//# sourceMappingURL=client-Cxf4EUow.mjs.map
+\ No newline at end of file
+diff --git a/dist/client-M0PVwPrr.mjs b/dist/client-M0PVwPrr.mjs
+new file mode 100644
+index 0000000..5a0ce39
+--- /dev/null
++++ b/dist/client-M0PVwPrr.mjs
+@@ -0,0 +1,127 @@
++import { r as normalizeStoryResult } from "./story-result-Ds8Z5TZx.mjs";
++import { c as templateUsesOutlet, n as config_exports, s as render_exports } from "./config-D68P22lO.mjs";
++import { t as annotations_exports } from "./annotations-Ba_8a7k3.mjs";
++import "./outlet-placeholder-CMOzKwEp.mjs";
++import { definePreview } from "storybook/internal/csf";
++import { renderComponent } from "@ember/renderer";
++import { template } from "@ember/template-compiler";
++import { setDefaultProjectAnnotations, setProjectAnnotations } from "storybook/preview-api";
++import Component from "@glimmer/component";
++import { getOwner } from "@ember/owner";
++import { modifier } from "ember-modifier";
++//#region src/client/globals.ts
++globalThis.STORYBOOK_ENV = "ember";
++//#endregion
++//#region src/client/define-preview.ts
++/**
++* The component shapes whose args `preview.meta()` infers from:
++*
++* - template-only components (`TOC<S>` / `TemplateOnlyComponent<S>`)
++* - class components (`Component<S>` — matched through the instance `args`)
++*
++* Anything else (untyped components, plain templates) falls back to loose
++* args; `preview.type<{ args: … }>()` overrides the inference explicitly.
++*/
++/**
++* The framework's own preview annotations.
++*
++* In CSF Next mode Storybook bypasses the preset `previewAnnotations` entirely
++* (the generated iframe entry uses `preview.composed` alone), so `definePreview`
++* must inject them here — the same way `@storybook/react` folds its
++* `entry-preview` modules into the base factory.
++*
++* `./config` carries the renderer (`render`, `renderToCanvas`), the `renderer:
++* 'ember'` parameter and the outlet global; `./docs/annotations` carries the
++* docgen argTypes enhancers and the source decorator. The addon-docs-dependent
++* pieces (the autodocs `Page`, the patched `DocsRenderer`) are NOT imported
++* here: they arrive through the user's own `addonDocs()` registration, which
++* the preset redirects to `./docs/addon-preview` — keeping `@storybook/addon-docs`
++* out of this module's static import graph.
++*/
++const internalAnnotations = [config_exports, annotations_exports];
++/**
++* The renderer type parameter all `definePreview` factories carry: the Ember
++* renderer merged with whatever types the registered addons contribute.
++*
++* `InferTypes` collapses to `never` when no addons are registered (the empty
++* array case poisons the whole intersection), so it is neutralized here.
++*/
++/**
++* Type-safe preview configuration for Ember (the CSF Next entry point).
++*
++* ```ts
++* // .storybook/preview.ts
++* import { definePreview } from 'ember-storybook';
++* import addonDocs from '@storybook/addon-docs';
++*
++* export default definePreview({
++*   addons: [addonDocs()],
++*   parameters: {
++*     ember: { app: createApp },
++*   },
++* });
++* ```
++*/
++function definePreview$1(input) {
++	return definePreview({
++		...input,
++		addons: [...input.addons ?? [], ...internalAnnotations]
++	});
++}
++/**
++* The CSF Next `Preview` specialized for Ember: `preview.meta()` infers story
++* args from the component's signature.
++*/
++//#endregion
++//#region src/client/portable-stories.ts
++/**
++* Function that sets the globalConfig of your storybook. The global config is the preview module of
++* your .storybook folder.
++*
++* It should be run a single time, so that your global config (e.g. decorators) is applied to your
++* stories when using `composeStories` or `composeStory`.
++*
++* Example:
++*
++* ```jsx
++* // setup-file.js
++* import { setProjectAnnotations } from '@storybook/preact';
++* import projectAnnotations from './.storybook/preview';
++*
++* setProjectAnnotations(projectAnnotations);
++* ```
++*
++* @param projectAnnotations - E.g. (import projectAnnotations from '../.storybook/preview')
++*/
++function setProjectAnnotations$1(projectAnnotations) {
++	setDefaultProjectAnnotations(render_exports);
++	return setProjectAnnotations(projectAnnotations);
++}
++//#endregion
++//#region src/client/render-story.gts
++var RenderStory = class extends Component {
++	render = modifier((element) => {
++		const story = this.args.story();
++		const { component, args, route } = normalizeStoryResult(story, this.args.args);
++		const owner = getOwner(this);
++		if (route || templateUsesOutlet(component)) throw new Error("ember-storybook: this story renders a route template (it uses `{{outlet}}`), but route stories can only be rendered by `renderToCanvas`, not through <RenderStory> (portable stories).");
++		const result = renderComponent(component, {
++			args,
++			into: element,
++			owner
++		});
++		return () => {
++			result.destroy();
++		};
++	});
++	static {
++		template(`<div {{this.render}}></div>`, {
++			component: this,
++			eval() {
++				return eval(arguments[0]);
++			}
++		});
++	}
++};
++//#endregion
++export { setProjectAnnotations$1 as n, definePreview$1 as r, RenderStory as t };
+diff --git a/dist/client/docs/config.mjs b/dist/client/docs/config.mjs
+index ac60ad6..be5bb92 100644
+--- a/dist/client/docs/config.mjs
++++ b/dist/client/docs/config.mjs
+@@ -1,4 +1,4 @@
+-import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-DRGjlECb.mjs";
++import { i as parameters$1, n as argTypesEnhancers, r as decorators } from "../../annotations-Ba_8a7k3.mjs";
+ import { t as Page } from "../../page-CKIV9ed8.mjs";
+ //#region src/client/docs/config.ts
+ const docs = parameters$1.docs;
+@@ -11,5 +11,3 @@ const parameters = {
+ };
+ //#endregion
+ export { argTypesEnhancers, decorators, parameters };
+-
+-//# sourceMappingURL=config.mjs.map
+\ No newline at end of file
+diff --git a/dist/client/index.mjs b/dist/client/index.mjs
+index 1093140..cf96aab 100644
+--- a/dist/client/index.mjs
++++ b/dist/client/index.mjs
+@@ -1,4 +1,4 @@
+-import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-Cxf4EUow.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "../client-M0PVwPrr.mjs";
+ import { o as renderToCanvas } from "../config-D68P22lO.mjs";
+ import { t as OutletPlaceholder } from "../outlet-placeholder-CMOzKwEp.mjs";
+ export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
+diff --git a/dist/index.mjs b/dist/index.mjs
+index e516b20..4d9f4a5 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,4 +1,4 @@
+-import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-Cxf4EUow.mjs";
++import { n as setProjectAnnotations, r as definePreview, t as RenderStory } from "./client-M0PVwPrr.mjs";
+ import { o as renderToCanvas } from "./config-D68P22lO.mjs";
+ import { t as OutletPlaceholder } from "./outlet-placeholder-CMOzKwEp.mjs";
+ export { OutletPlaceholder, RenderStory, definePreview, renderToCanvas, setProjectAnnotations };
+diff --git a/dist/preset.mjs b/dist/preset.mjs
+index cc05140..98d8846 100644
+--- a/dist/preset.mjs
++++ b/dist/preset.mjs
+@@ -1,4 +1,5 @@
+ import { t as unwrapBlockParams$1 } from "./block-params-wjiT2Ht6.mjs";
++import { n as resolveTemplateArgs, t as componentSource } from "./source-code-BxKRCGI7.mjs";
+ import { createRequire } from "node:module";
+ import { sanitize, storyNameFromExport } from "storybook/internal/csf";
+ import { fileURLToPath } from "node:url";
+@@ -14,7 +15,7 @@ import "tinyglobby";
+ import { createEmberHost, isEmberTemplateWithAppendix, originalPath, virtualPath } from "typedoc-plugin-ember";
+ //#region ../packages/ember-docgen/dist/index.mjs
+ var __require = /* #__PURE__ */ (() => createRequire(import.meta.url))();
+-function isBlockParam(param) {
++function isBlockParam$1(param) {
+ 	return Object.hasOwn(param, "name") && Object.hasOwn(param, "type");
+ }
+ /**
+@@ -25,7 +26,7 @@ function isBlockParam(param) {
+ */
+ function unwrapBlockParams(params) {
+ 	const result = [];
+-	for (const param of params) if (isBlockParam(param)) {
++	for (const param of params) if (isBlockParam$1(param)) {
+ 		result.push(param);
+ 		const nested = param.nested;
+ 		if (nested && nested.length > 0) result.push(...unwrapBlockParams(nested));
+@@ -513,13 +514,21 @@ function blockParamFromNode(name, node, ctx, stack) {
+ 		nested: nestedFromTypeNode(node, ctx, stack)
+ 	};
+ }
+-/** Params of a single block, derived from its declared tuple/object shape. */
+-function parseBlockParams(typeNode, ctx, stack = /* @__PURE__ */ new Set()) {
++/**
++* Params of a single block, derived from its declared tuple/object shape.
++* `elementTypes` are the tuple's element types as a block typed by
++* reference instantiates them, with a generic declaration's type arguments
++* filled in.
++*/
++function parseBlockParams(typeNode, ctx, stack = /* @__PURE__ */ new Set(), elementTypes) {
+ 	const params = [];
+ 	if (ts.isTupleTypeNode(typeNode)) {
+-		for (const element of typeNode.elements) if (ts.isNamedTupleMember(element)) params.push({
++		const rest = typeNode.elements.findIndex((element) => ts.isRestTypeNode(element) || ts.isNamedTupleMember(element) && element.dotDotDotToken);
++		const instantiated = rest === -1 ? elementTypes?.length === typeNode.elements.length ? elementTypes : void 0 : elementTypes?.slice(0, rest);
++		const typeOf = (node, index, optional) => ctx.checker.typeToString(instantiatedType(node, instantiated?.[index], optional, ctx) ?? ctx.checker.getTypeAtLocation(node));
++		for (const [index, element] of typeNode.elements.entries()) if (ts.isNamedTupleMember(element)) params.push({
+ 			name: element.name.getText(),
+-			type: ctx.checker.typeToString(ctx.checker.getTypeAtLocation(element.type)),
++			type: typeOf(element.type, index, Boolean(element.questionToken)),
+ 			description: nodeDescription(element),
+ 			componentRef: componentRefFromTypeNode(element.type, ctx),
+ 			nested: nestedFromTypeNode(element.type, ctx, stack)
+@@ -531,24 +540,84 @@ function parseBlockParams(typeNode, ctx, stack = /* @__PURE__ */ new Set()) {
+ 				const innerType = member.type;
+ 				if (!innerType) continue;
+ 				const symbol = ctx.checker.getSymbolAtLocation(member.name);
++				const property = instantiated?.[index] ? ctx.checker.getPropertyOfType(instantiated[index], member.name.getText()) : void 0;
++				const type = instantiatedType(innerType, property && ctx.checker.getTypeOfSymbol(property), Boolean(member.questionToken), ctx);
+ 				hash[member.name.getText()] = {
+ 					...blockParamFromNode(member.name.getText(), innerType, ctx, stack),
++					...type && { type: ctx.checker.typeToString(type) },
+ 					description: symbol && symbolDescription(symbol, ctx) ? symbolDescription(symbol, ctx) : nodeDescription(member)
+ 				};
+ 			}
+ 			if (Object.keys(hash).length > 0) params.push(hash);
+-		} else params.push(blockParamFromNode(`param${params.length}`, element, ctx, stack));
++		} else params.push({
++			...blockParamFromNode(`param${params.length}`, element, ctx, stack),
++			type: typeOf(element, index, ts.isOptionalTypeNode(element))
++		});
+ 		return params;
+ 	}
+-	if (ts.isTypeLiteralNode(typeNode)) for (const member of typeNode.members) {
+-		if (!member.name || !ts.isPropertySignature(member) || !member.type) continue;
+-		const symbol = ctx.checker.getSymbolAtLocation(member.name);
+-		params.push({
+-			...blockParamFromNode(member.name.getText(), member.type, ctx, stack),
+-			description: symbol ? symbolDescription(symbol, ctx) : ""
+-		});
++	if (ts.isTypeLiteralNode(typeNode)) {
++		for (const member of typeNode.members) {
++			if (!member.name || !ts.isPropertySignature(member) || !member.type) continue;
++			const symbol = ctx.checker.getSymbolAtLocation(member.name);
++			params.push({
++				...blockParamFromNode(member.name.getText(), member.type, ctx, stack),
++				description: symbol ? symbolDescription(symbol, ctx) : ""
++			});
++		}
++		return params;
++	}
++	const referenced = referencedTypeNode(typeNode, ctx);
++	if (!referenced) return params;
++	const key = `${referenced.getSourceFile().fileName}:${referenced.pos}`;
++	if (stack.has(key)) return params;
++	stack.add(key);
++	try {
++		return parseBlockParams(referenced, ctx, stack, elementTypes ?? tupleElementTypes(typeNode, ctx));
++	} finally {
++		stack.delete(key);
++	}
++}
++/**
++* The instantiated type to document for a declared type node, where the node
++* mentions a type parameter for it to fill in. An optional element's or
++* member's instantiated type has `undefined` added, which its declared type
++* doesn't show.
++*/
++function instantiatedType(node, type, optional, ctx) {
++	if (!type || !mentionsTypeParameter(node, ctx)) return void 0;
++	return optional && !(type.isUnion() && type.types.some((t) => t.flags & ts.TypeFlags.Null)) ? ctx.checker.getNonNullableType(type) : type;
++}
++function mentionsTypeParameter(node, ctx) {
++	if (ts.isTypeReferenceNode(node)) {
++		const symbol = ctx.checker.getSymbolAtLocation(node.typeName);
++		if (symbol && (symbol.flags & ts.SymbolFlags.TypeParameter) !== 0) return true;
++	}
++	return ts.forEachChild(node, (child) => mentionsTypeParameter(child, ctx) || void 0) ?? false;
++}
++/** A tuple type node's element types, as it instantiates them. */
++function tupleElementTypes(typeNode, ctx) {
++	const type = ctx.checker.getTypeFromTypeNode(typeNode);
++	return ctx.checker.isTupleType(type) ? ctx.checker.getTypeArguments(type) : void 0;
++}
++/**
++* The declared type node a reference names: the property's for an indexed
++* access (`OtherSignature['Blocks']['default']`), the right-hand side for a
++* type alias. Its syntax keeps tuple labels and docs that the resolved
++* type loses.
++*/
++function referencedTypeNode(typeNode, ctx) {
++	if (ts.isIndexedAccessTypeNode(typeNode)) {
++		const index = typeNode.indexType;
++		if (!ts.isLiteralTypeNode(index) || !ts.isStringLiteral(index.literal)) return void 0;
++		const objectType = ctx.checker.getTypeFromTypeNode(typeNode.objectType);
++		const declaration = ctx.checker.getPropertyOfType(objectType, index.literal.text)?.declarations?.[0];
++		return declaration && ts.isPropertySignature(declaration) ? declaration.type : void 0;
++	}
++	if (ts.isTypeReferenceNode(typeNode)) {
++		const symbol = ctx.checker.getSymbolAtLocation(typeNode.typeName);
++		const declaration = (symbol && (symbol.flags & ts.SymbolFlags.Alias) !== 0 ? ctx.checker.getAliasedSymbol(symbol) : symbol)?.declarations?.find((d) => ts.isTypeAliasDeclaration(d));
++		return declaration && ts.isTypeAliasDeclaration(declaration) ? declaration.type : void 0;
+ 	}
+-	return params;
+ }
+ function parseBlocks(blocksType, ctx) {
+ 	const blocks = {};
+@@ -776,6 +845,111 @@ const emberIndexer = {
+ 	}
+ };
+ //#endregion
++//#region src/node/docgen/docgen.ts
++/**
++* Resolve the directory of the project's tsconfig, replicating TypeDoc's
++* discovery: walk up from cwd. parseSignatures keys its output relative
++* to this directory.
++*/
++function resolveTsconfigBase() {
++	const findUp = (dir) => {
++		if (existsSync(path.join(dir, "tsconfig.json"))) return dir;
++		const parent = path.dirname(dir);
++		return parent === dir ? void 0 : findUp(parent);
++	};
++	return findUp(process.cwd());
++}
++/**
++* Rewrite componentRef.filePath from tsconfig-relative to project-root-relative
++* (`./`-prefixed) paths, so consumers can look signatures up in the meta map.
++*/
++function rewriteFilePaths(mapped, base) {
++	for (const compSigs of Object.values(mapped)) for (const compSig of Object.values(compSigs)) for (const blockInfo of Object.values(compSig.blocks)) for (const param of unwrapBlockParams$1(blockInfo.params)) if (param.componentRef?.filePath) param.componentRef.filePath = normalizeFilePath(path.resolve(base, param.componentRef.filePath));
++}
++async function runTypeDoc(entryPoints) {
++	const existing = entryPoints.filter((entryPoint) => existsSync(entryPoint));
++	if (existing.length === 0) return {};
++	const base = resolveTsconfigBase();
++	if (!base) return {};
++	try {
++		const extracted = await parseSignatures(existing, { tsconfigFile: path.join(base, "tsconfig.json") });
++		rewriteFilePaths(extracted, base);
++		return extracted;
++	} catch (error) {
++		console.warn("[ember-storybook] TypeDoc extraction failed:", error);
++		return {};
++	}
++}
++//#endregion
++//#region src/node/static-value.ts
++/**
++* Read plain values (strings, numbers, booleans, null, and arrays and objects of
++* those) out of the Babel AST nodes Storybook's CSF parser keeps for meta and
++* story annotations. Anything computed, like a `fn()` spy, is not static.
++*/
++const NOT_STATIC = Symbol("not static");
++function isNode(value) {
++	return typeof value === "object" && value !== null && "type" in value;
++}
++function propertyKey(property) {
++	if (property.computed) return void 0;
++	const key = property.key;
++	if (key.type === "Identifier") return key.name;
++	if (key.type === "StringLiteral") return key.value;
++}
++function evaluate(node) {
++	switch (node.type) {
++		case "StringLiteral":
++		case "NumericLiteral":
++		case "BooleanLiteral": return node.value;
++		case "NullLiteral": return;
++		case "TemplateLiteral": {
++			const quasis = node.quasis;
++			return node.expressions.length === 0 ? (quasis[0]?.value).cooked : NOT_STATIC;
++		}
++		case "UnaryExpression": {
++			const argument = node.argument;
++			return node.operator === "-" && argument.type === "NumericLiteral" ? -argument.value : NOT_STATIC;
++		}
++		case "ArrayExpression": {
++			const values = node.elements.map((element) => element ? evaluate(element) : NOT_STATIC);
++			return values.includes(NOT_STATIC) ? NOT_STATIC : values;
++		}
++		case "ObjectExpression": {
++			const result = {};
++			for (const property of node.properties) {
++				const key = property.type === "ObjectProperty" ? propertyKey(property) : void 0;
++				const value = key === void 0 ? NOT_STATIC : evaluate(property.value);
++				if (key === void 0 || value === NOT_STATIC) return NOT_STATIC;
++				result[key] = value;
++			}
++			return result;
++		}
++		default: return NOT_STATIC;
++	}
++}
++/** The properties of an object literal whose values are static; the rest are left out. */
++function staticProperties(node) {
++	if (!isNode(node) || node.type !== "ObjectExpression") return {};
++	const result = {};
++	for (const property of node.properties) {
++		if (property.type !== "ObjectProperty") continue;
++		const key = propertyKey(property);
++		const value = evaluate(property.value);
++		if (key !== void 0 && value !== NOT_STATIC) result[key] = value;
++	}
++	return result;
++}
++function staticPropertyNode(node, name) {
++	if (!isNode(node) || node.type !== "ObjectExpression") return void 0;
++	for (const property of node.properties) if (property.type === "ObjectProperty" && propertyKey(property) === name) return property.value;
++}
++/** `parameters.docs.description.<kind>`, when it's a string literal. */
++function docsDescription(parameters, kind) {
++	const value = staticProperties(staticPropertyNode(staticPropertyNode(parameters, "docs"), "description"))[kind];
++	return typeof value === "string" ? value : void 0;
++}
++//#endregion
+ //#region src/node/parser.ts
+ /**
+ * A map with contents of a component file:
+@@ -804,6 +978,10 @@ function parseProcessedCode(processedCode, filePath) {
+ 	}).program;
+ }
+ /**
++* Where a component referenced by a story file (its `component`, or one of its
++* `subcomponents`) lives, and how its signature is looked up.
++*/
++/**
+ * Result of parsing a story file, covering all subsystem needs.
+ */
+ function firstVarExportName(declarations) {
+@@ -917,6 +1095,39 @@ function referencedFunctionName(node) {
+ 	if (typeof current === "object" && current !== null && "type" in current && current.type === "Identifier" && "name" in current && typeof current.name === "string") return current.name;
+ }
+ /**
++* Resolve a component's local name in a story file (as used in the meta's
++* `component` or `subcomponents`) to its file and signature.
++*/
++function resolveComponentReference(storyPath, importMap, localName) {
++	const importInfo = importMap.get(localName);
++	if (!importInfo) return { signatureName: localName };
++	const compPath = resolveLocalComponentFile(storyPath, importInfo.source);
++	if (!compPath) return { signatureName: localName };
++	const compMeta = parseComponentFile(compPath);
++	const signatureName = findSignatureName(compMeta, importInfo.importedName);
++	return {
++		file: compPath,
++		signatureName: signatureName ?? localName,
++		name: signatureName === "__DEFAULT__" ? compMeta?.["__DEFAULT__"] ?? localName : void 0
++	};
++}
++/**
++* Read the meta's `subcomponents` object (`{ Item, Other: OtherItem }`) into a
++* map from each key to the local name it references. Entries that are not a
++* plain identifier are skipped.
++*/
++function readSubcomponentNames(node) {
++	const names = {};
++	const object = node;
++	if (object?.type !== "ObjectExpression") return names;
++	for (const property of object.properties) {
++		if (property.type !== "ObjectProperty" || property.value.type !== "Identifier") continue;
++		const key = property.key.type === "Identifier" ? property.key.name : property.key.type === "StringLiteral" ? String(property.key.value) : void 0;
++		if (key && property.value.name) names[key] = property.value.name;
++	}
++	return names;
++}
++/**
+ * Parse a story file and return metadata about the component it references,
+ * including template sources for each named story export.
+ */
+@@ -924,9 +1135,14 @@ function parseStoryFile(storyPath) {
+ 	const { processedCode } = readAndPreprocess(storyPath);
+ 	let meta = {};
+ 	let stories = [];
++	let subcomponentNames = {};
+ 	let metaVariableName;
+ 	let metaRender;
+ 	let storyAnnotations = {};
++	let docs = {
++		args: {},
++		stories: {}
++	};
+ 	try {
+ 		const csf = loadCsf(processedCode, {
+ 			fileName: storyPath,
+@@ -935,9 +1151,22 @@ function parseStoryFile(storyPath) {
+ 		const parsed = csf.parse();
+ 		meta = parsed.meta;
+ 		stories = parsed.stories;
++		subcomponentNames = readSubcomponentNames(csf._metaAnnotations.subcomponents);
+ 		metaVariableName = csf._metaVariableName;
+ 		metaRender = csf._metaAnnotations.render;
+ 		storyAnnotations = csf._storyAnnotations;
++		docs = {
++			args: staticProperties(csf._metaAnnotations.args),
++			description: docsDescription(csf._metaAnnotations.parameters, "component"),
++			stories: Object.fromEntries(stories.map((story) => {
++				const exportName = story.localName ?? story.name;
++				const annotations = exportName ? csf._storyAnnotations[exportName] ?? {} : {};
++				return [story.id, {
++					args: staticProperties(annotations.args),
++					description: docsDescription(annotations.parameters, "story")
++				}];
++			}))
++		};
+ 	} catch {}
+ 	const program = parseProcessedCode(processedCode, storyPath);
+ 	const importMap = /* @__PURE__ */ new Map();
+@@ -1045,40 +1274,154 @@ function parseStoryFile(storyPath) {
+ 		return metaRender ? metaTemplate ?? helperTemplate(metaRender) : void 0;
+ 	};
+ 	for (const [name, story] of storiesByExport) story.inlineTemplate ??= inheritedTemplate(name, /* @__PURE__ */ new Set([name]));
+-	const localComponentName = meta.component;
+-	if (!localComponentName) return {
+-		meta,
+-		component: {},
+-		stories
+-	};
+-	const importInfo = importMap.get(localComponentName);
+-	if (!importInfo) return {
+-		meta,
+-		component: { signatureName: localComponentName },
+-		stories
+-	};
+-	const compPath = resolveLocalComponentFile(storyPath, importInfo.source);
+-	if (!compPath) return {
++	const resolve = (localName) => resolveComponentReference(storyPath, importMap, localName);
++	return {
+ 		meta,
+-		component: { signatureName: localComponentName },
+-		stories
++		component: meta.component ? resolve(meta.component) : {},
++		subcomponents: Object.fromEntries(Object.entries(subcomponentNames).map(([key, localName]) => [key, resolve(localName)])),
++		stories,
++		docs
+ 	};
+-	const compMeta = parseComponentFile(compPath);
+-	const signatureName = findSignatureName(compMeta, importInfo.importedName);
++}
++//#endregion
++//#region src/node/manifest.ts
++function cell(text) {
++	return text.replaceAll("|", String.raw`\|`).replaceAll(/\s*\n\s*/g, " ");
++}
++function isBlockParam(param) {
++	return Object.hasOwn(param, "name") && Object.hasOwn(param, "type");
++}
++function paramType(param) {
++	return param.componentRef ? "component" : `\`${cell(param.type)}\``;
++}
++function describeParam(param) {
++	const description = param.description ? `: ${cell(param.description)}` : "";
++	return `\`${param.name}\` (${paramType(param)})${description}`;
++}
++function describeBlock(name, block) {
++	const lines = [`- ${name === "default" ? "default block" : `\`<:${name}>\``}${block.description ? `: ${cell(block.description)}` : ""}`];
++	for (const param of block.params) if (isBlockParam(param)) lines.push(`  - yields ${describeParam(param)}`);
++	else {
++		lines.push("  - yields a hash:");
++		for (const [key, entry] of Object.entries(param)) lines.push(`    - \`${key}\`: ${paramType(entry)}`);
++	}
++	return lines;
++}
++/** The signature as Markdown, in place of the props table React docgen gives Storybook. */
++function apiDescription(signature) {
++	const sections = [];
++	const args = Object.entries(signature.args);
++	if (args.length > 0) sections.push([
++		"## Arguments",
++		"",
++		"| Name | Type | Default | Description |",
++		"| --- | --- | --- | --- |",
++		...args.map(([name, arg]) => `| \`@${name}\`${arg.required ? " (required)" : ""} | \`${cell(arg.type.raw)}\` | ${arg.defaultValue ? `\`${cell(arg.defaultValue)}\`` : ""} | ${cell(arg.description)} |`)
++	].join("\n"));
++	const blocks = Object.entries(signature.blocks);
++	if (blocks.length > 0) sections.push([
++		"## Blocks",
++		"",
++		...blocks.flatMap(([name, block]) => describeBlock(name, block))
++	].join("\n"));
++	if (signature.element) sections.push(`## Element\n\n\`...attributes\` are applied to \`${signature.element}\`.`);
++	return sections.join("\n\n");
++}
++function findPackage(from) {
++	let dir = path.dirname(from);
++	while (dir !== path.dirname(dir)) {
++		const file = path.join(dir, "package.json");
++		if (existsSync(file)) {
++			const { name } = JSON.parse(readFileSync(file, "utf8"));
++			return name ? {
++				name,
++				dir
++			} : void 0;
++		}
++		dir = path.dirname(dir);
++	}
++}
++/** `import Button from 'my-addon/components/button';`, assuming a v2 addon's `src/` maps to its exports. */
++function importStatement(componentFile, name) {
++	const pkg = findPackage(componentFile);
++	if (!pkg) return void 0;
++	const specifier = path.relative(pkg.dir, componentFile).replace(/^src\//, "").replace(/\.[gj]ts$|\.[jt]s$/, "");
++	return `import ${name} from '${pkg.name}/${specifier}';`;
++}
++function componentId(storyId) {
++	return storyId.split("--", 1)[0] ?? storyId;
++}
++/** Storybook's components manifest, read by `@storybook/addon-mcp` and served at `/manifests/components.json`. */
++async function buildComponentsManifest(entries) {
++	const byStoryFile = /* @__PURE__ */ new Map();
++	for (const entry of entries) {
++		const group = byStoryFile.get(entry.importPath) ?? [];
++		group.push(entry);
++		byStoryFile.set(entry.importPath, group);
++	}
++	const storyFiles = /* @__PURE__ */ new Map();
++	for (const file of byStoryFile.keys()) storyFiles.set(file, parseStoryFile(path.resolve(file)));
++	const componentFiles = new Set(storyFiles.values().flatMap((parsed) => parsed?.component.file ? [path.resolve(parsed.component.file)] : []));
++	const base = resolveTsconfigBase() ?? process.cwd();
++	const extracted = await runTypeDoc(componentFiles.values().toArray());
++	const signatures = new Map(Object.entries(extracted).map(([file, sigs]) => [path.resolve(base, file), sigs]));
++	const components = {};
++	for (const [file, group] of byStoryFile) {
++		const parsed = storyFiles.get(file);
++		const [first] = group;
++		if (group.every((entry) => entry.type !== "story")) continue;
++		const id = componentId(first.id);
++		const componentFile = parsed?.component.file ? path.resolve(parsed.component.file) : void 0;
++		const signatureName = parsed?.component.signatureName;
++		const signature = componentFile && signatureName ? signatures.get(componentFile)?.[signatureName] : void 0;
++		const name = parsed?.component.name ?? (signatureName && signatureName !== "__DEFAULT__" ? signatureName : void 0) ?? parsed?.meta.component ?? first.title.split("/").at(-1) ?? id;
++		components[id] = {
++			id,
++			name,
++			path: file,
++			description: parsed?.docs.description,
++			import: componentFile ? importStatement(componentFile, name) : void 0,
++			apiDescription: signature ? apiDescription(signature) : void 0,
++			jsDocTags: {},
++			stories: group.filter((entry) => entry.type === "story" && entry.subtype !== "test").map((entry) => {
++				const story = parsed?.stories.find((candidate) => candidate.id === entry.id);
++				const docs = parsed?.docs.stories[entry.id];
++				const args = {
++					...parsed?.docs.args,
++					...docs?.args
++				};
++				const snippet = story?.inlineTemplate ? resolveTemplateArgs(story.inlineTemplate, args) : componentSource(name, signature, args, {});
++				return {
++					id: entry.id,
++					name: entry.name,
++					description: docs?.description,
++					snippet
++				};
++			})
++		};
++	}
+ 	return {
+-		meta,
+-		component: {
+-			file: compPath,
+-			signatureName: signatureName ?? localComponentName,
+-			name: signatureName === "__DEFAULT__" ? compMeta?.["__DEFAULT__"] ?? localComponentName : void 0
+-		},
+-		stories
++		v: 0,
++		components
+ 	};
+ }
+ //#endregion
+ //#region src/node/vite-plugin-orchestrator.ts
+ const VIRTUAL = "virtual:ember-storybook";
+ const RESOLVED = "\0" + VIRTUAL;
++function normalizeReference(ref) {
++	return ref.file ? {
++		...ref,
++		file: normalizeFilePath(ref.file)
++	} : ref;
++}
++/** Makes the component file paths in a `component` or `subcomponents` contribution project-relative. */
++function normalizeContribution(name, value) {
++	if (typeof value !== "object" || value === null) return value;
++	if (name === "component") return normalizeReference(value);
++	if (name === "subcomponents") return Object.fromEntries(Object.entries(value).map(([key, ref]) => [key, normalizeReference(ref)]));
++	return value;
++}
+ function emberStorybookVitePlugin(api) {
+ 	let server;
+ 	function invalidate() {
+@@ -1099,18 +1442,7 @@ function emberStorybookVitePlugin(api) {
+ 			if (id !== RESOLVED) return;
+ 			const contributions = api.getContributions();
+ 			const merged = {};
+-			for (const [name, data] of contributions) for (const [filePath, value] of Object.entries(data)) {
+-				const relPath = normalizeFilePath(filePath);
+-				let normalizedValue = value;
+-				if (name === "component" && typeof value === "object" && value !== null) {
+-					const compValue = value;
+-					if (compValue.file) normalizedValue = {
+-						...compValue,
+-						file: normalizeFilePath(compValue.file)
+-					};
+-				}
+-				(merged[relPath] ??= {})[name] = normalizedValue;
+-			}
++			for (const [name, data] of contributions) for (const [filePath, value] of Object.entries(data)) (merged[normalizeFilePath(filePath)] ??= {})[name] = normalizeContribution(name, value);
+ 			return {
+ 				code: `export default ${JSON.stringify(merged)};`,
+ 				map: void 0
+@@ -1131,55 +1463,20 @@ function emberStorybookVitePlugin(api) {
+ 	};
+ }
+ //#endregion
+-//#region src/node/docgen/docgen.ts
+-/**
+-* Resolve the directory of the project's tsconfig, replicating TypeDoc's
+-* discovery: walk up from cwd. parseSignatures keys its output relative
+-* to this directory.
+-*/
+-function resolveTsconfigBase() {
+-	const findUp = (dir) => {
+-		if (existsSync(path.join(dir, "tsconfig.json"))) return dir;
+-		const parent = path.dirname(dir);
+-		return parent === dir ? void 0 : findUp(parent);
+-	};
+-	return findUp(process.cwd());
+-}
+-/**
+-* Rewrite componentRef.filePath from tsconfig-relative to project-root-relative
+-* (`./`-prefixed) paths, so consumers can look signatures up in the meta map.
+-*/
+-function rewriteFilePaths(mapped, base) {
+-	for (const compSigs of Object.values(mapped)) for (const compSig of Object.values(compSigs)) for (const blockInfo of Object.values(compSig.blocks)) for (const param of unwrapBlockParams$1(blockInfo.params)) if (param.componentRef?.filePath) param.componentRef.filePath = normalizeFilePath(path.resolve(base, param.componentRef.filePath));
+-}
+-async function runTypeDoc(entryPoints) {
+-	const existing = entryPoints.filter((entryPoint) => existsSync(entryPoint));
+-	if (existing.length === 0) return {};
+-	const base = resolveTsconfigBase();
+-	if (!base) return {};
+-	try {
+-		const extracted = await parseSignatures(existing, { tsconfigFile: path.join(base, "tsconfig.json") });
+-		rewriteFilePaths(extracted, base);
+-		return extracted;
+-	} catch (error) {
+-		console.warn("[ember-storybook] TypeDoc extraction failed:", error);
+-		return {};
+-	}
+-}
+-//#endregion
+ //#region src/node/docgen/vite-plugin.ts
+ function isReferenced(state, componentFile) {
+ 	const abs = path.resolve(componentFile);
+-	for (const r of state.storyToRef.values()) if (r.componentPath === abs) return true;
++	for (const r of state.storyToRef.values()) if (r.componentPaths.includes(abs)) return true;
+ 	return false;
+ }
+ function resolveComponentRef(storyFilePath) {
+ 	const result = parseStoryFile(storyFilePath);
+ 	if (!result?.component.file) return void 0;
+-	const componentPath = path.resolve(result.component.file);
++	const subcomponentFiles = Object.values(result.subcomponents).flatMap((ref) => ref.file ? [ref.file] : []);
++	const componentPaths = [result.component.file, ...subcomponentFiles].map((file) => path.resolve(file));
+ 	return {
+ 		componentName: result.meta.component ?? "",
+-		componentPath
++		componentPaths
+ 	};
+ }
+ async function addSignatures(state, componentPaths) {
+@@ -1217,13 +1514,16 @@ function signaturesContributor(api) {
+ 		const ref = resolveComponentRef(storyFile);
+ 		if (!ref) return;
+ 		state.storyToRef.set(storyFile, ref);
+-		state = await addSignatures(state, [ref.componentPath]);
++		state = await addSignatures(state, ref.componentPaths);
+ 		contributeState();
+ 	}
+-	function processStoryChange(storyFile) {
++	async function processStoryChange(storyFile) {
+ 		state.storyToRef.delete(storyFile);
+ 		const ref = resolveComponentRef(storyFile);
+-		if (ref) state.storyToRef.set(storyFile, ref);
++		if (ref) {
++			state.storyToRef.set(storyFile, ref);
++			state = await addSignatures(state, ref.componentPaths);
++		}
+ 		contributeState();
+ 	}
+ 	function processStoryUnlink(storyFile) {
+@@ -1250,7 +1550,7 @@ function signaturesContributor(api) {
+ 		async buildStart() {
+ 			await api.storyFilesReady();
+ 			discoverAll();
+-			const allPaths = [...new Set(Array.from(state.storyToRef.values(), (r) => r.componentPath))];
++			const allPaths = [...new Set(Array.from(state.storyToRef.values(), (r) => r.componentPaths).flat())];
+ 			state = await addSignatures(state, allPaths);
+ 			contributeState();
+ 		},
+@@ -1277,10 +1577,15 @@ function computeDataForStory(file) {
+ 	if (!storyResult?.meta.component) return {
+ 		meta: {},
+ 		component: {},
++		subcomponents: {},
+ 		componentMap: {}
+ 	};
+-	const compPath = storyResult.component.file;
+-	const compMeta = compPath ? parseComponentFile(path.resolve(PROJECT_ROOT, compPath)) : void 0;
++	const componentMap = {};
++	for (const ref of [storyResult.component, ...Object.values(storyResult.subcomponents)]) {
++		const compMeta = ref.file ? parseComponentFile(path.resolve(PROJECT_ROOT, ref.file)) : void 0;
++		if (ref.file && compMeta) componentMap[ref.file] = compMeta;
++	}
++	const hasSubcomponents = Object.keys(storyResult.subcomponents).length > 0;
+ 	return {
+ 		meta: { [file]: storyResult.meta },
+ 		component: { [file]: {
+@@ -1288,12 +1593,14 @@ function computeDataForStory(file) {
+ 			signatureName: storyResult.component.signatureName,
+ 			name: storyResult.component.name
+ 		} },
+-		componentMap: compPath && compMeta ? { [compPath]: compMeta } : {}
++		subcomponents: hasSubcomponents ? { [file]: storyResult.subcomponents } : {},
++		componentMap
+ 	};
+ }
+ function metaContributor(api) {
+ 	let fileMeta = {};
+ 	let fileComponent = {};
++	let fileSubcomponents = {};
+ 	let fileComponentMaps = {};
+ 	function recontribute() {
+ 		api.contribute("meta", {
+@@ -1301,10 +1608,12 @@ function metaContributor(api) {
+ 			...fileComponentMaps
+ 		});
+ 		api.contribute("component", { ...fileComponent });
++		api.contribute("subcomponents", { ...fileSubcomponents });
+ 	}
+ 	function syncAll() {
+ 		let meta = {};
+ 		let component = {};
++		let subcomponents = {};
+ 		let componentMaps = {};
+ 		for (const file of getStoryFiles()) {
+ 			const data = computeDataForStory(file);
+@@ -1316,6 +1625,10 @@ function metaContributor(api) {
+ 				...component,
+ 				...data.component
+ 			};
++			subcomponents = {
++				...subcomponents,
++				...data.subcomponents
++			};
+ 			componentMaps = {
+ 				...componentMaps,
+ 				...data.componentMap
+@@ -1323,11 +1636,13 @@ function metaContributor(api) {
+ 		}
+ 		fileMeta = meta;
+ 		fileComponent = component;
++		fileSubcomponents = subcomponents;
+ 		fileComponentMaps = componentMaps;
+ 		recontribute();
+ 	}
+ 	function storiesForComponent(compPath) {
+-		return Object.entries(fileComponent).filter(([, v]) => v.file === compPath).map(([k]) => k);
++		const references = (storyPath) => [fileComponent[storyPath], ...Object.values(fileSubcomponents[storyPath] ?? {})];
++		return Object.keys(fileComponent).filter((storyPath) => references(storyPath).some((ref) => ref.file === compPath));
+ 	}
+ 	function syncStory(storyPath) {
+ 		const data = computeDataForStory(storyPath);
+@@ -1343,6 +1658,10 @@ function metaContributor(api) {
+ 			...fileComponentMaps,
+ 			...data.componentMap
+ 		};
++		fileSubcomponents = {
++			...Object.fromEntries(Object.entries(fileSubcomponents).filter(([key]) => key !== storyPath)),
++			...data.subcomponents
++		};
+ 	}
+ 	return {
+ 		name: "ember-storybook:meta",
+@@ -1370,6 +1689,7 @@ function metaContributor(api) {
+ 				if (!(isStoryFile(changedPath) || isComponentFile(changedPath))) return;
+ 				delete fileMeta[changedPath];
+ 				delete fileComponent[changedPath];
++				delete fileSubcomponents[changedPath];
+ 				recontribute();
+ 			});
+ 		}
+@@ -1494,6 +1814,10 @@ const viteFinal = async (config, options) => {
+ const experimental_indexers = (indexers) => {
+ 	return [emberIndexer, ...indexers ?? []];
+ };
++const experimental_manifests = async (existing, options) => ({
++	...existing,
++	components: await buildComponentsManifest(options.manifestEntries ?? [])
++});
+ const core = async (config, options) => {
+ 	const framework = await options.presets.apply("framework");
+ 	return {
+@@ -1505,6 +1829,4 @@ const core = async (config, options) => {
+ 	};
+ };
+ //#endregion
+-export { core, experimental_indexers, managerEntries, previewAnnotations, viteFinal };
+-
+-//# sourceMappingURL=preset.mjs.map
+\ No newline at end of file
++export { core, experimental_indexers, experimental_manifests, managerEntries, previewAnnotations, viteFinal };
+diff --git a/dist/source-code-BxKRCGI7.mjs b/dist/source-code-BxKRCGI7.mjs
+new file mode 100644
+index 0000000..db02b6f
+--- /dev/null
++++ b/dist/source-code-BxKRCGI7.mjs
+@@ -0,0 +1,57 @@
++import { n as unwrapBlockParamsShallow } from "./block-params-wjiT2Ht6.mjs";
++//#region src/client/docs/source-code.ts
++function toArgument(key, value, argTypes) {
++	if (value !== void 0 && value !== null) {
++		if (typeof value === "string") return `@${key}=${JSON.stringify(value)}`;
++		if (typeof value === "number" || typeof value === "boolean") return `@${key}={{${String(value)}}}`;
++		if (Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
++		return;
++	}
++	if (value === void 0 && Object.hasOwn(argTypes, key)) return `@${key}={{@${key}}}`;
++}
++function generateBlockContent(blockInfo) {
++	if (blockInfo.params.length === 0) return "...";
++	return `{{yield ${unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(", ")}}}`;
++}
++function generateBlockSourceCode(sig, args, indent) {
++	const blockNames = Object.keys(sig.blocks);
++	if (blockNames.length === 0) return "";
++	const blocks = [];
++	for (const blockName of blockNames) {
++		const blockInfo = sig.blocks[blockName];
++		if (args[blockName] === void 0 && blockInfo.params.length === 0) continue;
++		const params = unwrapBlockParamsShallow(blockInfo.params).map((p) => p.name).join(" ");
++		const slotBindings = params ? ` as |${params}|` : "";
++		const content = generateBlockContent(blockInfo);
++		if (blockName === "default" && !slotBindings) blocks.push(content);
++		else blocks.push(`${indent}  <:${blockName}${slotBindings}>${content}</:${blockName}>`);
++	}
++	return blocks.join("\n");
++}
++/**
++* Fill a story template's `{{args.name}}` with the story's values: as an
++* attribute or argument value (`@name="Ada"`) or as text (`Hello, Ada`).
++*/
++function resolveTemplateArgs(template, args) {
++	return template.replaceAll(/(=)?\{\{args\.(\w+)\}\}/g, (_match, assign, key) => {
++		const value = args[key];
++		if (typeof value === "string") return assign ? `=${JSON.stringify(value)}` : value;
++		if (typeof value === "number" || typeof value === "boolean") return assign ? `={{${String(value)}}}` : String(value);
++		return `${assign ?? ""}{{@${key}}}`;
++	});
++}
++/** An invocation of the component with the given args, for a story without its own template. */
++function componentSource(name, sig, args, argTypes) {
++	const propsArray = Object.entries(args).filter(([k]) => !sig || !Object.hasOwn(sig.blocks, k)).map(([k, v]) => toArgument(k, v, argTypes)).filter(Boolean);
++	const blockCode = sig ? generateBlockSourceCode(sig, args, "") : "";
++	const propsStr = propsArray.join(" ");
++	if (!blockCode) {
++		if (propsArray.length === 0) return `<${name} />`;
++		if (propsArray.length > 3) return `<${name}\n  ${propsArray.join("\n  ")}\n/>`;
++		return `<${name} ${propsStr} />`;
++	}
++	if (propsArray.length === 0) return `<${name}>\n${blockCode}\n</${name}>`;
++	return `<${name} ${propsStr}>\n${blockCode}\n</${name}>`;
++}
++//#endregion
++export { resolveTemplateArgs as n, componentSource as t };

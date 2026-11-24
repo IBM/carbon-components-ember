@@ -339,22 +339,6 @@
       "tabindex"
     ]
   },
-  "Toggle": {
-    "missing": [
-      "defaultToggled",
-      "hideLabel",
-      "id",
-      "labelA",
-      "labelB",
-      "labelText",
-      "onToggle",
-      "readOnly",
-      "toggled"
-    ],
-    "extra": [
-      "readonly"
-    ]
-  },
   "Toggletip": {
     "missing": [
       "alignmentAxisOffset",

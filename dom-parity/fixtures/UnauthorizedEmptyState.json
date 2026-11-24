@@ -1,6 +1,6 @@
 {
   "component": "UnauthorizedEmptyState",
-  "generatedAt": "2026-11-19T07:02:49.307Z",
+  "generatedAt": "2026-11-24T10:42:31.408Z",
   "carbonReactVersion": "1.121.0",
   "ibmProductsVersion": "2.103.0",
   "reactVersion": "19.3.1",
@@ -537,7 +537,7 @@
                 "tag": "path",
                 "classes": [],
                 "attributes": {
-                  "fill": "url(#prefix__b__r_p7_)",
+                  "fill": "url(#prefix__b__r_re_)",
                   "d": "M20.28 60.39l10.27-5.94 30.8 17.79-10.26 5.93-30.81-17.78z"
                 },
                 "style": {},

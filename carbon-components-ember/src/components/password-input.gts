@@ -196,6 +196,9 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
           <input
             aria-describedby={{this.describedBy}}
             aria-errormessage={{if this.isInvalid this.field.invalidId}}
+            placeholder={{@placeholder}}
+            disabled={{@disabled}}
+            readonly={{@readOnly}}
             ...attributes
             id={{this.id}}
             type={{this.inputType}}
@@ -204,9 +207,6 @@ export default class PasswordInput extends Component<PasswordInputSignature> {
               {{if @light 'cds--text-input--light'}}
               {{if this.isInvalid 'cds--text-input--invalid'}}
               {{if this.isWarn 'cds--text-input--warning'}}"
-            placeholder={{@placeholder}}
-            disabled={{@disabled}}
-            readonly={{@readOnly}}
             aria-invalid={{if this.isInvalid "true"}}
             data-invalid={{if this.isInvalid "true"}}
             data-toggle-password-visibility={{if

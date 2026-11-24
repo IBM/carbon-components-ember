@@ -38,5 +38,15 @@
     "reason": "Ported as carbon-components-ember/ibm-products' PageHeader, from IBM Products; @carbon/react 1.121 releases it in v11, and #1382 moves it there",
     "excludedAt": "2026-10-28T18:16:44.858Z",
     "issue": null
+  },
+  "ExpressiveCard": {
+    "reason": "Deprecated in Carbon for IBM Products. Carbon v12 replaces ExpressiveCard and ProductiveCard with a composable Card in @carbon/react (IBM Products' \"Migration to Carbon (v12)\" overview), so we'll build that Card instead.",
+    "excludedAt": "2026-11-17T06:25:48.364Z",
+    "issue": "1208"
+  },
+  "ProductiveCard": {
+    "reason": "Deprecated in Carbon for IBM Products. Carbon v12 replaces ExpressiveCard and ProductiveCard with a composable Card in @carbon/react (IBM Products' \"Migration to Carbon (v12)\" overview), so we'll build that Card instead.",
+    "excludedAt": "2026-11-17T06:25:52.030Z",
+    "issue": "1207"
   }
 }

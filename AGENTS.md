@@ -65,7 +65,7 @@ class="carbon-btn-set"
 
 ### 3. Component Styles
 
-Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass.
+Styles Carbon doesn't provide live next to the component (`icon.scss` beside `icon.gts`), and every component that uses them imports them explicitly (`import './icon.scss';`). Name their classes `cds--ember-<component>`. The build compiles every imported stylesheet into `dist/styles.css` (rollup-plugin-sass), the one stylesheet apps load after Carbon's, and leaves the imports out of the published JS and types, so apps need no Sass. It starts with `src/styles.scss`: what an app's own markup uses from Carbon that its compiled CSS leaves out (type classes, spacing tokens on `:root`).
 
 ### 4. Component Arguments vs Props
 
@@ -126,7 +126,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | `useRef` to measure or drive an element | The `captureElement` modifier, handing the element to a class field | `modifiers/capture-element.ts` |
 | `forwardRef`, or a ref a component puts on a child it's given | Yield a `ModifierLike` for the caller to apply to their own element | `components/popover.gts` (`trigger`) |
 | `createPortal` | `{{#in-element}}` — use the existing `<Portal>` component, which renders into the topmost open Modal (the `carbon.layers` service), as nothing outside it works. A layer that must keep its state as modals open and close moves its element instead | `components/portal.gts`, `notification/toast-notification-list.gts` |
-| A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/modal.gts` |
+| A modal over the page | A native `<dialog>` opened with `showModal()`, rendered in place: the top layer needs no portal or target element. A component inside one that closes on Escape stops the event, so the modal stays open | `components/-private/modal-dialog.gts`, which Modal and ComposedModal render |
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` and a `trigger` modifier for the trigger (`<Popover as \|PopoverContent trigger\|>`) | `components/popover.gts` |
@@ -265,6 +265,10 @@ A function modifier tracks only what its body reads before returning. An argumen
 
 Glimmer keeps the newlines and indentation JSX trims. A `{{yield}}` or `{{@label}}` on a line of its own renders whitespace around the text, which shows as a space in inline content (underlined in a link) and stops an empty element matching `:empty`, and a root inside `{{#if}}` or `{{#let}}` renders whitespace beside it. Strip the template's own whitespace with `~` (`{{~yield~}}`, `{{#let (element this.tag) as |Tag|~}}` … `{{~/let}}`), or put adjacent tags together (`</ButtonBase></Tooltip>`). Never trim what a block yields: a caller's spaces are theirs. DOM parity flags whitespace Carbon React doesn't render; elsewhere, test `textContent` exactly, since `hasText` normalizes whitespace.
 
+### ❌ Pitfall 10: A Tracked Field's Initializer Runs Late
+
+`@tracked x = this.args.y` runs when `x` is first read, not when the component is constructed, so it sees `@y` as it is by then. Read an argument that can change into a plain field first (`#initial = this.args.y;`), and seed the tracked field from that, as `Toggle` does.
+
 ---
 
 ## Tests
@@ -277,6 +281,8 @@ Glimmer keeps the newlines and indentation JSX trims. A `{{yield}}` or `{{@label
 ## Upgrading Carbon and TypeScript
 
 `pnpm-workspace.yaml`'s catalogs pin the dependencies we upgrade by hand (`catalog:carbon`, `catalog:typescript`). Dependabot ignores them; never bump one on its own, and keep TypeScript on 6.0 until Glint supports TypeScript 7 ([#948](https://github.com/IBM/carbon-components-ember/pull/948)). The upgrade procedure is in [.claude/skills/upgrade-carbon/SKILL.md](.claude/skills/upgrade-carbon/SKILL.md).
+
+Components follow the Carbon v11 release we pin until our stable release, and Carbon v12 support comes after it ([#1055](https://github.com/IBM/carbon-components-ember/issues/1055)). So that work carries over, check what v12 does with a component before building or changing it: step 2 of [implement-component](.claude/skills/implement-component/SKILL.md).
 
 ---
 

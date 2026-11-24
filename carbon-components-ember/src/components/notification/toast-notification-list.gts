@@ -15,6 +15,26 @@ import ActionableNotification from './actionable-notification.gts';
 import ToastNotification from './toast-notification.gts';
 import './toast-notification-list.scss';
 
+// Sets a toast's attributes on its element, and takes them off again. A
+// class adds to the toast's own, and the role stays the toast's.
+const toastAttributes = modifier(
+  (
+    element: HTMLElement,
+    [attributes]: [attributes: Record<string, string> | undefined],
+  ) => {
+    const classes = (attributes?.['class'] ?? '').split(/\s+/).filter(Boolean);
+    const entries = Object.entries(attributes ?? {}).filter(
+      ([name]) => name !== 'class' && name !== 'role',
+    );
+    element.classList.add(...classes);
+    for (const [name, value] of entries) element.setAttribute(name, value);
+    return () => {
+      element.classList.remove(...classes);
+      for (const [name] of entries) element.removeAttribute(name);
+    };
+  },
+);
+
 export interface ToastNotificationListSignature {
   Element: HTMLDivElement;
 }
@@ -69,7 +89,9 @@ export default class ToastNotificationList extends Component<ToastNotificationLi
               @statusIconDescription={{toast.statusIconDescription}}
               @subtitle={{toast.subtitle}}
               @title={{toast.title}}
-            />
+              {{toastAttributes toast.attributes}}
+            >{{#if toast.content}}<toast.content
+                />{{/if}}</ActionableNotification>
           {{else}}
             <ToastNotification
               @ariaLabel={{toast.ariaLabel}}
@@ -83,7 +105,8 @@ export default class ToastNotificationList extends Component<ToastNotificationLi
               @timeout={{toast.timeout}}
               @title={{toast.title}}
               role={{or toast.role "status"}}
-            />
+              {{toastAttributes toast.attributes}}
+            >{{#if toast.content}}<toast.content />{{/if}}</ToastNotification>
           {{/if}}
         {{/each~}}
       </div></div>

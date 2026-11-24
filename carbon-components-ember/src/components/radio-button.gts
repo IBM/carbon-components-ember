@@ -110,13 +110,13 @@ export default class RadioButton extends Component<RadioButtonSignature> {
         {{@className}}"
     >
       <input
+        disabled={{this.disabled}}
+        readonly={{this.readOnly}}
         ...attributes
         type="radio"
         class="cds--radio-button"
         id={{this.id}}
         value={{@value}}
-        disabled={{this.disabled}}
-        readonly={{this.readOnly}}
         required={{this.required}}
         name={{this.name}}
         checked={{this.checked}}
