@@ -89,8 +89,14 @@ export interface TileSignature {
     id?: string;
   };
   Blocks: {
+    /**
+     * The tile's content, as Carbon React's children. An `@expandable` tile
+     * takes `<:above>` and `<:below>` instead.
+     */
+    default: [];
+    /** An `@expandable` tile's content above the fold, as `TileAboveTheFoldContent`. */
     above: [];
-    content: [];
+    /** An `@expandable` tile's content below the fold, as `TileBelowTheFoldContent`. */
     below: [];
   };
 }
@@ -193,7 +199,7 @@ export default class Tile extends Component<TileSignature> {
         </span>
         {{! eslint-disable-next-line ember/template-require-presentational-children, ember/template-no-nested-interactive }}
         <label for={{@id}} class="cds--tile-content" dir="auto">
-          {{~yield to="content"~}}
+          {{~yield~}}
         </label>
       </div>
     {{~/if}}
@@ -242,7 +248,7 @@ export default class Tile extends Component<TileSignature> {
     {{~/if}}
     {{#if this.default~}}
       <div class="cds--tile" ...attributes>
-        {{~yield to="content"~}}
+        {{~yield~}}
       </div>
     {{~/if}}
     {{#if @clickable~}}
@@ -259,7 +265,7 @@ export default class Tile extends Component<TileSignature> {
         {{on "keydown" this.clickOnKey}}
         ...attributes
       >
-        {{~yield to="content"~}}
+        {{~yield~}}
       </Link>
     {{~/if}}
   </template>

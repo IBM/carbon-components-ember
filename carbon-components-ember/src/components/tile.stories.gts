@@ -13,8 +13,7 @@ import type { TileSignature } from './tile.gts';
 import '#storybook/styles/tile.css';
 
 // Parity gaps with Carbon React's Tile stories:
-// - `ClickableWithCustomIcon`: clickable tiles have no `renderIcon`, `href`
-//   or `disabled` args (they always render `href="#"`).
+// - `ClickableWithCustomIcon`: clickable tiles have no `renderIcon`.
 // - Selectable tiles have no `selected`/`disabled`/`name`/`value` args; the
 //   selection is internal state, reported through `@onSelect`.
 // - Expandable tiles have no `expanded` arg (the state is internal), and no
@@ -36,7 +35,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "A tile is a highly flexible component for displaying a wide variety of content. `Tile` renders a default, `@clickable`, `@selectable` or `@expandable` tile; a clickable tile is a link to its `@href`, or with `@route` to one of the app's routes, and without either Enter and Space click it; its `content`, `above` and `below` named blocks hold the content (`above`/`below` are the always-visible and expandable parts of an expandable tile). Use `TileGroup` together with its yielded `RadioTile` to build a group of tiles where only one tile can be selected at a time.",
+          "A tile is a highly flexible component for displaying a wide variety of content. `Tile` renders a default, `@clickable`, `@selectable` or `@expandable` tile; a clickable tile is a link to its `@href`, or with `@route` to one of the app's routes, and without either Enter and Space click it; its content goes in its block, as Carbon React's children, except for an expandable tile's, which goes in its `above` and `below` named blocks (the always-visible and the expandable parts). Use `TileGroup` together with its yielded `RadioTile` to build a group of tiles where only one tile can be selected at a time.",
       },
     },
   },
@@ -49,12 +48,10 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
 export const Default = meta.story({
   render: (args: StoryArgs) => <template>
     <Tile @id={{args.id}}>
-      <:content>
-        Default tile
-        <br />
-        <br />
-        <Link @href="https://www.carbondesignsystem.com">Link</Link>
-      </:content>
+      Default tile
+      <br />
+      <br />
+      <Link @href="https://www.carbondesignsystem.com">Link</Link>
     </Tile>
   </template>,
 });
@@ -62,7 +59,7 @@ export const Default = meta.story({
 export const Clickable = meta.story({
   render: (args: StoryArgs) => <template>
     <Tile @clickable={{true}} {{on "click" args.onClick}}>
-      <:content>Clickable Tile</:content>
+      Clickable Tile
     </Tile>
   </template>,
 });
@@ -84,7 +81,7 @@ export const Selectable = meta.story({
   },
   render: (args: StoryArgs) => <template>
     <Tile @selectable={{true}} @id={{args.id}} @onSelect={{args.onSelect}}>
-      <:content>Selectable</:content>
+      Selectable
     </Tile>
   </template>,
 });
@@ -115,21 +112,21 @@ export const MultiSelect = meta.story({
         @id="selectable-tile-1"
         @onSelect={{args.onSelect}}
       >
-        <:content>Option 1</:content>
+        Option 1
       </Tile>
       <Tile
         @selectable={{true}}
         @id="selectable-tile-2"
         @onSelect={{args.onSelect}}
       >
-        <:content>Option 2</:content>
+        Option 2
       </Tile>
       <Tile
         @selectable={{true}}
         @id="selectable-tile-3"
         @onSelect={{args.onSelect}}
       >
-        <:content>Option 3</:content>
+        Option 3
       </Tile>
     </div>
   </template>,
@@ -240,7 +237,7 @@ export const AllKinds = meta.story({
   name: 'All kinds',
   render: () => <template>
     <Tile>
-      <:content>Some Content</:content>
+      Some Content
     </Tile>
     <br />
     <Tile @expandable={{true}}>
@@ -256,14 +253,10 @@ export const AllKinds = meta.story({
     </Tile>
     <br />
     <Tile @selectable={{true}}>
-      <:content>Selectable content</:content>
+      Selectable content
     </Tile>
     <br />
-    <Tile @clickable={{true}}>
-      <:above>Title</:above>
-      <:content>Some clickable Content</:content>
-      <:below>footer</:below>
-    </Tile>
+    <Tile @clickable={{true}}>Some clickable Content</Tile>
   </template>,
 });
 
