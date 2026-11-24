@@ -51,6 +51,23 @@ function isText(node) {
   return node && node.nodeType === 3;
 }
 
+// jsdom serializes some declarations differently from browsers: it writes
+// `-webkit-line-clamp: 2` as `line-clamp: 2 -webkit-legacy`, and drops a
+// translate's zero `y`. Write both as Chrome does.
+function normalizeDeclaration(prop, value) {
+  const legacyClamp = /^(\S+) -webkit-legacy$/.exec(value);
+  if (prop === 'line-clamp' && legacyClamp) {
+    return ['-webkit-line-clamp', legacyClamp[1]];
+  }
+  if (prop === 'transform') {
+    return [
+      prop,
+      value.replace(/\btranslate\(([^,()]+)\)/g, 'translate($1, 0px)'),
+    ];
+  }
+  return [prop, value];
+}
+
 function parseStyle(styleValue) {
   const style = {};
   if (!styleValue) return style;
@@ -60,7 +77,8 @@ function parseStyle(styleValue) {
     const prop = decl.slice(0, idx).trim().toLowerCase();
     const value = decl.slice(idx + 1).trim();
     if (!prop || !value) continue;
-    style[prop] = value;
+    const [name, normalized] = normalizeDeclaration(prop, value);
+    style[name] = normalized;
   }
   return style;
 }
