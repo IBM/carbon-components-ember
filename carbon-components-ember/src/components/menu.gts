@@ -63,11 +63,12 @@ export interface MenuSignature {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * Specify a DOM node where the Menu should be rendered in. Defaults to
-     * the topmost open `Modal`, so the Menu can be used over it, else
-     * `document.body`. Pass a node inside your own root when the Menu is
-     * rendered in a shadow root, otherwise it escapes into the light DOM
-     * where your styles don't reach it. Submenus aren't portaled - they
-     * inherit this as their positioning origin instead.
+     * the topmost open `Modal`, so the Menu can be used over it, else the
+     * `carbon.layers` service's `root`, else `document.body`. Pass a node
+     * inside your own root when the Menu is rendered in a shadow root,
+     * otherwise it escapes into the light DOM where your styles don't reach
+     * it. Submenus aren't portaled - they inherit this as their positioning
+     * origin instead.
      */
     target?: Element;
     /**

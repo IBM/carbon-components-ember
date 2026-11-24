@@ -104,6 +104,19 @@ That service shows toasts in a `ToastNotificationList`, which you render once in
 
 An [ember-engines](https://ember-engines.com) engine shares them with its host, as it does the router: list `carbon.layers`, `carbon.notifications` and `carbon.theme` in its `dependencies.services`.
 
+## Test
+
+Menus and portals render into `document.body`, outside your tests' root, so `click`, `find` and `assert.dom` don't find them. Point the `carbon.layers` service at that root before each test, in the `setupRenderingTest` and `setupApplicationTest` of `tests/helpers/index.ts`, after they call ember-qunit's own:
+
+```ts
+import type LayersService from 'carbon-components-ember/services/layers';
+
+hooks.beforeEach(function () {
+  const layers = this.owner.lookup('service:carbon.layers') as LayersService;
+  layers.root = document.querySelector('#ember-testing');
+});
+```
+
 ## Use with AI agents
 
 The package ships an [agent skill](https://agentskills.io) for coding agents. It tells them to look each component up rather than guess, how Carbon's docs and Figma designs, written for React, carry over to Ember, and to type-check what they write with Glint. It also carries every component's import, arguments, blocks and examples. All of it comes with the version your app has installed, so it updates with the package and works offline.
