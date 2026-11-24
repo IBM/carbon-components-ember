@@ -278,6 +278,8 @@ Glimmer keeps the newlines and indentation JSX trims. A `{{yield}}` or `{{@label
 
 `pnpm-workspace.yaml`'s catalogs pin the dependencies we upgrade by hand (`catalog:carbon`, `catalog:typescript`). Dependabot ignores them; never bump one on its own, and keep TypeScript on 6.0 until Glint supports TypeScript 7 ([#948](https://github.com/IBM/carbon-components-ember/pull/948)). The upgrade procedure is in [.claude/skills/upgrade-carbon/SKILL.md](.claude/skills/upgrade-carbon/SKILL.md).
 
+Components follow the Carbon v11 release we pin until our stable release, and Carbon v12 support comes after it ([#1055](https://github.com/IBM/carbon-components-ember/issues/1055)). So that work carries over, check what v12 does with a component before building or changing it: step 2 of [implement-component](.claude/skills/implement-component/SKILL.md).
+
 ---
 
 ## Storybook Conventions
