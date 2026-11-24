@@ -58,11 +58,19 @@ module('Integration | Component | InlineLoading', (hooks) => {
     );
 
     assert
+      .dom('svg.cds--inline-loading__checkmark-container')
+      .hasAttribute('role', 'img')
+      .hasAria('label', 'finished');
+    assert
       .dom('svg.cds--inline-loading__checkmark-container title')
       .hasText('finished');
 
     state.status = 'error';
     await rerender();
+    assert
+      .dom('svg.cds--inline-loading--error')
+      .hasAttribute('role', 'img')
+      .hasAria('label', 'error');
     assert.dom('svg.cds--inline-loading--error title').hasText('error');
   });
 

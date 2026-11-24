@@ -10,16 +10,16 @@ catalogs:
   # AGENTS.md says where the others' versions come from.
   carbon:
     '@carbon/ai-chat-components': 1.11.0
-    '@carbon/grid': ^11.65.0
-    '@carbon/icon-helpers': ^10.84.0
-    '@carbon/ibm-products': 2.101.0
-    '@carbon/ibm-products-styles': 2.97.0
-    '@carbon/icons': ^11.91.0
-    '@carbon/layout': ^11.62.0
-    '@carbon/react': 1.119.0
-    '@carbon/styles': ^1.118.0
-    '@carbon/themes': 11.84.0
-    '@carbon/utilities': 0.28.0
+    '@carbon/grid': ^11.66.0
+    '@carbon/icon-helpers': ^10.85.0
+    '@carbon/ibm-products': 2.103.0
+    '@carbon/ibm-products-styles': 2.99.0
+    '@carbon/icons': ^11.92.0
+    '@carbon/layout': ^11.63.0
+    '@carbon/react': 1.121.0
+    '@carbon/styles': ^1.120.0
+    '@carbon/themes': 11.86.0
+    '@carbon/utilities': 0.30.0
   # Glint doesn't support TypeScript 7 yet; #948 tracks the upgrade.
   typescript:
     typescript: 6.0.3

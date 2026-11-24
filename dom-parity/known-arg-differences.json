@@ -27,6 +27,11 @@
       "ariaLabel"
     ]
   },
+  "Button": {
+    "missing": [
+      "badgeCount"
+    ]
+  },
   "Checkbox": {
     "missing": [
       "defaultChecked",
@@ -53,6 +58,7 @@
   "CopyButton": {
     "missing": [
       "as",
+      "badgeCount",
       "dangerDescription",
       "hasIconOnly",
       "href",
@@ -168,6 +174,7 @@
   "NotificationActionButton": {
     "missing": [
       "as",
+      "badgeCount",
       "dangerDescription",
       "hasIconOnly",
       "href",
@@ -201,6 +208,7 @@
   "OverflowMenu": {
     "missing": [
       "badgeCount",
+      "dangerDescription",
       "isSelected",
       "label",
       "menuAlignment",
@@ -252,7 +260,8 @@
   "Search": {
     "missing": [
       "onExpand",
-      "renderIcon"
+      "renderIcon",
+      "tooltipAlignment"
     ],
     "extra": [
       "expandable",
@@ -280,16 +289,18 @@
       "unstable_ariaLabelHandleUpper"
     ]
   },
-  "TableToolbarSearch": {
-    "missing": [
-      "isExpanded",
-      "renderIcon"
-    ]
-  },
   "TableToolbarMenu": {
     "missing": [
       "badgeCount",
+      "dangerDescription",
       "isSelected"
+    ]
+  },
+  "TableToolbarSearch": {
+    "missing": [
+      "isExpanded",
+      "renderIcon",
+      "tooltipAlignment"
     ]
   },
   "TabList": {

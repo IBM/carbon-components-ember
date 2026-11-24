@@ -9,6 +9,7 @@ import {
 } from '@ember/test-helpers';
 import { trackedObject } from '@ember/reactive/collections';
 import Card from '#src/components/card.gts';
+import ErrorIcon from '#src/components/icons/error.ts';
 import Share from '#src/components/icons/share.ts';
 import { setupRoutes, visitWith } from '../helpers';
 
@@ -21,13 +22,17 @@ module('Integration | Component | Card', function (hooks) {
         <Card as |card|>
           <card.Media @ratio="16x9"><img alt="" /></card.Media>
           <card.Header>
-            <card.TitleMedia>Logo</card.TitleMedia>
-            <card.Title @label="Label" @description="Description">
-              Title
-            </card.Title>
-            <card.Actions>
-              <card.Action><button type="button">Edit</button></card.Action>
-            </card.Actions>
+            <:default>
+              <card.Title @label="Label" @description="Description">
+                <:titleMedia>Logo</:titleMedia>
+                <:default>Title</:default>
+              </card.Title>
+            </:default>
+            <:actions>
+              <card.Actions>
+                <card.Action><button type="button">Edit</button></card.Action>
+              </card.Actions>
+            </:actions>
           </card.Header>
           <card.Body>Body</card.Body>
           <card.Footer>Footer</card.Footer>
@@ -46,20 +51,52 @@ module('Integration | Component | Card', function (hooks) {
       .dom('.cds--card > .cds--card__media')
       .hasClass('cds--aspect-ratio')
       .hasClass('cds--aspect-ratio--16x9');
-    assert.dom('.cds--card__header > .cds--card__title-media').hasText('Logo');
-    assert.dom('.cds--card__title > .cds--card__label').hasText('Label');
+    assert.dom('.cds--card__title').hasClass('cds--card__title--has-media');
+    assert.dom('.cds--card__title > .cds--card__title-media').hasText('Logo');
+    assert.dom('.cds--card__title-text > .cds--card__label').hasText('Label');
     assert
-      .dom('.cds--card__title > .cds--card__title-text-row')
+      .dom('.cds--card__title-text > .cds--card__title-text-row')
       .hasText('Title');
     assert
-      .dom('.cds--card__title > .cds--card__description')
+      .dom('.cds--card__title-text > .cds--card__description')
       .hasText('Description');
     assert
-      .dom('.cds--card__header > .cds--card__actions > .cds--card__action')
-      .exists();
+      .dom(
+        '.cds--card__title + .cds--card__actions-slot > .cds--card__actions > .cds--card__action',
+      )
+      .exists('the actions follow the title');
+    assert.dom('.cds--card__header-top-row').doesNotExist();
     assert.dom('.cds--card__body').hasText('Body');
     assert.dom('.cds--card__footer').hasText('Footer');
     assert.dom('.cds--card__clickable-footer').doesNotExist();
+  });
+
+  test('header media puts the media and actions in a row above the title', async function (assert) {
+    await render(
+      <template>
+        <Card as |card|>
+          <card.Header>
+            <:default><card.Title>Title</card.Title></:default>
+            <:headerMedia>Icon</:headerMedia>
+            <:actions><card.Actions /></:actions>
+          </card.Header>
+        </Card>
+      </template>,
+    );
+
+    assert
+      .dom(
+        '.cds--card__header > .cds--card__header-top-row > .cds--card__header-media',
+      )
+      .hasText('Icon');
+    assert
+      .dom(
+        '.cds--card__header-media + .cds--card__actions-slot > .cds--card__actions',
+      )
+      .exists();
+    assert
+      .dom('.cds--card__header-top-row + .cds--card__title')
+      .hasText('Title');
   });
 
   test('@density, @horizontal and @isFlush', async function (assert) {
@@ -139,6 +176,7 @@ module('Integration | Component | Card', function (hooks) {
           {{on "click" onClick}}
         />
         <Card @disabled={{true}} id="plain" />
+        <div id="error-icon"><ErrorIcon /></div>
       </template>,
     );
 
@@ -151,6 +189,11 @@ module('Integration | Component | Card', function (hooks) {
     assert
       .dom('#clickable .cds--card__clickable-footer')
       .exists('the muted footer stays');
+    assert.strictEqual(
+      find('#clickable .cds--card__clickable-footer svg')?.innerHTML,
+      find('#error-icon svg')?.innerHTML,
+      'with an error icon, as in Carbon React',
+    );
     assert
       .dom('#plain')
       .hasAttribute('aria-disabled', 'true')
@@ -211,8 +254,7 @@ module('Integration | Component | Card', function (hooks) {
     assert
       .dom(row)
       .hasClass('cds--card__title-text-row--truncate-multi')
-      .hasClass('cds--card__title-text-row--with-start-icon')
-      .hasClass('cds--card__title-text-row--with-end-icon');
+      .hasClass('cds--card__title-text-row--with-start-icon');
     assert.strictEqual(
       row.style.getPropertyValue('--cds--card--title-max-width'),
       '10rem',

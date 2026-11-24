@@ -1,7 +1,7 @@
 {
   "component": "FileUploaderButton",
-  "generatedAt": "2026-10-28T11:06:02.728Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.117Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -11,9 +11,8 @@
         "tag": "button",
         "classes": [
           "cds--btn",
-          "cds--btn--md",
           "cds--btn--primary",
-          "cds--layout--size-md"
+          "cds--file-uploader-button"
         ],
         "attributes": {
           "type": "button"
@@ -37,9 +36,8 @@
         "classes": [
           "cds--btn",
           "cds--btn--disabled",
-          "cds--btn--md",
           "cds--btn--primary",
-          "cds--layout--size-md"
+          "cds--file-uploader-button"
         ],
         "attributes": {
           "type": "button",
@@ -63,9 +61,8 @@
         "tag": "button",
         "classes": [
           "cds--btn",
-          "cds--btn--md",
           "cds--btn--secondary",
-          "cds--layout--size-md"
+          "cds--file-uploader-button"
         ],
         "attributes": {
           "type": "button"
@@ -90,6 +87,7 @@
           "cds--btn",
           "cds--btn--primary",
           "cds--btn--sm",
+          "cds--file-uploader-button",
           "cds--layout--size-sm"
         ],
         "attributes": {
@@ -113,9 +111,8 @@
         "tag": "button",
         "classes": [
           "cds--btn",
-          "cds--btn--md",
           "cds--btn--primary",
-          "cds--layout--size-md"
+          "cds--file-uploader-button"
         ],
         "attributes": {
           "type": "button"

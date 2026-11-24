@@ -1,7 +1,7 @@
 {
   "component": "TableToolbarSearch",
-  "generatedAt": "2026-11-05T19:11:35.145Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:49.227Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -9,7 +9,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--search", "cds--toolbar-search-container-expandable"],
+        "classes": [
+          "cds--search",
+          "cds--toolbar-search-container-expandable"
+        ],
         "attributes": {
           "role": "search",
           "aria-labelledby": "#1"
@@ -19,7 +22,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -28,7 +33,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -58,7 +65,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -74,7 +83,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -89,7 +100,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -137,7 +151,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--search", "cds--toolbar-search-container-persistent"],
+        "classes": [
+          "cds--search",
+          "cds--toolbar-search-container-persistent"
+        ],
         "attributes": {
           "role": "search",
           "aria-labelledby": "#1"
@@ -147,7 +164,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -156,7 +175,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -186,7 +207,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -202,7 +225,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -217,7 +242,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -279,7 +307,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -288,7 +318,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -318,7 +350,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -334,7 +368,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -349,7 +385,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -411,7 +450,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -420,7 +461,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -450,7 +493,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -466,7 +511,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -481,7 +528,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -544,7 +594,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -553,7 +605,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -583,7 +637,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -599,7 +655,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "disabled": true,
@@ -615,7 +673,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "disabled": true,
@@ -678,7 +739,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -687,7 +750,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -717,7 +782,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -733,7 +800,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -748,7 +817,9 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close"],
+            "classes": [
+              "cds--search-close"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -811,7 +882,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -820,7 +893,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -850,7 +925,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -866,7 +943,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -881,7 +960,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -929,7 +1011,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--search", "cds--toolbar-search-container-expandable"],
+        "classes": [
+          "cds--search",
+          "cds--toolbar-search-container-expandable"
+        ],
         "attributes": {
           "role": "search",
           "aria-labelledby": "#1"
@@ -939,7 +1024,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -948,7 +1035,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -978,7 +1067,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -994,7 +1085,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1009,7 +1102,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -1057,7 +1153,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--search", "cds--toolbar-search-container-expandable"],
+        "classes": [
+          "cds--search",
+          "cds--toolbar-search-container-expandable"
+        ],
         "attributes": {
           "role": "search",
           "aria-labelledby": "#1"
@@ -1067,7 +1166,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -1076,7 +1177,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -1106,7 +1209,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -1122,7 +1227,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1137,7 +1244,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -1185,7 +1295,10 @@
       "dom": {
         "type": "element",
         "tag": "div",
-        "classes": ["cds--search", "cds--toolbar-search-container-expandable"],
+        "classes": [
+          "cds--search",
+          "cds--toolbar-search-container-expandable"
+        ],
         "attributes": {
           "role": "search",
           "aria-labelledby": "#1"
@@ -1195,7 +1308,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -1204,7 +1319,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -1234,7 +1351,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -1250,7 +1369,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1265,7 +1386,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -1327,7 +1451,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -1336,7 +1462,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -1366,7 +1494,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -1382,7 +1512,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1397,7 +1529,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -1459,7 +1594,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -1468,7 +1605,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -1498,7 +1637,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -1514,7 +1655,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1529,7 +1672,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",
@@ -1594,7 +1740,9 @@
           {
             "type": "element",
             "tag": "div",
-            "classes": ["cds--search-magnifier"],
+            "classes": [
+              "cds--search-magnifier"
+            ],
             "attributes": {
               "tabindex": "-1"
             },
@@ -1603,7 +1751,9 @@
               {
                 "type": "element",
                 "tag": "svg",
-                "classes": ["cds--search-magnifier-icon"],
+                "classes": [
+                  "cds--search-magnifier-icon"
+                ],
                 "attributes": {
                   "focusable": "false",
                   "preserveAspectRatio": "xMidYMid meet",
@@ -1633,7 +1783,9 @@
           {
             "type": "element",
             "tag": "label",
-            "classes": ["cds--label"],
+            "classes": [
+              "cds--label"
+            ],
             "attributes": {
               "id": "#1",
               "for": "#2"
@@ -1649,7 +1801,9 @@
           {
             "type": "element",
             "tag": "input",
-            "classes": ["cds--search-input"],
+            "classes": [
+              "cds--search-input"
+            ],
             "attributes": {
               "autocomplete": "off",
               "id": "#2",
@@ -1664,7 +1818,10 @@
           {
             "type": "element",
             "tag": "button",
-            "classes": ["cds--search-close", "cds--search-close--hidden"],
+            "classes": [
+              "cds--search-close",
+              "cds--search-close--hidden"
+            ],
             "attributes": {
               "aria-label": "Clear search input",
               "title": "Clear search input",

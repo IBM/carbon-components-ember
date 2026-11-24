@@ -35,7 +35,7 @@
     "issue": null
   },
   "PageHeader": {
-    "reason": "Deprecated in @carbon/react 1.119 as moved to Carbon for IBM Products; ported as carbon-components-ember/ibm-products' PageHeader",
+    "reason": "Ported as carbon-components-ember/ibm-products' PageHeader, from IBM Products; @carbon/react 1.121 releases it in v11, and #1382 moves it there",
     "excludedAt": "2026-10-28T18:16:44.858Z",
     "issue": null
   },

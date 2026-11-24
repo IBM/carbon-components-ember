@@ -11,9 +11,11 @@ import FileUploaderDropContainer from './file-uploader/file-uploader-drop-contai
 import FileUploaderItem from './file-uploader/file-uploader-item.gts';
 import FileUploaderSkeleton from './file-uploader/file-uploader-skeleton.gts';
 import FormItem from './form-item.gts';
+import { NewPopoverAlignments } from './popover.gts';
 
 import type { FileUploaderSignature } from './file-uploader.gts';
 import type { FileUploaderAddedFile } from './file-uploader/file-uploader-drop-container.gts';
+import type { FileUploaderItemSignature } from './file-uploader/file-uploader-item.gts';
 import '#storybook/styles/file-uploader.css';
 
 // Mirrors Carbon React's `Components/FileUploader` stories: `Default`,
@@ -30,7 +32,7 @@ import '#storybook/styles/file-uploader.css';
 //   `iconDescription`-only usage: files are only removable when
 //   `@filenameStatus` is `edit` (same as React).
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = FileUploaderItemSignature['Args']['size'];
 type Status = 'uploading' | 'edit' | 'complete';
 
 // One meta covers the uploader and its sub-components (as React's does), so
@@ -45,6 +47,8 @@ type StoryArgs = Omit<
   onClick: (event: Event) => void;
   onDelete?: (...args: unknown[]) => void;
   // FileUploaderItem
+  align?: FileUploaderItemSignature['Args']['align'];
+  autoAlign?: boolean;
   status?: Status;
   uuid?: string;
   invalid?: boolean;
@@ -207,6 +211,8 @@ const fileUploaderArgs: DataArgs = {
 };
 
 const fileUploaderItemArgs: DataArgs = {
+  align: 'bottom',
+  autoAlign: false,
   disabled: false,
   errorBody: '1 MB max file size. Select a new file and try again.',
   errorSubject: 'File size exceeds limit',
@@ -273,6 +279,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     onDelete: fn(),
   },
   argTypes: {
+    align: { control: 'select', options: NewPopoverAlignments },
     buttonKind: {
       control: 'select',
       options: [
@@ -292,7 +299,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       control: 'inline-radio',
       options: ['edit', 'complete', 'uploading'],
     },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },
   render: (args) => <template>
     <div class="cds--file__container">
@@ -414,6 +421,8 @@ export const FileUploaderItemStory = meta.story({
   parameters: { controls: { include: fileUploaderItemControls } },
   render: (args) => <template>
     <FileUploaderItem
+      @align={{args.align}}
+      @autoAlign={{args.autoAlign}}
       @disabled={{args.disabled}}
       @errorBody={{args.errorBody}}
       @errorSubject={{args.errorSubject}}

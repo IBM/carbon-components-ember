@@ -15,8 +15,9 @@ export interface CardTitleMediaSignature {
 }
 
 /**
- * Media beside a `Card`'s title, in its header, between 48 and 64 pixels
- * high, aligned with the title's first line.
+ * Media beside a `Card`'s title, between 48 and 64 pixels high, aligned
+ * with the title's first line. `Title`'s `<:titleMedia>` block renders this
+ * wrapper itself, so put media straight in the block instead.
  */
 const CardTitleMedia: TOC<CardTitleMediaSignature> = <template>
   <div class="cds--card__title-media" ...attributes>{{yield}}</div>

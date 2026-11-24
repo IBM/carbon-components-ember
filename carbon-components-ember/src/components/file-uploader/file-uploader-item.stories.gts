@@ -2,14 +2,15 @@ import { expect, fn } from 'storybook/test';
 
 import preview from '#storybook/preview.ts';
 import FileUploaderItem from './file-uploader-item.gts';
+import { NewPopoverAlignments } from '../popover.gts';
 
 // Mirrors the `FileUploaderItem` story of Carbon React's
 // Components/FileUploader. Parity gap: no `filesize` arg. No `render`: it
 // takes no blocks.
 //
-// The literal-union defaults (`size`, `status`) are set on the story, not
-// the meta: on the meta they widen to `string` and arg inference from the
-// component's signature is lost.
+// The literal-union defaults (`align`, `size`, `status`) are set on the
+// story, not the meta: on the meta they widen to `string` and arg inference
+// from the component's signature is lost.
 
 const meta = preview.meta({
   title: 'Components/FileUploader/FileUploaderItem',
@@ -23,13 +24,15 @@ const meta = preview.meta({
     },
   },
   argTypes: {
+    align: { control: 'select', options: NewPopoverAlignments },
     status: {
       control: 'inline-radio',
       options: ['edit', 'complete', 'uploading'],
     },
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },
   args: {
+    autoAlign: false,
     disabled: false,
     errorBody: '1 MB max file size. Select a new file and try again.',
     errorSubject: 'File size exceeds limit',
@@ -43,6 +46,7 @@ const meta = preview.meta({
 
 export const Default = meta.story({
   args: {
+    align: 'bottom',
     size: 'md',
     status: 'edit',
   },

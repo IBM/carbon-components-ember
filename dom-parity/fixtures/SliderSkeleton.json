@@ -1,7 +1,7 @@
 {
   "component": "SliderSkeleton",
-  "generatedAt": "2026-10-28T11:06:02.580Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-19T07:02:48.951Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

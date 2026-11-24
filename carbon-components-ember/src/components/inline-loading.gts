@@ -75,6 +75,7 @@ export default class InlineLoading extends Component<InlineLoadingSignature> {
             @size="16"
             @svgClass="cds--inline-loading--error"
             @title={{this.iconLabel}}
+            @ariaLabel={{this.iconLabel}}
           />
         </div>
       {{else if (eq this.status "finished")}}
@@ -83,6 +84,7 @@ export default class InlineLoading extends Component<InlineLoadingSignature> {
             @size="16"
             @svgClass="cds--inline-loading__checkmark-container"
             @title={{this.iconLabel}}
+            @ariaLabel={{this.iconLabel}}
           />
         </div>
       {{else if (eq this.status "active")}}

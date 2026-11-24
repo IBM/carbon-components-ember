@@ -1,7 +1,7 @@
 {
   "component": "Theme",
-  "generatedAt": "2026-11-06T22:15:12.524Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-24T10:42:31.215Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {

@@ -773,6 +773,13 @@
       "hasChanges": false,
       "changeCount": 0,
       "lastUpdate": null
+    },
+    "Card": {
+      "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+      "lastSyncedCommit": "4c2a5622e18ba209282ca0d70c23b1b34be8dc8e",
+      "hasChanges": false,
+      "changeCount": 0,
+      "lastUpdate": "2026-11-04T13:44:19Z"
     }
   },
   "sources": {
@@ -1679,6 +1686,13 @@
           "hasChanges": false,
           "changeCount": 0,
           "lastUpdate": null
+        },
+        "Card": {
+          "lastCheckedCommit": "d9c9a18b8ffcc3c03881c88999a3675e4e1b6b1a",
+          "lastSyncedCommit": "4c2a5622e18ba209282ca0d70c23b1b34be8dc8e",
+          "hasChanges": false,
+          "changeCount": 0,
+          "lastUpdate": "2026-11-04T13:44:19Z"
         }
       }
     }

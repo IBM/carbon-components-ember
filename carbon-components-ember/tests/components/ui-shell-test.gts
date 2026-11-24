@@ -155,6 +155,7 @@ module('Integration | Component | UI Shell | Header', function (hooks) {
     const title = '.cds--header__menu-title';
     assert.dom('nav.cds--header__nav').hasAria('label', 'Platform');
     assert.dom(title).hasAria('expanded', 'false').hasAria('label', 'More');
+    assert.dom(`${title} > .cds--text-truncate--end`).hasText('More');
     assert.dom('.cds--header__menu').hasAria('label', 'More');
 
     await click(title);

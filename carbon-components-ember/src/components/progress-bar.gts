@@ -127,7 +127,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
       <div
         class="cds--progress-bar__track"
         role="progressbar"
-        aria-busy={{if this.isFinished "false" "true"}}
+        aria-busy={{if (or this.isFinished this.isError) "false" "true"}}
         aria-invalid={{if this.isError "true" "false"}}
         aria-labelledby="progress-bar-{{this.guid}}"
         aria-describedby={{if
@@ -151,7 +151,7 @@ export default class ProgressBar extends Component<ProgressBarSignature> {
             aria-live="polite"
             id="progress-bar-helper-{{this.guid}}"
           >
-            {{~if this.isFinished "Done" "Loading"~}}
+            {{~if this.isFinished "Done" (if this.isError "Error" "Loading")~}}
           </div>
         </div>
       {{/if}}

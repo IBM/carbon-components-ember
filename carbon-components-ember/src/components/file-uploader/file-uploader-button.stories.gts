@@ -35,7 +35,7 @@ const meta = preview.meta({
         'tertiary',
       ],
     },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },
   args: {
     labelText: 'Add file',

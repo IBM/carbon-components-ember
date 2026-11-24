@@ -51,6 +51,8 @@ export interface ShapeIndicatorSignature {
     compact?: boolean;
     shapeDescription?: string;
     textSize?: 12 | 14;
+    /** The tooltip trigger's tab order with `@compact`. */
+    tabIndex?: number;
   };
 }
 
@@ -129,6 +131,8 @@ export default class ShapeIndicator extends Component<ShapeIndicatorSignature> {
             @openOnHover={{true}}
             @definition={{@label}}
             @triggerClassName="cds--shape-indicator__button"
+            {{! eslint-disable-next-line ember/template-no-positive-tabindex -- the caller's tab order, as Carbon React's tabIndex }}
+            tabindex={{@tabIndex}}
           >
             {{#if this.shapeIcon}}
               <this.shapeIcon

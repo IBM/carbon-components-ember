@@ -15,8 +15,8 @@ export interface CardActionsSignature {
 }
 
 /**
- * The buttons in a `Card`'s header, each in an `Action`, in its top
- * corner.
+ * The buttons in a `Card`'s header, each in an `Action`. Put them in the
+ * header's `<:actions>` block, which places them at its end.
  */
 const CardActions: TOC<CardActionsSignature> = <template>
   <div class="cds--card__actions" ...attributes>{{yield}}</div>

@@ -25,8 +25,7 @@ export interface CopyButtonSignature {
     iconDescription?: string;
     /**
      * The button's kind. Without one it has no kind class and keeps the copy
-     * button's own colors, as Carbon's styles and stories intend; Carbon
-     * React falls back to `primary` unless its `kind` is empty.
+     * button's own colors, as in Carbon React.
      */
     kind?: ButtonSignature['Args']['kind'];
     /** The button's size. Defaults to `'md'`, and to none when `@inline`. */

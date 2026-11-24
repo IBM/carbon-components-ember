@@ -15,6 +15,10 @@ export interface CardHeaderMediaSignature {
 }
 
 /** An icon or avatar above a `Card`'s title, in its header. */
+/**
+ * The media row above a `Card`'s title. `Header`'s `<:headerMedia>` block
+ * renders this wrapper itself, so put media straight in the block instead.
+ */
 const CardHeaderMedia: TOC<CardHeaderMediaSignature> = <template>
   <div class="cds--card__header-media" ...attributes>{{yield}}</div>
 </template>;

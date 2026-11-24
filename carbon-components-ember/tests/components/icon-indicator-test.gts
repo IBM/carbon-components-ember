@@ -160,6 +160,22 @@ module('Integration | Component | IconIndicator', (hooks) => {
       .hasText('Something failed');
   });
 
+  test('@tabIndex goes on the compact tooltip trigger', async function (assert) {
+    await render(
+      <template>
+        <IconIndicator
+          @kind="failed"
+          @label="Failed"
+          @compact={{true}}
+          @tabIndex={{-1}}
+        />
+      </template>,
+    );
+
+    assert.dom('.cds--icon-indicator__button').hasAttribute('tabindex', '-1');
+    assert.dom('.cds--icon-indicator').doesNotHaveAttribute('tabindex');
+  });
+
   test('should support align and autoAlign in compact mode', async function (assert) {
     await render(
       <template>

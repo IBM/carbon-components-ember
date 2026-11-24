@@ -1,7 +1,7 @@
 {
   "component": "TableHeader",
-  "generatedAt": "2026-11-05T19:08:12.660Z",
-  "carbonReactVersion": "1.119.0",
+  "generatedAt": "2026-11-24T10:42:31.303Z",
+  "carbonReactVersion": "1.121.0",
   "reactVersion": "19.3.1",
   "variants": {
     "default": {
@@ -792,7 +792,7 @@
                             ],
                             "attributes": {
                               "aria-expanded": "false",
-                              "aria-controls": "id-_r_ej_",
+                              "aria-controls": "id-_r_ml_",
                               "aria-label": "AI Show information",
                               "type": "button"
                             },
@@ -1017,7 +1017,7 @@
                         ],
                         "attributes": {
                           "aria-expanded": "false",
-                          "aria-controls": "id-_r_en_",
+                          "aria-controls": "id-_r_mp_",
                           "aria-label": "AI Show information",
                           "type": "button"
                         },

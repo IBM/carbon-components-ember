@@ -729,6 +729,40 @@ module('Integration | Component | IBM Products | PageHeader', function (hooks) {
       .doesNotHaveClass('cds--popover--open');
   });
 
+  test('TagOverflow takes hiddenTagsLabel, and ScrollButton the danger kinds', async function (assert) {
+    await render(
+      <template>
+        <PageHeader as |PageHeader|>
+          <PageHeader.TabBar>
+            <:default>Tabs</:default>
+            <:tags>
+              <PageHeader.TagOverflow @hiddenTagsLabel="More tags">
+                <Tag @type="blue">one</Tag>
+              </PageHeader.TagOverflow>
+            </:tags>
+            <:scroller>
+              <PageHeader.ScrollButton
+                @kind="danger--ghost"
+                @dangerDescription="Danger"
+              />
+            </:scroller>
+          </PageHeader.TabBar>
+        </PageHeader>
+      </template>,
+    );
+
+    assert
+      .dom('.c4p--page-header__tags-popover-list')
+      .hasAria('label', 'More tags');
+    assert
+      .dom('.c4p--page-header--scroller-button')
+      .hasClass('cds--btn--danger--ghost');
+    const describedBy = document
+      .querySelector('.c4p--page-header--scroller-button')
+      ?.getAttribute('aria-describedby');
+    assert.dom(`#${describedBy}`).hasText('Danger');
+  });
+
   test('TabBar takes tags and a scroller, and can disable the sticky tab bar', async function (assert) {
     const state = { disable: true };
     await render(
