@@ -18,7 +18,9 @@ module('Integration | Component | Checkbox', (hooks) => {
   });
 
   test('passes a disabled attribute to the input', async function (assert) {
-    await render(<template><Checkbox @labelText="Accept" disabled /></template>);
+    await render(
+      <template><Checkbox @labelText="Accept" disabled /></template>,
+    );
 
     assert.dom('input.cds--checkbox').isDisabled();
   });
