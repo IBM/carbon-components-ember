@@ -51,6 +51,8 @@ import Pagination from '#src/components/pagination.gts';
 import type { PaginationSignature } from '#src/components/pagination.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
+import ComposedModal from '#src/components/composed-modal.gts';
+import type { ModalSecondaryButton } from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
 import OverflowMenu from '#src/components/overflow-menu.gts';
 import type { OverflowMenuSignature } from '#src/components/overflow-menu.gts';
@@ -159,6 +161,7 @@ import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
 import paginationFixture from '../../../dom-parity/fixtures/Pagination.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
+import composedModalFixture from '../../../dom-parity/fixtures/ComposedModal.json';
 import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
@@ -3965,6 +3968,83 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, modalFixture, Object.keys(variants));
+    });
+  });
+
+  module('ComposedModal', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with: the
+    // modal's, and its parts'. A `footer` of `null` leaves it out.
+    type Variant = {
+      danger?: boolean;
+      size?: 'sm';
+      isFullWidth?: boolean;
+      title?: { only: true };
+      body?: { hasForm?: boolean; hasScrollingContent?: boolean };
+      footer?: {
+        primaryButtonText?: string;
+        secondaryButtons?: ModalSecondaryButton[];
+      } | null;
+    };
+    const variants: Record<string, Variant> = {
+      default: {},
+      'title-only': { title: { only: true } },
+      passive: { footer: null },
+      danger: { danger: true, footer: { primaryButtonText: 'Delete' } },
+      'three-buttons': {
+        footer: {
+          secondaryButtons: [
+            { buttonText: 'Keep both' },
+            { buttonText: 'Cancel' },
+          ],
+        },
+      },
+      'size-sm': { size: 'sm' },
+      'full-width': { isFullWidth: true },
+      form: { body: { hasForm: true } },
+      scrolling: { body: { hasScrollingContent: true } },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const label = props.title ? undefined : 'Account resources';
+        await render(
+          <template>
+            <ComposedModal
+              @open={{true}}
+              @danger={{props.danger}}
+              @size={{props.size}}
+              @isFullWidth={{props.isFullWidth}}
+              as |ModalHeader ModalBody ModalFooter|
+            ><ModalHeader
+                @label={{label}}
+                @title="Add a custom domain"
+              /><ModalBody
+                @hasForm={{props.body.hasForm}}
+                @hasScrollingContent={{props.body.hasScrollingContent}}
+              ><p>Content</p></ModalBody>{{#unless
+                (eq props.footer null)
+              }}<ModalFooter
+                  @primaryButtonText={{if
+                    props.footer.primaryButtonText
+                    props.footer.primaryButtonText
+                    "Add"
+                  }}
+                  @secondaryButtonText="Cancel"
+                  @secondaryButtons={{props.footer.secondaryButtons}}
+                />{{/unless}}</ComposedModal>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          composedModalFixture,
+          variant,
+          document.querySelector('.cds--modal-container'),
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, composedModalFixture, Object.keys(variants));
     });
   });
 
