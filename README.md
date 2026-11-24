@@ -23,6 +23,8 @@ import '@carbon/styles/css/styles.css';
 import 'carbon-components-ember/styles.css';
 ```
 
+Besides the components' styles, `styles.css` has what your own markup uses from Carbon that its compiled stylesheet leaves out: the type classes, such as `cds--type-body-01`, and the spacing tokens on `:root`, such as `var(--cds-spacing-05)`. So your app needs no Sass for them. The components are sized in rem against the browser's root font size, 16px unless the user changes it, so don't set one: it would scale all of them.
+
 Carbon defines its colours only under a theme's class, which the `carbon.theme` service, Carbon React's `GlobalTheme`, puts on `<html>`. Configure it when the app starts, in the application route:
 
 ```ts
