@@ -2,34 +2,10 @@ import { module, test } from 'qunit';
 import { destroy } from '@ember/destroyable';
 import { settled } from '@ember/test-helpers';
 import { mediaQuery, minWidth } from '#src/utils/media-query.ts';
-
-// A MediaQueryList whose changes the test fires itself.
-class FakeMediaQueryList extends EventTarget {
-  matches = false;
-  media = '';
-
-  change(matches: boolean) {
-    this.matches = matches;
-    this.dispatchEvent(Object.assign(new Event('change'), { matches }));
-  }
-}
+import { setupMatchMedia } from '../helpers/index.ts';
 
 module('Unit | Utility | media-query', function (hooks) {
-  let list: FakeMediaQueryList;
-  // eslint-disable-next-line @typescript-eslint/unbound-method -- restored below
-  const { matchMedia } = window;
-
-  hooks.beforeEach(function () {
-    list = new FakeMediaQueryList();
-    window.matchMedia = (query: string) => {
-      list.media = query;
-      return list as unknown as MediaQueryList;
-    };
-  });
-
-  hooks.afterEach(function () {
-    window.matchMedia = matchMedia;
-  });
+  const media = setupMatchMedia(hooks);
 
   test("minWidth takes the width from @carbon/layout's breakpoints", function (assert) {
     assert.strictEqual(minWidth('md'), '(min-width: 42rem)');
@@ -38,16 +14,21 @@ module('Unit | Utility | media-query', function (hooks) {
 
   test('matches follows the media query until its owner is destroyed', async function (assert) {
     const owner = {};
-    const lg = mediaQuery(owner, minWidth('lg'));
-    assert.strictEqual(list.media, '(min-width: 66rem)');
+    const changes: boolean[] = [];
+    const lg = mediaQuery(owner, minWidth('lg'), {
+      onChange: (matches) => changes.push(matches),
+    });
+    assert.strictEqual(media().media, '(min-width: 66rem)');
     assert.false(lg.matches);
 
-    list.change(true);
+    media().change(true);
     assert.true(lg.matches);
+    assert.deepEqual(changes, [true], 'onChange hears the change');
 
     destroy(owner);
     await settled();
-    list.change(false);
+    media().change(false);
     assert.true(lg.matches, 'no longer listening');
+    assert.deepEqual(changes, [true]);
   });
 });

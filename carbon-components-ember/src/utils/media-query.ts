@@ -22,8 +22,8 @@ export function minWidth(breakpoint: BreakpointName): string {
 /**
  * Whether `query` matches, as Carbon React's `useMatchMedia`. `matches`
  * follows the media query until `destroyable` is torn down, so a getter or
- * template reading it updates with it. Without a window (server-side
- * rendering) it's `defaultState`.
+ * template reading it updates with it, and `onChange` is called when it
+ * changes. Without a window (server-side rendering) it's `defaultState`.
  *
  * ```ts
  * #lg = mediaQuery(this, minWidth('lg'));
@@ -33,13 +33,17 @@ export function minWidth(breakpoint: BreakpointName): string {
 export function mediaQuery(
   destroyable: object,
   query: string,
-  defaultState = false,
+  {
+    defaultState = false,
+    onChange,
+  }: { defaultState?: boolean; onChange?: (matches: boolean) => void } = {},
 ): { readonly matches: boolean } {
   if (typeof window === 'undefined') return { matches: defaultState };
   const list = window.matchMedia(query);
   const matches = tracked(list.matches);
   const update = (event: MediaQueryListEvent) => {
     matches.value = event.matches;
+    onChange?.(event.matches);
   };
   list.addEventListener('change', update);
   registerDestructor(destroyable, () =>

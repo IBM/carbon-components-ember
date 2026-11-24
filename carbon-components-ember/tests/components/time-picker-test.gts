@@ -275,4 +275,23 @@ module('Integration | Component | TimePicker', (hooks) => {
     assert.dom('.cds--time-picker__select').hasClass('my-select');
     assert.dom('select.cds--select-input').hasAttribute('data-test-select');
   });
+
+  test('passes placeholder, disabled and readonly attributes to the input', async function (assert) {
+    await render(
+      <template>
+        <TimePicker
+          @labelText="Select a time"
+          placeholder="HH:MM"
+          disabled
+          readonly
+        />
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--time-picker__input-field')
+      .hasAttribute('placeholder', 'HH:MM')
+      .hasAttribute('readonly')
+      .isDisabled();
+  });
 });

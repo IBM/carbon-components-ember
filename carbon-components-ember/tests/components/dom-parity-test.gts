@@ -43,6 +43,7 @@ import InlineCheckbox from '#src/components/inline-checkbox.gts';
 import RadioButton from '#src/components/radio-button.gts';
 import RadioButtonGroup from '#src/components/radio-button/radio-button-group.gts';
 import Toggle from '#src/components/toggle.gts';
+import type { ToggleSignature } from '#src/components/toggle.gts';
 import TextInput from '#src/components/text-input.gts';
 import Breadcrumb from '#src/components/breadcrumb.gts';
 import Select from '#src/components/select.gts';
@@ -50,6 +51,8 @@ import Pagination from '#src/components/pagination.gts';
 import type { PaginationSignature } from '#src/components/pagination.gts';
 import type { SelectSignature } from '#src/components/select.gts';
 import Modal from '#src/components/modal.gts';
+import ComposedModal from '#src/components/composed-modal.gts';
+import type { ModalSecondaryButton } from '#src/components/modal.gts';
 import type { ModalSignature } from '#src/components/modal.gts';
 import OverflowMenu from '#src/components/overflow-menu.gts';
 import type { OverflowMenuSignature } from '#src/components/overflow-menu.gts';
@@ -158,6 +161,7 @@ import breadcrumbFixture from '../../../dom-parity/fixtures/Breadcrumb.json';
 import selectFixture from '../../../dom-parity/fixtures/Select.json';
 import paginationFixture from '../../../dom-parity/fixtures/Pagination.json';
 import modalFixture from '../../../dom-parity/fixtures/Modal.json';
+import composedModalFixture from '../../../dom-parity/fixtures/ComposedModal.json';
 import overflowMenuFixture from '../../../dom-parity/fixtures/OverflowMenu.json';
 import textAreaFixture from '../../../dom-parity/fixtures/TextArea.json';
 import passwordInputFixture from '../../../dom-parity/fixtures/PasswordInput.json';
@@ -3389,70 +3393,70 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Toggle', function () {
-    // @value={{false}} is passed explicitly (rather than left absent) on the
-    // non-toggled variants below because Glimmer's `aria-checked='{{@value}}'`
-    // binding omits the attribute entirely when the interpolated value is
-    // undefined - matching upstream's own `aria-checked` (which always
-    // reflects `checked`, defaulting to false) needs a real `false`, not an
-    // absent arg.
-    test('default', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template><Toggle @name="Toggle label" @value={{false}} /></template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'default',
-        this.element.firstElementChild,
-      );
-    });
+    // The props dom-parity/lib/components.mjs renders each variant with,
+    // besides its `id` and `labelText`.
+    const variants: Record<string, ToggleSignature['Args']> = {
+      default: {},
+      toggled: { toggled: true },
+      disabled: { disabled: true },
+      'size-sm': { size: 'sm' },
+      'read-only': { readOnly: true },
+      'size-sm-read-only': { size: 'sm', readOnly: true },
+      'hide-label': { hideLabel: true },
+      'state-labels': { labelA: 'No', labelB: 'Yes' },
+      'no-label-text': { labelText: undefined },
+    };
 
-    test('toggled', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template><Toggle @name="Toggle label" @value={{true}} /></template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'toggled',
-        this.element.firstElementChild,
-      );
-    });
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const labelText =
+          'labelText' in props ? props.labelText : 'Toggle label';
+        await render(
+          <template>
+            <Toggle
+              @id="toggle-1"
+              @labelText={{labelText}}
+              @toggled={{props.toggled}}
+              @disabled={{props.disabled}}
+              @size={{props.size}}
+              @readOnly={{props.readOnly}}
+              @hideLabel={{props.hideLabel}}
+              @labelA={{props.labelA}}
+              @labelB={{props.labelB}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          toggleFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
 
-    test('disabled', async function (this: RenderingTestContext, assert) {
+    test('aria-labelledby', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
-          <Toggle @name="Toggle label" @value={{false}} @disabled={{true}} />
+          <Toggle
+            @id="toggle-1"
+            @hideLabel={{true}}
+            aria-labelledby="external-label"
+          />
         </template>,
       );
       assertDomParity(
         assert,
         toggleFixture,
-        'disabled',
-        this.element.firstElementChild,
-      );
-    });
-
-    test('size-sm', async function (this: RenderingTestContext, assert) {
-      await render(
-        <template>
-          <Toggle @name="Toggle label" @value={{false}} @size="sm" />
-        </template>,
-      );
-      assertDomParity(
-        assert,
-        toggleFixture,
-        'size-sm',
+        'aria-labelledby',
         this.element.firstElementChild,
       );
     });
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, toggleFixture, [
-        'default',
-        'toggled',
-        'disabled',
-        'size-sm',
+        ...Object.keys(variants),
+        'aria-labelledby',
       ]);
     });
   });
@@ -3964,6 +3968,83 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, modalFixture, Object.keys(variants));
+    });
+  });
+
+  module('ComposedModal', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with: the
+    // modal's, and its parts'. A `footer` of `null` leaves it out.
+    type Variant = {
+      danger?: boolean;
+      size?: 'sm';
+      isFullWidth?: boolean;
+      title?: { only: true };
+      body?: { hasForm?: boolean; hasScrollingContent?: boolean };
+      footer?: {
+        primaryButtonText?: string;
+        secondaryButtons?: ModalSecondaryButton[];
+      } | null;
+    };
+    const variants: Record<string, Variant> = {
+      default: {},
+      'title-only': { title: { only: true } },
+      passive: { footer: null },
+      danger: { danger: true, footer: { primaryButtonText: 'Delete' } },
+      'three-buttons': {
+        footer: {
+          secondaryButtons: [
+            { buttonText: 'Keep both' },
+            { buttonText: 'Cancel' },
+          ],
+        },
+      },
+      'size-sm': { size: 'sm' },
+      'full-width': { isFullWidth: true },
+      form: { body: { hasForm: true } },
+      scrolling: { body: { hasScrollingContent: true } },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const label = props.title ? undefined : 'Account resources';
+        await render(
+          <template>
+            <ComposedModal
+              @open={{true}}
+              @danger={{props.danger}}
+              @size={{props.size}}
+              @isFullWidth={{props.isFullWidth}}
+              as |ModalHeader ModalBody ModalFooter|
+            ><ModalHeader
+                @label={{label}}
+                @title="Add a custom domain"
+              /><ModalBody
+                @hasForm={{props.body.hasForm}}
+                @hasScrollingContent={{props.body.hasScrollingContent}}
+              ><p>Content</p></ModalBody>{{#unless
+                (eq props.footer null)
+              }}<ModalFooter
+                  @primaryButtonText={{if
+                    props.footer.primaryButtonText
+                    props.footer.primaryButtonText
+                    "Add"
+                  }}
+                  @secondaryButtonText="Cancel"
+                  @secondaryButtons={{props.footer.secondaryButtons}}
+                />{{/unless}}</ComposedModal>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          composedModalFixture,
+          variant,
+          document.querySelector('.cds--modal-container'),
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, composedModalFixture, Object.keys(variants));
     });
   });
 
@@ -5247,6 +5328,20 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Theme', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Theme>Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
     test('white', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
@@ -5304,7 +5399,13 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, themeFixture, ['white', 'g10', 'g90', 'g100']);
+      assertFullCoverage(assert, themeFixture, [
+        'default',
+        'white',
+        'g10',
+        'g90',
+        'g100',
+      ]);
     });
   });
 

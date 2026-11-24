@@ -242,4 +242,12 @@ module('Integration | Component | RadioButton', (hooks) => {
 
     assert.dom('input[value="s"]').hasAttribute('name', 'size');
   });
+
+  test('passes a disabled attribute to the input', async function (assert) {
+    await render(
+      <template><RadioButton @labelText="Option" disabled /></template>,
+    );
+
+    assert.dom('input.cds--radio-button').isDisabled();
+  });
 });
