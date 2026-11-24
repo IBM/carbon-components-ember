@@ -22,6 +22,7 @@ updates:
     # This also stops security-update PRs for them; alerts still show.
     ignore:
       - dependency-name: "@carbon/ai-chat-components"
+      - dependency-name: "@carbon/feature-flags"
       - dependency-name: "@carbon/grid"
       - dependency-name: "@carbon/ibm-products"
       - dependency-name: "@carbon/ibm-products-styles"

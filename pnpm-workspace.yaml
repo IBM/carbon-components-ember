@@ -10,6 +10,7 @@ catalogs:
   # AGENTS.md says where the others' versions come from.
   carbon:
     '@carbon/ai-chat-components': 1.11.0
+    '@carbon/feature-flags': ^1.11.0
     '@carbon/grid': ^11.65.0
     '@carbon/icon-helpers': ^10.84.0
     '@carbon/ibm-products': 2.101.0

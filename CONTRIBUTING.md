@@ -20,7 +20,7 @@ The root `package.json` has the scripts that run from the root, such as `pnpm te
 - `pnpm --filter carbon-components-ember test:storybook src/components/tag.stories.gts` runs a story file as browser tests, with axe's accessibility checks.
 - `pnpm lint` runs every linter, type-checking included, in about a minute, and `pnpm lint:fix` fixes what it can.
 
-Locally, run the tests and stories of what you changed, and lint; CI runs everything. The full suites are `pnpm test`, in Playwright's Chromium, and `pnpm --filter carbon-components-ember test:storybook`, for every story. `pnpm build:carbon` builds the addon into `carbon-components-ember/dist`, and `pnpm build:storybook` builds the Storybook that's published on GitHub Pages.
+Locally, run the tests and stories of what you changed, and lint; CI runs everything. The full suites are `pnpm test`, in Playwright's Chromium, and `pnpm --filter carbon-components-ember test:storybook`, for every story. `pnpm build:carbon` builds the addon into `carbon-components-ember/dist` and copies the root `README.md` over the addon's, the one npm publishes, so edit the root one. `pnpm build:storybook` builds the Storybook that's published on GitHub Pages.
 
 The style snapshots in `carbon-components-ember/tests/__snapshots__` record components' computed styles ([Tests](AGENTS.md#tests) in AGENTS.md). After a change to a component's styles, `pnpm --filter carbon-components-ember test:update-snapshots` records them again; commit the ones that changed.
 

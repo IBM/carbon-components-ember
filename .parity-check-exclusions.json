@@ -1,4 +1,9 @@
 {
+  "FeatureFlags": {
+    "reason": "Carbon React's FeatureFlags is a React context provider that scopes flags to part of the tree. Ember has no context to scope them with, so the addon has the carbon.feature-flags service instead: the same flags, app-wide, starting from @carbon/feature-flags' global scope as React's do. useFeatureFlag() is the service's enabled().",
+    "excludedAt": "2026-11-17T10:22:27.000Z",
+    "issue": "433"
+  },
   "ListBox": {
     "reason": "ListBox is an internal composition primitive (container div + ListBoxField/ListBoxMenu/ListBoxMenuItem/ListBoxSelection) used by React to assemble Dropdown, ComboBox, and MultiSelect. It has no dedicated Storybook stories or MDX docs of its own (only a README) and isn't meant to be used standalone by app developers. When Dropdown/ComboBox/MultiSelect are implemented in Ember, they'll use native Ember patterns (own markup + cds-- classes) rather than this shared React compound-component primitive.",
     "excludedAt": "2026-08-02T17:43:35.147Z",

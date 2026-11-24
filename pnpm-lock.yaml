@@ -167,6 +167,9 @@ catalogs:
     '@carbon/ai-chat-components':
       specifier: 1.11.0
       version: 1.11.0
+    '@carbon/feature-flags':
+      specifier: ^1.11.0
+      version: 1.11.0
     '@carbon/grid':
       specifier: ^11.65.0
       version: 11.65.0
@@ -239,6 +242,9 @@ importers:
       '@carbon/charts':
         specifier: ^1.27.25
         version: 1.27.25
+      '@carbon/feature-flags':
+        specifier: catalog:carbon
+        version: 1.11.0
       '@carbon/grid':
         specifier: catalog:carbon
         version: 11.65.0

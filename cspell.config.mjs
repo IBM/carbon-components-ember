@@ -15,6 +15,8 @@ export default {
     '**/LICENSE.md',
   ],
   words: [
+    // Carbon's enable-v12-autoalign flag and cds--autoalign class.
+    'autoalign',
     'autotracking',
     // The Carbon v12 project's name on GitHub ends "carbonv12", and cspell
     // drops the digits.
