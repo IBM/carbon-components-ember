@@ -48,6 +48,31 @@ test('records whitespace beside the root', () => {
   assert.equal(tree.whitespaceAround, 'both');
 });
 
+test('reads the styles React sets in jsdom as Chrome writes them', () => {
+  const span = render(['span']);
+  // As React sets `style={{ WebkitLineClamp: 2, transform: '…' }}`.
+  span.style.WebkitLineClamp = '2';
+  span.style.transform = 'translate(0px, 0px)';
+
+  assert.deepEqual(normalizeElement(span).style, {
+    '-webkit-line-clamp': '2',
+    transform: 'translate(0px, 0px)',
+  });
+});
+
+test("keeps a browser's styles, writing a one-argument translate in full", () => {
+  const span = render(['span']);
+  span.setAttribute(
+    'style',
+    '-webkit-line-clamp: 3; transform: translate(-50%, 4px) translateX(2px) translate(10px)',
+  );
+
+  assert.deepEqual(normalizeElement(span).style, {
+    '-webkit-line-clamp': '3',
+    transform: 'translate(-50%, 4px) translateX(2px) translate(10px, 0px)',
+  });
+});
+
 test('reports whitespace React has no counterpart for', () => {
   const react = normalizeElement(render(['a', 'Link']));
   const ember = normalizeElement(render(' ', ['a', 'Link', '\n']));
