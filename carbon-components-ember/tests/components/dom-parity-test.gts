@@ -5328,6 +5328,20 @@ module('DOM parity | Carbon React', function (hooks) {
   });
 
   module('Theme', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Theme>Theme content</Theme>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        themeFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
     test('white', async function (this: RenderingTestContext, assert) {
       await render(
         <template>
@@ -5385,7 +5399,13 @@ module('DOM parity | Carbon React', function (hooks) {
     });
 
     test('every fixture variant is covered', function (assert) {
-      assertFullCoverage(assert, themeFixture, ['white', 'g10', 'g90', 'g100']);
+      assertFullCoverage(assert, themeFixture, [
+        'default',
+        'white',
+        'g10',
+        'g90',
+        'g100',
+      ]);
     });
   });
 

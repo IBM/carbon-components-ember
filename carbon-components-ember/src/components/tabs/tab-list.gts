@@ -76,7 +76,7 @@ export default class TabList extends Component<TabListSignature> {
   #didScrollIntoView = false;
   #longPressed = false;
   // Carbon React reads the same breakpoint.
-  #lg = mediaQuery(this, minWidth('lg'), true);
+  #lg = mediaQuery(this, minWidth('lg'), { defaultState: true });
 
   rovingFocus = new RovingFocus({
     orientation: 'horizontal',
