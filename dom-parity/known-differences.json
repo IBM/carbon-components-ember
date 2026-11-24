@@ -182,20 +182,9 @@
   ],
   "Checkbox": [
     {
-      "path": "div.classes[cds--form-item]",
-      "reason": "@carbon/react's Checkbox wraps its own `cds--checkbox-wrapper` class list with an additional `cds--form-item` (`classnames('cds--checkbox-wrapper', {...}, 'cds--form-item' via the outer wrapperClasses computation) - Ember's checkbox.gts root only ever renders `cds--checkbox-wrapper`. A real, minor gap (affects form-item spacing/layout rules), left as-is since checkbox.gts's structure is otherwise a deliberate, simpler port - see the three structural entries below for the bigger picture. Applies to every variant."
-    },
-    {
-      "path": "div > input[0]",
-      "reason": "Structural: @carbon/react's Checkbox renders `<input>` as a sibling of `<label>` (both direct children of the wrapper div); Ember's checkbox.gts nests the `<input>` INSIDE the `<label>` instead (a common, simpler, equally-valid HTML pattern for implicitly associating a control with its label - no `for`/`id` pairing is strictly required that way). This one tag-mismatch swallows the rest of the comparison at this position (diffing stops once tags disagree), so Ember's own nested input/label-text structure isn't cross-checked against upstream's - it's verified separately by this addon's own checkbox-test.gts instead. Applies to every variant."
-    },
-    {
-      "path": "div > label[1]",
-      "reason": "Same structural difference as the `div > input[0]` entry above - upstream's second top-level child (the `<label>`, now that `<input>` occupies index 0) has no separate counterpart in Ember's tree, since Ember's single `<label>` already appears (nested around the input) at index 0. Applies to every variant."
-    },
-    {
-      "path": "div > div[2]",
-      "reason": "@carbon/react's Checkbox always renders a `cds--checkbox__validation-msg` wrapper div (empty unless `invalid`/`warn` is set) as its third child. Ember's `checkbox.gts` has no `invalid`/`warn`/`helperText` args at all, so it never renders anything at this position - a real, larger API gap (this addon's Checkbox doesn't support upstream's invalid/warn states), out of scope for a DOM-parity-only pass. Applies to every variant."
+      "path": "div > input[0].attributes.checked",
+      "variant": "checked",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
     }
   ],
   "RadioButton": [

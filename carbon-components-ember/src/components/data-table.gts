@@ -129,6 +129,8 @@ export interface DataTableContext {
   columnIndexCounter: number;
   headerIds: (string | undefined)[];
   allChecked: boolean;
+  /** Some of the rows shown are selected, but not all. */
+  someChecked: boolean;
   toggleSelectAllItems: (select: boolean) => void;
   state: { selectedItems: { size: number; clear(): void } };
 }
@@ -229,7 +231,15 @@ export default class DataTable<T> extends Component<DataTableSignature<T>> {
   }
 
   get allChecked() {
-    return this.state.selectedItems.hasAll(this.currentItems);
+    const items = this.currentItems;
+    return items.length > 0 && this.state.selectedItems.hasAll(items);
+  }
+
+  get someChecked() {
+    return (
+      !this.allChecked &&
+      this.currentItems.some((item) => this.state.selectedItems.has(item))
+    );
   }
 
   notifyRegisterState = modifier(() => {

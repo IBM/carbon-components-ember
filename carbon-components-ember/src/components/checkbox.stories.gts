@@ -12,9 +12,6 @@ import '#storybook/styles/checkbox.css';
 //   text, orientation, invalid/warn states for a set of checkboxes).
 // - `withAILabel`: without a CheckboxGroup there is no label on a group;
 //   the story shows labels on single checkboxes.
-// - Checkbox itself has no `helperText`, `invalid`/`invalidText` or
-//   `warn`/`warnText` args; its label is `@label` (or the block) rather
-//   than `labelText`.
 const meta = preview.meta({
   title: 'Components/Checkbox',
   component: Checkbox,
@@ -22,12 +19,15 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          'Checkboxes are used when there are multiple items to select in a list. Users can select zero, one, or any number of items.\n\nCheckbox is controlled: pass `@checked` and update it from `@onChange`, which receives the `change` event and `{ checked, id }`, as in Carbon React.',
+          'Checkboxes are used when there are multiple items to select in a list. Users can select zero, one, or any number of items.\n\n`@onChange` receives the `change` event and `{ checked, id }`, as in Carbon React. Pass `@checked` and update it from there, or `@defaultChecked` to leave the state to the checkbox. `@helperText`, `@invalid` and `@warn` show a message under it.',
       },
     },
   },
   args: {
-    label: 'Checkbox label',
+    labelText: 'Checkbox label',
+    helperText: 'Helper text',
+    invalidText: 'Invalid message goes here',
+    warnText: 'Warning message goes here',
     checked: false,
     onChange: fn(),
   },
@@ -45,11 +45,18 @@ const meta = preview.meta({
 
     return <template>
       <Checkbox
-        @label={{args.label}}
+        @labelText={{args.labelText}}
         @checked={{state.checked}}
         @indeterminate={{args.indeterminate}}
         @disabled={{args.disabled}}
-        @readonly={{args.readonly}}
+        @readOnly={{args.readOnly}}
+        @helperText={{args.helperText}}
+        @invalid={{args.invalid}}
+        @invalidText={{args.invalidText}}
+        @warn={{args.warn}}
+        @warnText={{args.warnText}}
+        @hideLabel={{args.hideLabel}}
+        @title={{args.title}}
         @onChange={{onChange}}
       />
     </template>;
@@ -88,7 +95,7 @@ export const Indeterminate = meta.story({
 
 export const Disabled = meta.story({
   args: {
-    label: 'disabled',
+    labelText: 'disabled',
     checked: true,
     disabled: true,
   },
@@ -96,7 +103,7 @@ export const Disabled = meta.story({
 
 export const DisabledUnchecked = meta.story({
   args: {
-    label: 'disabled and not checked',
+    labelText: 'disabled and not checked',
     disabled: true,
   },
 });
@@ -112,7 +119,7 @@ export const LabelInBlock = meta.story({
     docs: {
       description: {
         story:
-          'Instead of `@label`, the label can be passed as the block, which allows markup.',
+          'Instead of `@labelText`, the label can be passed as the block, which allows markup.',
       },
     },
   },
@@ -152,38 +159,38 @@ export const WithAILabel = meta.story({
   render: () => <template>
     <div class="checkbox-story__stack">
       <div class="cds--form-item">
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|>
             <AILabel @align="bottom-start" as |label|>
               <label.Content><AIExplanation /></label.Content>
             </AILabel>
           </:decorator>
         </Checkbox>
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|>
             <AILabel @align="bottom-start" as |label|>
               <label.Content><AIExplanation /></label.Content>
             </AILabel>
           </:decorator>
         </Checkbox>
-        <Checkbox @label="Checkbox label" />
+        <Checkbox @labelText="Checkbox label" />
       </div>
       <div class="cds--form-item">
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|>
             <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
               <label.Content><AIExplanation /></label.Content>
             </AILabel>
           </:decorator>
         </Checkbox>
-        <Checkbox @label="Checkbox label">
+        <Checkbox @labelText="Checkbox label">
           <:decorator as |AILabel|>
             <AILabel @kind="inline" @size="md" @align="bottom-start" as |label|>
               <label.Content><AIExplanation /></label.Content>
             </AILabel>
           </:decorator>
         </Checkbox>
-        <Checkbox @label="Checkbox label" />
+        <Checkbox @labelText="Checkbox label" />
       </div>
     </div>
   </template>,

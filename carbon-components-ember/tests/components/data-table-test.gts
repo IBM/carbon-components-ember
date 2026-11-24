@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   click,
   fillIn,
+  find,
   findAll,
   render,
   settled,
@@ -344,13 +345,65 @@ module('Integration | Component | DataTable', (hooks) => {
       count: 2,
     });
     assert
-      .dom('thead .cds--table-column-checkbox .cds--checkbox-label-text')
-      .hasText('Select all rows in the table')
-      .hasClass('cds--visually-hidden');
+      .dom(
+        'thead .cds--table-column-checkbox .cds--checkbox-label .cds--visually-hidden',
+      )
+      .hasText('Select all rows in the table');
     assert
-      .dom('tbody .cds--table-column-checkbox .cds--checkbox-label-text')
-      .hasText('Select row')
-      .hasClass('cds--visually-hidden');
+      .dom(
+        'tbody .cds--table-column-checkbox .cds--checkbox-label .cds--visually-hidden',
+      )
+      .hasText('Select row');
+
+    // Each label points at its own input.
+    for (const label of document.querySelectorAll<HTMLLabelElement>(
+      '.cds--table-column-checkbox label',
+    )) {
+      assert.strictEqual(
+        document.getElementById(label.htmlFor)?.parentElement,
+        label.parentElement,
+      );
+    }
+  });
+
+  test('select-all selects every row, and is indeterminate while only some are', async function (assert) {
+    await render(
+      <template>
+        <DataTable @title="Table title" @items={{items}} as |table|>
+          <table.Table>
+            <table.Header
+              @isCheckable={{true}}
+              @headers={{array (hash label="Name") (hash label="details")}}
+            />
+            <table.EachBodyRows as |row|>
+              <row.Row @isCheckable={{true}}>
+                <table.Column>{{row.item.name}}</table.Column>
+                <table.Column>{{row.item.b}}</table.Column>
+              </row.Row>
+            </table.EachBodyRows>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    const selectAll = () =>
+      find('thead .cds--table-column-checkbox input') as HTMLInputElement;
+
+    await click('tbody tr:first-child .cds--table-column-checkbox input');
+    assert.true(selectAll().indeterminate, 'some rows are selected');
+    assert.false(selectAll().checked);
+
+    await click(selectAll());
+    assert.false(selectAll().indeterminate);
+    assert.true(selectAll().checked);
+    assert
+      .dom('tbody .cds--table-column-checkbox input:checked')
+      .exists({ count: 2 });
+
+    await click(selectAll());
+    assert
+      .dom('tbody .cds--table-column-checkbox input:checked')
+      .doesNotExist();
   });
 
   module('expandable rows', function () {
