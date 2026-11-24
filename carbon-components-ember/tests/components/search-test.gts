@@ -333,4 +333,17 @@ module('Integration | Component | Search', (hooks) => {
     await click('input.cds--search-input');
     assert.strictEqual(clicks, 1);
   });
+
+  test('passes placeholder and disabled attributes to the input', async function (assert) {
+    await render(
+      <template>
+        <Search @labelText="Search" placeholder="Find a domain" disabled />
+      </template>,
+    );
+
+    assert
+      .dom('input.cds--search-input')
+      .hasAttribute('placeholder', 'Find a domain')
+      .isDisabled();
+  });
 });
