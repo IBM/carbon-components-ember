@@ -964,5 +964,107 @@
       "variant": "sortable-decorator",
       "reason": "The AI label's own toggletip id, which differs per render."
     }
+  ],
+  "DataTable": [
+    {
+      "path": "section > div[1] > table[0] > thead[0] > tr[0] > th[0] > div[0] > input[0].attributes.name",
+      "variant": "selection",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "selection",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[1] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "selection",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > thead[0] > tr[0] > th[0] > div[0] > input[0].attributes.name",
+      "variant": "selection-preselected",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.checked",
+      "variant": "selection-preselected",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as TableSelectRow's entry of the same name."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "selection-preselected",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[1] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "selection-preselected",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.value",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the select-row radio is Ember's own markup, which leaves the attribute out. Same as TableSelectRow's entries of the same name."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "radio",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[1] > td[0] > div[0] > input[0].attributes.value",
+      "variant": "radio",
+      "reason": "Carbon React's RadioButton defaults `value` to an empty string and so renders `value=\"\"`; the select-row radio is Ember's own markup, which leaves the attribute out. Same as TableSelectRow's entries of the same name."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[1] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "radio",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > thead[0] > tr[0] > th[1] > div[0] > input[0].attributes.name",
+      "variant": "selection-and-expansion",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[0] > td[1] > div[0] > input[0].attributes.name",
+      "variant": "selection-and-expansion",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[1] > table[0] > tbody[1] > tr[2] > td[1] > div[0] > input[0].attributes.name",
+      "variant": "selection-and-expansion",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > section[1] > div[0] > div[1] > button[0] > svg[1].attributes.aria-label",
+      "variant": "batch-actions",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "section > section[1] > div[0] > div[1] > button[0] > svg[1].attributes.role",
+      "variant": "batch-actions",
+      "reason": "Same as Button's `with-icon` entry: React's icon is labelled and `aria-hidden` at once; Ember's is only `aria-hidden`."
+    },
+    {
+      "path": "section > div[2] > table[0] > thead[0] > tr[0] > th[0] > div[0] > input[0].attributes.name",
+      "variant": "batch-actions",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[2] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.checked",
+      "variant": "batch-actions",
+      "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as TableSelectRow's entry of the same name."
+    },
+    {
+      "path": "section > div[2] > table[0] > tbody[1] > tr[0] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "batch-actions",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    },
+    {
+      "path": "section > div[2] > table[0] > tbody[1] > tr[1] > td[0] > div[0] > input[0].attributes.name",
+      "variant": "batch-actions",
+      "reason": "Carbon React names a table's controls after its own counter (`select-row-4`), Ember after the table's id (`select-row-ember148`). The names differ in that suffix only; every control of a table shares one, as in React (tested in data-table-test.gts)."
+    }
   ]
 }

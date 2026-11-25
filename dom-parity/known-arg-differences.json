@@ -73,34 +73,6 @@
       "targetElementId"
     ]
   },
-  "DataTable": {
-    "missing": [
-      "experimentalAutoAlign",
-      "filterRows",
-      "headers",
-      "isSortable",
-      "locale",
-      "overflowMenuOnHover",
-      "radio",
-      "rows",
-      "size",
-      "sortRow",
-      "stickyHeader",
-      "translateWithId",
-      "useStaticWidth",
-      "useZebraStyles"
-    ],
-    "extra": [
-      "description",
-      "isLoading",
-      "items",
-      "onSelectionChange",
-      "registerState",
-      "search",
-      "state",
-      "title"
-    ]
-  },
   "DatePicker": {
     "missing": [
       "invalid",

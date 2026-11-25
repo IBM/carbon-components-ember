@@ -1,0 +1,4 @@
+/* Lets an AI label's popover overflow the table, as Carbon React's story does. */
+.data-table-with-ai-label-story__table .cds--data-table-content {
+  overflow: initial;
+}

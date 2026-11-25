@@ -1,0 +1,4826 @@
+{
+  "component": "DataTable",
+  "generatedAt": "2026-11-25T22:01:43.616Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#2",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sortable": {
+      "props": {
+        "isSortable": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--sort",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-sort__header"
+                            ],
+                            "attributes": {
+                              "id": "#2",
+                              "aria-sort": "none",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-sort__description"
+                                ],
+                                "attributes": {
+                                  "id": "#3"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Click to sort rows by Name header in ascending order"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-sort"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-describedby": "#3"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "span",
+                                    "classes": [
+                                      "cds--table-sort__flex"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "cds--table-header-label"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Name"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "svg",
+                                        "classes": [
+                                          "cds--table-sort__icon"
+                                        ],
+                                        "attributes": {
+                                          "focusable": "false",
+                                          "preserveAspectRatio": "xMidYMid meet",
+                                          "fill": "currentColor",
+                                          "width": "20",
+                                          "height": "20",
+                                          "viewBox": "0 0 32 32",
+                                          "aria-hidden": "true",
+                                          "xmlns": "http://www.w3.org/2000/svg"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "svg",
+                                        "classes": [
+                                          "cds--table-sort__icon-unsorted"
+                                        ],
+                                        "attributes": {
+                                          "focusable": "false",
+                                          "preserveAspectRatio": "xMidYMid meet",
+                                          "fill": "currentColor",
+                                          "width": "20",
+                                          "height": "20",
+                                          "viewBox": "0 0 32 32",
+                                          "aria-hidden": "true",
+                                          "xmlns": "http://www.w3.org/2000/svg"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          },
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-sort__header"
+                            ],
+                            "attributes": {
+                              "id": "#4",
+                              "aria-sort": "none",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-sort__description"
+                                ],
+                                "attributes": {
+                                  "id": "#5"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Click to sort rows by Role header in ascending order"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-sort"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-describedby": "#5"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "span",
+                                    "classes": [
+                                      "cds--table-sort__flex"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "div",
+                                        "classes": [
+                                          "cds--table-header-label"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Role"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "svg",
+                                        "classes": [
+                                          "cds--table-sort__icon"
+                                        ],
+                                        "attributes": {
+                                          "focusable": "false",
+                                          "preserveAspectRatio": "xMidYMid meet",
+                                          "fill": "currentColor",
+                                          "width": "20",
+                                          "height": "20",
+                                          "viewBox": "0 0 32 32",
+                                          "aria-hidden": "true",
+                                          "xmlns": "http://www.w3.org/2000/svg"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M16 4 6 14 7.41 15.41 15 7.83 15 28 17 28 17 7.83 24.59 15.41 26 14 16 4z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "svg",
+                                        "classes": [
+                                          "cds--table-sort__icon-unsorted"
+                                        ],
+                                        "attributes": {
+                                          "focusable": "false",
+                                          "preserveAspectRatio": "xMidYMid meet",
+                                          "fill": "currentColor",
+                                          "width": "20",
+                                          "height": "20",
+                                          "viewBox": "0 0 32 32",
+                                          "aria-hidden": "true",
+                                          "xmlns": "http://www.w3.org/2000/svg"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M27.6 20.6 24 24.2 24 4 22 4 22 24.2 18.4 20.6 17 22 23 28 29 22z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          },
+                                          {
+                                            "type": "element",
+                                            "tag": "path",
+                                            "classes": [],
+                                            "attributes": {
+                                              "d": "M9 4 3 10 4.4 11.4 8 7.8 8 28 10 28 10 7.8 13.6 11.4 15 10z"
+                                            },
+                                            "style": {},
+                                            "children": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "size-sm-zebra": {
+      "props": {
+        "size": "sm",
+        "useZebraStyles": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--sm",
+                  "cds--data-table--visible-overflow-menu",
+                  "cds--data-table--zebra"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#2",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selection": {
+      "props": {
+        "parts": {
+          "select": "multi"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#2",
+                                      "type": "checkbox",
+                                      "name": "select-all-4"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#2"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select all rows"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#5",
+                                      "type": "checkbox",
+                                      "name": "select-row-4"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#5"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#6",
+                                      "type": "checkbox",
+                                      "name": "select-row-4"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#6"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selection-preselected": {
+      "props": {
+        "parts": {
+          "select": "multi"
+        },
+        "rows": [
+          {
+            "id": "a",
+            "name": "Ada",
+            "role": "Engineer",
+            "isSelected": true
+          },
+          {
+            "id": "b",
+            "name": "Grace",
+            "role": "Admiral"
+          }
+        ]
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#2",
+                                      "type": "checkbox",
+                                      "name": "select-all-5"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#2"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Unselect all rows"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--data-table--selected"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#5",
+                                      "type": "checkbox",
+                                      "checked": true,
+                                      "name": "select-row-5"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#5"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Unselect row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#6",
+                                      "type": "checkbox",
+                                      "name": "select-row-5"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#6"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "radio": {
+      "props": {
+        "radio": true,
+        "parts": {
+          "select": "radio"
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": []
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#2",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox",
+                              "cds--table-column-radio"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--radio-button-wrapper"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--radio-button"
+                                    ],
+                                    "attributes": {
+                                      "id": "#4",
+                                      "type": "radio",
+                                      "value": "",
+                                      "name": "select-row-6"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--radio-button__label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#4"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--radio-button__appearance"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": []
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--radio-button__label-text",
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {
+                                          "dir": "auto"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox",
+                              "cds--table-column-radio"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--radio-button-wrapper"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--radio-button"
+                                    ],
+                                    "attributes": {
+                                      "id": "#5",
+                                      "type": "radio",
+                                      "value": "",
+                                      "name": "select-row-6"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--radio-button__label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#5"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--radio-button__appearance"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": []
+                                      },
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--radio-button__label-text",
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {
+                                          "dir": "auto"
+                                        },
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expansion": {
+      "props": {
+        "parts": {
+          "expand": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "scope": "col",
+                              "id": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand all rows",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#5 #6"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand current row",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#5"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#5",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand current row",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#6"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#6",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "expansion-expanded": {
+      "props": {
+        "parts": {
+          "expand": true
+        },
+        "rows": [
+          {
+            "id": "a",
+            "name": "Ada",
+            "role": "Engineer",
+            "isExpanded": true
+          },
+          {
+            "id": "b",
+            "name": "Grace",
+            "role": "Admiral"
+          }
+        ]
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "scope": "col",
+                              "id": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand all rows",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#5 #6"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row",
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "data-previous-value": "collapsed",
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Collapse current row",
+                                  "aria-expanded": "true",
+                                  "aria-controls": "#5"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#5",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand current row",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#6"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#6",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "selection-and-expansion": {
+      "props": {
+        "parts": {
+          "select": "multi",
+          "expand": true
+        }
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "scope": "col",
+                              "id": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand all rows",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#7 #9"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#3",
+                                      "type": "checkbox",
+                                      "name": "select-all-9"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#3"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select all rows"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#5",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand current row",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#7"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#6",
+                                      "type": "checkbox",
+                                      "name": "select-row-9"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#6"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#5"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#7",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--parent-row"
+                        ],
+                        "attributes": {
+                          "data-parent-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-expand"
+                            ],
+                            "attributes": {
+                              "headers": "#2"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "button",
+                                "classes": [
+                                  "cds--table-expand__button"
+                                ],
+                                "attributes": {
+                                  "type": "button",
+                                  "aria-label": "Expand current row",
+                                  "aria-expanded": "false",
+                                  "aria-controls": "#9"
+                                },
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "svg",
+                                    "classes": [
+                                      "cds--table-expand__svg"
+                                    ],
+                                    "attributes": {
+                                      "focusable": "false",
+                                      "preserveAspectRatio": "xMidYMid meet",
+                                      "fill": "currentColor",
+                                      "width": "16",
+                                      "height": "16",
+                                      "viewBox": "0 0 16 16",
+                                      "aria-hidden": "true",
+                                      "xmlns": "http://www.w3.org/2000/svg"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "path",
+                                        "classes": [],
+                                        "attributes": {
+                                          "d": "M11 8 6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"
+                                        },
+                                        "style": {},
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#8",
+                                      "type": "checkbox",
+                                      "name": "select-row-9"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#8"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#5"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--expandable-row"
+                        ],
+                        "attributes": {
+                          "id": "#9",
+                          "data-child-row": "true"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "colspan": "4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--child-row-inner-container"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Details"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "batch-actions": {
+      "props": {
+        "parts": {
+          "select": "multi",
+          "batchActions": true
+        },
+        "rows": [
+          {
+            "id": "a",
+            "name": "Ada",
+            "role": "Engineer",
+            "isSelected": true
+          },
+          {
+            "id": "b",
+            "name": "Grace",
+            "role": "Admiral"
+          }
+        ]
+      },
+      "dom": {
+        "type": "element",
+        "tag": "section",
+        "classes": [
+          "cds--data-table-container"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-header"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--data-table-header__content"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "h2",
+                    "classes": [
+                      "cds--data-table-header__title"
+                    ],
+                    "attributes": {
+                      "id": "#1"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Team"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "section",
+            "classes": [
+              "cds--table-toolbar"
+            ],
+            "attributes": {
+              "role": "group",
+              "aria-label": "data table toolbar"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--batch-actions"
+                ],
+                "attributes": {
+                  "aria-hidden": "true"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--batch-summary"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "p",
+                        "classes": [
+                          "cds--batch-summary__para"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [],
+                            "attributes": {
+                              "dir": "auto"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "1 item selected"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--action-list"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--btn",
+                          "cds--btn--primary"
+                        ],
+                        "attributes": {
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Add"
+                          },
+                          {
+                            "type": "element",
+                            "tag": "svg",
+                            "classes": [
+                              "cds--btn__icon"
+                            ],
+                            "attributes": {
+                              "focusable": "false",
+                              "preserveAspectRatio": "xMidYMid meet",
+                              "fill": "currentColor",
+                              "aria-label": "Add",
+                              "aria-hidden": "true",
+                              "width": "16",
+                              "height": "16",
+                              "viewBox": "0 0 32 32",
+                              "role": "img",
+                              "xmlns": "http://www.w3.org/2000/svg"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "d": "M16,2A14.1725,14.1725,0,0,0,2,16,14.1725,14.1725,0,0,0,16,30,14.1725,14.1725,0,0,0,30,16,14.1725,14.1725,0,0,0,16,2Zm8,15H17v7H15V17H8V15h7V8h2v7h7Z"
+                                },
+                                "style": {},
+                                "children": []
+                              },
+                              {
+                                "type": "element",
+                                "tag": "path",
+                                "classes": [],
+                                "attributes": {
+                                  "fill": "none",
+                                  "d": "M24 17 17 17 17 24 15 24 15 17 8 17 8 15 15 15 15 8 17 8 17 15 24 15 24 17z",
+                                  "data-icon-path": "inner-path"
+                                },
+                                "style": {},
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--batch-summary__cancel",
+                          "cds--btn",
+                          "cds--btn--primary"
+                        ],
+                        "attributes": {
+                          "tabindex": "-1",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "text",
+                            "text": "Cancel"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--data-table-content"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "table",
+                "classes": [
+                  "cds--data-table",
+                  "cds--data-table--lg",
+                  "cds--data-table--visible-overflow-menu"
+                ],
+                "attributes": {
+                  "aria-labelledby": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "thead",
+                    "classes": [],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#2",
+                                      "type": "checkbox",
+                                      "name": "select-all-10"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#2"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Unselect all rows"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#3",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Name"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "th",
+                            "classes": [],
+                            "attributes": {
+                              "id": "#4",
+                              "scope": "col"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--table-header-label"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "text": "Role"
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "div",
+                                    "classes": [
+                                      "cds--table-header-label--decorator-inner"
+                                    ],
+                                    "attributes": {},
+                                    "style": {},
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "tbody",
+                    "classes": [],
+                    "attributes": {
+                      "aria-live": "polite"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [
+                          "cds--data-table--selected"
+                        ],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#5",
+                                      "type": "checkbox",
+                                      "checked": true,
+                                      "name": "select-row-10"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#5"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Unselect row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Ada"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Engineer"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "element",
+                        "tag": "tr",
+                        "classes": [],
+                        "attributes": {},
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [
+                              "cds--table-column-checkbox"
+                            ],
+                            "attributes": {
+                              "aria-live": "off"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "element",
+                                "tag": "div",
+                                "classes": [
+                                  "cds--checkbox--inline"
+                                ],
+                                "attributes": {},
+                                "style": {},
+                                "children": [
+                                  {
+                                    "type": "element",
+                                    "tag": "input",
+                                    "classes": [
+                                      "cds--checkbox"
+                                    ],
+                                    "attributes": {
+                                      "id": "#6",
+                                      "type": "checkbox",
+                                      "name": "select-row-10"
+                                    },
+                                    "style": {},
+                                    "children": []
+                                  },
+                                  {
+                                    "type": "element",
+                                    "tag": "label",
+                                    "classes": [
+                                      "cds--checkbox-label"
+                                    ],
+                                    "attributes": {
+                                      "for": "#6"
+                                    },
+                                    "style": {},
+                                    "children": [
+                                      {
+                                        "type": "element",
+                                        "tag": "span",
+                                        "classes": [
+                                          "cds--visually-hidden"
+                                        ],
+                                        "attributes": {},
+                                        "style": {},
+                                        "children": [
+                                          {
+                                            "type": "text",
+                                            "text": "Select row"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#3"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Grace"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "element",
+                            "tag": "td",
+                            "classes": [],
+                            "attributes": {
+                              "headers": "#4"
+                            },
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "Admiral"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

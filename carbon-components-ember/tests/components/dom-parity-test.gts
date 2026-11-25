@@ -90,6 +90,7 @@ import StructuredListCell from '#src/components/structured-list/structured-list-
 import StructuredListHead from '#src/components/structured-list/structured-list-head.gts';
 import StructuredListWrapper from '#src/components/structured-list/structured-list-wrapper.gts';
 import Table from '#src/components/table/table.gts';
+import DataTable from '#src/components/data-table.gts';
 import TableBody from '#src/components/table/table-body.gts';
 import TableActionList from '#src/components/table/table-action-list.gts';
 import TableBatchAction from '#src/components/table/table-batch-action.gts';
@@ -191,6 +192,7 @@ import sliderFixture from '../../../dom-parity/fixtures/Slider.json';
 import accordionFixture from '../../../dom-parity/fixtures/Accordion.json';
 import structuredListFixture from '../../../dom-parity/fixtures/StructuredList.json';
 import tableActionListFixture from '../../../dom-parity/fixtures/TableActionList.json';
+import dataTableFixture from '../../../dom-parity/fixtures/DataTable.json';
 import tableBatchActionFixture from '../../../dom-parity/fixtures/TableBatchAction.json';
 import tableBatchActionsFixture from '../../../dom-parity/fixtures/TableBatchActions.json';
 import tableFixture from '../../../dom-parity/fixtures/Table.json';
@@ -7143,6 +7145,176 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, tabContentFixture, ['selected', 'hidden']);
+    });
+  });
+
+  // The whole table: the ids DataTable generates and the aria wiring between
+  // its parts, compared with Carbon React's.
+  module('DataTable', function () {
+    const headers = [
+      { key: 'name', header: 'Name' },
+      { key: 'role', header: 'Role' },
+    ];
+    const rows = [
+      { id: 'a', name: 'Ada', role: 'Engineer' },
+      { id: 'b', name: 'Grace', role: 'Admiral' },
+    ];
+    const first = (props: object) => [{ ...rows[0]!, ...props }, rows[1]!];
+
+    interface CaseArgs {
+      rows: typeof rows;
+      isSortable?: boolean;
+      radio?: boolean;
+      size?: 'sm';
+      useZebraStyles?: boolean;
+      select?: 'multi' | 'radio';
+      expand?: boolean;
+      batchActions?: boolean;
+    }
+
+    const Case: TOC<{ Args: CaseArgs }> = <template>
+      {{~! no whitespace beside the table ~}}
+      <DataTable
+        @rows={{@rows}}
+        @headers={{headers}}
+        @isSortable={{@isSortable}}
+        @radio={{@radio}}
+        @size={{@size}}
+        @useZebraStyles={{@useZebraStyles}}
+        as |table|
+      >
+        {{~! the block is the root, so no whitespace beside it ~}}
+        <table.TableContainer @title="Team" as |Table|>
+          {{#if @batchActions}}
+            <table.TableToolbar>
+              <table.TableBatchActions>
+                <TableBatchAction>Add</TableBatchAction>
+              </table.TableBatchActions>
+            </table.TableToolbar>
+          {{/if}}
+          <Table>
+            <TableHead>
+              <TableRow>
+                {{#if @expand}}
+                  <table.TableExpandHeader @enableToggle={{true}} />
+                {{/if}}
+                {{#if (eq @select "multi")}}
+                  <table.TableSelectAll />
+                {{else if (eq @select "radio")}}
+                  <th scope="col"></th>
+                {{/if}}
+                {{#each table.headers key="key" as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows key="id" as |row|}}
+                {{#if @expand}}
+                  <table.TableExpandRow @row={{row}}>
+                    {{#if @select}}
+                      <table.TableSelectRow @row={{row}} />
+                    {{/if}}
+                    {{#each row.cells key="id" as |cell|}}
+                      <table.TableCell
+                        @cell={{cell}}
+                      >{{cell.value}}</table.TableCell>
+                    {{/each}}
+                  </table.TableExpandRow>
+                  <table.TableExpandedRow
+                    @row={{row}}
+                    @colSpan={{if @select 4 3}}
+                  >Details</table.TableExpandedRow>
+                {{else}}
+                  <table.TableRow @row={{row}}>
+                    {{#if @select}}
+                      <table.TableSelectRow @row={{row}} />
+                    {{/if}}
+                    {{#each row.cells key="id" as |cell|}}
+                      <table.TableCell
+                        @cell={{cell}}
+                      >{{cell.value}}</table.TableCell>
+                    {{/each}}
+                  </table.TableRow>
+                {{/if}}
+              {{/each}}
+            </TableBody>
+          </Table>
+        </table.TableContainer>
+        {{~! ~}}
+      </DataTable>
+      {{~! ~}}
+    </template>;
+
+    const cases: Array<[string, CaseArgs]> = [
+      ['default', { rows }],
+      ['sortable', { rows, isSortable: true }],
+      ['size-sm-zebra', { rows, size: 'sm', useZebraStyles: true }],
+      ['selection', { rows, select: 'multi' }],
+      [
+        'selection-preselected',
+        { rows: first({ isSelected: true }), select: 'multi' },
+      ],
+      ['radio', { rows, radio: true, select: 'radio' }],
+      ['expansion', { rows, expand: true }],
+      [
+        'expansion-expanded',
+        { rows: first({ isExpanded: true }), expand: true },
+      ],
+      ['selection-and-expansion', { rows, select: 'multi', expand: true }],
+      [
+        'batch-actions',
+        {
+          rows: first({ isSelected: true }),
+          select: 'multi',
+          batchActions: true,
+        },
+      ],
+    ];
+
+    for (const [variant, args] of cases) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        const {
+          rows,
+          isSortable,
+          radio,
+          size,
+          useZebraStyles,
+          select,
+          expand,
+          batchActions,
+        } = args;
+        await render(
+          <template>
+            <Case
+              @rows={{rows}}
+              @isSortable={{isSortable}}
+              @radio={{radio}}
+              @size={{size}}
+              @useZebraStyles={{useZebraStyles}}
+              @select={{select}}
+              @expand={{expand}}
+              @batchActions={{batchActions}}
+            />
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          dataTableFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(
+        assert,
+        dataTableFixture,
+        cases.map(([variant]) => variant),
+      );
     });
   });
 

@@ -7,7 +7,7 @@
 
 import Component from '@glimmer/component';
 
-import type { Header } from './data-table/-header.gts';
+import type { DataTableHeader } from './data-table/-state.ts';
 
 export interface DataTableSkeletonSignature {
   Element: HTMLTableElement;
@@ -15,10 +15,10 @@ export interface DataTableSkeletonSignature {
     /** Defaults to one column per header, or 5 without `@headers`. */
     columnCount?: number;
     /**
-     * Column headings to show in place of placeholders, in the shape
-     * `DataTable`'s `Header` takes.
+     * Column headings to show in place of placeholders: `DataTable`'s
+     * `@headers`, or anything with a `header`.
      */
-    headers?: (Header | undefined | null)[];
+    headers?: (Pick<DataTableHeader, 'header'> | undefined | null)[];
     /** Defaults to 5. */
     rowCount?: number;
     /** Shows placeholders for the title and description. Defaults to `true`. */
@@ -43,7 +43,7 @@ export default class DataTableSkeleton extends Component<DataTableSkeletonSignat
 
     return Array.from(
       { length: this.args.columnCount ?? headers?.length ?? 5 },
-      (_, i) => headers?.[i]?.label,
+      (_, i) => headers?.[i]?.header,
     );
   }
 
