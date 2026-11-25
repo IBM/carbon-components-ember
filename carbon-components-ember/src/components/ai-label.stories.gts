@@ -1,12 +1,8 @@
 import { expect, fn } from 'storybook/test';
 
-import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
+import { ExplainedLabel } from '#storybook/fixtures/ai-label.gts';
 import preview from '#storybook/preview.ts';
 import AILabel from './ai-label.gts';
-import Button from './button.gts';
-import FolderOpen from './icons/folder-open.ts';
-import Folders from './icons/folders.ts';
-import View from './icons/view.ts';
 import { NewPopoverAlignments } from './popover.gts';
 
 import type { AILabelSignature } from './ai-label.gts';
@@ -59,29 +55,7 @@ const meta = preview.type<{ args: AILabelSignature['Args'] }>().meta({
       @onRevertClick={{args.onRevertClick}}
       as |label|
     >
-      <label.Content>
-        <AIExplanation />
-        <label.Actions>
-          <Button @kind="ghost" @hasIconOnly={{true}} @iconDescription="View">
-            <View @size="16" />
-          </Button>
-          <Button
-            @kind="ghost"
-            @hasIconOnly={{true}}
-            @iconDescription="Open folder"
-          >
-            <FolderOpen @size="16" />
-          </Button>
-          <Button
-            @kind="ghost"
-            @hasIconOnly={{true}}
-            @iconDescription="Folders"
-          >
-            <Folders @size="16" />
-          </Button>
-          <Button>View details</Button>
-        </label.Actions>
-      </label.Content>
+      <ExplainedLabel @label={{label}} />
     </AILabel>
   </template>,
 });
