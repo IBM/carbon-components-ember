@@ -38,6 +38,7 @@ import SkeletonText from '#src/components/skeleton-text.gts';
 import TextAreaSkeleton from '#src/components/text-area-skeleton.gts';
 import SliderSkeleton from '#src/components/slider-skeleton.gts';
 import FileUploaderSkeleton from '#src/components/file-uploader/file-uploader-skeleton.gts';
+import CheckboxGroup from '#src/components/checkbox-group.gts';
 import Checkbox from '#src/components/checkbox.gts';
 import type { CheckboxSignature } from '#src/components/checkbox.gts';
 import InlineCheckbox from '#src/components/inline-checkbox.gts';
@@ -153,6 +154,7 @@ import textAreaSkeletonFixture from '../../../dom-parity/fixtures/TextAreaSkelet
 import sliderSkeletonFixture from '../../../dom-parity/fixtures/SliderSkeleton.json';
 import fileUploaderSkeletonFixture from '../../../dom-parity/fixtures/FileUploaderSkeleton.json';
 import checkboxFixture from '../../../dom-parity/fixtures/Checkbox.json';
+import checkboxGroupFixture from '../../../dom-parity/fixtures/CheckboxGroup.json';
 import inlineCheckboxFixture from '../../../dom-parity/fixtures/InlineCheckbox.json';
 import radioButtonFixture from '../../../dom-parity/fixtures/RadioButton.json';
 import radioButtonGroupFixture from '../../../dom-parity/fixtures/RadioButtonGroup.json';
@@ -233,6 +235,8 @@ import noTagsEmptyStateFixture from '../../../dom-parity/fixtures/NoTagsEmptySta
 import notFoundEmptyStateFixture from '../../../dom-parity/fixtures/NotFoundEmptyState.json';
 import notificationsEmptyStateFixture from '../../../dom-parity/fixtures/NotificationsEmptyState.json';
 import unauthorizedEmptyStateFixture from '../../../dom-parity/fixtures/UnauthorizedEmptyState.json';
+
+import type { CheckboxGroupSignature } from '#src/components/checkbox-group.gts';
 
 // JSON imports widen string literals (`"type": "element"` reads as `string`),
 // so the fixture's DOM is narrowed once, where it's compared.
@@ -3043,6 +3047,82 @@ module('DOM parity | Carbon React', function (hooks) {
 
     test('every fixture variant is covered', function (assert) {
       assertFullCoverage(assert, checkboxFixture, Object.keys(variants));
+    });
+  });
+
+  module('CheckboxGroup', function () {
+    // The props dom-parity/lib/components.mjs renders each variant with,
+    // besides its `legendText`.
+    const variants: Record<
+      string,
+      Omit<CheckboxGroupSignature['Args'], 'legendText'>
+    > = {
+      default: {},
+      horizontal: { orientation: 'horizontal' },
+      'legend-id': { legendId: 'group-legend' },
+      disabled: { disabled: true },
+      'read-only': { readOnly: true },
+      'helper-text': { helperText: 'Helper text' },
+      invalid: { invalid: true, invalidText: 'Invalid selection' },
+      warn: { warn: true, warnText: 'Warning message' },
+    };
+
+    for (const [variant, props] of Object.entries(variants)) {
+      test(variant, async function (this: RenderingTestContext, assert) {
+        await render(
+          <template>
+            <CheckboxGroup
+              @legendText="Group label"
+              @legendId={{props.legendId}}
+              @orientation={{props.orientation}}
+              @disabled={{props.disabled}}
+              @readOnly={{props.readOnly}}
+              @helperText={{props.helperText}}
+              @invalid={{props.invalid}}
+              @invalidText={{props.invalidText}}
+              @warn={{props.warn}}
+              @warnText={{props.warnText}}
+              as |Checkbox|
+            >
+              <Checkbox @id="checkbox-1" @labelText="Checkbox label 1" />
+              <Checkbox @id="checkbox-2" @labelText="Checkbox label 2" />
+            </CheckboxGroup>
+          </template>,
+        );
+        assertDomParity(
+          assert,
+          checkboxGroupFixture,
+          variant,
+          this.element.firstElementChild,
+        );
+      });
+    }
+
+    test('decorator', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <CheckboxGroup @legendText="Group label">
+            <:decorator as |AILabel|><AILabel /></:decorator>
+            <:default as |Checkbox|>
+              <Checkbox @id="checkbox-1" @labelText="Checkbox label 1" />
+              <Checkbox @id="checkbox-2" @labelText="Checkbox label 2" />
+            </:default>
+          </CheckboxGroup>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        checkboxGroupFixture,
+        'decorator',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, checkboxGroupFixture, [
+        ...Object.keys(variants),
+        'decorator',
+      ]);
     });
   });
 

@@ -187,6 +187,13 @@
       "reason": "Glimmer's bound `checked={{this.checked}}` sets the DOM `checked` IDL property, not a reflected HTML attribute, so `normalizeElement` (which only reads real attribute nodes) sees it as absent on the Ember side even though the control is genuinely checked. Same harness limitation as RadioButton's entry of the same name."
     }
   ],
+  "CheckboxGroup": [
+    {
+      "path": "fieldset > div[1] > div[0] > span[0]",
+      "variant": "decorator",
+      "reason": "The AI label's popover classes: Carbon React's AILabel opens to the bottom and auto-aligns by default, the addon's to the top. The label is AILabel's to align, not the group's."
+    }
+  ],
   "RadioButton": [
     {
       "path": "div > input[0].attributes.checked",

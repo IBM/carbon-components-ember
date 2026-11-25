@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import legendId from '../modifiers/legend-id.ts';
+
 import type { TOC } from '@ember/component/template-only';
 
 export interface FormGroupSignature {
@@ -48,6 +50,7 @@ const FormGroup: TOC<FormGroupSignature> = <template>
     data-invalid={{if @invalid ""}}
     aria-labelledby={{@legendId}}
     ...attributes
+    {{legendId @legendId}}
   ><legend class="cds--label" id={{@legendId}}>{{@legendText}}</legend>
     {{~yield~}}
     {{#if @message~}}
