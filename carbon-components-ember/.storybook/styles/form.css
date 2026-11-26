@@ -1,0 +1,29 @@
+.form-story__shell {
+  width: 100%;
+  max-width: 600px;
+  min-width: 0;
+}
+
+.form-story__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form-story__row--dates {
+  align-items: flex-start;
+}
+
+.form-story__col {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.form-story__date-range,
+.form-story__date-simple {
+  flex: 0 1 auto;
+}
+
+.form-story__modal-body {
+  padding: 1rem;
+}

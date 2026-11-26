@@ -71,6 +71,7 @@ import FileUploaderButton from '#src/components/file-uploader/file-uploader-butt
 import FileUploaderDropContainer from '#src/components/file-uploader/file-uploader-drop-container.gts';
 import FileUploader from '#src/components/file-uploader.gts';
 import FormGroup from '#src/components/form-group.gts';
+import Form from '#src/components/form.gts';
 import FormItem from '#src/components/form-item.gts';
 import FormLabel from '#src/components/form-label.gts';
 import Stack from '#src/components/stack.gts';
@@ -175,6 +176,7 @@ import fileUploaderButtonFixture from '../../../dom-parity/fixtures/FileUploader
 import fileUploaderDropContainerFixture from '../../../dom-parity/fixtures/FileUploaderDropContainer.json';
 import fileUploaderFixture from '../../../dom-parity/fixtures/FileUploader.json';
 import formGroupFixture from '../../../dom-parity/fixtures/FormGroup.json';
+import formFixture from '../../../dom-parity/fixtures/Form.json';
 import formItemFixture from '../../../dom-parity/fixtures/FormItem.json';
 import formLabelFixture from '../../../dom-parity/fixtures/FormLabel.json';
 import stackFixture from '../../../dom-parity/fixtures/Stack.json';
@@ -5032,6 +5034,58 @@ module('DOM parity | Carbon React', function (hooks) {
         'invalid',
         'message',
         'legend-id',
+      ]);
+    });
+  });
+
+  module('Form', function () {
+    test('default', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Form>Form content</Form>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        formFixture,
+        'default',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('custom-class', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Form class="custom-class">Form content</Form>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        formFixture,
+        'custom-class',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('aria-label', async function (this: RenderingTestContext, assert) {
+      await render(
+        <template>
+          <Form aria-label="new project setup">Form content</Form>
+        </template>,
+      );
+      assertDomParity(
+        assert,
+        formFixture,
+        'aria-label',
+        this.element.firstElementChild,
+      );
+    });
+
+    test('every fixture variant is covered', function (assert) {
+      assertFullCoverage(assert, formFixture, [
+        'default',
+        'custom-class',
+        'aria-label',
       ]);
     });
   });

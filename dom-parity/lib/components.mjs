@@ -1234,6 +1234,13 @@ const fileUploader = (name, props) => ({
     }),
 });
 
+const form = (name, props) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(Carbon.Form, props, 'Form content'),
+});
+
 const formGroup = (name, props) => ({
   name,
   props,
@@ -2903,6 +2910,14 @@ export const COMPONENTS = [
       }),
       fileUploader('disabled', { disabled: true }),
       fileUploader('button-kind-secondary', { buttonKind: 'secondary' }),
+    ],
+  },
+  {
+    name: 'Form',
+    variants: [
+      form('default', {}),
+      form('custom-class', { className: 'custom-class' }),
+      form('aria-label', { 'aria-label': 'new project setup' }),
     ],
   },
   {
