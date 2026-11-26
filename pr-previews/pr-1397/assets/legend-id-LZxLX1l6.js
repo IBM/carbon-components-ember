@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-BpgvRg6H.js";import{S as r,x as t}from"./preview-y9AI3eMR.js";var o;function a(){return(a=e(()=>{t(),o=r((e,[r])=>{const t=e.getAttribute("aria-labelledby"),o=e.querySelector(":scope > legend");!r&&t&&o&&(o.id=t)})}))()}export{o as n,a as t};
