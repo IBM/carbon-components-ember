@@ -861,6 +861,31 @@ const checkbox = (name, props) => ({
     }),
 });
 
+const checkboxGroup = (name, props, { decorator = false } = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) =>
+    React.createElement(
+      Carbon.CheckboxGroup,
+      {
+        legendText: 'Group label',
+        ...props,
+        ...(decorator && { decorator: React.createElement(Carbon.AILabel) }),
+      },
+      React.createElement(Carbon.Checkbox, {
+        key: 'a',
+        id: 'checkbox-1',
+        labelText: 'Checkbox label 1',
+      }),
+      React.createElement(Carbon.Checkbox, {
+        key: 'b',
+        id: 'checkbox-2',
+        labelText: 'Checkbox label 2',
+      }),
+    ),
+  pickRoot: (container) => container.querySelector('fieldset'),
+});
+
 const inlineCheckbox = (name, props) => ({
   name,
   props,
@@ -2522,6 +2547,23 @@ export const COMPONENTS = [
       checkbox('helper-text', { helperText: 'Helper text' }),
       checkbox('invalid', { invalid: true, invalidText: 'Invalid selection' }),
       checkbox('warn', { warn: true, warnText: 'Warning message' }),
+    ],
+  },
+  {
+    name: 'CheckboxGroup',
+    variants: [
+      checkboxGroup('default', {}),
+      checkboxGroup('horizontal', { orientation: 'horizontal' }),
+      checkboxGroup('legend-id', { legendId: 'group-legend' }),
+      checkboxGroup('disabled', { disabled: true }),
+      checkboxGroup('read-only', { readOnly: true }),
+      checkboxGroup('helper-text', { helperText: 'Helper text' }),
+      checkboxGroup('invalid', {
+        invalid: true,
+        invalidText: 'Invalid selection',
+      }),
+      checkboxGroup('warn', { warn: true, warnText: 'Warning message' }),
+      checkboxGroup('decorator', {}, { decorator: true }),
     ],
   },
   {

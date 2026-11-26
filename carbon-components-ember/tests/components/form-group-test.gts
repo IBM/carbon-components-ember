@@ -64,6 +64,36 @@ module('Integration | Component | FormGroup', (hooks) => {
     assert.dom('legend').hasAttribute('id', 'my-legend');
   });
 
+  test('the legend takes the id a caller aria-labelledby points at', async function (assert) {
+    await render(
+      <template>
+        <FormGroup @legendText="Legend" aria-labelledby="mine">
+          Content
+        </FormGroup>
+      </template>,
+    );
+
+    assert.dom('fieldset').hasAttribute('aria-labelledby', 'mine');
+    assert.dom('legend').hasAttribute('id', 'mine');
+  });
+
+  test('a caller aria-labelledby overrides the one from legendId', async function (assert) {
+    await render(
+      <template>
+        <FormGroup
+          @legendText="Legend"
+          @legendId="my-legend"
+          aria-labelledby="x"
+        >
+          Content
+        </FormGroup>
+      </template>,
+    );
+
+    assert.dom('fieldset').hasAttribute('aria-labelledby', 'x');
+    assert.dom('legend').hasAttribute('id', 'my-legend');
+  });
+
   test('should render message text when message is true', async function (assert) {
     await render(
       <template>

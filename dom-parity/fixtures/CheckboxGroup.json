@@ -1,0 +1,2046 @@
+{
+  "component": "CheckboxGroup",
+  "generatedAt": "2026-11-25T21:48:13.659Z",
+  "carbonReactVersion": "1.119.0",
+  "reactVersion": "19.3.1",
+  "variants": {
+    "default": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "horizontal": {
+      "props": {
+        "orientation": "horizontal"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group",
+          "cds--checkbox-group--horizontal"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "legend-id": {
+      "props": {
+        "legendId": "group-legend"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group"
+        ],
+        "attributes": {
+          "aria-labelledby": "#1"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {
+              "id": "#1"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#3",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#3",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "disabled": {
+      "props": {
+        "disabled": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group"
+        ],
+        "attributes": {
+          "disabled": true,
+          "aria-disabled": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "disabled": true,
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "disabled": true,
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "read-only": {
+      "props": {
+        "readOnly": true
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group",
+          "cds--checkbox-group--readonly"
+        ],
+        "attributes": {
+          "aria-readonly": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--readonly",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "aria-readonly": "true",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--readonly",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "aria-readonly": "true",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    },
+    "helper-text": {
+      "props": {
+        "helperText": "Helper text"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group"
+        ],
+        "attributes": {
+          "aria-describedby": "#3"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--form__helper-text"
+            ],
+            "attributes": {
+              "id": "#3"
+            },
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Helper text"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "props": {
+        "invalid": true,
+        "invalidText": "Invalid selection"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group",
+          "cds--checkbox-group--invalid"
+        ],
+        "attributes": {
+          "data-invalid": "true"
+        },
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--invalid",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "data-invalid": "true",
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--checkbox__invalid-icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--form-requirement"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--invalid",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "data-invalid": "true",
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--checkbox__invalid-icon"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 16 16",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                          "data-icon-path": "inner-path",
+                          "opacity": "0"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--form-requirement"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--checkbox__invalid-icon"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 16 16",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2 c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8 c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z",
+                      "data-icon-path": "inner-path",
+                      "opacity": "0"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Invalid selection"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "warn": {
+      "props": {
+        "warn": true,
+        "warnText": "Warning message"
+      },
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group",
+          "cds--checkbox-group--warning"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--warning",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#1",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#1",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--checkbox__invalid-icon",
+                      "cds--checkbox__invalid-icon--warning"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--form-requirement"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--checkbox-wrapper--warning",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "svg",
+                    "classes": [
+                      "cds--checkbox__invalid-icon",
+                      "cds--checkbox__invalid-icon--warning"
+                    ],
+                    "attributes": {
+                      "focusable": "false",
+                      "preserveAspectRatio": "xMidYMid meet",
+                      "fill": "currentColor",
+                      "width": "16",
+                      "height": "16",
+                      "viewBox": "0 0 32 32",
+                      "aria-hidden": "true",
+                      "xmlns": "http://www.w3.org/2000/svg"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "fill": "none",
+                          "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                          "data-icon-path": "inner-path"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                        },
+                        "style": {},
+                        "children": []
+                      },
+                      {
+                        "type": "element",
+                        "tag": "path",
+                        "classes": [],
+                        "attributes": {
+                          "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                        },
+                        "style": {},
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--form-requirement"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "svg",
+                "classes": [
+                  "cds--checkbox__invalid-icon",
+                  "cds--checkbox__invalid-icon--warning"
+                ],
+                "attributes": {
+                  "focusable": "false",
+                  "preserveAspectRatio": "xMidYMid meet",
+                  "fill": "currentColor",
+                  "width": "16",
+                  "height": "16",
+                  "viewBox": "0 0 32 32",
+                  "aria-hidden": "true",
+                  "xmlns": "http://www.w3.org/2000/svg"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "fill": "none",
+                      "d": "M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z",
+                      "data-icon-path": "inner-path"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M16.002,6.1714h-.004L4.6487,27.9966,4.6506,28H27.3494l.0019-.0034ZM14.875,12h2.25v9h-2.25ZM16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Z"
+                    },
+                    "style": {},
+                    "children": []
+                  },
+                  {
+                    "type": "element",
+                    "tag": "path",
+                    "classes": [],
+                    "attributes": {
+                      "d": "M29,30H3a1,1,0,0,1-.8872-1.4614l13-25a1,1,0,0,1,1.7744,0l13,25A1,1,0,0,1,29,30ZM4.6507,28H27.3493l.002-.0033L16.002,6.1714h-.004L4.6487,27.9967Z"
+                    },
+                    "style": {},
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--form-requirement"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Warning message"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "decorator": {
+      "props": {},
+      "dom": {
+        "type": "element",
+        "tag": "fieldset",
+        "classes": [
+          "cds--checkbox-group",
+          "cds--checkbox-group--decorator"
+        ],
+        "attributes": {},
+        "style": {},
+        "children": [
+          {
+            "type": "element",
+            "tag": "legend",
+            "classes": [
+              "cds--label"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "text",
+                "text": "Group label"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group-inner--decorator"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--ai-label"
+                ],
+                "attributes": {
+                  "id": "#1"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "span",
+                    "classes": [
+                      "cds--autoalign",
+                      "cds--popover--auto-align",
+                      "cds--popover--bottom",
+                      "cds--popover--caret",
+                      "cds--popover--high-contrast",
+                      "cds--popover-container",
+                      "cds--toggletip"
+                    ],
+                    "attributes": {},
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "element",
+                        "tag": "button",
+                        "classes": [
+                          "cds--ai-label__button",
+                          "cds--ai-label__button--default",
+                          "cds--ai-label__button--mini",
+                          "cds--toggletip-button"
+                        ],
+                        "attributes": {
+                          "aria-expanded": "false",
+                          "aria-controls": "id-_r_6t_",
+                          "aria-label": "AI Show information",
+                          "type": "button"
+                        },
+                        "style": {},
+                        "children": [
+                          {
+                            "type": "element",
+                            "tag": "span",
+                            "classes": [
+                              "cds--ai-label__text"
+                            ],
+                            "attributes": {},
+                            "style": {},
+                            "children": [
+                              {
+                                "type": "text",
+                                "text": "AI"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#2",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#2",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 1"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-wrapper",
+              "cds--form-item"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": [
+              {
+                "type": "element",
+                "tag": "input",
+                "classes": [
+                  "cds--checkbox"
+                ],
+                "attributes": {
+                  "id": "#3",
+                  "type": "checkbox"
+                },
+                "style": {},
+                "children": []
+              },
+              {
+                "type": "element",
+                "tag": "label",
+                "classes": [
+                  "cds--checkbox-label"
+                ],
+                "attributes": {
+                  "for": "#3",
+                  "title": ""
+                },
+                "style": {},
+                "children": [
+                  {
+                    "type": "element",
+                    "tag": "div",
+                    "classes": [
+                      "cds--checkbox-label-text"
+                    ],
+                    "attributes": {
+                      "dir": "auto"
+                    },
+                    "style": {},
+                    "children": [
+                      {
+                        "type": "text",
+                        "text": "Checkbox label 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "element",
+                "tag": "div",
+                "classes": [
+                  "cds--checkbox__validation-msg"
+                ],
+                "attributes": {},
+                "style": {},
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "tag": "div",
+            "classes": [
+              "cds--checkbox-group__validation-msg"
+            ],
+            "attributes": {},
+            "style": {},
+            "children": []
+          }
+        ]
+      }
+    }
+  }
+}
