@@ -3,6 +3,14 @@
   min-height: 20rem;
 }
 
+.dropdown-story__spacer-above {
+  height: 300px;
+}
+
+.dropdown-story__spacer-below {
+  height: 800px;
+}
+
 .dropdown-story__selected {
   margin-top: 1rem;
 }

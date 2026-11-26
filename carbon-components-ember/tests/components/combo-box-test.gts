@@ -993,6 +993,8 @@ module('Integration | Component | ComboBox', function (hooks) {
     const field = find('.cds--combo-box') as HTMLElement;
     assert.strictEqual(menu.style.position, 'fixed');
     assert.strictEqual(menu.style.width, `${field.clientWidth}px`);
+    // Unlike Dropdown and the multi-selects, as in Carbon React.
+    assert.strictEqual(menu.style.maxHeight, '', "doesn't cap its height");
 
     await triggerKeyEvent(INPUT, 'keydown', 'Escape');
     assert.strictEqual(menu.style.position, '');

@@ -628,10 +628,13 @@ module('Integration | Component | FilterableMultiSelect', function (hooks) {
     assert.dom('label.cds--label').hasClass('cds--visually-hidden');
 
     await click(INPUT);
+    const menu = find('.cds--list-box__menu') as HTMLElement;
+    assert.strictEqual(menu.style.position, 'fixed');
     assert.strictEqual(
-      (find('.cds--list-box__menu') as HTMLElement).style.position,
-      'fixed',
+      menu.style.width,
+      `${find('.cds--multi-select')!.clientWidth}px`,
     );
+    assert.ok(parseFloat(menu.style.maxHeight) > 0, 'caps its height');
   });
 
   test('Enter confirming an IME composition checks nothing', async function (assert) {

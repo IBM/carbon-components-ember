@@ -786,6 +786,7 @@ module('Integration | Component | MultiSelect', function (hooks) {
       menu.style.width,
       `${find('.cds--multi-select')!.clientWidth}px`,
     );
+    assert.ok(parseFloat(menu.style.maxHeight) > 0, 'caps its height');
   });
 
   test('the decorator block shows an AI label in the field', async function (assert) {
