@@ -33,19 +33,19 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@storybook/mcp": "^10.6.5",
+    "@storybook/mcp": "^10.6.9",
     "@tmcp/adapter-valibot": "^0.1.7",
-    "@tmcp/transport-stdio": "^0.5.1",
+    "@tmcp/transport-stdio": "^0.5.2",
     "tmcp": "^1.20.1",
     "valibot": "^1.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "concurrently": "^10.0.6",
-    "eslint": "^10.14.0",
+    "concurrently": "^10.0.7",
+    "eslint": "^10.15.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.14.0",
-    "prettier": "^3.9.10"
+    "prettier": "^3.10.1"
   },
   "engines": {
     "node": ">= 20"
