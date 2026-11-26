@@ -112,7 +112,6 @@
   },
   "Dropdown": {
     "missing": [
-      "autoAlign",
       "renderSelectedItem",
       "translateWithId"
     ]

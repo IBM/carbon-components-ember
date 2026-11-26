@@ -1,6 +1,6 @@
 import { trackedObject } from '@ember/reactive/collections';
 import { RenderStory } from 'ember-storybook';
-import { expect, fn } from 'storybook/test';
+import { expect, fn, waitFor } from 'storybook/test';
 
 import { withLayer } from '#storybook/decorators.gts';
 import { AIExplanation } from '#storybook/fixtures/ai-label.gts';
@@ -14,8 +14,6 @@ import { listBoxSizes } from './-private/list-box/list-box.gts';
 
 // Carbon React parity gaps (Components/Dropdown):
 // - Items can't be disabled (React's `Option 3` is `disabled: true`).
-// - `ExperimentalAutoAlign`: no `autoAlign`; the menu opens downwards or,
-//   with `@direction="top"`, upwards.
 // - No `renderSelectedItem` or `translateWithId`, and no `downshiftProps`,
 //   as it isn't built on downshift; a block renders each item instead of
 //   `itemToElement`.
@@ -50,7 +48,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
     docs: {
       description: {
         component:
-          "`Dropdown` is a single-select field that opens a listbox of items on click. Like Carbon React's, it's built on the ListBox parts: the menu is a plain descendant of the field, positioned with Carbon's own CSS, and focus stays on the field while the arrow keys move the highlight.\n\nItems can be any value: `@itemToString` turns one into its label (by default, a string or number item itself, or an object's string `label`), or a block can render each item.",
+          "`Dropdown` is a single-select field that opens a listbox of items on click. Like Carbon React's, it's built on the ListBox parts: the menu is a plain descendant of the field, positioned with Carbon's own CSS or, with `@autoAlign`, with Floating UI, and focus stays on the field while the arrow keys move the highlight.\n\nItems can be any value: `@itemToString` turns one into its label (by default, a string or number item itself, or an object's string `label`), or a block can render each item.",
       },
     },
   },
@@ -87,6 +85,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
       @size={{args.size}}
       @type={{args.type}}
       @direction={{args.direction}}
+      @autoAlign={{args.autoAlign}}
       @disabled={{args.disabled}}
       @readOnly={{args.readOnly}}
       @invalid={{args.invalid}}
@@ -128,6 +127,43 @@ Default.test(
     await userEvent.keyboard('{ArrowDown}{Enter}');
     await expect(args.onChange).toHaveBeenCalled();
     await expect(combobox).toHaveAttribute('aria-expanded', 'false');
+  },
+);
+
+export const ExperimentalAutoAlign = meta.story({
+  args: {
+    autoAlign: true,
+    direction: 'top',
+    label: 'Option 1',
+    initialSelectedItem: items[1],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '**Experimental:** with `@autoAlign`, Floating UI positions the menu: it opens on the other side of the field when there is no room on its own, is no taller than the room it has, and hides when the field scrolls out of view. Scroll the field towards the top of the viewport and open it.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => <template>
+      <div class="dropdown-story__spacer-above"></div>
+      <RenderStory @story={{Story}} @args={{context.args}} />
+      <div class="dropdown-story__spacer-below"></div>
+    </template>,
+  ],
+});
+
+ExperimentalAutoAlign.test(
+  'positions the open menu as wide as the field',
+  async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.click(canvas.getByRole('combobox', { name: /Label/ }));
+    const menu = canvasElement.querySelector<HTMLElement>(
+      '.cds--list-box__menu',
+    )!;
+    const field = canvasElement.querySelector('.cds--dropdown')!;
+    await waitFor(() => expect(menu.style.position).toBe('fixed'));
+    await expect(menu.style.width).toBe(`${field.clientWidth}px`);
   },
 );
 

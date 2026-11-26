@@ -16,6 +16,7 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
 import type {
+  ListBoxMenuArgs,
   ListBoxSize,
   ListBoxType,
 } from './-private/list-box/list-box.gts';
@@ -23,6 +24,7 @@ import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuIcon from './-private/list-box/list-box-menu-icon.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
 import { defaultItemToString } from './-private/list-box/items.ts';
+import { positionMenu } from './-private/list-box/menu-modifiers.ts';
 import { nextIndex, typeaheadIndex } from '../utils/roving-focus.ts';
 import type { WithBoundArgs } from '@glint/template';
 import type {
@@ -33,7 +35,8 @@ import type {
 
 export interface DropdownSignature<T> {
   Element: HTMLDivElement;
-  Args: FieldValidationArgs &
+  Args: ListBoxMenuArgs &
+    FieldValidationArgs &
     FieldHelperArgs &
     Pick<FieldLabelArgs, 'hideLabel'> & {
       /**
@@ -85,10 +88,6 @@ export interface DropdownSignature<T> {
        */
       size?: ListBoxSize;
       /**
-       * The direction the menu should open in.
-       */
-      direction?: 'top' | 'bottom';
-      /**
        * `default` renders the standalone field; `inline` lays the field out
        * next to its label (via flex layout classes) and suppresses the helper
        * text row. The label itself is always rendered - use `@hideLabel` to
@@ -116,8 +115,8 @@ export interface DropdownSignature<T> {
  * `Dropdown` is a single-select field that opens a listbox of items on
  * click. Like Carbon React's, it's built on the internal ListBox parts;
  * Carbon's CSS positions the menu below (or, with `@direction="top"`, above)
- * the field, and focus stays on the field while the arrow keys move the
- * highlight (`aria-activedescendant`).
+ * the field, or Floating UI does with `@autoAlign`, and focus stays on the
+ * field while the arrow keys move the highlight (`aria-activedescendant`).
  *
  * ```gjs
  * import { Dropdown } from 'carbon-components-ember/components';
@@ -226,6 +225,14 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     return this.isInvalid ? false : !!this.args.warn;
   }
 
+  get direction() {
+    return this.args.direction ?? 'bottom';
+  }
+
+  get floatsMenu() {
+    return Boolean(this.args.autoAlign && this.isOpen);
+  }
+
   get triggerText() {
     return this.selectedItem !== null
       ? this.itemToString(this.selectedItem)
@@ -266,6 +273,7 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
     if (this.args.disabled) classes.push('cds--dropdown--disabled');
     if (this.args.readOnly) classes.push('cds--dropdown--readonly');
     if (this.args.direction === 'top') classes.push('cds--list-box--up');
+    if (this.args.autoAlign) classes.push('cds--autoalign');
     return classes.join(' ');
   }
 
@@ -496,6 +504,10 @@ export default class Dropdown<T> extends Component<DropdownSignature<T>> {
           aria-labelledby={{this.labelId}}
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- keeps focus on the field, see preventMenuMouseDown }}
           {{on "mousedown" this.preventMenuMouseDown}}
+          {{(if this.floatsMenu positionMenu)
+            placement=this.direction
+            fitHeight=true
+          }}
         >
           {{~#if this.isOpen~}}
             {{#each @items as |item index|}}

@@ -384,6 +384,59 @@ module('Integration | Component | Dropdown', (hooks) => {
     assert.dom('.cds--dropdown').hasClass('cds--list-box--up');
   });
 
+  test('@autoAlign positions the open menu as wide as the field, and no taller than the room', async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @autoAlign={{true}}
+        />
+      </template>,
+    );
+    assert.dom('.cds--dropdown').hasClass('cds--autoalign');
+
+    await click('.cds--list-box__field');
+
+    const menu = find('.cds--list-box__menu') as HTMLElement;
+    const field = find('.cds--dropdown') as HTMLElement;
+    assert.strictEqual(menu.style.position, 'fixed');
+    assert.strictEqual(menu.style.width, `${field.clientWidth}px`);
+    assert.ok(parseFloat(menu.style.maxHeight) > 0, 'caps its height');
+    // So `cds--list-box--up`'s bottom doesn't stretch a flipped menu.
+    assert.strictEqual(menu.style.insetBlockEnd, 'auto');
+
+    await click('.cds--list-box__field');
+    assert.strictEqual(menu.style.position, '');
+    assert.strictEqual(menu.style.width, '');
+    assert.strictEqual(menu.style.maxHeight, '');
+    assert.strictEqual(menu.style.insetBlockEnd, '');
+  });
+
+  test("@autoAlign with @direction='top' keeps the menu to its items' height", async function (assert) {
+    await render(
+      <template>
+        <Dropdown
+          @titleText="Choose an option"
+          @label="Select an option"
+          @items={{items}}
+          @direction="top"
+          @autoAlign={{true}}
+        />
+      </template>,
+    );
+    await click('.cds--list-box__field');
+
+    const menu = find('.cds--list-box__menu') as HTMLElement;
+    const itemsHeight = [...menu.children].reduce(
+      (sum, item) => sum + item.getBoundingClientRect().height,
+      0,
+    );
+    const { height } = menu.getBoundingClientRect();
+    assert.ok(height <= itemsHeight + 1, `${height}px for ${itemsHeight}px`);
+  });
+
   test('supports a custom item block for menu item rendering', async function (assert) {
     await render(
       <template>

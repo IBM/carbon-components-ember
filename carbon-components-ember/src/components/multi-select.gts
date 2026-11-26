@@ -16,6 +16,7 @@ import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
 import type {
+  ListBoxMenuArgs,
   ListBoxSize,
   ListBoxType,
 } from './-private/list-box/list-box.gts';
@@ -61,7 +62,8 @@ export interface MultiSelectChange<T> {
 
 export interface MultiSelectSignature<T> {
   Element: HTMLDivElement;
-  Args: FieldValidationArgs &
+  Args: ListBoxMenuArgs &
+    FieldValidationArgs &
     FieldHelperArgs &
     Pick<FieldLabelArgs, 'hideLabel'> & {
       /**
@@ -141,14 +143,6 @@ export interface MultiSelectSignature<T> {
       clearAnnouncement?: string;
       /** Show each item's text as its checkbox's tooltip. */
       useTitleInItem?: boolean;
-      /**
-       * **Experimental:** position the menu with Floating UI, so it opens
-       * above the field when there's no room below, and hides when the field
-       * scrolls out of view.
-       */
-      autoAlign?: boolean;
-      /** The side of the field the menu opens on. Defaults to `bottom`. */
-      direction?: 'top' | 'bottom';
       /**
        * The field's height. Without it, the field follows an enclosing
        * Layout's size.
@@ -763,7 +757,10 @@ export default class MultiSelect<T> extends Component<MultiSelectSignature<T>> {
           {{! eslint-disable-next-line ember/template-no-pointer-down-event-binding -- keeps focus on the field, see keepFocus }}
           {{on "mousedown" this.keepFocus}}
           {{scrollToHighlighted this.highlightedIndex}}
-          {{(if this.floatsMenu positionMenu) placement=this.direction}}
+          {{(if this.floatsMenu positionMenu)
+            placement=this.direction
+            fitHeight=true
+          }}
         >
           {{~#if this.isOpen~}}
             {{#each this.sortedItems as |item index|}}

@@ -15,7 +15,10 @@ import WarningFilled from './icons/warning-filled.ts';
 import WarningAltFilled from './icons/warning-alt-filled.ts';
 import AILabel from './ai-label.gts';
 import ListBox from './-private/list-box/list-box.gts';
-import type { ListBoxSize } from './-private/list-box/list-box.gts';
+import type {
+  ListBoxMenuArgs,
+  ListBoxSize,
+} from './-private/list-box/list-box.gts';
 import ListBoxMenu from './-private/list-box/list-box-menu.gts';
 import ListBoxMenuItem from './-private/list-box/list-box-menu-item.gts';
 import ListBoxSelection from './-private/list-box/list-box-selection.gts';
@@ -52,7 +55,8 @@ export interface ComboBoxChange<T> {
 
 export interface ComboBoxSignature<T> {
   Element: HTMLInputElement;
-  Args: FieldValidationArgs &
+  Args: ListBoxMenuArgs &
+    FieldValidationArgs &
     FieldHelperArgs & {
       /**
        * Classes for the wrapper, as Carbon React's `className`. `class` and the
@@ -124,14 +128,6 @@ export interface ComboBoxSignature<T> {
        * and complete it with the first one; Tab accepts it.
        */
       typeahead?: boolean;
-      /**
-       * **Experimental:** position the menu with Floating UI, so it opens
-       * above the field when there's no room below, and hides when the field
-       * scrolls out of view.
-       */
-      autoAlign?: boolean;
-      /** The side of the field the menu opens on. Defaults to `bottom`. */
-      direction?: 'top' | 'bottom';
       /**
        * The field's height. Without it, the field follows an enclosing
        * Layout's size.

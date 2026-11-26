@@ -18,6 +18,18 @@ export type ListBoxSize = (typeof listBoxSizes)[number];
 /** `inline` lays the field out next to its label, as Carbon React's `ListBoxType`. */
 export type ListBoxType = 'default' | 'inline';
 
+/** Where a list box's menu opens, which every list box takes. */
+export interface ListBoxMenuArgs {
+  /**
+   * **Experimental:** position the menu with Floating UI, so it opens
+   * above the field when there's no room below, and hides when the field
+   * scrolls out of view.
+   */
+  autoAlign?: boolean;
+  /** The side of the field the menu opens on. Defaults to `bottom`. */
+  direction?: 'top' | 'bottom';
+}
+
 export interface ListBoxSignature {
   Element: HTMLDivElement;
   Args: FieldValidationArgs & {
