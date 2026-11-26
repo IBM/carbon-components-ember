@@ -80,6 +80,18 @@ function normalizeEmberIds(representation: string) {
   return representation.replace(/ember[0-9]+/g, 'ember0').replace(/\s+/g, ' ');
 }
 
+// Chrome 159 serializes the `outline` shorthand as width, style, color; 156 put
+// the color first. Compare it in the newer order.
+function normalizeOutline(styles: StyleDiff) {
+  const outline = styles['outline'];
+  if (outline) {
+    styles['outline'] = outline.replace(
+      /^(.+) (\S+) (-?[\d.]+px|thin|medium|thick)$/,
+      '$3 $2 $1',
+    );
+  }
+}
+
 export function setupSnapshot(assert: Assert) {
   assert.snapshot = function (value, name) {
     const current = QUnit.config.current as CurrentTest;
@@ -128,6 +140,8 @@ export function setupSnapshot(assert: Assert) {
         /0s$/,
         '',
       );
+      normalizeOutline(expectedStyles);
+      normalizeOutline(actualStyles);
       delete expectedStyles['font'];
       delete actualStyles['font'];
       // Chrome 153 added the `rule` shorthand (CSS gap decorations) to
