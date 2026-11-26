@@ -82,7 +82,7 @@ The row's \`decorator\` block puts its AI label in the row's first cell, which C
               <span class="cds--visually-hidden">Expand rows</span>
             </TableExpandHeader>
             {{#each HEADERS as |header|}}
-              <TableHeader>{{header.label}}</TableHeader>
+              <TableHeader>{{header.header}}</TableHeader>
             {{/each}}
           </TableRow>
         </TableHead>
@@ -152,7 +152,7 @@ export const BatchExpansion = meta.story({
               @ariaLabel="Expand all rows"
             />
             {{#each HEADERS as |header|}}
-              <TableHeader>{{header.label}}</TableHeader>
+              <TableHeader>{{header.header}}</TableHeader>
             {{/each}}
           </TableRow>
         </TableHead>

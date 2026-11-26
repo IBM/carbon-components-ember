@@ -3,695 +3,1161 @@ import { setupRenderingTest } from 'ember-qunit';
 import {
   click,
   fillIn,
+  find,
   findAll,
   render,
   settled,
   waitUntil,
 } from '@ember/test-helpers';
+import style from 'ember-style-modifier';
 import { tracked } from '@glimmer/tracking';
 import DataTable from '#src/components/data-table.gts';
-import Pagination from '#src/components/pagination.gts';
+import TableBatchAction from '#src/components/table/table-batch-action.gts';
+import TableBody from '#src/components/table/table-body.gts';
+import TableCell from '#src/components/table/table-cell.gts';
+import TableHead from '#src/components/table/table-head.gts';
+import TableRow from '#src/components/table/table-row.gts';
+
+import type { TOC } from '@ember/component/template-only';
+import type {
+  DataTableHeader,
+  DataTableInputRow,
+} from '#src/components/data-table.gts';
+
+const HEADERS = [
+  { key: 'name', header: 'Name' },
+  { key: 'port', header: 'Port' },
+];
+
+const ROWS = [
+  { id: 'a', name: 'Load balancer 3', port: 3000 },
+  { id: 'b', name: 'Load balancer 1', port: 443 },
+  { id: 'c', name: 'Load balancer 2', port: 80, disabled: true },
+];
+
+const LONG_ROWS = [
+  {
+    id: 'a',
+    name: 'A load balancer whose name wraps in a narrow column',
+    port: 1,
+  },
+];
+
+class RowsState {
+  @tracked rows = ROWS;
+}
+
+// The text of each body row's cell at an index, leaving out selection and
+// expand cells.
+const column = (index: number) =>
+  findAll('tbody tr').map((row) =>
+    row
+      .querySelectorAll(
+        'td:not(.cds--table-column-checkbox):not(.cds--table-expand)',
+      )
+      [index]?.textContent?.trim(),
+  );
+
+interface FullSignature {
+  Args: {
+    rows: DataTableInputRow[];
+    headers: DataTableHeader[];
+    isSortable?: boolean;
+    radio?: boolean;
+    onHeaderClick?: (event: MouseEvent, sort: unknown) => void;
+    onExpand?: (event: MouseEvent) => void;
+    onExpandAll?: (event: MouseEvent) => void;
+    onExpandHeaderClick?: (
+      event: MouseEvent,
+      expand: { isExpanded: boolean },
+    ) => void;
+    onSelect?: (event: MouseEvent) => void;
+    onSelectAll?: (event: MouseEvent) => void;
+  };
+}
+
+const text = (value: unknown) =>
+  typeof value === 'string' || typeof value === 'number' ? value : '';
+
+// A table that renders every part, without keys on its `{{#each}}`s.
+const Full: TOC<FullSignature> = <template>
+  <DataTable
+    @rows={{@rows}}
+    @headers={{@headers}}
+    @isSortable={{@isSortable}}
+    @radio={{@radio}}
+    as |table|
+  >
+    <table.Table>
+      <TableHead>
+        <TableRow>
+          <table.TableExpandHeader
+            @enableToggle={{true}}
+            @onExpand={{@onExpandAll}}
+            @onClick={{@onExpandHeaderClick}}
+          />
+          <table.TableSelectAll @onSelect={{@onSelectAll}} />
+          {{#each table.headers as |header|}}
+            <table.TableHeader
+              @header={{header}}
+              @onClick={{@onHeaderClick}}
+              data-test-header={{header.key}}
+            >{{header.header}}</table.TableHeader>
+          {{/each}}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {{#each table.rows as |row|}}
+          <table.TableExpandRow
+            @row={{row}}
+            @onExpand={{@onExpand}}
+            data-test-row={{row.id}}
+          >
+            <table.TableSelectRow @row={{row}} @onSelect={{@onSelect}} />
+            {{#each row.cells as |cell|}}
+              <table.TableCell @cell={{cell}}>{{text
+                  cell.value
+                }}</table.TableCell>
+            {{/each}}
+          </table.TableExpandRow>
+          <table.TableExpandedRow @row={{row}} @colSpan={{4}}>Details of
+            {{row.id}}</table.TableExpandedRow>
+        {{/each}}
+      </TableBody>
+    </table.Table>
+  </DataTable>
+</template>;
+
+// The names in the `Full` table's rows, leaving out its select and expand cells.
+const names = () =>
+  findAll('[data-test-row] td:nth-child(3)').map((td) =>
+    td.textContent?.trim(),
+  );
 
 module('Integration | Component | DataTable', (hooks) => {
   setupRenderingTest(hooks);
 
-  const items = [
-    { name: 'a', b: 'c' },
-    { name: 'John', b: 'asd' },
-  ];
+  test('without a block, it renders the headers and a row per row', async function (assert) {
+    await render(
+      <template><DataTable @rows={{ROWS}} @headers={{HEADERS}} /></template>,
+    );
 
-  test('should render title, description and rows', async function (assert) {
+    assert.dom('.cds--data-table-container table.cds--data-table').exists();
+    assert.dom('table').hasClass('cds--data-table--lg', 'lg, as in React');
+    assert.deepEqual(
+      findAll('thead th').map((th) => th.textContent?.trim()),
+      ['Name', 'Port'],
+    );
+    assert.deepEqual(column(0), [
+      'Load balancer 3',
+      'Load balancer 1',
+      'Load balancer 2',
+    ]);
+    assert.deepEqual(column(1), ['3000', '443', '80']);
+    assert
+      .dom('tbody td')
+      .hasAttribute('headers', find('thead th')!.id, 'a cell names its header');
+  });
+
+  test('a header sorts the rows ascending, descending, then back', async function (assert) {
+    const sorts: unknown[] = [];
+    const onClick = (_: MouseEvent, sort: unknown) => sorts.push(sort);
+
     await render(
       <template>
         <DataTable
-          @title="Table title"
-          @description="Table description"
-          @items={{items}}
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @isSortable={{true}}
           as |table|
         >
           <table.Table>
-            <table.Header
-              @headers={{array (hash label="Name") (hash label="details")}}
-            />
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-                <table.Column>{{row.item.b}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
+            <TableHead>
+              <TableRow>
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                    @onClick={{onClick}}
+                    data-test-header={{header.key}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
           </table.Table>
         </DataTable>
       </template>,
     );
 
-    assert.dom('.cds--data-table-header__title').hasText('Table title');
-    assert
-      .dom('.cds--data-table-header__description')
-      .hasText('Table description');
-    assert.dom('table.cds--data-table').exists();
-    assert.dom('thead th').exists({ count: 2 });
-    assert.dom('tbody tr').exists({ count: 2 });
+    const port = 'th:has([data-test-header="port"])';
+    assert.dom('table').hasClass('cds--data-table--sort');
+
+    await click('[data-test-header="port"]');
+    assert.deepEqual(column(1), ['80', '443', '3000']);
+    assert.dom(port).hasAttribute('aria-sort', 'ascending');
+
+    await click('[data-test-header="port"]');
+    assert.deepEqual(column(1), ['3000', '443', '80']);
+    assert.dom(port).hasAttribute('aria-sort', 'descending');
+
+    await click('[data-test-header="port"]');
+    assert.deepEqual(column(1), ['3000', '443', '80'], "the rows' own order");
+    assert.dom(port).hasAttribute('aria-sort', 'none');
+
+    assert.deepEqual(sorts, [
+      { sortHeaderKey: 'port', sortDirection: 'ASC' },
+      { sortHeaderKey: 'port', sortDirection: 'DESC' },
+      { sortHeaderKey: 'port', sortDirection: 'NONE' },
+    ]);
   });
 
-  test('should associate each td with its column header via the headers attribute', async function (assert) {
+  test("a header's isSortable wins over the table's", async function (assert) {
+    const headers = [
+      { key: 'name', header: 'Name', isSortable: false },
+      { key: 'port', header: 'Port' },
+    ];
+
     await render(
       <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
+        <DataTable
+          @rows={{ROWS}}
+          @headers={{headers}}
+          @isSortable={{true}}
+          as |table|
+        >
           <table.Table>
-            <table.Header
-              @headers={{array (hash label="Name") (hash label="details")}}
-            />
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-                <table.Column>{{row.item.b}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
+            <TableHead>
+              <TableRow>
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
           </table.Table>
         </DataTable>
       </template>,
     );
 
-    // `DataTable`'s row/column-index bookkeeping (and the header ids they
-    // key off of) settle one render pass after `await render()` resolves
-    // (the initial items slice is populated via a scheduled task, not
-    // synchronously) - wait for the actual `td[headers]` values this test
-    // asserts on, not just the header `th` ids, which can be populated
-    // while the body hasn't re-rendered against them yet.
-    await waitUntil(
-      () =>
-        findAll('tbody tr').length === 2 &&
-        findAll('tbody td').every((td) => !!td.getAttribute('headers')),
-      { timeout: 5000 },
-    );
-
-    const headerIds = findAll('thead th').map((th) => th.id);
-    assert.strictEqual(headerIds.length, 2);
-    assert.ok(headerIds.every((id) => !!id));
-
-    const rows = findAll('tbody tr');
-    assert.strictEqual(rows.length, 2);
-    for (const row of rows) {
-      const cells = row.querySelectorAll('td');
-      assert.strictEqual(
-        cells[0]?.getAttribute('headers'),
-        headerIds[0],
-        'first column links to first header',
-      );
-      assert.strictEqual(
-        cells[1]?.getAttribute('headers'),
-        headerIds[1],
-        'second column links to second header',
-      );
-    }
+    assert.dom('th:first-child button').doesNotExist();
+    assert.dom('th:last-child button.cds--table-sort').exists();
   });
 
-  test('should support an xs sized toolbar and forward size to the search input', async function (assert) {
+  test('rows are selected one by one or all at once, leaving out disabled ones', async function (assert) {
     await render(
       <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
-          <table.Toolbar @size="xs" as |toolbar|>
-            <toolbar.Content>
-              <table.SearchInput @size="xs" />
-            </toolbar.Content>
-          </table.Toolbar>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+          <output data-test-selected>{{#each
+              table.selectedRows
+              as |row|
+            }}{{row.id}}{{/each}}</output>
+          <table.TableBatchActions />
+          <table.Table>
+            <TableHead>
+              <TableRow>
+                <table.TableSelectAll />
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  <table.TableSelectRow @row={{row}} />
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
         </DataTable>
       </template>,
     );
 
-    assert.dom('.cds--table-toolbar').hasClass('cds--table-toolbar--xs');
-    assert.dom('.cds--table-toolbar').hasAttribute('role', 'group');
+    assert.dom('th .cds--checkbox-label').hasText('Select all rows');
+    assert
+      .dom('.cds--batch-actions')
+      .doesNotHaveClass('cds--batch-actions--active');
+
+    await click('tbody tr:first-child input');
+    assert.dom('[data-test-selected]').hasText('a');
+    assert.dom('tbody tr:first-child').hasClass('cds--data-table--selected');
+    assert.dom('th input').hasProperty('indeterminate', true);
+    assert.dom('th .cds--checkbox-label').hasText('Unselect all rows');
+    assert
+      .dom('tbody tr:first-child .cds--checkbox-label')
+      .hasText('Unselect row');
+    assert.dom('.cds--batch-actions').hasClass('cds--batch-actions--active');
+
+    await click('th input');
+    assert
+      .dom('[data-test-selected]')
+      .hasText('', 'with a row selected, it unselects them all');
+
+    await click('th input');
+    assert
+      .dom('[data-test-selected]')
+      .hasText('ab', 'the disabled row stays unselected');
+    assert.dom('tbody tr:last-child input').isDisabled();
+
+    await click('.cds--batch-summary__cancel');
+    assert.dom('[data-test-selected]').hasText('');
+    assert
+      .dom('.cds--batch-actions')
+      .doesNotHaveClass('cds--batch-actions--active');
+  });
+
+  test('with @radio, one row is selected at a time', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @radio={{true}}
+          as |table|
+        >
+          <output data-test-selected>{{#each
+              table.selectedRows
+              as |row|
+            }}{{row.id}}{{/each}}</output>
+          <table.Table>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  <table.TableSelectRow @row={{row}} />
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.strictEqual(findAll('input[type="radio"]').length, 3);
+    await click('tbody tr:first-child input');
+    await click('tbody tr:nth-child(2) input');
+    assert.dom('[data-test-selected]').hasText('b');
+  });
+
+  test('rows expand one at a time or all together', async function (assert) {
+    await render(
+      <template>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+          <table.Table>
+            <TableHead>
+              <TableRow>
+                <table.TableExpandHeader @enableToggle={{true}} />
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableExpandRow @row={{row}} data-test-row={{row.id}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableExpandRow>
+                {{#if row.isExpanded}}
+                  <table.TableExpandedRow
+                    @row={{row}}
+                    @colSpan={{3}}
+                    data-test-details={{row.id}}
+                  >Details</table.TableExpandedRow>
+                {{/if}}
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('[data-test-details]').doesNotExist();
+    assert
+      .dom('[data-test-row="a"] button')
+      .hasAria('label', 'Expand current row');
+
+    await click('[data-test-row="a"] button');
+    assert.dom('[data-test-details="a"]').exists();
+    assert
+      .dom('[data-test-row="a"] button')
+      .hasAria('controls', find('[data-test-details="a"]')!.id)
+      .hasAria('expanded', 'true')
+      .hasAria('label', 'Collapse current row');
+    assert
+      .dom('[data-test-row="a"] td.cds--table-expand')
+      .hasAttribute('headers', find('th.cds--table-expand')!.id);
+
+    await click('th.cds--table-expand button');
+    assert.strictEqual(findAll('[data-test-details]').length, 3);
+    assert
+      .dom('th.cds--table-expand button')
+      .hasAria('label', 'Collapse all rows');
+
+    await click('th.cds--table-expand button');
+    assert.dom('[data-test-details]').doesNotExist();
+  });
+
+  test('a toolbar search filters the rows', async function (assert) {
+    await render(
+      <template>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} @size="sm" as |table|>
+          <table.TableToolbar as |Content|>
+            <Content as |Search|>
+              <Search @persistent={{true}} @onChange={{table.onInputChange}} />
+            </Content>
+          </table.TableToolbar>
+          <table.Table>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
     assert
       .dom('.cds--table-toolbar')
-      .hasAttribute('aria-label', 'data table toolbar');
-    assert.dom('.cds--search').hasClass('cds--search--xs');
-    assert
-      .dom('[role="search"] .cds--label')
-      .hasText(
-        'Filter table',
-        'the search landmark is named, as in Carbon React',
-      );
-    assert
-      .dom('.cds--search-input')
-      .hasAttribute('placeholder', 'Filter table');
+      .hasClass('cds--table-toolbar--sm', "the table's size");
+
+    await fillIn('.cds--search-input', ' balancer 1');
+    assert.deepEqual(column(0), ['Load balancer 1']);
+
+    await fillIn('.cds--search-input', '');
+    assert.strictEqual(findAll('tbody tr').length, 3);
   });
 
-  test('the toolbar search takes @className for its wrapper, and attributes on its <input>', async function (assert) {
-    await render(
-      <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
-          <table.Toolbar as |toolbar|>
-            <toolbar.Content>
-              <table.SearchInput @className="my-search" data-test-search />
-            </toolbar.Content>
-          </table.Toolbar>
-        </DataTable>
-      </template>,
-    );
-
-    assert.dom('.cds--search').hasClass('my-search');
-    assert.dom('input.cds--search-input').hasAttribute('data-test-search');
-  });
-
-  test('the toolbar search filters the rows once typing pauses', async function (assert) {
-    await render(
-      <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
-          <table.Toolbar as |toolbar|>
-            <toolbar.Content>
-              <table.SearchInput />
-            </toolbar.Content>
-          </table.Toolbar>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-        </DataTable>
-      </template>,
-    );
-
-    // settled() waits for the search's debounce.
-    await fillIn('input.cds--search-input', 'john');
-
-    assert.dom('tbody tr').exists({ count: 1 });
-    assert.dom('tbody tr').hasText('John');
-  });
-
-  test('@search decides which items match the lowercased term, and may be async', async function (assert) {
-    const search = async (item: (typeof items)[number], term: string) => {
-      await Promise.resolve();
-      return item.b === term;
-    };
-
-    await render(
-      <template>
-        <DataTable @items={{items}} @search={{search}} as |table|>
-          <table.Toolbar as |toolbar|>
-            <toolbar.Content>
-              <table.SearchInput />
-            </toolbar.Content>
-          </table.Toolbar>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-        </DataTable>
-      </template>,
-    );
-
-    await fillIn('input.cds--search-input', 'ASD');
-
-    assert.dom('tbody tr').exists({ count: 1 });
-    assert.dom('tbody tr').hasText('John');
-  });
-
-  test('@isLoading renders the table as DataTableSkeleton does', async function (assert) {
+  test("the container yields a table with the DataTable's options, named by its title", async function (assert) {
     await render(
       <template>
         <DataTable
-          @title="Table title"
-          @description="Table description"
-          @isLoading={{true}}
-          @items={{items}}
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @size="xs"
+          @useZebraStyles={{true}}
+          @stickyHeader={{true}}
           as |table|
         >
-          <table.Table>
-            <table.Header @headers={{array (hash label="Name")}} />
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
+          <table.TableContainer @title="Load balancers" as |Table|>
+            <Table />
+          </table.TableContainer>
         </DataTable>
       </template>,
     );
 
-    assert.dom('.cds--data-table-container').hasClass('cds--skeleton');
-    assert.dom('table.cds--data-table').hasClass('cds--skeleton');
-    // Carbon's skeleton draws placeholders in the empty title and description.
-    assert.dom('.cds--data-table-header__title').hasText('');
-    assert.dom('.cds--data-table-header__description').hasText('');
-    assert.dom('th div.cds--table-header-label').hasText('Name');
-    assert.dom('tbody tr').exists({ count: 2 });
-    assert.dom('tbody td span').exists({ count: 2 });
-    assert.dom('tbody').hasText('');
+    assert
+      .dom('table')
+      .hasClass('cds--data-table--xs')
+      .hasClass('cds--data-table--zebra')
+      .hasClass('cds--data-table--sticky-header')
+      .hasClass(
+        'cds--data-table--visible-overflow-menu',
+        "overflow menus show, DataTable's default",
+      )
+      .hasAria('labelledby', find('.cds--data-table-header__title')!.id);
+    assert
+      .dom('.cds--data-table-container')
+      .hasClass('cds--data-table--max-width');
   });
 
-  test('@isLoading with no items yet shows five placeholder rows, without running the block', async function (assert) {
-    const none: typeof items = [];
+  test('new rows keep the sort, and translateWithId translates', async function (assert) {
+    const state = new RowsState();
+    const translate = (id: string) => `[${id}]`;
+
     await render(
       <template>
         <DataTable
-          @title="Table title"
-          @isLoading={{true}}
-          @items={{none}}
+          @rows={{state.rows}}
+          @headers={{HEADERS}}
+          @isSortable={{true}}
+          @translateWithId={{translate}}
           as |table|
         >
           <table.Table>
-            <table.Header
-              @isExpandable={{true}}
-              @isCheckable={{true}}
-              @headers={{array (hash label="Name") (hash label="details")}}
-            />
-            <table.EachBodyRows as |row|>
-              <row.Row data-test-row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
+            <TableHead>
+              <TableRow>
+                <table.TableSelectAll />
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                    data-test-header={{header.key}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
           </table.Table>
         </DataTable>
       </template>,
     );
 
-    assert.dom('tbody tr').exists({ count: 5 });
-    assert.dom('tbody td span').exists({ count: 10 });
-    // Empty expand and checkbox cells too, as the header has those columns.
-    assert.dom('tbody tr:first-child td').exists({ count: 4 });
-    assert.dom('[data-test-row]').doesNotExist();
+    assert.dom('th .cds--checkbox-label').hasText('[carbon.table.all.select]');
+
+    await click('[data-test-header="port"]');
+    state.rows = [...ROWS, { id: 'd', name: 'Load balancer 4', port: 22 }];
+    await settled();
+    assert.deepEqual(column(1), ['22', '80', '443', '3000']);
   });
 
-  test('while loading, the controls wait for the data', async function (assert) {
+  test('a header that does not sort drops the click', async function (assert) {
+    const headers = [
+      { key: 'name', header: 'Name', isSortable: false },
+      { key: 'port', header: 'Port' },
+    ];
+    const clicks: unknown[] = [];
+    const onClick = (...args: unknown[]) => clicks.push(args);
+
+    await render(
+      <template>
+        <Full @rows={{ROWS}} @headers={{headers}} @onHeaderClick={{onClick}} />
+      </template>,
+    );
+
+    assert.deepEqual(
+      names(),
+      ['Load balancer 3', 'Load balancer 1', 'Load balancer 2'],
+      'rows in their order',
+    );
+    await click('[data-test-header="name"]');
+    await click('[data-test-header="port"]');
+    assert.deepEqual(
+      names(),
+      ['Load balancer 3', 'Load balancer 1', 'Load balancer 2'],
+      'nothing sorted',
+    );
+    assert.deepEqual(clicks, [], 'and @onClick was not called');
+    assert.dom('th').doesNotHaveAttribute('aria-sort');
+  });
+
+  test('a header of a sortable table sorts and a non-sortable one next to it does not', async function (assert) {
+    const headers = [
+      { key: 'name', header: 'Name', isSortable: false },
+      { key: 'port', header: 'Port' },
+    ];
+    const clicks: unknown[] = [];
+    const onClick = (_: MouseEvent, sort: unknown) => clicks.push(sort);
+
+    await render(
+      <template>
+        <Full
+          @rows={{ROWS}}
+          @headers={{headers}}
+          @isSortable={{true}}
+          @onHeaderClick={{onClick}}
+        />
+      </template>,
+    );
+
+    await click('[data-test-header="name"]');
+    assert.deepEqual(clicks, []);
+    await click('[data-test-header="port"]');
+    assert.deepEqual(clicks, [{ sortHeaderKey: 'port', sortDirection: 'ASC' }]);
+  });
+
+  test('selecting, expanding and sorting keep the rows and the focus, without keys', async function (assert) {
+    await render(
+      <template>
+        <Full @rows={{ROWS}} @headers={{HEADERS}} @isSortable={{true}} />
+      </template>,
+    );
+
+    const checkbox = find('[data-test-row="a"] input')!;
+    const row = find('[data-test-row="a"]')!;
+    await click(checkbox);
+    assert.true((checkbox as HTMLInputElement).checked);
+    assert.strictEqual(
+      find('[data-test-row="a"] input'),
+      checkbox,
+      'same input',
+    );
+    assert.strictEqual(find('[data-test-row="a"]'), row, 'same row');
+    assert.strictEqual(document.activeElement, checkbox, 'still focused');
+
+    const expand = find('[data-test-row="a"] .cds--table-expand__button')!;
+    await click(expand);
+    assert.dom('[data-test-row="a"]').hasClass('cds--expandable-row');
+    assert.strictEqual(
+      find('[data-test-row="a"] .cds--table-expand__button'),
+      expand,
+    );
+    assert.strictEqual(
+      document.activeElement,
+      expand,
+      'the button keeps focus',
+    );
+
+    await click('th input');
+    await click('th .cds--table-expand__button');
+    assert.strictEqual(find('[data-test-row="a"]'), row);
+
+    await click('[data-test-header="port"]');
+    assert.strictEqual(find('[data-test-row="a"]'), row, 'same row, sorted');
+    assert.strictEqual(
+      find('[data-test-row="a"] .cds--table-expand__button'),
+      expand,
+    );
+    assert.strictEqual(
+      document.activeElement,
+      find('[data-test-header="port"]'),
+      'the sort button keeps focus',
+    );
+  });
+
+  test("translateWithId on a header translates the sort button's description", async function (assert) {
+    const translate = (id: string, { header }: { header: string }) =>
+      `[${id}] ${header}`;
+
     await render(
       <template>
         <DataTable
-          @title="Table title"
-          @isLoading={{true}}
-          @items={{items}}
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @isSortable={{true}}
           as |table|
         >
           <table.Table>
-            <table.Header
-              @isExpandable={{true}}
-              @isCheckable={{true}}
-              @headers={{array
-                (hash label="Name" sortable=true)
-                (hash label="Actions" hideLabel=true)
-              }}
-            />
-            <table.EachBodyRows as |row|>
-              <row.Row @isCheckable={{true}}>
-                <:default>
-                  <table.Column>{{row.item.name}}</table.Column>
-                  <table.Menu as |Item|><Item @itemText="Edit" /></table.Menu>
-                </:default>
-                <:expanded>Details</:expanded>
-              </row.Row>
-            </table.EachBodyRows>
+            <TableHead>
+              <TableRow>
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                    @translateWithId={{translate}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
           </table.Table>
         </DataTable>
       </template>,
     );
 
-    assert.dom('input[type="checkbox"]').doesNotExist();
-    assert.dom('.cds--table-expand__button').doesNotExist();
-    assert.dom('.cds--table-sort').doesNotExist();
-    assert.dom('.cds--overflow-menu').doesNotExist();
-    assert.dom('.cds--expandable-row').doesNotExist();
     assert
-      .dom('th div.cds--table-header-label.cds--visually-hidden')
-      .hasText('Actions');
+      .dom('.cds--table-sort__description')
+      .hasText('[carbon.table.header.icon.description] Name');
   });
 
-  test('should support checkable rows and selection', async function (assert) {
+  test("a header's decorator or slug marks its cells", async function (assert) {
+    const headers = [
+      { key: 'name', header: 'Name', decorator: true },
+      { key: 'port', header: 'Port', slug: true },
+    ];
+    const plain = [{ key: 'name', header: 'Name' }];
+
     await render(
       <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
-          <table.Table>
-            <table.Header
-              @isCheckable={{true}}
-              @headers={{array (hash label="Name") (hash label="details")}}
-            />
-            <table.EachBodyRows as |row|>
-              <row.Row @isCheckable={{true}}>
-                <table.Column>{{row.item.name}}</table.Column>
-                <table.Column>{{row.item.b}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
+        <DataTable @rows={{ROWS}} @headers={{headers}} as |table|>
+          <table.Table data-test-marked>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+        <DataTable @rows={{ROWS}} @headers={{plain}} as |table|>
+          <table.Table data-test-plain>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    <table.TableCell
+                      @cell={{cell}}
+                    >{{cell.value}}</table.TableCell>
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
           </table.Table>
         </DataTable>
       </template>,
     );
 
-    assert.dom('thead .cds--table-column-checkbox input').exists();
-    assert.dom('tbody .cds--table-column-checkbox input').exists({
-      count: 2,
-    });
     assert
-      .dom('thead .cds--table-column-checkbox .cds--checkbox-label-text')
-      .hasText('Select all rows in the table')
-      .hasClass('cds--visually-hidden');
+      .dom('[data-test-marked] td.cds--table-cell--column-slug')
+      .exists({ count: 6 });
     assert
-      .dom('tbody .cds--table-column-checkbox .cds--checkbox-label-text')
-      .hasText('Select row')
-      .hasClass('cds--visually-hidden');
+      .dom('[data-test-plain] td.cds--table-cell--column-slug')
+      .doesNotExist();
   });
 
-  module('expandable rows', function () {
-    const headers = [{ label: 'Name' }, { label: 'details' }];
-    const parentRow = (index: number) =>
-      document.querySelectorAll<HTMLElement>('tr[data-parent-row]')[index]!;
-    const childRow = (index: number) =>
-      document.querySelectorAll<HTMLElement>('tr[data-child-row]')[index]!;
-    const expandButton = (index: number) =>
-      parentRow(index).querySelector<HTMLButtonElement>(
-        '.cds--table-expand__button',
-      )!;
-    const contentHeight = (index: number) =>
-      childRow(index)
-        .querySelector('.cds--child-row-inner-container')!
-        .getBoundingClientRect().height;
+  test('the decorator blocks of the header, the expand row and the container render', async function (assert) {
+    await render(
+      <template>
+        <DataTable
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @isSortable={{true}}
+          as |table|
+        >
+          <table.TableContainer @title="Team" @aiEnabled={{true}}>
+            <:default as |Table|>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <table.TableExpandHeader />
+                    {{#each table.headers as |header|}}
+                      {{#if (eq header.key "name")}}
+                        <table.TableHeader @header={{header}}>
+                          <:default>{{header.header}}</:default>
+                          <:decorator as |AILabel|><AILabel
+                              data-test-header-label
+                            /></:decorator>
+                        </table.TableHeader>
+                      {{else}}
+                        <table.TableHeader
+                          @header={{header}}
+                        >{{header.header}}</table.TableHeader>
+                      {{/if}}
+                    {{/each}}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {{#each table.rows as |row|}}
+                    <table.TableExpandRow @row={{row}}>
+                      <:decorator as |AILabel|><AILabel
+                          data-test-row-label
+                        /></:decorator>
+                      <:default>
+                        <TableCell>{{row.id}}</TableCell>
+                      </:default>
+                    </table.TableExpandRow>
+                  {{/each}}
+                </TableBody>
+              </Table>
+            </:default>
+            <:decorator><span data-test-table-label>AI</span></:decorator>
+          </table.TableContainer>
+        </DataTable>
+      </template>,
+    );
 
-    test('the expand button toggles the expanded content', async function (assert) {
-      await render(
-        <template>
-          <DataTable @title="Table title" @items={{items}} as |table|>
-            <table.Table>
-              <table.Header @isExpandable={{true}} @headers={{headers}} />
-              <table.EachBodyRows as |row|>
-                <row.Row>
-                  <:default>
-                    <table.Column>{{row.item.name}}</table.Column>
-                    <table.Column>{{row.item.b}}</table.Column>
-                  </:default>
-                  <:expanded>Details for {{row.item.name}}</:expanded>
-                </row.Row>
-              </table.EachBodyRows>
-            </table.Table>
+    assert.dom('[data-test-header-label]').exists({ count: 1 });
+    assert
+      .dom(
+        'th .cds--table-header-label--decorator-inner, th.cds--table-sort__header--decorator',
+      )
+      .exists();
+    assert.dom('[data-test-row-label]').exists({ count: 3 });
+    assert.dom('tr.cds--data-table--ai-label-row').exists({ count: 3 });
+    assert.dom('[data-test-table-label]').exists();
+    assert.dom('.cds--data-table-container--ai-enabled').exists();
+  });
+
+  test('a header takes its own id, and a cell its own headers', async function (assert) {
+    await render(
+      <template>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+          <table.Table>
+            <TableHead>
+              <TableRow>
+                {{#each table.headers as |header|}}
+                  <table.TableHeader
+                    @header={{header}}
+                    @id={{if (eq header.key "name") "custom-header"}}
+                  >{{header.header}}</table.TableHeader>
+                {{/each}}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  {{#each row.cells as |cell|}}
+                    {{#if (eq cell.info.header "name")}}
+                      <table.TableCell
+                        @cell={{cell}}
+                        headers="custom-header"
+                        data-test-cell="name"
+                      >{{text cell.value}}</table.TableCell>
+                    {{else}}
+                      <table.TableCell
+                        @cell={{cell}}
+                        data-test-cell="port"
+                      >{{text cell.value}}</table.TableCell>
+                    {{/if}}
+                  {{/each}}
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('th:first-child').hasAttribute('id', 'custom-header');
+    assert
+      .dom('[data-test-cell="name"]')
+      .hasAttribute('headers', 'custom-header');
+    assert
+      .dom('[data-test-cell="port"]')
+      .hasAttribute('headers', find('th:last-child')!.id);
+  });
+
+  test('onExpand and onSelect are called by the expand and select parts', async function (assert) {
+    const calls: string[] = [];
+    const record = (name: string) => () => calls.push(name);
+    const onExpand = record('row expand');
+    const onExpandAll = record('expand all');
+    const onSelect = record('select row');
+    const onSelectAll = record('select all');
+
+    await render(
+      <template>
+        <Full
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @onExpand={{onExpand}}
+          @onExpandAll={{onExpandAll}}
+          @onSelect={{onSelect}}
+          @onSelectAll={{onSelectAll}}
+        />
+      </template>,
+    );
+
+    await click('[data-test-row="a"] .cds--table-expand__button');
+    await click('th .cds--table-expand__button');
+    await click('[data-test-row="b"] input');
+    await click('th input');
+    assert.deepEqual(calls, [
+      'row expand',
+      'expand all',
+      'select row',
+      'select all',
+    ]);
+  });
+
+  test('the expand header calls onClick with whether the rows were expanded', async function (assert) {
+    const calls: boolean[] = [];
+    const onExpandHeaderClick = (
+      _event: MouseEvent,
+      { isExpanded }: { isExpanded: boolean },
+    ) => calls.push(isExpanded);
+
+    await render(
+      <template>
+        <Full
+          @rows={{ROWS}}
+          @headers={{HEADERS}}
+          @onExpandHeaderClick={{onExpandHeaderClick}}
+        />
+      </template>,
+    );
+
+    await click('th .cds--table-expand__button');
+    await click('th .cds--table-expand__button');
+    assert.deepEqual(calls, [false, true]);
+  });
+
+  test('the yielded functions sort, select and expand', async function (assert) {
+    await render(
+      <template>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+          <button
+            type="button"
+            data-test-sort
+            {{on "click" (fn table.sortBy "port")}}
+          >sort</button>
+          <button
+            type="button"
+            data-test-select-row
+            {{on "click" (fn table.selectRow "a")}}
+          >select</button>
+          <button
+            type="button"
+            data-test-select-all
+            {{on "click" table.selectAll}}
+          >all</button>
+          <button
+            type="button"
+            data-test-expand-row
+            {{on "click" (fn table.expandRow "b")}}
+          >expand</button>
+          <button
+            type="button"
+            data-test-expand-all
+            {{on "click" table.expandAll}}
+          >expand all</button>
+          <output data-test-rows>{{#each
+              table.rows
+              as |row|
+            }}{{row.id}}{{row.isSelected}}{{row.isExpanded}} {{/each}}</output>
+          <output data-test-selected>{{table.selectedRows.length}}</output>
+        </DataTable>
+      </template>,
+    );
+
+    await click('[data-test-sort]');
+    assert
+      .dom('[data-test-rows]')
+      .hasText('cfalsefalse bfalsefalse afalsefalse');
+    await click('[data-test-select-row]');
+    await click('[data-test-expand-row]');
+    assert.dom('[data-test-rows]').hasText('cfalsefalse bfalsetrue atruefalse');
+    await click('[data-test-select-all]');
+    assert
+      .dom('[data-test-selected]')
+      .hasText('0', 'with a row selected, it unselects');
+    await click('[data-test-select-all]');
+    assert
+      .dom('[data-test-selected]')
+      .hasText('2', 'the disabled row stays out');
+    await click('[data-test-expand-all]');
+    assert.dom('[data-test-rows]').hasText('cfalsetrue btruetrue atruetrue');
+  });
+
+  test('useStaticWidth, overflowMenuOnHover and experimentalAutoAlign reach the table', async function (assert) {
+    await render(
+      <template>
+        <div {{style width="160px"}}>
+          <DataTable
+            @rows={{LONG_ROWS}}
+            @headers={{HEADERS}}
+            @useStaticWidth={{true}}
+            @overflowMenuOnHover={{true}}
+            @experimentalAutoAlign={{true}}
+            as |table|
+          >
+            <table.TableContainer as |Table|>
+              <Table data-test-table>
+                <TableBody>
+                  {{#each table.rows as |row|}}
+                    <table.TableRow @row={{row}}>
+                      {{#each row.cells as |cell|}}
+                        <table.TableCell
+                          @cell={{cell}}
+                        >{{cell.value}}</table.TableCell>
+                      {{/each}}
+                    </table.TableRow>
+                  {{/each}}
+                </TableBody>
+              </Table>
+            </table.TableContainer>
           </DataTable>
-        </template>,
+        </div>
+      </template>,
+    );
+
+    assert
+      .dom('[data-test-table]')
+      .hasClass('cds--data-table--static')
+      .doesNotHaveClass('cds--data-table--visible-overflow-menu');
+    assert
+      .dom('.cds--data-table-container')
+      .hasClass('cds--data-table-container--static');
+    await waitUntil(() =>
+      document.querySelector(
+        '[data-test-table].cds--data-table--top-aligned-body',
+      ),
+    );
+    assert
+      .dom('[data-test-table]')
+      .hasClass('cds--data-table--top-aligned-body');
+  });
+
+  test('new rows keep the selection and expansion of the rows that stay, and drop those of rows that leave', async function (assert) {
+    const state = new RowsState();
+
+    await render(
+      <template><Full @rows={{state.rows}} @headers={{HEADERS}} /></template>,
+    );
+
+    await click('[data-test-row="a"] input');
+    await click('[data-test-row="b"] input');
+    await click('[data-test-row="a"] .cds--table-expand__button');
+
+    state.rows = ROWS.filter((row) => row.id !== 'b');
+    await settled();
+    assert.dom('[data-test-row="a"] input').isChecked();
+    assert.dom('[data-test-row="a"]').hasClass('cds--expandable-row');
+
+    state.rows = ROWS;
+    await settled();
+    assert.dom('[data-test-row="a"] input').isChecked('a stayed');
+    assert.dom('[data-test-row="b"] input').isNotChecked('b left and returned');
+  });
+
+  test('rows with isSelected and isExpanded render selected and expanded', async function (assert) {
+    const rows = [
+      {
+        id: 'a',
+        name: 'Load balancer 3',
+        port: 3000,
+        isSelected: true,
+        isExpanded: true,
+      },
+      { id: 'b', name: 'Load balancer 1', port: 443 },
+      {
+        id: 'c',
+        name: 'Load balancer 2',
+        port: 80,
+        disabled: true,
+        isSelected: true,
+      },
+    ];
+
+    await render(
+      <template><Full @rows={{rows}} @headers={{HEADERS}} /></template>,
+    );
+
+    assert.dom('[data-test-row="a"] input').isChecked();
+    assert
+      .dom('[data-test-row="a"]')
+      .hasClass('cds--data-table--selected')
+      .hasClass('cds--expandable-row');
+    assert
+      .dom('[data-test-row="a"] .cds--table-expand__button')
+      .hasAria('expanded', 'true')
+      .hasAria('label', 'Collapse current row');
+    assert.dom('[data-test-row="b"] input').isNotChecked();
+    assert.dom('th input').hasProperty('indeterminate', true);
+    assert.dom('th input').hasAttribute('id');
+  });
+
+  test('batchActionProps is what getBatchActionProps gives, and totalCount can be overridden', async function (assert) {
+    const select = (count: number) => `Select all (${count})`;
+    const selectAll = () => {};
+    const translate = (
+      id: string,
+      { totalCount }: { totalCount?: number } = {},
+    ) => (id === 'carbon.table.batch.selectAll' ? select(totalCount ?? 0) : id);
+
+    await render(
+      <template>
+        <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+          <output
+            data-test-props
+          >{{table.batchActionProps.shouldShowBatchActions}}
+            {{table.batchActionProps.totalSelected}}
+            {{table.batchActionProps.totalCount}}</output>
+          <table.TableToolbar>
+            <table.TableBatchActions
+              @totalCount={{50}}
+              @onSelectAll={{selectAll}}
+              @translateWithId={{translate}}
+            >
+              <TableBatchAction>Add</TableBatchAction>
+            </table.TableBatchActions>
+          </table.TableToolbar>
+          <table.Table>
+            <TableBody>
+              {{#each table.rows as |row|}}
+                <table.TableRow @row={{row}}>
+                  <table.TableSelectRow @row={{row}} />
+                </table.TableRow>
+              {{/each}}
+            </TableBody>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert.dom('[data-test-props]').hasText('false 0 3');
+    await click('tbody tr:first-child input');
+    assert.dom('[data-test-props]').hasText('true 1 3');
+    assert
+      .dom('.cds--batch-summary .cds--btn')
+      .hasText('Select all (50)', 'the override');
+    await click('.cds--batch-summary__cancel');
+    assert.dom('[data-test-props]').hasText('false 0 3');
+  });
+
+  test('without rows, the expand header reads "Collapse all rows", as in Carbon React', async function (assert) {
+    await render(
+      <template>
+        <DataTable @rows={{(array)}} @headers={{HEADERS}} as |table|>
+          <table.Table>
+            <TableHead>
+              <TableRow>
+                <table.TableExpandHeader @enableToggle={{true}} />
+              </TableRow>
+            </TableHead>
+          </table.Table>
+        </DataTable>
+      </template>,
+    );
+
+    assert
+      .dom('th.cds--table-expand button')
+      .hasAria('label', 'Collapse all rows');
+  });
+
+  test("the select controls share a name per table, and ids come from the table's", async function (assert) {
+    await render(
+      <template>
+        <Full @rows={{ROWS}} @headers={{HEADERS}} />
+        <Full @rows={{ROWS}} @headers={{HEADERS}} />
+      </template>,
+    );
+
+    const names = (selector: string) =>
+      new Set(findAll(selector).map((input) => input.getAttribute('name')));
+    const [first, second] = findAll('table');
+    const rowNames = (table: Element) =>
+      new Set(
+        [...table.querySelectorAll('tbody input')].map((input) =>
+          input.getAttribute('name'),
+        ),
       );
 
-      assert.dom('tr[data-parent-row]').exists({ count: 2 });
-      assert.dom('tr[data-child-row]').exists({ count: 2 });
-      assert
-        .dom(childRow(0))
-        .hasClass('cds--expandable-row')
-        .hasText('Details for a');
-      // Two data columns plus the expand column.
-      assert.dom(childRow(0).querySelector('td')).hasAttribute('colspan', '3');
-      assert
-        .dom(expandButton(0))
-        .hasAttribute('aria-expanded', 'false')
-        .hasAttribute('aria-label', 'Expand current row')
-        .hasAttribute('aria-controls', childRow(0).id);
-      assert.dom(parentRow(0)).doesNotHaveClass('cds--expandable-row');
-      assert.strictEqual(contentHeight(0), 0, 'collapsed content is hidden');
-
-      await click(expandButton(0));
-
-      assert.dom(parentRow(0)).hasClass('cds--parent-row');
-      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
-      assert
-        .dom(parentRow(0).querySelector('.cds--table-expand'))
-        .hasAttribute('data-previous-value', 'collapsed');
-      assert
-        .dom(expandButton(0))
-        .hasAttribute('aria-expanded', 'true')
-        .hasAttribute('aria-label', 'Collapse current row');
-      assert.true(contentHeight(0) > 0, 'expanded content is shown');
-      assert
-        .dom(parentRow(1))
-        .doesNotHaveClass('cds--expandable-row', 'other rows stay collapsed');
-
-      await click(expandButton(0));
-
-      assert.dom(parentRow(0)).doesNotHaveClass('cds--expandable-row');
-      assert.dom(expandButton(0)).hasAttribute('aria-expanded', 'false');
-    });
-
-    test('@isExpanded sets the initial state without onExpand', async function (assert) {
-      await render(
-        <template>
-          <DataTable @title="Table title" @items={{items}} as |table|>
-            <table.Table>
-              <table.Header @isExpandable={{true}} @headers={{headers}} />
-              <table.EachBodyRows as |row|>
-                <row.Row @isExpanded={{true}}>
-                  <:default>
-                    <table.Column>{{row.item.name}}</table.Column>
-                    <table.Column>{{row.item.b}}</table.Column>
-                  </:default>
-                  <:expanded>Details</:expanded>
-                </row.Row>
-              </table.EachBodyRows>
-            </table.Table>
-          </DataTable>
-        </template>,
-      );
-
-      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
-
-      await click(expandButton(0));
-
-      assert
-        .dom(parentRow(0))
-        .doesNotHaveClass(
-          'cds--expandable-row',
-          'a static @isExpanded does not lock the row open',
-        );
-    });
-
-    test('@isExpanded with @onExpand is controlled', async function (assert) {
-      const expanded = tracked(false);
-      const calls: boolean[] = [];
-      const onExpand = (isExpanded: boolean) => calls.push(isExpanded);
-
-      await render(
-        <template>
-          <DataTable @title="Table title" @items={{items}} as |table|>
-            <table.Table>
-              <table.Header @isExpandable={{true}} @headers={{headers}} />
-              <table.EachBodyRows as |row|>
-                <row.Row @isExpanded={{expanded.value}} @onExpand={{onExpand}}>
-                  <:default>
-                    <table.Column>{{row.item.name}}</table.Column>
-                    <table.Column>{{row.item.b}}</table.Column>
-                  </:default>
-                  <:expanded>Details</:expanded>
-                </row.Row>
-              </table.EachBodyRows>
-            </table.Table>
-          </DataTable>
-        </template>,
-      );
-
-      await click(expandButton(0));
-
-      assert.deepEqual(calls, [true]);
-      assert
-        .dom(parentRow(0))
-        .doesNotHaveClass(
-          'cds--expandable-row',
-          'the row waits for @isExpanded to change',
-        );
-
-      expanded.value = true;
-      await settled();
-
-      assert.dom(parentRow(0)).hasClass('cds--expandable-row');
-      assert.dom(parentRow(1)).hasClass('cds--expandable-row');
-
-      await click(expandButton(0));
-
-      assert.deepEqual(calls, [true, false]);
-    });
-
-    test('the expanded row also spans the selection column', async function (assert) {
-      await render(
-        <template>
-          <DataTable @title="Table title" @items={{items}} as |table|>
-            <table.Table>
-              <table.Header
-                @isExpandable={{true}}
-                @isCheckable={{true}}
-                @headers={{headers}}
-              />
-              <table.EachBodyRows as |row|>
-                <row.Row @isCheckable={{true}}>
-                  <:default>
-                    <table.Column>{{row.item.name}}</table.Column>
-                    <table.Column>{{row.item.b}}</table.Column>
-                  </:default>
-                  <:expanded>Details</:expanded>
-                </row.Row>
-              </table.EachBodyRows>
-            </table.Table>
-          </DataTable>
-        </template>,
-      );
-
-      assert.dom(childRow(0).querySelector('td')).hasAttribute('colspan', '4');
-    });
-  });
-
-  test('a header with hideLabel keeps its name but hides it visually', async function (assert) {
-    await render(
-      <template>
-        <DataTable @title="Table title" @items={{items}} as |table|>
-          <table.Table>
-            <table.Header
-              @headers={{array
-                (hash label="Name")
-                (hash label="Actions" hideLabel=true)
-              }}
-            />
-          </table.Table>
-        </DataTable>
-      </template>,
+    assert.strictEqual(names('tbody input').size, 2, 'one name per table');
+    assert.strictEqual(rowNames(first!).size, 1);
+    assert.true([...rowNames(first!)][0]!.startsWith('select-row-'));
+    assert.true(
+      first!
+        .querySelector('thead input')!
+        .getAttribute('name')!
+        .startsWith('select-all-'),
     );
-
-    assert
-      .dom('th:last-child .cds--table-header-label')
-      .hasText('Actions')
-      .hasClass('cds--visually-hidden');
-  });
-});
-
-module('Integration | Component | DataTable > Pagination', (hooks) => {
-  setupRenderingTest(hooks);
-
-  test('should default to the md size', async function (assert) {
-    await render(<template><Pagination @totalItems={{10}} /></template>);
-
-    assert.dom('.cds--pagination').hasClass('cds--pagination--md');
-  });
-
-  test('should support an xs size', async function (assert) {
-    await render(
-      <template><Pagination @totalItems={{10}} @size="xs" /></template>,
+    assert.notDeepEqual([...rowNames(first!)], [...rowNames(second!)]);
+    assert.notStrictEqual(
+      first!.querySelector('thead th:nth-child(3)')!.id,
+      second!.querySelector('thead th:nth-child(3)')!.id,
+      'headers get ids of their own table',
     );
-
-    assert.dom('.cds--pagination').hasClass('cds--pagination--xs');
-  });
-
-  const rows = Array.from({ length: 25 }, (_, i) => ({ name: `Row ${i + 1}` }));
-  const none: { name: string }[] = [];
-
-  test('table.Pagination reports the first slice once it renders', async function (assert) {
-    await render(
-      <template>
-        <DataTable @items={{rows}} as |table|>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-          <table.Pagination />
-        </DataTable>
-      </template>,
-    );
-
-    assert.dom('tbody tr').exists({ count: 10 });
-    assert.dom('tbody tr:first-child').hasText('Row 1');
-    assert.dom('.cds--pagination__items-count').hasText('1–10 of 25 items');
-
-    await click('.cds--pagination__button--forward');
-    assert.dom('tbody tr:first-child').hasText('Row 11');
-  });
-
-  test('table.Pagination takes the first of its @pageSizes as the page size', async function (assert) {
-    const pageSizes = [5, 10];
-    await render(
-      <template>
-        <DataTable @items={{rows}} as |table|>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-          <table.Pagination @pageSizes={{pageSizes}} />
-        </DataTable>
-      </template>,
-    );
-
-    assert.dom('tbody tr').exists({ count: 5 });
-  });
-
-  test('table.Pagination brings the page back into range when the search leaves fewer items', async function (assert) {
-    await render(
-      <template>
-        <DataTable @items={{rows}} as |table|>
-          <table.Toolbar as |toolbar|>
-            <toolbar.Content>
-              <table.SearchInput />
-            </toolbar.Content>
-          </table.Toolbar>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-          <table.Pagination />
-        </DataTable>
-      </template>,
-    );
-
-    await click('.cds--pagination__button--forward');
-    await click('.cds--pagination__button--forward');
-    assert.dom('.cds--pagination__items-count').hasText('21–25 of 25 items');
-
-    // Row 1 and Rows 10 to 19: 11 items, 2 pages.
-    await fillIn('input.cds--search-input', 'Row 1');
-    assert.dom('.cds--pagination__items-count').hasText('11–11 of 11 items');
-    assert.dom('tbody tr').exists({ count: 1 });
-    assert.dom('tbody tr').hasText('Row 19');
-    assert
-      .dom('.cds--pagination__button--forward')
-      .isDisabled('on the last page');
-  });
-
-  test('table.Pagination with no items shows an empty range', async function (assert) {
-    await render(
-      <template>
-        <DataTable @items={{none}} as |table|>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-          <table.Pagination />
-        </DataTable>
-      </template>,
-    );
-
-    assert.dom('tbody tr').doesNotExist();
-    assert.dom('.cds--pagination__items-count').hasText('0–0 of 0 items');
-    assert.dom('.cds--pagination__button--forward').isDisabled();
-  });
-
-  test('table.Pagination renders its skeleton while loading', async function (assert) {
-    await render(
-      <template>
-        <DataTable @items={{rows}} @isLoading={{true}} as |table|>
-          <table.Table>
-            <table.EachBodyRows as |row|>
-              <row.Row>
-                <table.Column>{{row.item.name}}</table.Column>
-              </row.Row>
-            </table.EachBodyRows>
-          </table.Table>
-          <table.Pagination />
-        </DataTable>
-      </template>,
-    );
-
-    assert.dom('.cds--pagination.cds--skeleton').exists();
-    assert.dom('.cds--pagination select').doesNotExist();
-    assert.dom('.cds--pagination button').doesNotExist();
   });
 });

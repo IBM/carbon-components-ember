@@ -4,6 +4,9 @@ import { RenderStory } from 'ember-storybook';
 
 import Button from '../../src/components/button.gts';
 import DataTable from '../../src/components/data-table.gts';
+import TableBody from '../../src/components/table/table-body.gts';
+import TableHead from '../../src/components/table/table-head.gts';
+import TableRow from '../../src/components/table/table-row.gts';
 import MultiSelect from '../../src/components/multi-select.gts';
 import TextArea from '../../src/components/text-area.gts';
 import TextInput from '../../src/components/text-input.gts';
@@ -86,23 +89,40 @@ export function panelState(
   };
 }
 
-const HEADERS = [{ label: 'Column header' }, { label: 'Column header' }];
+const HEADERS = [
+  { key: 'first', header: 'Column header' },
+  { key: 'second', header: 'Column header' },
+];
 const ROWS = ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => ({
   id,
-  value: `Cell text ${id}`,
+  first: `Cell text ${id}`,
+  second: `Cell text ${id}`,
 }));
 
 export const Table: TOC<object> = <template>
-  <DataTable @title="Table" @items={{ROWS}} as |table|>
-    <table.Table>
-      <table.Header @headers={{HEADERS}} />
-      <table.EachBodyRows as |row|>
-        <row.Row>
-          <table.Column>{{row.item.value}}</table.Column>
-          <table.Column>{{row.item.value}}</table.Column>
-        </row.Row>
-      </table.EachBodyRows>
-    </table.Table>
+  <DataTable @rows={{ROWS}} @headers={{HEADERS}} as |table|>
+    <table.TableContainer @title="Table" as |Table|>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {{#each table.headers key="key" as |header|}}
+              <table.TableHeader
+                @header={{header}}
+              >{{header.header}}</table.TableHeader>
+            {{/each}}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {{#each table.rows key="id" as |row|}}
+            <table.TableRow @row={{row}}>
+              {{#each row.cells key="id" as |cell|}}
+                <table.TableCell @cell={{cell}}>{{cell.value}}</table.TableCell>
+              {{/each}}
+            </table.TableRow>
+          {{/each}}
+        </TableBody>
+      </Table>
+    </table.TableContainer>
   </DataTable>
 </template>;
 

@@ -1,13 +1,13 @@
-import { expect, waitFor } from 'storybook/test';
+import type {
+  DataTableHeader,
+  DataTableSignature,
+} from '../../src/components/data-table.gts';
 
-import type { DataTableSignature } from '../../src/components/data-table.gts';
-import type TableColumn from '../../src/components/data-table/-column.gts';
-import type { TOC } from '@ember/component/template-only';
-import type { WithBoundArgs } from '@glint/template';
+// Rows, headers and arguments the DataTable story pages share, as Carbon
+// React's `stories/shared.js`.
 
-// Rows, headers and helpers the DataTable story pages share.
-
-export interface LoadBalancer {
+// A type alias, not an interface, so a row is a `DataTableInputRow`.
+export type LoadBalancer = {
   id: string;
   name: string;
   protocol: string;
@@ -15,7 +15,7 @@ export interface LoadBalancer {
   rule: string;
   attached_groups: string;
   status: string;
-}
+};
 
 export const ROWS: LoadBalancer[] = [
   {
@@ -91,55 +91,41 @@ export const MANY_ROWS: LoadBalancer[] = Array.from(
   }),
 );
 
-export const HEADERS = [
-  { label: 'Name' },
-  { label: 'Protocol' },
-  { label: 'Port' },
-  { label: 'Rule' },
-  { label: 'Attached groups' },
-  { label: 'Status' },
+export const HEADERS: DataTableHeader[] = [
+  { key: 'name', header: 'Name' },
+  { key: 'protocol', header: 'Protocol' },
+  { key: 'port', header: 'Port' },
+  { key: 'rule', header: 'Rule' },
+  { key: 'attached_groups', header: 'Attached groups' },
+  { key: 'status', header: 'Status' },
 ];
 
-// The trailing `null` reserves the overflow-menu column.
-// The row-actions column gets a visually hidden heading.
-export const HEADERS_WITH_MENU = [
-  ...HEADERS,
-  { label: 'Actions', hideLabel: true },
-];
-
-type Column = WithBoundArgs<typeof TableColumn, 'table'>;
-
-export const Cells: TOC<{ Args: { Column: Column; item: LoadBalancer } }> =
-  <template>
-    <@Column>{{@item.name}}</@Column>
-    <@Column>{{@item.protocol}}</@Column>
-    <@Column>{{@item.port}}</@Column>
-    <@Column>{{@item.rule}}</@Column>
-    <@Column>{{@item.attached_groups}}</@Column>
-    <@Column>{{@item.status}}</@Column>
-  </template>;
-
-// The table shows its rows once it has set up its first page slice, after
-// its first render, so tests wait for them first.
-export const rowsRendered = (canvasElement: HTMLElement) =>
-  waitFor(() =>
-    expect(canvasElement.querySelectorAll('tbody tr').length).toBeGreaterThan(
-      0,
-    ),
-  );
-
-export type TableState = Parameters<
-  NonNullable<DataTableSignature<LoadBalancer>['Args']['registerState']>
->[0];
-
-// DataTable is generic over its item type, which signature inference can't
-// follow, so declare the story's args explicitly. `size`/`useZebraStyles`
-// are the yielded `Table`'s args; `onBatchAction` is the story's own spy.
-export type StoryArgs = Omit<
-  DataTableSignature<LoadBalancer>['Args'],
-  'items'
-> & {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  useZebraStyles?: boolean;
-  onBatchAction: (action: string, items: LoadBalancer[]) => void;
+// The args every DataTable page sets, with the controls for them.
+export const DATA_TABLE_ARGS = {
+  isSortable: false,
+  locale: 'en',
+  size: 'lg' as const,
+  stickyHeader: false,
+  useStaticWidth: false,
+  useZebraStyles: false,
 };
+
+export const DATA_TABLE_ARG_TYPES = {
+  filterRows: { control: false as const },
+  headers: { control: false as const },
+  isSortable: { control: 'boolean' as const },
+  locale: { control: 'text' as const },
+  rows: { control: false as const },
+  size: {
+    control: 'select' as const,
+    options: ['xs', 'sm', 'md', 'lg', 'xl'],
+  },
+  sortRow: { control: false as const },
+  stickyHeader: { control: 'boolean' as const },
+  translateWithId: { control: false as const },
+  useStaticWidth: { control: 'boolean' as const },
+  useZebraStyles: { control: 'boolean' as const },
+};
+
+// DataTable is generic over its rows, which story args can't infer.
+export type TableArgs = DataTableSignature<LoadBalancer>['Args'];

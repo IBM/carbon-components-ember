@@ -63,7 +63,7 @@ const meta = preview.type<{ args: StoryArgs }>().meta({
         <TableHead>
           <TableRow>
             {{#each HEADERS as |header|}}
-              <TableHeader>{{header.label}}</TableHeader>
+              <TableHeader>{{header.header}}</TableHeader>
             {{/each}}
           </TableRow>
         </TableHead>

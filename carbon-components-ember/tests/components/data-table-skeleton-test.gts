@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import DataTableSkeleton from '#src/components/data-table-skeleton.gts';
 
-const HEADERS = [{ label: 'Name' }, { label: 'Port' }, { label: 'Status' }];
+const HEADERS = [{ header: 'Name' }, { header: 'Port' }, { header: 'Status' }];
 
 module('Integration | Component | DataTableSkeleton', (hooks) => {
   setupRenderingTest(hooks);

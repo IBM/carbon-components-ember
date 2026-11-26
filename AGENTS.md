@@ -130,7 +130,7 @@ Parity means matching Carbon React's **public API surface and behaviour**, not i
 | React context / provider | A service, or the parent component instance yielded down to children | `services/notifications.ts` |
 | `useId` | `guidFor(this)` | `components/tree-view.gts` |
 | Floating UI positioning hooks | The addon's own `<Popover>`, which yields its `PopoverContent` and a `trigger` modifier for the trigger (`<Popover as \|PopoverContent trigger\|>`) | `components/popover.gts` |
-| Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/data-table/-search-input.gts` |
+| Debounce/timing | `task({ restartable: true })` + `timeout()` from `ember-concurrency` | `components/dropdown.gts` |
 | `useMatchMedia` with `@carbon/layout`'s `breakpoints` | `mediaQuery(this, minWidth('lg'))` from `utils/media-query.ts`; never copy a breakpoint's value | `components/tabs/tab-list.gts` |
 | `useEffect` cleanup return | `registerDestructor` (or the modifier's teardown function) | `components/tabs/tab.gts` |
 | Arrow-key navigation (roving `tabIndex`) | `RovingFocus` from `utils/roving-focus.ts`: its `container` modifier on the list, its `item` modifier on each item; items keep their DOM order | `components/tree-view.gts` |

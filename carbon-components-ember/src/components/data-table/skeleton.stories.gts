@@ -1,15 +1,14 @@
-import {
-  ROWS,
-  HEADERS,
-  HEADERS_WITH_MENU,
-  Cells,
-} from '#storybook/fixtures/data-table.gts';
+import { HEADERS } from '#storybook/fixtures/data-table.gts';
 import preview from '#storybook/preview.ts';
-import DataTable from '../data-table.gts';
 import DataTableSkeleton from '../data-table-skeleton.gts';
 
 import type { DataTableSkeletonSignature } from '../data-table-skeleton.gts';
 import '#storybook/styles/data-table/skeleton.css';
+
+// Carbon React's `DataTable/Skeleton` page: `Skeleton`.
+//
+// Parity gaps:
+// - React's `DataTable` has no loading state to show, so none is ported.
 
 const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
   title: 'Components/DataTable/Skeleton',
@@ -18,7 +17,7 @@ const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
     docs: {
       description: {
         component:
-          "A loading placeholder for a table, as Carbon React's DataTableSkeleton. Pass it the headers you will give the table, and it shows a column for each. A `DataTable` shows the same with `@isLoading`, keeping its toolbar.",
+          "A loading placeholder for a table, as Carbon React's DataTableSkeleton. Pass it the headers you will give the table, and it shows a column for each. A `DataTable` has no loading state, as Carbon React's has none.",
       },
     },
   },
@@ -50,42 +49,3 @@ const meta = preview.type<{ args: DataTableSkeletonSignature['Args'] }>().meta({
 });
 
 export const Skeleton = meta.story();
-
-export const Loading = meta.story({
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story:
-          '`@isLoading` renders a `DataTable` as `DataTableSkeleton` does, with placeholders for its title, description and cells (five rows while it has no items yet), and puts its search and pagination into their loading state.',
-      },
-    },
-  },
-  render: () => <template>
-    <DataTable
-      @title="DataTable"
-      @description="With toolbar"
-      @isLoading={{true}}
-      @items={{ROWS}}
-      as |table|
-    >
-      <table.Toolbar as |toolbar|>
-        <toolbar.Content>
-          <table.SearchInput @expandable={{true}} />
-        </toolbar.Content>
-      </table.Toolbar>
-      <table.Table>
-        <table.Header @headers={{HEADERS_WITH_MENU}} />
-        <table.EachBodyRows as |row|>
-          <row.Row>
-            <Cells @Column={{table.Column}} @item={{row.item}} />
-            <table.Menu as |Item|>
-              <Item @itemText="Edit" />
-            </table.Menu>
-          </row.Row>
-        </table.EachBodyRows>
-      </table.Table>
-      <table.Pagination />
-    </DataTable>
-  </template>,
-});

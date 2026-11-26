@@ -40,9 +40,9 @@ export interface ItemsPaginationSignature {
 }
 
 /**
- * A Pagination for a component that shows a slice of its items (DataTable,
- * List): it reports the first slice once it renders, and again when the
- * items no longer reach the current page.
+ * A Pagination for a component that shows a slice of its items (List): it
+ * reports the first slice once it renders, and again when the items no
+ * longer reach the current page.
  */
 export default class ItemsPagination extends Component<ItemsPaginationSignature> {
   get pageSizes() {

@@ -13,7 +13,7 @@ export const LoadBalancerRows: TOC<{ Blocks: Record<string, never> }> =
     <TableHead>
       <TableRow>
         {{#each HEADERS as |header|}}
-          <TableHeader>{{header.label}}</TableHeader>
+          <TableHeader>{{header.header}}</TableHeader>
         {{/each}}
       </TableRow>
     </TableHead>

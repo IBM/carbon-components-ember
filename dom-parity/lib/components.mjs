@@ -1600,6 +1600,113 @@ const tableCell = (name, props) => ({
   pickRoot: (container) => container.querySelector('tbody td'),
 });
 
+// A whole DataTable, built from its render props: its generated ids and the
+// aria wiring between its parts (the headers, selection, expansion and batch
+// actions). `parts` picks what the table has; it is part of `props` so the
+// fixture records it.
+const DATA_TABLE_HEADERS = [
+  { key: 'name', header: 'Name' },
+  { key: 'role', header: 'Role' },
+];
+const DATA_TABLE_ROWS = [
+  { id: 'a', name: 'Ada', role: 'Engineer' },
+  { id: 'b', name: 'Grace', role: 'Admiral' },
+];
+
+const dataTable = (name, props = {}) => ({
+  name,
+  props,
+  createElement: (React, Carbon) => {
+    const { parts = {}, rows = DATA_TABLE_ROWS, ...tableProps } = props;
+    const h = React.createElement;
+    const noop = () => {};
+    return h(
+      Carbon.DataTable,
+      { rows, headers: DATA_TABLE_HEADERS, ...tableProps },
+      (t) =>
+        h(
+          Carbon.TableContainer,
+          { title: 'Team', ...t.getTableContainerProps() },
+          parts.batchActions
+            ? h(
+                Carbon.TableToolbar,
+                t.getToolbarProps(),
+                h(
+                  Carbon.TableBatchActions,
+                  t.getBatchActionProps(),
+                  h(
+                    Carbon.TableBatchAction,
+                    { key: 'a', onClick: noop },
+                    'Add',
+                  ),
+                ),
+              )
+            : null,
+          h(
+            Carbon.Table,
+            t.getTableProps(),
+            h(
+              Carbon.TableHead,
+              null,
+              h(
+                Carbon.TableRow,
+                null,
+                parts.expand
+                  ? h(Carbon.TableExpandHeader, {
+                      enableToggle: true,
+                      ...t.getExpandHeaderProps(),
+                    })
+                  : null,
+                parts.select === 'multi'
+                  ? h(Carbon.TableSelectAll, t.getSelectionProps())
+                  : parts.select === 'radio'
+                    ? h('th', { scope: 'col' })
+                    : null,
+                ...t.headers.map((header) =>
+                  h(
+                    Carbon.TableHeader,
+                    t.getHeaderProps({ header }),
+                    header.header,
+                  ),
+                ),
+              ),
+            ),
+            h(
+              Carbon.TableBody,
+              null,
+              ...t.rows.map((row) =>
+                h(
+                  React.Fragment,
+                  { key: row.id },
+                  h(
+                    parts.expand ? Carbon.TableExpandRow : Carbon.TableRow,
+                    t.getRowProps({ row }),
+                    parts.select
+                      ? h(Carbon.TableSelectRow, t.getSelectionProps({ row }))
+                      : null,
+                    ...row.cells.map((cell) =>
+                      h(Carbon.TableCell, t.getCellProps({ cell }), cell.value),
+                    ),
+                  ),
+                  parts.expand
+                    ? h(
+                        Carbon.TableExpandedRow,
+                        {
+                          colSpan: t.headers.length + (parts.select ? 2 : 1),
+                          ...t.getExpandedRowProps({ row }),
+                        },
+                        'Details',
+                      )
+                    : null,
+                ),
+              ),
+            ),
+          ),
+        ),
+    );
+  },
+});
+
 // The toolbar and batch-action parts. The toolbar variants render the part
 // in the toolbar it belongs in; `pickRoot` finds the part's own element.
 const tableToolbar = (name, props, children = () => []) => ({
@@ -3128,6 +3235,41 @@ export const COMPONENTS = [
       structuredList('selection-initial-row', {
         selection: true,
         selectedInitialRow: 'row-2',
+      }),
+    ],
+  },
+  {
+    name: 'DataTable',
+    variants: [
+      dataTable('default'),
+      dataTable('sortable', { isSortable: true }),
+      dataTable('size-sm-zebra', { size: 'sm', useZebraStyles: true }),
+      dataTable('selection', { parts: { select: 'multi' } }),
+      dataTable('selection-preselected', {
+        parts: { select: 'multi' },
+        rows: [
+          { id: 'a', name: 'Ada', role: 'Engineer', isSelected: true },
+          { id: 'b', name: 'Grace', role: 'Admiral' },
+        ],
+      }),
+      dataTable('radio', { radio: true, parts: { select: 'radio' } }),
+      dataTable('expansion', { parts: { expand: true } }),
+      dataTable('expansion-expanded', {
+        parts: { expand: true },
+        rows: [
+          { id: 'a', name: 'Ada', role: 'Engineer', isExpanded: true },
+          { id: 'b', name: 'Grace', role: 'Admiral' },
+        ],
+      }),
+      dataTable('selection-and-expansion', {
+        parts: { select: 'multi', expand: true },
+      }),
+      dataTable('batch-actions', {
+        parts: { select: 'multi', batchActions: true },
+        rows: [
+          { id: 'a', name: 'Ada', role: 'Engineer', isSelected: true },
+          { id: 'b', name: 'Grace', role: 'Admiral' },
+        ],
       }),
     ],
   },
